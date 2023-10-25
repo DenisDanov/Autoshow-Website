@@ -3,10 +3,14 @@
         display: none;
     }
 
+    .site-banner {
+        gap: 0.5rem;
+    }
+
     .nav-header {
         justify-content: space-between;
         align-items: center;
-        gap: 1rem;
+        gap: 0.5rem;
     }
 
     .nav-header nav span {
@@ -122,6 +126,7 @@
         font-size: 12px;
         text-align: left;
         padding-bottom: 0.5rem;
+        width: 30ch;
     }
 
     .showMenu li .menuItem i {
@@ -155,8 +160,13 @@
 }
 
 @media (max-width: 362px) {
+
+    .site-banner {
+        gap: 0.5rem;
+    }
+
     .nav-header a img {
-        height: 90px;
+        height: 83px;
     }
 
     .nav-header h1 {
