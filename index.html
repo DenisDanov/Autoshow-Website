@@ -7,18 +7,28 @@
     <title>Cars World</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
+    <script src="mobile-menu.js"></script>
     <header class="nav-header">
         <a href="#" class="logo">
-            <img src="images/logo.png" alt="Logo">
+            <img class="logo-img" src="images/logo.png" alt="Logo">
         </a>
         <h1>Where Luxury Meets Performance</h1>
-        <nav>
-            <i class="fas fa-bars"></i>
-            <span>Menu</span>
-        </nav>
+        <div class="container">
+            <button class="hamburger" id="hamburgerButton">
+                <i class="fas fa-bars"></i>
+                <span class="menuText">Menu</span>
+            </button>
+            <ul class="menu" id="menu">
+                <li><a class="menuItem" href="#"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a class="menuItem" href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><a class="menuItem" href="#"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
+                <li><a class="menuItem" href="#"><i class="fas fa-user-plus" aria-hidden="true"></i> Sign up</a></li>
+            </ul>
+        </div>
         <nav>
             <nav>
                 <ul>
@@ -38,6 +48,17 @@
             </nav>
         </nav>
     </header>
+    <script>
+        var hamburgerButton = document.getElementById('hamburgerButton');
+
+        hamburgerButton.addEventListener('click', function() {
+            if (hamburgerButton.classList.contains('active')) {
+                hamburgerButton.classList.remove('active');
+            } else {
+                hamburgerButton.classList.add('active');
+            }
+        });
+    </script>
     <div class="site-banner">
         <div class="banner-img">
             <img src="images/lamborghini-huracan.jpg" alt="">
@@ -126,7 +147,7 @@
         <div class="copyright-section">
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
-    </footer>    
+    </footer>
 </body>
 
 </html>
