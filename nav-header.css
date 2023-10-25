@@ -1,15 +1,19 @@
+@media (min-width:600px) {
+
+    .nav-header nav:nth-child(3) {
+        display: none;
+    }
+
+}
+
 .nav-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background: linear-gradient(90deg, rgba(51,51,51,1) 0%, rgba(79,78,83,1) 16%, rgba(87,85,92,1) 26%, rgba(129,125,140,1) 52%, rgba(165,158,181,1) 90%);
+    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 0%, rgba(79, 78, 83, 1) 16%, rgba(87, 85, 92, 1) 26%, rgba(129, 125, 140, 1) 52%, rgba(165, 158, 181, 1) 90%);
 
     color: #ffffff;
-}
-
-.nav-header nav:nth-child(3) {
-    display: none;
 }
 
 .logo {
