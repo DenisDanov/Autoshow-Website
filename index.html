@@ -23,10 +23,10 @@
                 <span class="menuText">Menu</span>
             </button>
             <ul class="menu" id="menu">
-                <li><a class="menuItem" href="#"><i class="fas fa-info-circle"></i> About</a></li>
-                <li><a class="menuItem" href="#"><i class="fas fa-home"></i> Home</a></li>
-                <li><a class="menuItem" href="#"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
-                <li><a class="menuItem" href="#"><i class="fas fa-user-plus" aria-hidden="true"></i> Sign up</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-home"></i> Home</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-user-plus" aria-hidden="true"></i> Sign up</a></li>
             </ul>
         </div>
         <nav>
@@ -58,6 +58,14 @@
                 hamburgerButton.classList.add('active');
             }
         });
+    </script>
+    <script>
+        var hamburgerButton = document.getElementById('hamburgerButton');
+    
+        function setHamburgerRelative(event) {
+            event.preventDefault(); // Prevent the default action of the link
+            hamburgerButton.classList.remove("active");
+        }
     </script>
     <div class="site-banner">
         <div class="banner-img">
