@@ -9,6 +9,10 @@
         gap: 1rem;
     }
 
+    .nav-header nav span {
+        font-size: 12px;
+    }
+
     .nav-header a {
         flex: 1;
         max-width: 30%;
@@ -37,6 +41,18 @@
 
     .fa-bars {
         cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+    }
+
+    .cars-container h1 {
+        font-size: 15px;
+    }
+
+    .car-info h2 {
+        font-size: 13px;
+    }
+
+    .car-card {
+        width: 88%;
     }
 
 }
