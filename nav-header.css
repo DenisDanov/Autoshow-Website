@@ -8,6 +8,10 @@
     color: #ffffff;
 }
 
+.nav-header nav:nth-child(3) {
+    display: none;
+}
+
 .logo {
     margin-left: 2rem;
 }
@@ -30,7 +34,7 @@
     text-decoration: none;
 }
 
-.nav-header nav:nth-child(3) ul li {
+.nav-header nav:nth-child(4) ul li {
     display: inline;
     padding: 1rem;
 }
