@@ -1,0 +1,52 @@
+@media (max-width: 600px) {
+    .nav-header nav:nth-child(4) {
+        display: none;
+    }
+
+    .nav-header {
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .nav-header a {
+        flex: 1;
+        max-width: 30%;
+        margin: 0;
+    }
+
+    .nav-header a img {
+        height: 110px;
+    }
+
+    .nav-header h1 {
+        flex: 1;
+        max-width: 50%;
+        font-size: 3vw;
+    }
+
+    .nav-header nav {
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        flex: 1;
+        max-width: 14%;
+        flex-direction: column;
+        align-content: center;
+        align-items: center;
+    }
+
+    .fa-bars {
+        cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+    }
+
+}
+
+@media (max-width: 362px) {
+    .nav-header a img {
+        height: 90px;
+    }
+
+    .nav-header h1 {
+        font-size: 2.5vw;
+    }
+}
