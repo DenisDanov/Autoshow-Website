@@ -51,3 +51,26 @@ body .cars-container:nth-child(5) {
 .car-info p {
     margin: 5px 0;
 }
+
+.slick-slider .slick-prev {
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1; /* Ensure the arrows appear on top of the images */
+}
+
+.slick-slider .slick-next {
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1; /* Ensure the arrows appear on top of the images */
+}
+
+.slick-slider .slick-prev {
+    left: -3px; /* Adjust as needed */
+}
+
+.slick-slider .slick-next {
+    right: -3px; /* Adjust as needed */
+}
+
+
+
