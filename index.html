@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css"/>
+
 </head>
 
 <body>
@@ -104,6 +107,11 @@
         <div class="car-card">
             <div class="img-container">
                 <img src="images/g65.jpg" alt="">
+                <img src="images/g65-pic2.jpg" alt="">
+                <img src="images/g65-pic3.jpg" alt="">
+                <img src="images/g65-pic4.jpg" alt="">
+                <img src="images/g65-pic1.jpg" alt="">
+                <img src="images/g65-pic5.jpg" alt="">
             </div>
             <div class="car-info">
                 <h2>2023 MERCEDES-AMG G63 BRABUS 800</h2>
@@ -118,7 +126,12 @@
         </div>
         <div class="car-card">
             <div class="img-container">
+                <img src="images/x6-4.jpg" alt="">
                 <img src="images/X6.jpg" alt="">
+                <img src="images/x6-1.png" alt="">
+                <img src="images/x6-3.png" alt="">
+                <img src="images/x6-5.jpg" alt="">
+                <img src="images/x6-2.png" alt="">
             </div>
             <div class="car-info">
                 <h2>2022 BMW X6 M MANHART EDITION</h2>
@@ -133,7 +146,12 @@
         </div>
         <div class="car-card">
             <div class="img-container">
+                <img src="images/Screenshot (1514).png" alt="">
                 <img src="images/urus.jpg" alt="">
+                <img src="images/Screenshot (1509).png" alt="">
+                <img src="images/Screenshot (1510).png" alt="">
+                <img src="images/Screenshot (1512).png" alt="">
+                <img src="images/Screenshot (1511).png" alt="">
             </div>
             <div class="car-info">
                 <h2>2022 LAMBORGHINI URUS MANSORY ENDITION</h2>
@@ -146,6 +164,20 @@
                 <p><i class="fas fa-tachometer-alt"></i> Max speed: 320 km/h (200 mph)</p>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    
+        <script>
+            // Activate Slick slider
+            $(document).ready(function(){
+                $('.img-container').slick({
+                    // Add configuration options as needed
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplaySpeed: 2000 // Adjust as needed
+                });
+            });
+        </script>
     </div>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
@@ -159,7 +191,6 @@
             <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i class="fab fa-facebook"></i></a>
             <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
             <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <!-- Add other social media icons or links as needed -->
         </div>
         <div class="copyright-section">
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
