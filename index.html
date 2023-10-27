@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css" />
 
 </head>
 
@@ -26,30 +26,31 @@
                 <span class="menuText">Menu</span>
             </button>
             <ul class="menu" id="menu">
-                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-info-circle"></i> About</a></li>
-                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-home"></i> Home</a></li>
-                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
-                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-car"></i> Auto Show</a></li>
-                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-user-plus" aria-hidden="true"></i> Sign up</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-home"></i>
+                        Home</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-car"></i> Auto
+                        Show</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                            class="fas fa-sign-in-alt"></i> Log in</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                            class="fas fa-info-circle"></i> About</a></li>
             </ul>
         </div>
         <nav>
             <nav>
                 <ul>
-                    <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
                     <li><a href="#"><i class="fas fa-home"></i></a></li>
                     <li><a href="#"><i class="fas fa-car"></i></a></li>
                     <li><a href="#"><i class="fas fa-sign-in-alt"></i></a></li>
-                    <li><a href="#"><i class="fas fa-user-plus" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
                 </ul>
             </nav>
             <nav>
                 <ul>
-                    <li><a href="#">About</a></li>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Auto Show</a></li>
                     <li><a href="#">Log in</a></li>
-                    <li><a href="#">Sign up</a></li>
+                    <li><a href="#">About</a></li>
                 </ul>
             </nav>
         </nav>
@@ -57,7 +58,7 @@
     <script>
         var hamburgerButton = document.getElementById('hamburgerButton');
 
-        hamburgerButton.addEventListener('click', function() {
+        hamburgerButton.addEventListener('click', function () {
             if (hamburgerButton.classList.contains('active')) {
                 hamburgerButton.classList.remove('active');
             } else {
@@ -67,20 +68,31 @@
     </script>
     <script>
         var hamburgerButton = document.getElementById('hamburgerButton');
-    
+
         function setHamburgerRelative(event) {
             hamburgerButton.classList.remove("active");
         }
     </script>
     <div class="site-banner">
-        <div class="banner-img">
-            <img src="images/lamborghini-huracan.jpg" alt="">
-        </div>
-        <div class="banner-img">
-            <img src="images/gtr-35.jpg" alt="">
-        </div>
-        <div class="banner-img">
-            <img src="images/serjan-midili--tMDG1xRhnQ-unsplash.jpg" alt="">
+        <div class="site-banner-inner">
+            <div class="banner-img">
+                <img src="images/lamborghini-huracan.jpg" alt="">
+            </div>
+            <div class="banner-img">
+                <img src="images/gtr-35.jpg" alt="">
+            </div>
+            <div class="banner-img">
+                <img src="images/porshe.jpg" alt="">
+            </div>
+            <div class="banner-img">
+                <img src="images/lamborghini-huracan.jpg" alt="">
+            </div>
+            <div class="banner-img">
+                <img src="images/gtr-35.jpg" alt="">
+            </div>
+            <div class="banner-img">
+                <img src="images/porshe.jpg" alt="">
+            </div>
         </div>
     </div>
     <div class="info-section">
@@ -166,10 +178,10 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
-    
+
         <script>
             // Activate Slick slider
-            $(document).ready(function(){
+            $(document).ready(function () {
                 $('.img-container').slick({
                     // Add configuration options as needed
                     slidesToShow: 1,
@@ -188,7 +200,8 @@
         </div>
         <div class="socials-section">
             <span>Socials: </span>
-            <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
+                    class="fab fa-facebook"></i></a>
             <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
             <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>

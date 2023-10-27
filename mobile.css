@@ -3,6 +3,10 @@
         display: none;
     }
 
+    .site-banner .banner-img {
+        flex: 1 1 calc(33% - 0.5rem);
+    }
+
     .site-banner {
         gap: 0.5rem;
     }
