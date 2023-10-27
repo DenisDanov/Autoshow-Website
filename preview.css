@@ -65,11 +65,11 @@ body .cars-container:nth-child(5) {
 }
 
 .slick-slider .slick-prev {
-    left: -3px; /* Adjust as needed */
+    left: 1px; /* Adjust as needed */
 }
 
 .slick-slider .slick-next {
-    right: -3px; /* Adjust as needed */
+    right: 1px; /* Adjust as needed */
 }
 
 
