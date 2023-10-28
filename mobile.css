@@ -150,7 +150,7 @@
     }
 
     .banner-img {
-        width: 160px;
+        width: calc(160px + (160px * 0.395)); 
         height: 160px;
     }
 
