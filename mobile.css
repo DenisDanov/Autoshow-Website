@@ -3,10 +3,6 @@
         display: none;
     }
 
-    .site-banner .banner-img {
-        flex: 1 1 calc(33% - 0.5rem);
-    }
-
     .site-banner {
         gap: 0.5rem;
     }
@@ -151,6 +147,19 @@
     
     .fixed-header .fixed-logo {
         height: 70px;
+    }
+
+    .banner-img {
+        width: 160px;
+        height: 160px;
+    }
+
+    .info-section h1 {
+        font-size: 21px;
+    }
+
+    .info-section p {
+        font-size: 10px;
     }
 
 }
