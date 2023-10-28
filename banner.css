@@ -8,8 +8,37 @@
 .site-banner-inner {
     padding: 1.5rem 0;
     display: flex;
-    animation: scroll 30s linear infinite;
     gap: 1rem;
+}
+
+@media (max-width: 1400px) and (min-width: 601px){
+    @keyframes slide {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-58%);
+        }
+    }
+    
+    .site-banner-inner {
+        animation: slide 20s linear infinite;
+    }
+}
+
+@media (min-width: 1400px) {
+    @keyframes slide {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-44%);
+        }
+    }
+    
+    .site-banner-inner {
+        animation: slide 20s linear infinite;
+    }
 }
 
 .banner-img {
@@ -37,14 +66,4 @@
 
 .site-banner-inner .banner-img:nth-child(1) img {
     object-position: 20% 62%;
-}
-
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
 }
