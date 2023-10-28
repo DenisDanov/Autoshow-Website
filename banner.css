@@ -22,7 +22,7 @@
     }
     
     .site-banner-inner {
-        animation: slide 20s linear infinite;
+        animation: slide 32s linear infinite;
     }
 }
 
@@ -37,7 +37,7 @@
     }
     
     .site-banner-inner {
-        animation: slide 20s linear infinite;
+        animation: slide 25s linear infinite;
     }
 }
 
