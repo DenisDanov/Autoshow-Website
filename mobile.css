@@ -164,6 +164,20 @@
 
 }
 
+@media (max-width: 600px) {
+    @keyframes slide {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-72%);
+        }
+    }
+    .site-banner-inner {
+        animation: slide 30s linear infinite;
+    }
+}
+
 @media (max-width: 600px) and (min-width: 501px) {
     .nav-header a {
         width: 23%;
