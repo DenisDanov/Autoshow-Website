@@ -12,18 +12,9 @@
 }
 
 @media (min-width: 1400px) {
-    @keyframes slide {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(-44%);
-        }
-    }
-    
     .site-banner-inner {
-        animation: slide 25s linear infinite;
-        transition: transform 40s linear;
+        animation: slide 20s linear infinite;
+        transition: transform 20s linear;
     }
 }
 
