@@ -175,6 +175,8 @@
     }
     .site-banner-inner {
         animation: slide 30s linear infinite;
+        animation: slide 1950s linear infinite;
+        transition: transform 140s linear;
     }
 }
 

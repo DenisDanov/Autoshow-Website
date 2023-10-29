@@ -80,7 +80,7 @@
             <div class="banner-img">
                 <img src="images/gtr-35.jpg" alt="">
             </div>
-            <div class="banner-img">
+            <div class="banner-img R8">
                 <img src="images/R8.jpg" alt="">
             </div>
             <div class="banner-img">
@@ -95,11 +95,49 @@
             <div class="banner-img">
                 <img src="images/photo-1577714141096-bf2b9e69500a.webp" alt="">
             </div>
-            <div class="banner-img">
-                <img src="images/porshe.jpg" alt="">
-            </div>
         </div>
     </div>
+    <script>
+        const siteBannerInner = document.querySelector('.site-banner-inner');
+        let bannerImages = siteBannerInner.querySelectorAll('.banner-img');
+        const originalBannerImages = Array.from(bannerImages); // Store the original images
+    
+        let shiftAmount = 0;
+        let slideSpeed = 100; // Adjust this value to control the speed of the slideshow
+        let initialShift = 0; // Adjust this value to control the starting point of the slideshow
+    
+        function cloneAndAppendImages() {
+            const currentImages = siteBannerInner.querySelectorAll('.banner-img');
+            if (currentImages.length < originalBannerImages.length * 100) {
+                originalBannerImages.forEach((image) => {
+                    const clone = image.cloneNode(true);
+                    siteBannerInner.appendChild(clone);
+                });
+                bannerImages = siteBannerInner.querySelectorAll('.banner-img'); // Update the bannerImages list
+            }
+        }
+    
+        // Clone and append the images initially
+        cloneAndAppendImages();
+    
+        let previousTimestamp = performance.now();
+    
+        function shiftBanner() {
+            const currentTimestamp = performance.now();
+            const elapsed = currentTimestamp - previousTimestamp;
+            previousTimestamp = currentTimestamp;
+    
+            const distanceToMove = slideSpeed * (elapsed / 1000);
+            shiftAmount -= distanceToMove;
+    
+            siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
+    
+            requestAnimationFrame(shiftBanner);
+            cloneAndAppendImages();
+        }
+    
+        requestAnimationFrame(shiftBanner);
+    </script>             
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">
