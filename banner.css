@@ -11,21 +11,6 @@
     gap: 1rem;
 }
 
-@media (max-width: 1400px) and (min-width: 601px){
-    @keyframes slide {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(-58%);
-        }
-    }
-    
-    .site-banner-inner {
-        animation: slide 32s linear infinite;
-    }
-}
-
 @media (min-width: 1400px) {
     @keyframes slide {
         0% {
@@ -38,6 +23,7 @@
     
     .site-banner-inner {
         animation: slide 25s linear infinite;
+        transition: transform 40s linear;
     }
 }
 
@@ -59,7 +45,7 @@
     object-position: 43% center;
 }
 
-.site-banner-inner .banner-img:nth-child(3) img {
+.site-banner-inner .R8 img {
     object-position: bottom;
 }
 
