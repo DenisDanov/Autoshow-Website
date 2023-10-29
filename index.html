@@ -103,9 +103,9 @@
         const originalBannerImages = Array.from(bannerImages); // Store the original images
     
         let shiftAmount = 0;
-        let slideSpeed = 100; // Adjust this value to control the speed of the slideshow
+        let slideSpeed = 200; // Adjust this value to control the speed of the slideshow
         let initialShift = 0; // Adjust this value to control the starting point of the slideshow
-    
+        
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
             if (currentImages.length < originalBannerImages.length * 100) {
@@ -116,7 +116,7 @@
                 bannerImages = siteBannerInner.querySelectorAll('.banner-img'); // Update the bannerImages list
             }
         }
-    
+        
         // Clone and append the images initially
         cloneAndAppendImages();
     
