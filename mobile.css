@@ -165,18 +165,8 @@
 }
 
 @media (max-width: 600px) {
-    @keyframes slide {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(-72%);
-        }
-    }
     .site-banner-inner {
-        animation: slide 30s linear infinite;
-        animation: slide 1950s linear infinite;
-        transition: transform 140s linear;
+        animation: slide 20s linear infinite;
     }
 }
 
