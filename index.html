@@ -101,11 +101,32 @@
         const siteBannerInner = document.querySelector('.site-banner-inner');
         let bannerImages = siteBannerInner.querySelectorAll('.banner-img');
         const originalBannerImages = Array.from(bannerImages); // Store the original images
-    
+
         let shiftAmount = 0;
-        let slideSpeed = 1000; // Adjust this value to control the speed of the slideshow
+        let slideSpeed = calculateSlideSpeed(); // Adjust this value to control the speed of the slideshow initially
+
+        function calculateSlideSpeed() {
+            const screenWidth = window.innerWidth;
+            // Define a rule to adjust the slide speed based on the screen width
+            // You can customize this rule according to your requirements
+            if (screenWidth < 600) {
+                return 550; // Adjust the slide speed for smaller screens
+            } else if (screenWidth >= 600 && screenWidth < 1200) {
+                return 700; // Adjust the slide speed for medium-sized screens
+            } else if (screenWidth <= 1400) {
+                return 1000; // Adjust the slide speed for larger screens
+            } else {
+                return 1300;
+            }
+        }
+
+        // Add an event listener to update the slideSpeed on window resize
+        window.addEventListener('resize', () => {
+            slideSpeed = calculateSlideSpeed();
+        });
+
         let initialShift = 0; // Adjust this value to control the starting point of the slideshow
-        
+
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
             if (currentImages.length < originalBannerImages.length * 100) {
@@ -116,25 +137,25 @@
                 bannerImages = siteBannerInner.querySelectorAll('.banner-img'); // Update the bannerImages list
             }
         }
-    
+
         let previousTimestamp = performance.now();
-    
+
         function shiftBanner() {
             const currentTimestamp = performance.now();
             const elapsed = currentTimestamp - previousTimestamp;
             previousTimestamp = currentTimestamp;
-    
+
             const distanceToMove = slideSpeed / 1000; // Calculate a fixed distance to move based on slideSpeed
             shiftAmount -= distanceToMove;
-    
+
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-    
+
             requestAnimationFrame(shiftBanner);
             cloneAndAppendImages();
         }
-    
+
         requestAnimationFrame(shiftBanner);
-    </script>             
+    </script>
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">
