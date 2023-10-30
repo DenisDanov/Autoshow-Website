@@ -103,7 +103,7 @@
         const originalBannerImages = Array.from(bannerImages); // Store the original images
     
         let shiftAmount = 0;
-        let slideSpeed = 200; // Adjust this value to control the speed of the slideshow
+        let slideSpeed = 1000; // Adjust this value to control the speed of the slideshow
         let initialShift = 0; // Adjust this value to control the starting point of the slideshow
         
         function cloneAndAppendImages() {
@@ -116,9 +116,6 @@
                 bannerImages = siteBannerInner.querySelectorAll('.banner-img'); // Update the bannerImages list
             }
         }
-        
-        // Clone and append the images initially
-        cloneAndAppendImages();
     
         let previousTimestamp = performance.now();
     
@@ -127,7 +124,7 @@
             const elapsed = currentTimestamp - previousTimestamp;
             previousTimestamp = currentTimestamp;
     
-            const distanceToMove = slideSpeed * (elapsed / 1000);
+            const distanceToMove = slideSpeed / 1000; // Calculate a fixed distance to move based on slideSpeed
             shiftAmount -= distanceToMove;
     
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
