@@ -14,6 +14,8 @@
     <link rel="preload" as="image" href="images/gtr-35.jpg">
     <link rel="preload" as="image" href="images/R8.jpg">
     <link rel="preload" as="image" href="images/lamborghini-huracan.jpg">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 </head>
 
 <body>
@@ -184,6 +186,17 @@
             </div>
         </div>
     </div>
+    <script>
+        // Activate Slick slider
+        $(document).ready(function () {
+            $('.img-container').slick({
+                // Add configuration options as needed
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplaySpeed: 2000 // Adjust as needed
+            });
+        });
+    </script>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
