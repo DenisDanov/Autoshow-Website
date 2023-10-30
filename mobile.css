@@ -149,9 +149,13 @@
         height: 70px;
     }
 
+    .site-banner-inner {
+        padding: 0.7rem 0;
+    }
+
     .banner-img {
-        width: calc(110px + (110px * 0.395)); 
-        height: 110px;
+        flex: 1 0 calc(11vh + (11vh * 0.395)); /* Set the width of each image to one-fourth of the viewport width */
+        height: 11vh;
     }
 
     .info-section h1 {
