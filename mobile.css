@@ -150,8 +150,8 @@
     }
 
     .banner-img {
-        width: calc(160px + (160px * 0.395)); 
-        height: 160px;
+        width: calc(110px + (110px * 0.395)); 
+        height: 110px;
     }
 
     .info-section h1 {
