@@ -14,8 +14,6 @@
     <link rel="preload" as="image" href="images/gtr-35.jpg">
     <link rel="preload" as="image" href="images/R8.jpg">
     <link rel="preload" as="image" href="images/lamborghini-huracan.jpg">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 </head>
 
 <body>
@@ -59,6 +57,24 @@
             </nav>
         </nav>
     </header>
+    <script>
+        var hamburgerButton = document.getElementById('hamburgerButton');
+
+        hamburgerButton.addEventListener('click', function () {
+            if (hamburgerButton.classList.contains('active')) {
+                hamburgerButton.classList.remove('active');
+            } else {
+                hamburgerButton.classList.add('active');
+            }
+        });
+    </script>
+    <script>
+        var hamburgerButton = document.getElementById('hamburgerButton');
+
+        function setHamburgerRelative(event) {
+            hamburgerButton.classList.remove("active");
+        }
+    </script>
     <div class="site-banner">
         <div class="site-banner-inner">
             <div class="banner-img">
@@ -186,35 +202,6 @@
     </footer>
     <script src="mobile-menu.js"></script>
     <script src="banner-animation.js" async></script>
-    <script>
-        // Activate Slick slider
-        $(document).ready(function () {
-            $('.img-container').slick({
-                // Add configuration options as needed
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                autoplaySpeed: 2000 // Adjust as needed
-            });
-        });
-    </script>
-    <script>
-        var hamburgerButton = document.getElementById('hamburgerButton');
-
-        hamburgerButton.addEventListener('click', function () {
-            if (hamburgerButton.classList.contains('active')) {
-                hamburgerButton.classList.remove('active');
-            } else {
-                hamburgerButton.classList.add('active');
-            }
-        });
-    </script>
-    <script>
-        var hamburgerButton = document.getElementById('hamburgerButton');
-
-        function setHamburgerRelative(event) {
-            hamburgerButton.classList.remove("active");
-        }
-    </script>
 </body>
 
 </html>
