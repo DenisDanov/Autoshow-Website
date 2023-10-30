@@ -6,6 +6,7 @@
 }
 
 .site-banner-inner {
+    width: calc((100vw * 3.5) / 4);
     padding: 1.5rem 0;
     display: flex;
     gap: 1rem;
@@ -20,18 +21,16 @@
 
 @media (min-width: 601px) and (max-width: 1400px) {
     .banner-img {
-        flex-grow: 1;
         height: 300px; /* Set the height of the container */
-        width: calc(300px + (300px * 0.395)); 
+        flex: 1 0 calc(22vw + (22vw * 0.395)); /* Set the width of each image to one-fourth of the viewport width */
         overflow: hidden;
     }
 }
 
 @media (min-width: 1401px) {
     .banner-img {
-        flex-grow: 1;
         height: 400px; /* Set the height of the container */
-        width: calc(400px + (400px * 0.395)); 
+        flex: 1 0 calc(22vw + (22vw * 0.395));
         overflow: hidden;
     }
 }
