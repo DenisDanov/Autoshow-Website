@@ -14,10 +14,11 @@
     <link rel="preload" as="image" href="images/gtr-35.jpg">
     <link rel="preload" as="image" href="images/R8.jpg">
     <link rel="preload" as="image" href="images/lamborghini-huracan.jpg">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 </head>
 
 <body>
-    <script src="mobile-menu.js"></script>
     <header class="nav-header">
         <a href="#" class="logo">
             <img class="logo-img" src="images/logo.png" alt="Logo">
@@ -58,24 +59,6 @@
             </nav>
         </nav>
     </header>
-    <script>
-        var hamburgerButton = document.getElementById('hamburgerButton');
-
-        hamburgerButton.addEventListener('click', function () {
-            if (hamburgerButton.classList.contains('active')) {
-                hamburgerButton.classList.remove('active');
-            } else {
-                hamburgerButton.classList.add('active');
-            }
-        });
-    </script>
-    <script>
-        var hamburgerButton = document.getElementById('hamburgerButton');
-
-        function setHamburgerRelative(event) {
-            hamburgerButton.classList.remove("active");
-        }
-    </script>
     <div class="site-banner">
         <div class="site-banner-inner">
             <div class="banner-img">
@@ -101,60 +84,6 @@
             </div>
         </div>
     </div>
-    <script>
-        const siteBannerInner = document.querySelector('.site-banner-inner');
-        let shiftAmount = 0;
-        let slideSpeed = calculateSlideSpeed();
-        let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
-
-        function calculateSlideSpeed() {
-            const screenWidth = window.innerWidth;
-            if (screenWidth < 600) {
-                return 270;
-            } else if (screenWidth >= 600 && screenWidth < 1200) {
-                return 700;
-            } else if (screenWidth <= 1400) {
-                return 1000;
-            } else {
-                return 1300;
-            }
-        }
-
-        let initialShift = 0;
-
-        function cloneAndAppendImages() {
-            const currentImages = siteBannerInner.querySelectorAll('.banner-img');
-            if (currentImages.length < originalBannerImages.length * 100) {
-                originalBannerImages.forEach((image) => {
-                    const clone = image.cloneNode(true);
-                    siteBannerInner.appendChild(clone);
-                });
-            }
-        }
-
-        window.addEventListener('resize', () => {
-            slideSpeed = calculateSlideSpeed();
-        });
-
-        let previousTimestamp = performance.now();
-
-        function shiftBanner() {
-            const currentTimestamp = performance.now();
-            const elapsed = currentTimestamp - previousTimestamp;
-            previousTimestamp = currentTimestamp;
-
-            const distanceToMove = slideSpeed / 1000;
-            shiftAmount -= distanceToMove;
-
-            siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-
-            cloneAndAppendImages();
-
-            requestAnimationFrame(shiftBanner);
-        }
-
-        requestAnimationFrame(shiftBanner);
-    </script>
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">
@@ -236,20 +165,6 @@
                 <p><i class="fas fa-tachometer-alt"></i> Max speed: 320 km/h (200 mph)</p>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
-
-        <script>
-            // Activate Slick slider
-            $(document).ready(function () {
-                $('.img-container').slick({
-                    // Add configuration options as needed
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    autoplaySpeed: 2000 // Adjust as needed
-                });
-            });
-        </script>
     </div>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
@@ -269,6 +184,37 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
+    <script src="mobile-menu.js"></script>
+    <script src="banner-animation.js" async></script>
+    <script>
+        // Activate Slick slider
+        $(document).ready(function () {
+            $('.img-container').slick({
+                // Add configuration options as needed
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplaySpeed: 2000 // Adjust as needed
+            });
+        });
+    </script>
+    <script>
+        var hamburgerButton = document.getElementById('hamburgerButton');
+
+        hamburgerButton.addEventListener('click', function () {
+            if (hamburgerButton.classList.contains('active')) {
+                hamburgerButton.classList.remove('active');
+            } else {
+                hamburgerButton.classList.add('active');
+            }
+        });
+    </script>
+    <script>
+        var hamburgerButton = document.getElementById('hamburgerButton');
+
+        function setHamburgerRelative(event) {
+            hamburgerButton.classList.remove("active");
+        }
+    </script>
 </body>
 
 </html>
