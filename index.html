@@ -99,35 +99,26 @@
     </div>
     <script>
         const siteBannerInner = document.querySelector('.site-banner-inner');
-        let bannerImages = siteBannerInner.querySelectorAll('.banner-img');
-        const originalBannerImages = Array.from(bannerImages); // Store the original images
-
         let shiftAmount = 0;
-        let slideSpeed = calculateSlideSpeed(); // Adjust this value to control the speed of the slideshow initially
-
+        let slideSpeed = calculateSlideSpeed();
+        let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
+    
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
-
-            // Define a rule to adjust the slide speed based on the screen width
-            // You can customize this rule according to your requirements
             if (screenWidth < 600) {
-                return 200; // Adjust the slide speed for smaller screens
+                return 330;
             } else if (screenWidth >= 600 && screenWidth < 1200) {
-                return 700; // Adjust the slide speed for medium-sized screens
+                return 700;
             } else if (screenWidth <= 1400) {
-                return 1000; // Adjust the slide speed for larger screens
+                return 1000;
             } else {
                 return 1300;
             }
         }
-
-        // Add an event listener to update the slideSpeed on window resize
-        window.addEventListener('resize', () => {
-            slideSpeed = calculateSlideSpeed();
-        });
-
-        let initialShift = 0; // Adjust this value to control the starting point of the slideshow
-
+    
+        let initialShift = 0;
+        let imagesPreloaded = false;
+    
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
             if (currentImages.length < originalBannerImages.length * 100) {
@@ -135,28 +126,47 @@
                     const clone = image.cloneNode(true);
                     siteBannerInner.appendChild(clone);
                 });
-                bannerImages = siteBannerInner.querySelectorAll('.banner-img'); // Update the bannerImages list
             }
         }
-
+    
+        function preloadImages() {
+            const images = document.querySelectorAll('.banner-img img');
+            images.forEach((img) => {
+                const image = new Image();
+                image.src = img.src;
+            });
+            imagesPreloaded = true;
+        }
+    
+        window.addEventListener('resize', () => {
+            if (!imagesPreloaded) {
+                preloadImages();
+            }
+            slideSpeed = calculateSlideSpeed();
+        });
+    
         let previousTimestamp = performance.now();
-
+    
         function shiftBanner() {
             const currentTimestamp = performance.now();
             const elapsed = currentTimestamp - previousTimestamp;
             previousTimestamp = currentTimestamp;
-
-            const distanceToMove = slideSpeed / 1000; // Calculate a fixed distance to move based on slideSpeed
+    
+            const distanceToMove = slideSpeed / 1000;
             shiftAmount -= distanceToMove;
-
+    
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-
-            requestAnimationFrame(shiftBanner);
+    
             cloneAndAppendImages();
+    
+            requestAnimationFrame(shiftBanner);
         }
-
-        requestAnimationFrame(shiftBanner);
-    </script>
+    
+        window.addEventListener('load', () => {
+            preloadImages();
+            requestAnimationFrame(shiftBanner);
+        });
+    </script>    
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">
