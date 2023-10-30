@@ -14,14 +14,26 @@
 @media (min-width: 1400px) {
     .site-banner-inner {
         animation: slide 20s linear infinite;
+        transition: transform 0.3s ease;
     }
 }
 
-.banner-img {
-    flex-grow: 1;
-    height: 400px; /* Set the height of the container */
-    width: calc(400px + (400px * 0.395)); 
-    overflow: hidden;
+@media (min-width: 601px) and (max-width: 1400px) {
+    .banner-img {
+        flex-grow: 1;
+        height: 300px; /* Set the height of the container */
+        width: calc(300px + (300px * 0.395)); 
+        overflow: hidden;
+    }
+}
+
+@media (min-width: 1401px) {
+    .banner-img {
+        flex-grow: 1;
+        height: 400px; /* Set the height of the container */
+        width: calc(400px + (400px * 0.395)); 
+        overflow: hidden;
+    }
 }
 
 .banner-img img {
