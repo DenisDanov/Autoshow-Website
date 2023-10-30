@@ -102,7 +102,7 @@
         let shiftAmount = 0;
         let slideSpeed = calculateSlideSpeed();
         let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
-    
+
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
             if (screenWidth < 600) {
@@ -115,10 +115,9 @@
                 return 1300;
             }
         }
-    
+
         let initialShift = 0;
-        let imagesPreloaded = false;
-    
+
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
             if (currentImages.length < originalBannerImages.length * 100) {
@@ -128,45 +127,30 @@
                 });
             }
         }
-    
-        function preloadImages() {
-            const images = document.querySelectorAll('.banner-img img');
-            images.forEach((img) => {
-                const image = new Image();
-                image.src = img.src;
-            });
-            imagesPreloaded = true;
-        }
-    
+
         window.addEventListener('resize', () => {
-            if (!imagesPreloaded) {
-                preloadImages();
-            }
             slideSpeed = calculateSlideSpeed();
         });
-    
+
         let previousTimestamp = performance.now();
-    
+
         function shiftBanner() {
             const currentTimestamp = performance.now();
             const elapsed = currentTimestamp - previousTimestamp;
             previousTimestamp = currentTimestamp;
-    
+
             const distanceToMove = slideSpeed / 1000;
             shiftAmount -= distanceToMove;
-    
+
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-    
+
             cloneAndAppendImages();
-    
+
             requestAnimationFrame(shiftBanner);
         }
-    
-        window.addEventListener('load', () => {
-            preloadImages();
-            requestAnimationFrame(shiftBanner);
-        });
-    </script>    
+
+        requestAnimationFrame(shiftBanner);
+    </script>
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">
