@@ -154,8 +154,8 @@
     }
 
     .banner-img {
-        flex: 1 0 calc(11vh + (11vh * 0.395)); /* Set the width of each image to one-fourth of the viewport width */
-        height: 11vh;
+        flex: 1 0 calc(10vh + (10vh * 0.395)); /* Set the width of each image to one-fourth of the viewport width */
+        height: 10vh;
     }
 
     .info-section h1 {
