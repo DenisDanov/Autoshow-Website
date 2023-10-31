@@ -40,3 +40,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+var hamburgerButton = document.getElementById('hamburgerButton');
+
+hamburgerButton.addEventListener('click', function () {
+    if (hamburgerButton.classList.contains('active')) {
+        hamburgerButton.classList.remove('active');
+    } else {
+        hamburgerButton.classList.add('active');
+    }
+});
+
+var hamburgerButton = document.getElementById('hamburgerButton');
+
+function setHamburgerRelative(event) {
+    hamburgerButton.classList.remove("active");
+}
