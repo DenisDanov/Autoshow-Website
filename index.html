@@ -20,7 +20,6 @@
 </head>
 
 <body>
-    <script src="mobile-menu.js"></script>
     <header class="nav-header">
         <a href="#" class="logo">
             <img class="logo-img" src="images/logo.png" alt="Logo">
@@ -61,24 +60,7 @@
             </nav>
         </nav>
     </header>
-    <script>
-        var hamburgerButton = document.getElementById('hamburgerButton');
-
-        hamburgerButton.addEventListener('click', function () {
-            if (hamburgerButton.classList.contains('active')) {
-                hamburgerButton.classList.remove('active');
-            } else {
-                hamburgerButton.classList.add('active');
-            }
-        });
-    </script>
-    <script>
-        var hamburgerButton = document.getElementById('hamburgerButton');
-
-        function setHamburgerRelative(event) {
-            hamburgerButton.classList.remove("active");
-        }
-    </script>
+    <script src="mobile-menu.js" async></script>
     <div class="site-banner">
         <div class="site-banner-inner">
             <div class="banner-img">
@@ -186,21 +168,10 @@
                 <p><i class="fas fa-tachometer-alt"></i> Max speed: 320 km/h (200 mph)</p>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
-
-        <script>
-            // Activate Slick slider
-            $(document).ready(function () {
-                $('.img-container').slick({
-                    // Add configuration options as needed
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    autoplaySpeed: 2000 // Adjust as needed
-                });
-            });
-        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" async></script>
+        <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js" async></script>
     </div>
+    <script src="slick-menu.js" async></script>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
