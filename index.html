@@ -19,7 +19,7 @@
     <link rel="preload" as="image" href="images/BMW-M8.webp">
 </head>
 
-<body>
+<body class="hidden">
     <header class="nav-header">
         <a href="#" class="logo">
             <img class="logo-img" src="images/logo.png" alt="Logo">
@@ -190,6 +190,11 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
+    <script>
+        window.addEventListener('load', function () {
+          document.body.classList.remove('hidden');
+        });
+      </script>
 </body>
 
 </html>
