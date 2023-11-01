@@ -21,7 +21,7 @@ body .cars-container:nth-child(4) {
     padding-bottom: 1rem;
 }
 
-body .cars-container:nth-child(5) {
+#last {
     padding-bottom: 2rem;
 }
 
