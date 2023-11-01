@@ -17,9 +17,10 @@
     <link rel="preload" as="image" href="images/photo-1577714141096-bf2b9e69500a.webp">
     <link rel="preload" as="image" href="images/mercedes-gt.webp">
     <link rel="preload" as="image" href="images/BMW-M8.webp">
+    <link rel="preload" href="banner-animation.js" as="script">
 </head>
 
-<body class="hidden">
+<body>
     <header class="nav-header">
         <a href="#" class="logo">
             <img class="logo-img" src="images/logo.png" alt="Logo">
@@ -33,7 +34,8 @@
             <ul class="menu" id="menu">
                 <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-home"></i>
                         Home</a></li>
-                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-car"></i> Auto
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i class="fas fa-car"></i>
+                        Auto
                         Show</a></li>
                 <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
                             class="fas fa-sign-in-alt"></i> Log in</a></li>
@@ -60,7 +62,7 @@
             </nav>
         </nav>
     </header>
-    <script src="mobile-menu.js" async></script>
+    <script defer src="mobile-menu.js"></script>
     <div class="site-banner">
         <div class="site-banner-inner">
             <div class="banner-img">
@@ -86,7 +88,6 @@
             </div>
         </div>
     </div>
-    <script src="banner-animation.js" async></script>
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">
@@ -98,7 +99,8 @@
                 supercars.</p>
             <p><i class="fas fa-check-circle"></i> Explore an exquisite showcase of the most sought-after automotive
                 craftsmanship.</p>
-            <p><i class="fas fa-check-circle"></i> Indulge in the elegance and power of the best luxury and sports cars
+            <p><i class="fas fa-check-circle"></i> Indulge in the elegance and power of the best luxury and sports
+                cars
                 in the industry.</p>
 
             <a href="#" class="cta-button">Check Now</a>
@@ -168,10 +170,7 @@
                 <p><i class="fas fa-tachometer-alt"></i> Max speed: 320 km/h (200 mph)</p>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
     </div>
-    <script src="slick-menu.js"></script>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
@@ -190,11 +189,10 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
-    <script>
-        window.addEventListener('load', function () {
-          document.body.classList.remove('hidden');
-        });
-      </script>
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    <script defer src="slick-menu.js"></script>
+    <script defer src="banner-animation.js"></script>
 </body>
 
 </html>
