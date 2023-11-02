@@ -1,36 +1,39 @@
 @media (min-width:601px) {
-
     .nav-header div:nth-child(3) {
         display: none;
     }
 }
 
-.nav-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 0%, rgba(79, 78, 83, 1) 16%, rgba(87, 85, 92, 1) 26%, rgba(129, 125, 140, 1) 52%, rgba(165, 158, 181, 1) 90%);
-    color: #ffffff;
+@media (min-width: 1400px) {
+    .nav-header .logo img {
+        max-height: 152px;
+    }
 }
 
 .nav-header {
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3.2rem;
+    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 0%, rgba(79, 78, 83, 1) 16%, rgba(87, 85, 92, 1) 26%, rgba(129, 125, 140, 1) 52%, rgba(165, 158, 181, 1) 90%);
+    color: #ffffff;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    background-color: white; /* Set your desired background color */
+    background-color: white;
     z-index: 1000;
 }
 
 .nav-header.scrolled {
-    /* Styles for the header when scrolled */
-    background-color: #ffffff; /* Example background color */
-    box-shadow: 0 4px 6px -6px black; /* Example box shadow */
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px -6px black;
 }
 
 .menuItem {
     display: none;
     margin: 2rem 4rem;
+    flex: 1;
     font-size: 1.8rem;
     color: white;
     text-decoration: none;
@@ -103,7 +106,8 @@
 }
 
 .logo {
-    margin-left: 2rem;
+    display: flex;
+    align-items: center;
 }
 
 .logo img {
@@ -137,6 +141,11 @@
 }
 
 .nav-header nav:nth-child(4) {
+    position: absolute;
+    right: 1rem;
+    /* Adjust the positioning as needed */
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
 }
@@ -161,13 +170,23 @@ a {
     margin-bottom: 0.5rem;
 }
 
+.logo {
+    position: absolute;
+    left: 3rem;
+    /* Adjust the positioning as needed */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .nav-header h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'Arial', sans-serif;
     font-size: 24px;
     font-weight: bold;
     color: #fff;
     text-align: center;
-    margin-top: 30px;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -175,7 +194,6 @@ a {
     padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
 }
 
 a {

@@ -8,9 +8,32 @@
     }
 
     .nav-header {
+        padding: 0;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
         gap: 0.5rem;
+    }
+
+    .nav-header .logo {
+        padding-left: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-top: 0.2rem;
+        width: 30%;
+        position: relative;
+        left: 0;
+        top: 0;
+        transform: none;
+    }
+
+    .nav-header h1 {
+        width: 50%;
+        margin-left: 0.5rem;
+    }
+
+    .nav-header .container {
+        margin-left: 1rem;
+        width: 20%;
     }
 
     .nav-header nav span {
@@ -40,6 +63,10 @@
         flex-direction: column;
         align-content: center;
         align-items: center;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .fa-bars {
@@ -137,7 +164,8 @@
     }
 
     .banner-img {
-        flex: 1 0 calc(10vh + (10vh * 0.395)); /* Set the width of each image to one-fourth of the viewport width */
+        flex: 1 0 calc(10vh + (10vh * 0.395));
+        /* Set the width of each image to one-fourth of the viewport width */
         height: 10vh;
     }
 
