@@ -132,23 +132,6 @@
         padding-right: 0.5rem;
     }
 
-    .nav-header {
-        position: relative;
-        transition: top 0.5s ease-in-out;
-    }
-
-    .fixed-header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        height: 70px;
-    }
-    
-    .fixed-header .fixed-logo {
-        height: 70px;
-    }
-
     .site-banner-inner {
         padding: 0.7rem 0;
     }
