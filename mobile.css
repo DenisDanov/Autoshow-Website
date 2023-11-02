@@ -19,7 +19,6 @@
         padding-left: 0.5rem;
         padding-bottom: 0.5rem;
         padding-top: 0.2rem;
-        width: 30%;
         position: relative;
         left: 0;
         top: 0;
@@ -27,13 +26,7 @@
     }
 
     .nav-header h1 {
-        width: 50%;
-        margin-left: 0.5rem;
-    }
-
-    .nav-header .container {
-        margin-left: 1rem;
-        width: 20%;
+        width: 30%;
     }
 
     .nav-header nav span {
@@ -199,7 +192,7 @@
     }
 
     .nav-header a img {
-        height: 83px;
+        height: 73px;
     }
 
     .nav-header h1 {
