@@ -5,17 +5,17 @@
 }
 
 @media (min-width: 1400px) {
-    .nav-header .logo img {
-        max-height: 152px;
+    body .nav-header {
+        padding: 2rem 3.2rem;
     }
 }
 
 .nav-header {
     flex-direction: column;
     display: flex;
+    padding: 1.3rem 3.2rem;
     justify-content: space-between;
     align-items: center;
-    padding: 3.2rem;
     background: linear-gradient(90deg, rgba(51, 51, 51, 1) 0%, rgba(79, 78, 83, 1) 16%, rgba(87, 85, 92, 1) 26%, rgba(129, 125, 140, 1) 52%, rgba(165, 158, 181, 1) 90%);
     color: #ffffff;
     position: -webkit-sticky;
@@ -106,12 +106,15 @@
 }
 
 .logo {
+    padding: 0.5rem 0;
     display: flex;
     align-items: center;
+    height: 100%;
 }
 
 .logo img {
-    max-height: 122px;
+    height: 100%;
+    width: auto;
     border-radius: 50%;
 }
 
@@ -166,8 +169,8 @@ a {
     color: #191717;
 }
 
-.nav-header nav:nth-child(1) {
-    margin-bottom: 0.5rem;
+.auto-show {
+    margin-top: 0.5rem;
 }
 
 .logo {
