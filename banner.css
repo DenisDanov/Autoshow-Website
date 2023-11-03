@@ -2,7 +2,8 @@
     width: 100%;
     display: flex;
     overflow: hidden;
-    background: linear-gradient(90deg, rgba(2,0,6,1) 0%, rgba(8,10,37,1) 0%, rgba(8,9,36,1) 0%, rgba(7,11,60,1) 0%, rgba(2,0,6,1) 0%, rgba(6,12,76,1) 0%, rgba(10,13,46,1) 0%, rgba(2,0,6,1) 0%, rgba(6,12,76,1) 0%, rgba(6,12,76,1) 0%, rgba(8,9,36,1) 0%, rgba(2,0,6,1) 53%, rgba(8,9,36,1) 100%, rgba(2,0,6,1) 100%);
+    background: rgb(17, 17, 52);
+    background: linear-gradient(95deg, rgba(17, 17, 52, 1) 0%, rgba(7, 8, 29, 1) 100%);
 }
 
 .site-banner-inner {
@@ -21,15 +22,15 @@
 
 @media (min-width: 601px) and (max-width: 1400px) {
     .banner-img {
-        height: 300px; /* Set the height of the container */
-        flex: 1 0 calc(22vw + (22vw * 0.395)); /* Set the width of each image to one-fourth of the viewport width */
+        height: 300px;
+        flex: 1 0 calc(22vw + (22vw * 0.395));
         overflow: hidden;
     }
 }
 
 @media (min-width: 1401px) {
     .banner-img {
-        height: 400px; /* Set the height of the container */
+        height: 400px;
         flex: 1 0 calc(22vw + (22vw * 0.395));
         overflow: hidden;
     }

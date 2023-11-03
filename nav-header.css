@@ -17,7 +17,7 @@
     padding: 1.3rem 3.2rem;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(95deg, rgba(8, 9, 35, 1) 0%, rgba(2, 2, 10, 1) 0%, rgba(8, 9, 35, 1) 21%, rgba(8, 9, 35, 1) 30%, rgba(8, 9, 35, 1) 83%, rgba(2, 2, 9, 1) 100%);
+    background: linear-gradient(95deg, rgba(8, 9, 35, 1) 83%, rgba(2, 2, 9, 1) 100%);
     position: sticky;
     top: 0;
     background-color: white;
@@ -190,7 +190,7 @@ a {
     letter-spacing: 2px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     background: rgb(4, 4, 11);
-    background: linear-gradient(95deg, rgba(4, 4, 11, 1) 0%, rgba(11, 11, 49, 1) 0%, rgba(21, 25, 74, 1) 76%, rgba(7, 9, 48, 1) 100%);
+    background: linear-gradient(95deg, rgba(21, 25, 74, 1) 76%, rgba(7, 9, 48, 1) 100%);
     padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
