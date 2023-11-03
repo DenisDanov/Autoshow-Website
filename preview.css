@@ -1,10 +1,12 @@
 .cars-container {
-    font-family: 'Poppins', sans-serif; /* Replace with your desired font */
+    font-family: 'Poppins', sans-serif;
+    /* Replace with your desired font */
     color: white;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    background: linear-gradient(90deg, rgba(51,51,51,1) 0%, rgba(79,78,83,1) 16%, rgba(87,85,92,1) 26%, rgba(129,125,140,1) 52%, rgba(165,158,181,1) 90%);
+    background: rgb(0, 1, 16);
+    background: linear-gradient(95deg, rgba(0, 1, 16, 1) 0%, rgba(8, 9, 35, 1) 100%);
 }
 
 .cars-container h1 {
@@ -26,8 +28,9 @@ body .cars-container:nth-child(4) {
 }
 
 .car-card {
+    background: rgb(24,26,63);
+    background: linear-gradient(95deg, rgba(24,26,63,1) 0%, rgba(24,26,63,1) 83%, rgba(8,9,35,1) 100%);
     width: 29%;
-    background: linear-gradient(90deg, rgba(51,51,51,1) 0%, rgba(92,90,97,1) 0%, rgba(111,108,120,1) 0%, rgba(129,125,140,1) 9%, rgba(128,124,139,1) 11%, rgba(165,158,181,1) 75%);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: 15px;
@@ -63,22 +66,23 @@ body .cars-container:nth-child(4) {
 .slick-slider .slick-prev {
     top: 50%;
     transform: translateY(-50%);
-    z-index: 1; /* Ensure the arrows appear on top of the images */
+    z-index: 1;
+    /* Ensure the arrows appear on top of the images */
 }
 
 .slick-slider .slick-next {
     top: 50%;
     transform: translateY(-50%);
-    z-index: 1; /* Ensure the arrows appear on top of the images */
+    z-index: 1;
+    /* Ensure the arrows appear on top of the images */
 }
 
 .slick-slider .slick-prev {
-    left: 1px; /* Adjust as needed */
+    left: 1px;
+    /* Adjust as needed */
 }
 
 .slick-slider .slick-next {
-    right: 1px; /* Adjust as needed */
+    right: 1px;
+    /* Adjust as needed */
 }
-
-
-
