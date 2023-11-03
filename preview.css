@@ -5,7 +5,7 @@
     flex-wrap: wrap;
     justify-content: space-around;
     background: rgb(0, 1, 16);
-    background: linear-gradient(95deg, rgba(0, 1, 16, 1) 0%, rgba(8, 9, 35, 1) 100%);
+    background: linear-gradient(95deg, rgba(8, 9, 35, 1) 100%);
 }
 
 .cars-container h1 {
@@ -27,7 +27,7 @@ body .cars-container:nth-child(4) {
 }
 
 .car-card {
-    background: linear-gradient(95deg, rgba(24,26,63,1) 0%, rgba(24,26,63,1) 83%, rgba(8,9,35,1) 100%);
+    background: linear-gradient(95deg, rgba(24,26,63,1) 83%, rgba(8,9,35,1) 100%);
     width: 29%;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

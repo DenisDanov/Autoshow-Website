@@ -156,7 +156,6 @@
 
     .banner-img {
         flex: 1 0 calc(10vh + (10vh * 0.395));
-        /* Set the width of each image to one-fourth of the viewport width */
         height: 10vh;
     }
 
