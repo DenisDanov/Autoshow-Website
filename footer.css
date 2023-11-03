@@ -1,6 +1,7 @@
 footer {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(90deg, rgba(51,51,51,1) 0%, rgba(92,90,97,1) 8%, rgba(129,125,140,1) 26%, rgba(128,124,139,1) 33%, rgba(165,158,181,1) 39%, rgba(111,108,120,1) 77%);
+    background: rgb(24, 26, 63);
+    background: linear-gradient(95deg, rgba(24, 26, 63, 1) 0%, rgba(1, 3, 28, 1) 0%, rgba(10, 11, 43, 1) 100%);
 }
 
 .footer-section {
@@ -11,7 +12,6 @@ footer {
 
 .footer-section h3 {
     font-size: 24px;
-    margin-bottom: 20px;
 }
 
 .footer-section p {
@@ -34,20 +34,20 @@ footer {
 .subscribe-form button {
     padding: 10px 20px;
     border-radius: 0 5px 5px 0;
-    border: 1px solid #a59eb5;
-    background-color: #a59eb5;
+    border: 0px solid black;
+    background: rgb(4,4,11);
+    background: linear-gradient(95deg, rgba(4,4,11,1) 0%, rgba(20,30,162,1) 0%, rgba(23,23,103,1) 0%, rgba(21,24,79,1) 100%);
     color: #ffffff;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .subscribe-form button:hover {
-    background-color: #8c8292;
-    border-color: #8c8292;
+    filter: brightness(120%);
 }
 
 .footer-section .copyright-section {
-    padding-top: 2rem;
+    padding-top: 1rem;
     padding-bottom: 0;
     font-size: 14px;
 }

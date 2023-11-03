@@ -6,19 +6,19 @@
 
 @media (min-width: 1400px) {
     body .nav-header {
-        padding: 2rem 3.2rem;
+        padding: 2.5rem 3.2rem;
     }
 }
 
 .nav-header {
+    color: #e2e2e2;
     flex-direction: column;
     display: flex;
     padding: 1.3rem 3.2rem;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 0%, rgba(79, 78, 83, 1) 16%, rgba(87, 85, 92, 1) 26%, rgba(129, 125, 140, 1) 52%, rgba(165, 158, 181, 1) 90%);
-    color: #ffffff;
-    position: -webkit-sticky;
+    background: rgb(8, 9, 35);
+    background: linear-gradient(95deg, rgba(8, 9, 35, 1) 0%, rgba(2, 2, 10, 1) 0%, rgba(8, 9, 35, 1) 21%, rgba(8, 9, 35, 1) 30%, rgba(8, 9, 35, 1) 83%, rgba(2, 2, 9, 1) 100%);
     position: sticky;
     top: 0;
     background-color: white;
@@ -188,12 +188,12 @@ a {
     font-family: 'Arial', sans-serif;
     font-size: 24px;
     font-weight: bold;
-    color: #fff;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    background-color: #7D7C7C;
+    background: rgb(4, 4, 11);
+    background: linear-gradient(95deg, rgba(4, 4, 11, 1) 0%, rgba(11, 11, 49, 1) 0%, rgba(21, 25, 74, 1) 76%, rgba(7, 9, 48, 1) 100%);
     padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
