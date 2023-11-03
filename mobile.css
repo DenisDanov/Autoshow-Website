@@ -10,13 +10,11 @@
     .nav-header {
         padding: 0;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
-        gap: 0.5rem;
     }
 
     .nav-header .logo {
-        padding-left: 0.5rem;
         padding-bottom: 0.5rem;
         padding-top: 0.2rem;
         position: relative;
@@ -192,7 +190,7 @@
     }
 
     .nav-header a img {
-        height: 73px;
+        height: 51px;
     }
 
     .nav-header h1 {
