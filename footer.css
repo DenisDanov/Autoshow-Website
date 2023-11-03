@@ -35,7 +35,6 @@ footer {
     padding: 10px 20px;
     border-radius: 0 5px 5px 0;
     border: 0px solid black;
-    background: rgb(4,4,11);
     background: linear-gradient(95deg, rgba(4,4,11,1) 0%, rgba(20,30,162,1) 0%, rgba(23,23,103,1) 0%, rgba(21,24,79,1) 100%);
     color: #ffffff;
     cursor: pointer;

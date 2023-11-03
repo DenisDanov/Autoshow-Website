@@ -33,7 +33,6 @@
 
 .cta-button {
     display: inline-block;
-    background: rgb(4,4,11);
     background: linear-gradient(95deg, rgba(4,4,11,1) 0%, rgba(20,30,162,1) 0%, rgba(23,23,103,1) 0%, rgba(21,24,79,1) 100%);
     color: #fff;
     padding: 12px 30px;
@@ -44,7 +43,6 @@
 }
 
 .cta-button:hover {
-    filter: brightness(120%); /* Adjust the brightness percentage as needed */
-
+    filter: brightness(120%);
 }
 
