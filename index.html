@@ -18,10 +18,6 @@
     <link rel="preload" as="image" href="images/mercedes-gt.webp">
     <link rel="preload" as="image" href="images/BMW-M8.webp">
     <link rel="preload" href="banner-animation.js" as="script">
-    <link rel="preload" as="image" href="images/g65.jpg">
-    <link rel="preload" as="image" href="images/x6-4.jpg">
-    <link rel="preload" as="image" href="images/Screenshot (1514).png">
-
 </head>
 
 <body>
@@ -117,11 +113,11 @@
     <div class="cars-container" id="last">
         <div class="car-card">
             <div class="img-container">
-                <img data-src="images/g65.jpg" alt="" loading="eager">
-                <img src="images/g65-pic2.jpg" alt="">
-                <img src="images/g65-pic3.jpg" alt="">
-                <img src="images/g65-pic4.jpg" alt="">
-                <img src="images/g65-pic1.jpg" alt="">
+                <img src="images/g65.jpg" alt="">
+                <img data-src="images/g65-pic2.jpg" alt="">
+                <img data-src="images/g65-pic3.jpg" alt="">
+                <img data-src="images/g65-pic4.jpg" alt="">
+                <img data-src="images/g65-pic1.jpg" alt="">
                 <img src="images/g65-pic5.jpg" alt="">
             </div>
             <div class="car-info">
@@ -137,11 +133,11 @@
         </div>
         <div class="car-card">
             <div class="img-container">
-                <img data-src="images/x6-4.jpg" alt="" loading="eager">
-                <img src="images/X6.jpg" alt="">
-                <img src="images/x6-1.png" alt="">
-                <img src="images/x6-3.png" alt="">
-                <img src="images/x6-5.jpg" alt="">
+                <img src="images/x6-4.jpg" alt="">
+                <img data-src="images/X6.jpg" alt="">
+                <img data-src="images/x6-1.png" alt="">
+                <img data-src="images/x6-3.png" alt="">
+                <img data-src="images/x6-5.jpg" alt="">
                 <img src="images/x6-2.png" alt="">
             </div>
             <div class="car-info">
@@ -157,11 +153,11 @@
         </div>
         <div class="car-card">
             <div class="img-container">
-                <img data-src="images/Screenshot (1514).png" alt="" loading="eager">
-                <img src="images/urus.jpg" alt="">
-                <img src="images/Screenshot (1509).png" alt="">
-                <img src="images/Screenshot (1510).png" alt="">
-                <img src="images/Screenshot (1512).png" alt="">
+                <img src="images/Screenshot (1514).png" alt="">
+                <img data-src="images/urus.jpg" alt="">
+                <img data-src="images/Screenshot (1509).png" alt="">
+                <img data-src="images/Screenshot (1510).png" alt="">
+                <img data-src="images/Screenshot (1512).png" alt="">
                 <img src="images/Screenshot (1511).png" alt="">
             </div>
             <div class="car-info">
@@ -176,6 +172,33 @@
             </div>
         </div>
     </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const images = document.querySelectorAll('.img-container img');
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const imgSrc = entry.target.getAttribute('data-src');
+                        if (!localStorage.getItem(imgSrc)) {
+                            const img = new Image();
+                            img.onload = function () {
+                                localStorage.setItem(imgSrc, 'loaded');
+                                entry.target.setAttribute('src', imgSrc);
+                            };
+                            img.src = imgSrc;
+                        } else {
+                            entry.target.setAttribute('src', imgSrc);
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+
+            images.forEach(image => {
+                observer.observe(image);
+            });
+        });
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
     <script src="slick-menu.js"></script>
@@ -196,37 +219,6 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let images = document.querySelectorAll('img[data-src]');
-            let options = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            let loadImage = function (image) {
-                image.setAttribute('src', image.getAttribute('data-src'));
-                image.onload = function () {
-                    image.removeAttribute('data-src');
-                };
-            };
-
-            let observer = new IntersectionObserver(function (entries, observer) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        let image = entry.target;
-                        loadImage(image);
-                        observer.unobserve(image);
-                    }
-                });
-            }, options);
-
-            images.forEach(function (image) {
-                observer.observe(image);
-            });
-        });
-    </script>
 </body>
 
 </html>
