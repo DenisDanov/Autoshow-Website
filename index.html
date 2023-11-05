@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.pkgd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.min.css">
     <link rel="preload" as="image" href="images/porshe.webp">
     <link rel="preload" as="image" href="images/gtr-35.webp">
     <link rel="preload" as="image" href="images/R8.webp">
@@ -115,15 +115,33 @@
     <div class="cars-container">
         <h1>Small Preview of the Auto Show</h1>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = [
+                'images/g65.webp', 'images/g65-pic2.webp', 'images/g65-pic3.webp', 'images/g65-pic4.webp', 'images/g65-pic1.webp', 'images/g65-pic5.webp',
+                'images/x6-4.webp', 'images/X6.webp', 'images/x6-1.webp', 'images/x6-3.webp', 'images/x6-5.webp', 'images/x6-2.webp',
+                'images/Screenshot (1514).webp', 'images/urus.webp', 'images/Screenshot (1509).webp', 'images/Screenshot (1510).webp', 'images/Screenshot (1512).webp', 'images/Screenshot (1511).webp'
+            ];
+
+            function preloadImages(imageArray) {
+                for (let i = 0; i < imageArray.length; i++) {
+                    const img = new Image();
+                    img.src = imageArray[i];
+                }
+            }
+
+            preloadImages(images);
+        });
+    </script>
     <div class="cars-container" id="last">
         <div class="car-card">
-            <div class="img-container">
-                <img data-src="images/g65.webp" alt="">
-                <img data-src="images/g65-pic2.webp" alt="">
-                <img data-src="images/g65-pic3.webp" alt="">
-                <img data-src="images/g65-pic4.webp" alt="">
-                <img data-src="images/g65-pic1.webp" alt="">
-                <img data-src="images/g65-pic5.webp" alt="">
+            <div class="img-container" data-flickity='{ "lazyLoad": true }'>
+                <img data-flickity-lazyload="images/g65.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic2.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic3.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic4.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic1.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic5.webp" alt="">
             </div>
             <div class="car-info">
                 <h2>2023 MERCEDES-AMG G63 BRABUS 800</h2>
@@ -137,13 +155,13 @@
             </div>
         </div>
         <div class="car-card">
-            <div class="img-container">
-                <img data-src="images/x6-4.webp" alt="">
-                <img data-src="images/X6.webp" alt="">
-                <img data-src="images/x6-1.webp" alt="">
-                <img data-src="images/x6-3.webp" alt="">
-                <img data-src="images/x6-5.webp" alt="">
-                <img data-src="images/x6-2.webp" alt="">
+            <div class="img-container" data-flickity='{ "lazyLoad": true }'>
+                <img data-flickity-lazyload="images/x6-4.webp" alt="">
+                <img data-flickity-lazyload="images/X6.webp" alt="">
+                <img data-flickity-lazyload="images/x6-1.webp" alt="">
+                <img data-flickity-lazyload="images/x6-3.webp" alt="">
+                <img data-flickity-lazyload="images/x6-5.webp" alt="">
+                <img data-flickity-lazyload="images/x6-2.webp" alt="">
             </div>
             <div class="car-info">
                 <h2>2022 BMW X6 M MANHART EDITION</h2>
@@ -157,13 +175,13 @@
             </div>
         </div>
         <div class="car-card">
-            <div class="img-container">
-                <img data-src="images/Screenshot (1514).webp" alt="">
-                <img data-src="images/urus.webp" alt="">
-                <img data-src="images/Screenshot (1509).webp" alt="">
-                <img data-src="images/Screenshot (1510).webp" alt="">
-                <img data-src="images/Screenshot (1512).webp" alt="">
-                <img data-src="images/Screenshot (1511).webp" alt="">
+            <div class="img-container" data-flickity='{ "lazyLoad": true }'>
+                <img data-flickity-lazyload="images/Screenshot (1514).webp" alt="">
+                <img data-flickity-lazyload="images/urus.webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1509).webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1510).webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1512).webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1511).webp" alt="">
             </div>
             <div class="car-info">
                 <h2>2022 LAMBORGHINI URUS MANSORY ENDITION</h2>
@@ -178,7 +196,7 @@
         </div>
     </div>
     <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
+        document.addEventListener('DOMContentLoaded', function () {
             const images = document.querySelectorAll('.img-container img');
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
@@ -204,19 +222,22 @@
             });
         });
     </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
     <script>
-        // Activate Slick slider
-        $(document).ready(function () {
-            $('.img-container').slick({
-                // Add configuration options as needed
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                autoplaySpeed: 2000 // Adjust as needed
+        document.addEventListener('DOMContentLoaded', function () {
+            const carCards = document.querySelectorAll('.car-card');
+            carCards.forEach(function (card) {
+                const flickity = new Flickity(card.querySelector('.img-container'), {
+                    cellAlign: 'left',
+                    contain: true,
+                    prevNextButtons: true,
+                    lazyLoad: true, // Enable lazy-loading
+                    autoPlay: 2000 // Adjust as needed
+                });
             });
         });
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
