@@ -88,26 +88,27 @@
             </div>
         </div>
     </div>
-    <script async>
+    <script>
         const siteBannerInner = document.querySelector('.site-banner-inner');
         let shiftAmount = 0;
         let slideSpeed = calculateSlideSpeed();
         let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
-        let animationId = null;
-    
+        
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
             if (screenWidth < 600) {
-                return 20;
+                return 270;
+            } else if (screenWidth >= 600 && screenWidth < 1200) {
+                return 700;
             } else if (screenWidth <= 1400) {
-                return 50;
+                return 1000;
             } else {
-                return 65;
+                return 1300;
             }
         }
-    
+        
         let initialShift = 0;
-    
+        
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
             if (currentImages.length < originalBannerImages.length * 100) {
@@ -117,75 +118,39 @@
                 });
             }
         }
-    
+        
         window.addEventListener('resize', () => {
             slideSpeed = calculateSlideSpeed();
         });
-    
-        let lastTimeStamp = performance.now();
-    
-        function shiftBanner(currentTime) {
-            const elapsed = currentTime - lastTimeStamp;
-            lastTimeStamp = currentTime;
-    
-            const distanceToMove = (slideSpeed / 1000) * elapsed;
+        
+        let previousTimestamp = performance.now();
+        
+        function shiftBanner() {
+            const currentTimestamp = performance.now();
+            const elapsed = currentTimestamp - previousTimestamp;
+            previousTimestamp = currentTimestamp;
+        
+            const distanceToMove = slideSpeed / 1000;
             shiftAmount -= distanceToMove;
-    
+        
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-    
+        
             cloneAndAppendImages();
-    
-            animationId = requestAnimationFrame(shiftBanner);
+        
+            requestAnimationFrame(shiftBanner);
         }
-    
-        function startAnimation() {
-            lastTimeStamp = performance.now();
-            animationId = requestAnimationFrame(shiftBanner);
+        
+        const storedSessionShiftAmount = sessionStorage.getItem('sessionShiftAmount');
+        if (storedSessionShiftAmount) {
+            shiftAmount = parseFloat(storedSessionShiftAmount);
+            siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
         }
-    
-        function stopAnimation() {
-            cancelAnimationFrame(animationId);
-        }
-    
-        function handleVisibilityChange() {
-            if (document.visibilityState === 'visible' && !document.hidden) {
-                startAnimation();
-            } else {
-                stopAnimation();
-            }
-        }
-    
-        function handleWindowBlur() {
-            stopAnimation();
-        }
-    
-        function handleWindowFocus() {
-            startAnimation();
-        }
-    
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-        window.addEventListener('blur', handleWindowBlur);
-        window.addEventListener('focus', handleWindowFocus);
-    
-        const options = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5,
-        };
-    
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting && document.visibilityState === 'visible' && !document.hidden) {
-                    startAnimation();
-                } else {
-                    stopAnimation();
-                }
-            });
-        }, options);
-    
-        observer.observe(siteBannerInner);
-    
-        startAnimation();
+        
+        window.addEventListener('beforeunload', () => {
+            sessionStorage.setItem('sessionShiftAmount', '0');
+        });
+        
+        requestAnimationFrame(shiftBanner);
     </script>    
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
