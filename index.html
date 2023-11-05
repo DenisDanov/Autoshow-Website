@@ -201,17 +201,6 @@
 
             images.forEach(image => {
                 observer.observe(image);
-                const imgSrc = image.getAttribute('data-src');
-                if (!localStorage.getItem(imgSrc)) {
-                    const tempImg = new Image();
-                    tempImg.onload = function () {
-                        localStorage.setItem(imgSrc, 'loaded');
-                        image.setAttribute('src', imgSrc);
-                    };
-                    tempImg.src = imgSrc;
-                } else {
-                    image.setAttribute('src', imgSrc);
-                }
             });
         });
     </script>
