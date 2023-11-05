@@ -18,6 +18,11 @@
     <link rel="preload" as="image" href="images/mercedes-gt.webp">
     <link rel="preload" as="image" href="images/BMW-M8.webp">
     <link rel="preload" href="banner-animation.js" as="script">
+    <link rel="preload" as="image" href="images/g65.jpg">
+    <link rel="preload" as="image" href="images/g65-pic2.jpg">
+    <link rel="preload" as="image" href="images/g65-pic3.jpg">
+    <link rel="preload" as="image" href="images/g65-pic4.jpg">
+    <link rel="preload" as="image" href="images/g65-pic5.jpg">
 </head>
 
 <body>
@@ -113,12 +118,12 @@
     <div class="cars-container" id="last">
         <div class="car-card">
             <div class="img-container">
-                <img src="images/g65.jpg" alt="">
+                <img data-src="images/g65.jpg" alt="">
                 <img data-src="images/g65-pic2.jpg" alt="">
                 <img data-src="images/g65-pic3.jpg" alt="">
                 <img data-src="images/g65-pic4.jpg" alt="">
                 <img data-src="images/g65-pic1.jpg" alt="">
-                <img src="images/g65-pic5.jpg" alt="">
+                <img data-src="images/g65-pic5.jpg" alt="">
             </div>
             <div class="car-info">
                 <h2>2023 MERCEDES-AMG G63 BRABUS 800</h2>
@@ -133,12 +138,12 @@
         </div>
         <div class="car-card">
             <div class="img-container">
-                <img src="images/x6-4.jpg" alt="">
+                <img data-src="images/x6-4.jpg" alt="">
                 <img data-src="images/X6.jpg" alt="">
                 <img data-src="images/x6-1.png" alt="">
                 <img data-src="images/x6-3.png" alt="">
                 <img data-src="images/x6-5.jpg" alt="">
-                <img src="images/x6-2.png" alt="">
+                <img data-src="images/x6-2.png" alt="">
             </div>
             <div class="car-info">
                 <h2>2022 BMW X6 M MANHART EDITION</h2>
@@ -153,12 +158,12 @@
         </div>
         <div class="car-card">
             <div class="img-container">
-                <img src="images/Screenshot (1514).png" alt="">
+                <img data-src="images/Screenshot (1514).png" alt="">
                 <img data-src="images/urus.jpg" alt="">
                 <img data-src="images/Screenshot (1509).png" alt="">
                 <img data-src="images/Screenshot (1510).png" alt="">
                 <img data-src="images/Screenshot (1512).png" alt="">
-                <img src="images/Screenshot (1511).png" alt="">
+                <img data-src="images/Screenshot (1511).png" alt="">
             </div>
             <div class="car-info">
                 <h2>2022 LAMBORGHINI URUS MANSORY ENDITION</h2>
@@ -196,12 +201,33 @@
 
             images.forEach(image => {
                 observer.observe(image);
+                const imgSrc = image.getAttribute('data-src');
+                if (!localStorage.getItem(imgSrc)) {
+                    const tempImg = new Image();
+                    tempImg.onload = function () {
+                        localStorage.setItem(imgSrc, 'loaded');
+                        image.setAttribute('src', imgSrc);
+                    };
+                    tempImg.src = imgSrc;
+                } else {
+                    image.setAttribute('src', imgSrc);
+                }
             });
         });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
-    <script src="slick-menu.js"></script>
+    <script>
+        // Activate Slick slider
+        $(document).ready(function () {
+            $('.img-container').slick({
+                // Add configuration options as needed
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplaySpeed: 2000 // Adjust as needed
+            });
+        });
+    </script>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
