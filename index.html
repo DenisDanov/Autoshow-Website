@@ -93,6 +93,7 @@
         let shiftAmount = 0;
         let slideSpeed = calculateSlideSpeed();
         let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
+        let animationId = null;
 
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
@@ -136,14 +137,21 @@
 
             cloneAndAppendImages();
 
-            requestAnimationFrame(shiftBanner);
+            animationId = requestAnimationFrame(shiftBanner);
         }
 
-        requestAnimationFrame(function animate(currentTime) {
-            shiftBanner(currentTime);
-        });
-    </script>
-    <script>
+        function startAnimation() {
+            lastTimeStamp = performance.now();
+            animationId = requestAnimationFrame(shiftBanner);
+        }
+
+        function stopAnimation() {
+            cancelAnimationFrame(animationId);
+        }
+
+        window.addEventListener('focus', startAnimation);
+        window.addEventListener('blur', stopAnimation);
+
         const options = {
             root: null,
             rootMargin: '0px',
@@ -153,9 +161,9 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    requestAnimationFrame(shiftBanner);
+                    startAnimation();
                 } else {
-                    cancelAnimationFrame(shiftBanner);
+                    stopAnimation();
                 }
             });
         }, options);
