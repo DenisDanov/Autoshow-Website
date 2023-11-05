@@ -94,22 +94,20 @@
         let slideSpeed = calculateSlideSpeed();
         let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
         let animationId = null;
-
+    
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
             if (screenWidth < 600) {
                 return 20;
-            } else if (screenWidth >= 600 && screenWidth < 1200) {
-                return 50;
             } else if (screenWidth <= 1400) {
                 return 50;
             } else {
                 return 65;
             }
         }
-
+    
         let initialShift = 0;
-
+    
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
             if (currentImages.length < originalBannerImages.length * 100) {
@@ -119,57 +117,76 @@
                 });
             }
         }
-
+    
         window.addEventListener('resize', () => {
             slideSpeed = calculateSlideSpeed();
         });
-
+    
         let lastTimeStamp = performance.now();
-
+    
         function shiftBanner(currentTime) {
             const elapsed = currentTime - lastTimeStamp;
             lastTimeStamp = currentTime;
-
+    
             const distanceToMove = (slideSpeed / 1000) * elapsed;
             shiftAmount -= distanceToMove;
-
+    
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-
+    
             cloneAndAppendImages();
-
+    
             animationId = requestAnimationFrame(shiftBanner);
         }
-
+    
         function startAnimation() {
             lastTimeStamp = performance.now();
             animationId = requestAnimationFrame(shiftBanner);
         }
-
+    
         function stopAnimation() {
             cancelAnimationFrame(animationId);
         }
-
-        window.addEventListener('focus', startAnimation);
-        window.addEventListener('blur', stopAnimation);
-
+    
+        function handleVisibilityChange() {
+            if (document.visibilityState === 'visible' && !document.hidden) {
+                startAnimation();
+            } else {
+                stopAnimation();
+            }
+        }
+    
+        function handleWindowBlur() {
+            stopAnimation();
+        }
+    
+        function handleWindowFocus() {
+            startAnimation();
+        }
+    
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('blur', handleWindowBlur);
+        window.addEventListener('focus', handleWindowFocus);
+    
         const options = {
             root: null,
             rootMargin: '0px',
             threshold: 0.5,
         };
-
+    
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && document.visibilityState === 'visible' && !document.hidden) {
                     startAnimation();
                 } else {
                     stopAnimation();
                 }
             });
         }, options);
-
+    
         observer.observe(siteBannerInner);
-    </script>
+    
+        startAnimation();
+    </script>    
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">
@@ -260,7 +277,7 @@
                 <img data-flickity-lazyload="images/Screenshot (1511).webp" alt="">
             </div>
             <div class="car-info">
-                <h2>2022 LAMBORGHINI URUS MANSORY ENDITION</h2>
+                <h2>2022 LAMBORGHINI URUS MANSORY</h2>
                 <p><i class="fas fa-tools"></i> Engine: 4.0-litre twin-turbo V8</p>
                 <p><i class="fas fa-cog"></i> Transmission: 8-Speed Automatic</p>
                 <p><i class="fas fa-bolt"></i> Power: 625 kW / 850 hp</p>
