@@ -18,11 +18,6 @@
     <link rel="preload" as="image" href="images/mercedes-gt.webp">
     <link rel="preload" as="image" href="images/BMW-M8.webp">
     <link rel="preload" href="banner-animation.js" as="script">
-    <link rel="preload" as="image" href="images/g65.jpg">
-    <link rel="preload" as="image" href="images/g65-pic2.jpg">
-    <link rel="preload" as="image" href="images/g65-pic3.jpg">
-    <link rel="preload" as="image" href="images/g65-pic4.jpg">
-    <link rel="preload" as="image" href="images/g65-pic5.jpg">
 </head>
 
 <body>
@@ -93,7 +88,80 @@
             </div>
         </div>
     </div>
-    <script src="banner-animation.js" async></script>
+    <script async>
+        const siteBannerInner = document.querySelector('.site-banner-inner');
+        let shiftAmount = 0;
+        let slideSpeed = calculateSlideSpeed();
+        let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
+
+        function calculateSlideSpeed() {
+            const screenWidth = window.innerWidth;
+            if (screenWidth < 600) {
+                return 20;
+            } else if (screenWidth >= 600 && screenWidth < 1200) {
+                return 50;
+            } else if (screenWidth <= 1400) {
+                return 50;
+            } else {
+                return 65;
+            }
+        }
+
+        let initialShift = 0;
+
+        function cloneAndAppendImages() {
+            const currentImages = siteBannerInner.querySelectorAll('.banner-img');
+            if (currentImages.length < originalBannerImages.length * 100) {
+                originalBannerImages.forEach((image) => {
+                    const clone = image.cloneNode(true);
+                    siteBannerInner.appendChild(clone);
+                });
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            slideSpeed = calculateSlideSpeed();
+        });
+
+        let lastTimeStamp = performance.now();
+
+        function shiftBanner(currentTime) {
+            const elapsed = currentTime - lastTimeStamp;
+            lastTimeStamp = currentTime;
+
+            const distanceToMove = (slideSpeed / 1000) * elapsed;
+            shiftAmount -= distanceToMove;
+
+            siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
+
+            cloneAndAppendImages();
+
+            requestAnimationFrame(shiftBanner);
+        }
+
+        requestAnimationFrame(function animate(currentTime) {
+            shiftBanner(currentTime);
+        });
+    </script>
+    <script>
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    requestAnimationFrame(shiftBanner);
+                } else {
+                    cancelAnimationFrame(shiftBanner);
+                }
+            });
+        }, options);
+
+        observer.observe(siteBannerInner);
+    </script>
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">
