@@ -25,7 +25,9 @@
         <a href="#" class="logo">
             <img class="logo-img" src="images/logo.png" alt="Logo">
         </a>
-        <h1>Where Luxury Meets Performance</h1>
+        <div class="h1">
+            <h1>Where Luxury Meets Performance</h1> 
+        </div>
         <div class="container">
             <button class="hamburger" id="hamburgerButton">
                 <i class="fas fa-bars"></i>
@@ -43,7 +45,7 @@
                             class="fas fa-info-circle"></i> About</a></li>
             </ul>
         </div>
-        <nav>
+        <nav class="navs">
             <nav>
                 <ul>
                     <li><a href="#"><i class="fas fa-home"></i></a></li>
@@ -94,7 +96,7 @@
         let slideSpeed = calculateSlideSpeed();
         let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
         let animationInitialized = false;
-    
+
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
             if (screenWidth < 600) {
@@ -107,9 +109,9 @@
                 return 1280;
             }
         }
-    
+
         let initialShift = 0;
-    
+
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
             if (currentImages.length < originalBannerImages.length * 100) {
@@ -119,25 +121,25 @@
                 });
             }
         }
-    
+
         window.addEventListener('resize', () => {
             slideSpeed = calculateSlideSpeed();
         });
-    
+
         let previousTimestamp = performance.now();
-    
+
         function shiftBanner() {
             const currentTimestamp = performance.now();
             const elapsed = currentTimestamp - previousTimestamp;
             previousTimestamp = currentTimestamp;
-    
+
             const distanceToMove = slideSpeed / 1000;
             shiftAmount -= distanceToMove;
-    
+
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-    
+
             cloneAndAppendImages();
-    
+
             if (!animationInitialized) {
                 requestAnimationFrame(shiftBanner);
                 animationInitialized = true;
@@ -145,21 +147,21 @@
                 requestAnimationFrame(shiftBanner);
             }
         }
-    
+
         // Check if the sessionStorage exists
         const storedSessionShiftAmount = sessionStorage.getItem('sessionShiftAmount');
         if (storedSessionShiftAmount) {
             shiftAmount = parseFloat(storedSessionShiftAmount);
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
         }
-    
+
         // Reset shiftAmount when the browser is restarted
         window.addEventListener('beforeunload', () => {
             sessionStorage.setItem('sessionShiftAmount', '0');
         });
-    
+
         requestAnimationFrame(shiftBanner);
-    </script>       
+    </script>
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">

@@ -22,16 +22,16 @@
 
 @media (min-width: 601px) and (max-width: 1400px) {
     .banner-img {
-        height: 300px;
-        flex: 1 0 calc(22vw + (22vw * 0.395));
+        height: 40vh;
+        flex: 1 0 calc(40vh + (40vh * 0.395));
         overflow: hidden;
     }
 }
 
 @media (min-width: 1401px) {
     .banner-img {
-        height: 400px;
-        flex: 1 0 calc(22vw + (22vw * 0.395));
+        height: 40vh;
+        flex: 1 0 calc(40vh + (40vh * 0.395));
         overflow: hidden;
     }
 }
