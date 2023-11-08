@@ -10,8 +10,16 @@
     .nav-header {
         padding: 0;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
+    }
+
+    .nav-header .container {
+        padding-right: 1rem;
+    }
+
+    .nav-header .h1 {
+        left: 52%;
     }
 
     .nav-header .logo {
@@ -21,10 +29,6 @@
         left: 0;
         top: 0;
         transform: none;
-    }
-
-    .nav-header h1 {
-        width: 30%;
     }
 
     .nav-header nav span {
@@ -40,9 +44,8 @@
         height: 70px;
     }
 
-    .nav-header h1 {
+    .nav-header .h1 h1 {
         flex: 1;
-        max-width: 50%;
         font-size: 3vw;
     }
 
@@ -192,7 +195,7 @@
         height: 51px;
     }
 
-    .nav-header h1 {
+    .nav-header .h1 h1 {
         font-size: 2.5vw;
     }
 }
