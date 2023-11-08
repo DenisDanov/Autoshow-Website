@@ -36,8 +36,8 @@
         margin: 0;
     }
 
-    .nav-header a img {
-        height: 9.5vh;
+    body .nav-header a img {
+        max-height: 8.5vh;
     }
 
     .nav-header .h1 {
