@@ -158,8 +158,8 @@
     }
 
     .banner-img {
-        height: 12vh;
-        flex: 1 0 calc(12vh + (12vh * 0.395));
+        height: 18.2vh;
+        flex: 1 0 calc(18.2vh + (18.2vh * 0.395));
     }
 
     .info-section h1 {

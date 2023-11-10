@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.pkgd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.min.css">
+    <link rel="preload" as="image" href="images/porshe.webp">
+    <link rel="preload" as="image" href="images/gtr-35.webp">
+    <link rel="preload" as="image" href="images/R8.webp">
+    <link rel="preload" as="image" href="images/lamborghini-huracan.webp">
+    <link rel="preload" as="image" href="images/photo-1577714141096-bf2b9e69500a.webp">
+    <link rel="preload" as="image" href="images/mercedes-gt.webp">
+    <link rel="preload" as="image" href="images/BMW-M8.webp">
 </head>
 
 <body>
@@ -83,6 +90,15 @@
         </div>
     </div>
     <script>
+        let resizeTimer;
+
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                slideSpeed = calculateSlideSpeed();
+            }, 250);
+        });
+        
         const siteBannerInner = document.querySelector('.site-banner-inner');
         let shiftAmount = 0;
         let slideSpeed = calculateSlideSpeed();
@@ -121,7 +137,7 @@
         });
 
         let previousTimestamp = performance.now();
-        
+
         function shiftBanner() {
             const currentTimestamp = performance.now();
             const elapsed = currentTimestamp - previousTimestamp;
