@@ -109,7 +109,7 @@
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
             const totalImages = originalBannerImages.length * 100;
 
-            if (currentImages.length < totalImages && window.innerWidth > 600) {
+            if (currentImages.length < totalImages) {
                 originalBannerImages.forEach((image) => {
                     const clone = image.cloneNode(true);
                     siteBannerInner.appendChild(clone);
