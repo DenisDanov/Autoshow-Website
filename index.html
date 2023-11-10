@@ -100,20 +100,28 @@
                 return 1280;
             }
         }
+
         let initialShift = 0;
+
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
-            if (currentImages.length < originalBannerImages.length * 100) {
+            const totalImages = originalBannerImages.length * 100;
+            const lastImage = currentImages[currentImages.length - 1];
+            const lastImageRect = lastImage.getBoundingClientRect();
+            if (lastImageRect.right < window.innerWidth) {
                 originalBannerImages.forEach((image) => {
                     const clone = image.cloneNode(true);
                     siteBannerInner.appendChild(clone);
                 });
             }
         }
+
         window.addEventListener('resize', () => {
             slideSpeed = calculateSlideSpeed();
         });
+
         let previousTimestamp = performance.now();
+        
         function shiftBanner() {
             const currentTimestamp = performance.now();
             const elapsed = currentTimestamp - previousTimestamp;
