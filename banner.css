@@ -18,8 +18,7 @@
 @media (min-width: 601px) {
     .banner-img {
         height: 50vh;
-        flex: 1 0 calc(50vh + (50vh * 0.395));
-        overflow: hidden;
+        flex: 1 0 calc(50vh + (50vh * 0.395));    
     }
 }
 
