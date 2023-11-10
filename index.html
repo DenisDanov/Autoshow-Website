@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.pkgd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.min.css">
-    <link rel="preload" href="banner-animation.js" as="script">
 </head>
 
 <body>
@@ -89,7 +88,6 @@
         let slideSpeed = calculateSlideSpeed();
         let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
         let animationInitialized = false;
-        
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
             if (screenWidth < 600) {
@@ -102,43 +100,20 @@
                 return 1280;
             }
         }
-
         let initialShift = 0;
-
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
-            const totalImages = originalBannerImages.length * 100;
-
-            const lastImage = currentImages[currentImages.length - 1];
-            const lastImageRect = lastImage.getBoundingClientRect();
-
-            if (lastImageRect.right < window.innerWidth) {
+            if (currentImages.length < originalBannerImages.length * 100) {
                 originalBannerImages.forEach((image) => {
                     const clone = image.cloneNode(true);
                     siteBannerInner.appendChild(clone);
                 });
             }
         }
-
-        function preloadImages() {
-            originalBannerImages.forEach((image) => {
-                const img = new Image();
-                img.src = image.src;
-            });
-        }
-
         window.addEventListener('resize', () => {
             slideSpeed = calculateSlideSpeed();
-            initialShift = shiftAmount % window.innerWidth; // Recalculate initialShift
         });
-
-        window.addEventListener('load', () => {
-            initialShift = shiftAmount % window.innerWidth; // Set initialShift on load
-        });
-
-
         let previousTimestamp = performance.now();
-
         function shiftBanner() {
             const currentTimestamp = performance.now();
             const elapsed = currentTimestamp - previousTimestamp;
@@ -154,21 +129,16 @@
                 requestAnimationFrame(shiftBanner);
             }
         }
-
         // Check if the sessionStorage exists
         const storedSessionShiftAmount = sessionStorage.getItem('sessionShiftAmount');
         if (storedSessionShiftAmount) {
             shiftAmount = parseFloat(storedSessionShiftAmount);
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
         }
-
         // Reset shiftAmount when the browser is restarted
         window.addEventListener('beforeunload', () => {
             sessionStorage.setItem('sessionShiftAmount', '0');
         });
-
-        preloadImages();
-    
         requestAnimationFrame(shiftBanner);
     </script>
     <div class="info-section">
