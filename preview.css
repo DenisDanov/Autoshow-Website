@@ -60,22 +60,23 @@ body .cars-container:nth-child(4) {
     margin: 5px 0;
 }
 
-.slick-slider .slick-prev {
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
+.img-container .flickity-prev-next-button {
+    width: 20px;
+    height: 20px;
 }
 
-.slick-slider .slick-next {
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
+.img-container .flickity-prev-next-button.next {
+    right: 5px;
 }
 
-.slick-slider .slick-prev {
-    left: 1px;
+.img-container .flickity-prev-next-button.previous {
+    left: 5px;
 }
 
-.slick-slider .slick-next {
-    right: 1px;
+.img-container .flickity-page-dots {
+    bottom: 2px;
+}
+
+.img-container .flickity-page-dots .dot {
+    background-color: white;
 }
