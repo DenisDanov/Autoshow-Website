@@ -10,13 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.pkgd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.min.css">
-    <link rel="preload" as="image" href="images/porshe.webp">
-    <link rel="preload" as="image" href="images/gtr-35.webp">
-    <link rel="preload" as="image" href="images/R8.webp">
-    <link rel="preload" as="image" href="images/lamborghini-huracan.webp">
-    <link rel="preload" as="image" href="images/photo-1577714141096-bf2b9e69500a.webp">
-    <link rel="preload" as="image" href="images/mercedes-gt.webp">
-    <link rel="preload" as="image" href="images/BMW-M8.webp">
     <link rel="preload" href="banner-animation.js" as="script">
 </head>
 
@@ -114,7 +107,9 @@
 
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
-            if (currentImages.length < originalBannerImages.length * 100) {
+            const totalImages = originalBannerImages.length * 100;
+
+            if (currentImages.length < totalImages && window.innerWidth > 600) {
                 originalBannerImages.forEach((image) => {
                     const clone = image.cloneNode(true);
                     siteBannerInner.appendChild(clone);
@@ -122,9 +117,38 @@
             }
         }
 
+        // Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function () {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    func.apply(context, args);
+                }, wait);
+            };
+        }
+
+        // Debounce for the cloneAndAppendImages function
+        const debouncedClone = debounce(cloneAndAppendImages, 100)
+
+        function preloadImages() {
+            originalBannerImages.forEach((image) => {
+                const img = new Image();
+                img.src = image.src;
+            });
+        }
+
         window.addEventListener('resize', () => {
             slideSpeed = calculateSlideSpeed();
+            initialShift = shiftAmount % window.innerWidth; // Recalculate initialShift
         });
+
+        window.addEventListener('load', () => {
+            initialShift = shiftAmount % window.innerWidth; // Set initialShift on load
+        });
+
 
         let previousTimestamp = performance.now();
 
@@ -160,7 +184,12 @@
             sessionStorage.setItem('sessionShiftAmount', '0');
         });
 
-        requestAnimationFrame(shiftBanner);
+        preloadImages();
+
+        setTimeout(() => {
+            requestAnimationFrame(shiftBanner);
+        }, 10); // Adjust the delay as needed
+
     </script>
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
