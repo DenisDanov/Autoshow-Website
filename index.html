@@ -88,7 +88,8 @@
         let shiftAmount = 0;
         let slideSpeed = calculateSlideSpeed();
         let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
-
+        let animationInitialized = false;
+        
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
             if (screenWidth < 600) {
@@ -142,15 +143,16 @@
             const currentTimestamp = performance.now();
             const elapsed = currentTimestamp - previousTimestamp;
             previousTimestamp = currentTimestamp;
-
             const distanceToMove = slideSpeed / 1000;
             shiftAmount -= distanceToMove;
-
             siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-
             cloneAndAppendImages();
-
-            requestAnimationFrame(shiftBanner);
+            if (!animationInitialized) {
+                requestAnimationFrame(shiftBanner);
+                animationInitialized = true;
+            } else {
+                requestAnimationFrame(shiftBanner);
+            }
         }
 
         // Check if the sessionStorage exists
