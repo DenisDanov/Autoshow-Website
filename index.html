@@ -88,7 +88,6 @@
         let shiftAmount = 0;
         let slideSpeed = calculateSlideSpeed();
         let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
-        let animationInitialized = false;
 
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
@@ -151,12 +150,7 @@
 
             cloneAndAppendImages();
 
-            if (!animationInitialized) {
-                requestAnimationFrame(shiftBanner);
-                animationInitialized = true;
-            } else {
-                requestAnimationFrame(shiftBanner);
-            }
+            requestAnimationFrame(shiftBanner);
         }
 
         // Check if the sessionStorage exists
@@ -172,11 +166,8 @@
         });
 
         preloadImages();
-
-        setTimeout(() => {
-            requestAnimationFrame(shiftBanner);
-        }, 10); // Adjust the delay as needed
-
+    
+        requestAnimationFrame(shiftBanner);
     </script>
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
