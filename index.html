@@ -93,7 +93,7 @@
         function calculateSlideSpeed() {
             const screenWidth = window.innerWidth;
             if (screenWidth < 600) {
-                return 150;
+                return 250;
             } else if (screenWidth >= 600 && screenWidth < 1200) {
                 return 700;
             } else if (screenWidth <= 1400) {
@@ -108,7 +108,7 @@
         function cloneAndAppendImages() {
             const currentImages = siteBannerInner.querySelectorAll('.banner-img');
             const totalImages = originalBannerImages.length * 100;
-            
+
             const lastImage = currentImages[currentImages.length - 1];
             const lastImageRect = lastImage.getBoundingClientRect();
 
@@ -119,22 +119,6 @@
                 });
             }
         }
-
-        // Debounce function
-        function debounce(func, wait) {
-            let timeout;
-            return function () {
-                const context = this;
-                const args = arguments;
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    func.apply(context, args);
-                }, wait);
-            };
-        }
-
-        // Debounce for the cloneAndAppendImages function
-        const debouncedClone = debounce(cloneAndAppendImages, 100)
 
         function preloadImages() {
             originalBannerImages.forEach((image) => {
