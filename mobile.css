@@ -172,12 +172,6 @@
 
 }
 
-@media (max-width: 600px) {
-    .site-banner-inner {
-        animation: slide 20s linear infinite;
-    }
-}
-
 @media (max-width: 600px) and (min-width: 501px) {
     .nav-header a {
         width: 23%;
