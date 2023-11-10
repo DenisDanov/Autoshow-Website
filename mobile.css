@@ -160,6 +160,7 @@
     .banner-img {
         height: 18.2vh;
         flex: 1 0 calc(18.2vh + (18.2vh * 0.395));
+        overflow: hidden;
     }
 
     .info-section h1 {
