@@ -9,6 +9,7 @@
 .site-banner-inner {
     animation: slide 20s linear infinite;
     transition: transform 0.3s ease;
+    will-change: transform;
     width: 100%;
     padding: 1.5rem 0;
     display: flex;
