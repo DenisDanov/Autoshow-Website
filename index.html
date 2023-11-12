@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.pkgd.min.js" async></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.min.css">
     <link rel="preload" as="image" href="images/porshe.webp">
     <link rel="preload" as="image" href="images/gtr-35.webp">
@@ -85,79 +85,7 @@
             </div>
         </div>
     </div>
-    <script>
-        let resizeTimer;
-
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                slideSpeed = calculateSlideSpeed();
-            }, 250);
-        });
-
-        const siteBannerInner = document.querySelector('.site-banner-inner');
-        let shiftAmount = 0;
-        let slideSpeed = calculateSlideSpeed();
-        let originalBannerImages = Array.from(siteBannerInner.querySelectorAll('.banner-img'));
-
-        function calculateSlideSpeed() {
-            const screenWidth = window.innerWidth;
-            if (screenWidth < 600) {
-                return 250;
-            } else if (screenWidth >= 600 && screenWidth < 1200) {
-                return 700;
-            } else if (screenWidth <= 1400) {
-                return 1000;
-            } else {
-                return 1280;
-            }
-        }
-
-        let initialShift = 0;
-
-        function cloneAndAppendImages() {
-            const currentImages = siteBannerInner.querySelectorAll('.banner-img');
-            const totalImages = originalBannerImages.length * 100;
-            const lastImage = currentImages[currentImages.length - 1];
-            const lastImageRect = lastImage.getBoundingClientRect();
-            if (lastImageRect.right < window.innerWidth) {
-                originalBannerImages.forEach((image) => {
-                    const clone = image.cloneNode(true);
-                    siteBannerInner.appendChild(clone);
-                });
-            }
-        }
-
-        window.addEventListener('resize', () => {
-            slideSpeed = calculateSlideSpeed();
-        });
-
-        let previousTimestamp = performance.now();
-
-        function shiftBanner() {
-            const currentTimestamp = performance.now();
-            const elapsed = currentTimestamp - previousTimestamp;
-            previousTimestamp = currentTimestamp;
-            const distanceToMove = slideSpeed / 1000;
-
-            shiftAmount -= distanceToMove;
-            siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-            cloneAndAppendImages();
-
-            requestAnimationFrame(shiftBanner);
-        }
-        // Check if the sessionStorage exists
-        const storedSessionShiftAmount = sessionStorage.getItem('sessionShiftAmount');
-        if (storedSessionShiftAmount) {
-            shiftAmount = parseFloat(storedSessionShiftAmount);
-            siteBannerInner.style.transform = `translateX(${shiftAmount + initialShift}px)`;
-        }
-        // Reset shiftAmount when the browser is restarted
-        window.addEventListener('beforeunload', () => {
-            sessionStorage.setItem('sessionShiftAmount', '0');
-        });
-        requestAnimationFrame(shiftBanner);
-    </script>
+    <script src="banner-animation.js" defer></script>
     <div class="info-section">
         <h1>Danov's Auto Show</h1>
         <div class="paragraphs">
