@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="showroom.css">
 </head>
+
 <body>
     <header class="nav-header" id="header">
         <a href="#" class="logo">
@@ -76,8 +78,19 @@
         container.appendChild(renderer.domElement);
 
         // camera position
-        camera.position.set(35, 10, 40);
-        camera.fov = 25;
+        function setCameraPosition() {
+            if (containerRect.width > 567) {
+                // Set camera position for widths greater than 567px
+                camera.position.set(35, 10, 40);
+                camera.fov = 25;
+            } else {
+                // Set alternative camera position for widths less than or equal to 567px
+                camera.position.set(50, 10, 30);
+                camera.fov = 25;
+            }
+        }
+
+        setCameraPosition();
 
         const loader = new GLTFLoader();
         let model;
@@ -148,4 +161,5 @@
         </div>
     </footer>
 </body>
+
 </html>
