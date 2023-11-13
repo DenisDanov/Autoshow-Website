@@ -107,33 +107,15 @@
     <div class="cars-container">
         <h1>Small Preview of the Auto Show</h1>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const images = [
-                'images/g65.webp', 'images/g65-pic2.webp', 'images/g65-pic3.webp', 'images/g65-pic4.webp', 'images/g65-pic1.webp', 'images/g65-pic5.webp',
-                'images/x6-4.webp', 'images/X6.webp', 'images/x6-1.webp', 'images/x6-3.webp', 'images/x6-5.webp', 'images/x6-2.webp',
-                'images/Screenshot (1514).webp', 'images/urus.webp', 'images/Screenshot (1509).webp', 'images/Screenshot (1510).webp', 'images/Screenshot (1512).webp', 'images/Screenshot (1511).webp'
-            ];
-
-            function preloadImages(imageArray) {
-                for (let i = 0; i < imageArray.length; i++) {
-                    const img = new Image();
-                    img.src = imageArray[i];
-                }
-            }
-
-            preloadImages(images);
-        });
-    </script>
     <div class="cars-container" id="last">
         <div class="car-card">
             <div class="img-container" data-flickity='{ "lazyLoad": true }'>
                 <img data-flickity-lazyload="images/g65.webp" alt="">
-                <img src="images/g65-pic2.webp" alt="">
-                <img src="images/g65-pic3.webp" alt="">
-                <img src="images/g65-pic4.webp" alt="">
-                <img src="images/g65-pic1.webp" alt="">
-                <img src="images/g65-pic5.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic2.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic3.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic4.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic1.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic5.webp" alt="">
             </div>
             <div class="car-info">
                 <h2>2023 MERCEDES-AMG G63 BRABUS 800</h2>
@@ -149,11 +131,11 @@
         <div class="car-card">
             <div class="img-container" data-flickity='{ "lazyLoad": true }'>
                 <img data-flickity-lazyload="images/x6-4.webp" alt="">
-                <img src="images/X6.webp" alt="">
-                <img src="images/x6-1.webp" alt="">
-                <img src="images/x6-3.webp" alt="">
-                <img src="images/x6-5.webp" alt="">
-                <img src="images/x6-2.webp" alt="">
+                <img data-flickity-lazyload="images/X6.webp" alt="">
+                <img data-flickity-lazyload="images/x6-1.webp" alt="">
+                <img data-flickity-lazyload="images/x6-3.webp" alt="">
+                <img data-flickity-lazyload="images/x6-5.webp" alt="">
+                <img data-flickity-lazyload="images/x6-2.webp" alt="">
             </div>
             <div class="car-info">
                 <h2>2022 BMW X6 M MANHART EDITION</h2>
@@ -169,11 +151,11 @@
         <div class="car-card">
             <div class="img-container" data-flickity='{ "lazyLoad": true }'>
                 <img data-flickity-lazyload="images/Screenshot (1514).webp" alt="">
-                <img src="images/urus.webp" alt="">
-                <img src="images/Screenshot (1509).webp" alt="">
-                <img src="images/Screenshot (1510).webp" alt="">
-                <img src="images/Screenshot (1512).webp" alt="">
-                <img src="images/Screenshot (1511).webp" alt="">
+                <img data-flickity-lazyload="images/urus.webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1509).webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1510).webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1512).webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1511).webp" alt="">
             </div>
             <div class="car-info">
                 <h2>2022 LAMBORGHINI URUS MANSORY</h2>
@@ -193,18 +175,21 @@
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        const imgSrc = entry.target.getAttribute('data-src');
-                        if (!localStorage.getItem(imgSrc)) {
+                        const imgSrc = entry.target.getAttribute('data-flickity-lazyload');
+                        const imgLoaded = localStorage.getItem(imgSrc) === 'loaded';
+
+                        if (!imgLoaded) {
                             const img = new Image();
                             img.onload = function () {
                                 localStorage.setItem(imgSrc, 'loaded');
                                 entry.target.setAttribute('src', imgSrc);
+                                observer.unobserve(entry.target);
                             };
                             img.src = imgSrc;
                         } else {
                             entry.target.setAttribute('src', imgSrc);
+                            observer.unobserve(entry.target);
                         }
-                        observer.unobserve(entry.target);
                     }
                 });
             });
@@ -223,7 +208,6 @@
                     contain: true,
                     prevNextButtons: true,
                     lazyLoad: true,
-                    autoPlay: 2000
                 });
             });
         });
