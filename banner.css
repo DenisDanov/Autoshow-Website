@@ -23,6 +23,12 @@
     }
 }
 
+@media (max-width:900px) {
+   .cars-container .car-card {
+        width: 82%;
+    }
+}
+
 .banner-img img {
     border-radius: 15px;
     width: 100%;
