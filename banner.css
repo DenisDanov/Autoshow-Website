@@ -2,7 +2,6 @@
     width: 100%;
     display: flex;
     overflow: hidden;
-    background: rgb(17, 17, 52);
     background: linear-gradient(90deg, rgba(51,51,51,1) 9%, rgba(87,85,92,1) 42%, rgba(165,158,181,1) 100%);
 }
 
@@ -20,12 +19,6 @@
     .banner-img {
         height: 50vh;
         flex: 1 0 calc(50vh + (50vh * 0.395));    
-    }
-}
-
-@media (max-width:900px) {
-   .cars-container .car-card {
-        width: 82%;
     }
 }
 

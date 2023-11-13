@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Show</title>
+    <title>Showroom</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="auto-show.css">
-    <link rel="stylesheet" href="preview.css">
-    <link rel="stylesheet" href="mobile.css">
-    <script src="mobile-menu.js"></script>
+    <link rel="stylesheet" href="showroom.css">
 </head>
-
 <body>
     <header class="nav-header" id="header">
         <a href="#" class="logo">
@@ -60,26 +55,79 @@
             </nav>
         </nav>
     </header>
-    <div class="show-room">
-        <header>
-            <h1>Welcome to Our Auto Show</h1>
-            <p>Discover the Latest and Greatest Cars</p>
-        </header>
-    
-        <section>
-            <h2>Available Cars</h2>
-    
-            <div class="cars-container">
-                <div class="car-card">
-                    <img class="img-container" src="images/Lambo-Urus.png" alt="Car 1">
-                    <div class="car-info">
-                        <h3>2022 LAMBORGHINI URUS MANSORY</h3>
-                    </div>
-                    <a href="showroom.html" class="view-button">View in Showroom</a>
-                </div>
-            </div>
-        </section>
-    </div>
+    <script src="mobile-menu.js"></script>
+    <div id="model-container"></div>
+    <script type="module">
+        import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
+        import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader';
+        import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls';
+
+        const container = document.getElementById('model-container');
+        const containerRect = container.getBoundingClientRect();
+
+        const aspectRatio = containerRect.width / containerRect.height;
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000); // aspect ratio
+        const renderer = new THREE.WebGLRenderer();
+        const controls = new OrbitControls(camera, renderer.domElement);
+
+        // size of the container
+        renderer.setSize(containerRect.width, containerRect.height);
+        container.appendChild(renderer.domElement);
+
+        // camera position
+        camera.position.set(35, 10, 40);
+        camera.fov = 25;
+
+        const loader = new GLTFLoader();
+        let model;
+
+        loader.load('3D Models/modified_lamborghini_urus.glb', (gltf) => {
+            model = gltf.scene;
+
+            // timeout to ensure that the model is fully loaded before calculating scale
+            setTimeout(() => {
+                // Adjust model scale
+                const boundingBox = new THREE.Box3().setFromObject(model);
+                const scaleFactor = containerRect.width / boundingBox.getSize().x;
+                model.scale.set(scaleFactor, scaleFactor, scaleFactor);
+
+                // Set model position to the center of the scene
+                model.position.set(0, 0, 0);
+            }, 0);
+
+            scene.add(model);
+        }, undefined, (error) => {
+            console.error('Error loading GLB model:', error);
+        });
+
+        // Directional light
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5).normalize();
+        scene.add(directionalLight);
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (model) {
+                model.rotation.y += 0.005;
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            const containerRect = container.getBoundingClientRect();
+
+            // camera and renderer size on window resize
+            camera.aspect = containerRect.width / containerRect.height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(containerRect.width, containerRect.height);
+        });
+    </script>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
@@ -100,5 +148,4 @@
         </div>
     </footer>
 </body>
-
 </html>

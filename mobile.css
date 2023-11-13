@@ -175,6 +175,13 @@
     }
 }
 
+@media (max-width:900px) {
+    .cars-container .car-card {
+         width: 82%;
+     }
+ }
+ 
+
 @media (max-width: 362px) {
 
     .site-banner {
