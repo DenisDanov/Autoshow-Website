@@ -89,21 +89,30 @@
             const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
             if (screenWidth > 600) {
-                loadModelScript('3DModel-Third-Person.js', 'thirdPersonModel');
-                loadModelScript('3DModel-First-Person.js', 'firstPersonModel');
+                loadModelScript('3DModel-Third-Person.js', 'thirdPersonModel', function () {
+                    loadModelScript('3DModel-First-Person.js', 'firstPersonModel');
+                });
             } else {
                 loadModelScript('3DModel-Third-Person.js', 'thirdPersonModel');
             }
         }
 
         // Function to load the 3D model script
-        function loadModelScript(scriptUrl, modelId) {
+        function loadModelScript(scriptUrl, modelId, callback) {
             const container = document.getElementById('model-container');
 
             // Create a new script element
             const newScript = document.createElement('script');
             newScript.type = 'module';
             newScript.src = scriptUrl;
+
+            // Set up a callback for the script's onload event
+            newScript.onload = function () {
+                console.log(modelId + ' loaded');
+                if (callback) {
+                    callback();
+                }
+            };
 
             // Append the new script
             container.appendChild(newScript);
@@ -112,7 +121,6 @@
             const newModel = document.createElement('div');
             newModel.id = modelId;
             container.appendChild(newModel);
-
         }
 
         // Initial load based on screen width
