@@ -84,6 +84,9 @@
         </div>
     </footer>
     <script>
+        // Global counter
+        let scriptCounter = 0;
+
         // Function to unload and remove the existing 3D model
         function unloadCurrentModel() {
             const container = document.getElementById('model-container');
@@ -95,10 +98,12 @@
             // Unload and remove the existing model
             unloadCurrentModel();
             const container = document.getElementById('model-container');
+            // Increment the counter
+            scriptCounter++;
             // Create a new script element
             const newScript = document.createElement('script');
             newScript.type = 'module';
-            newScript.src = scriptUrl;
+            newScript.src = `${scriptUrl}?counter=${scriptCounter}`;
 
             // Append the new script
             container.appendChild(newScript);
@@ -106,14 +111,12 @@
 
         // Add event listeners for the buttons
         document.getElementById('firstPersonBtn').addEventListener('click', function () {
-            const randomValue = Math.random();
-            loadModelScript(`3DModel-First-Person.js?random=${randomValue}`);
+            loadModelScript('3DModel-First-Person.js');
             console.log(`added`);
         });
 
         document.getElementById('thirdPersonBtn').addEventListener('click', function () {
-            const randomValue = Math.random();
-            loadModelScript(`3DModel-Third-Person.js?random=${randomValue}`);
+            loadModelScript('3DModel-Third-Person.js');
             console.log(`added`);
         });
 
