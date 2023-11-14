@@ -84,44 +84,46 @@
         </div>
     </footer>
     <script>
-        // Global counter
-        let scriptCounter = 0;
-
-        // Function to unload and remove the existing 3D model
-        function unloadCurrentModel() {
-            const container = document.getElementById('model-container');
-            container.innerHTML = ''; // Remove the content of the container
-        }
-
         // Function to load the 3D model script
-        function loadModelScript(scriptUrl) {
-            // Unload and remove the existing model
-            unloadCurrentModel();
+        function loadModelScript(scriptUrl, modelId) {
             const container = document.getElementById('model-container');
-            // Increment the counter
-            scriptCounter++;
+
             // Create a new script element
             const newScript = document.createElement('script');
             newScript.type = 'module';
-            newScript.src = `${scriptUrl}?counter=${scriptCounter}`;
+            newScript.src = scriptUrl;
 
             // Append the new script
             container.appendChild(newScript);
+
+            // Create a new model element
+            const newModel = document.createElement('div');
+            newModel.id = modelId;
+            container.appendChild(newModel);
         }
 
-        // Add event listeners for the buttons
+
+        loadModelScript('3DModel-First-Person.js', 'firstPersonModel');
+        loadModelScript('3DModel-Third-Person.js', 'thirdPersonModel');
+
         document.getElementById('firstPersonBtn').addEventListener('click', function () {
-            loadModelScript('3DModel-First-Person.js');
-            console.log(`added`);
+            const container = document.getElementById('model-container');
+            const firstCanvas = container.querySelector('canvas:nth-of-type(1)');
+            const secondCanvas = container.querySelector('canvas:nth-of-type(2)');
+            secondCanvas.style.position = `relative`;
+            secondCanvas.style.display = `block`;
+            firstCanvas.style.position = 'absolute';
+            firstCanvas.style.display = `none`;
         });
-
         document.getElementById('thirdPersonBtn').addEventListener('click', function () {
-            loadModelScript('3DModel-Third-Person.js');
-            console.log(`added`);
+            const container = document.getElementById('model-container');
+            const firstCanvas = container.querySelector('canvas:nth-of-type(2)');
+            const secondCanvas = container.querySelector('canvas:nth-of-type(1)');
+            secondCanvas.style.position = `relative`;
+            secondCanvas.style.display = `block`;
+            firstCanvas.style.position = 'absolute';
+            firstCanvas.style.display = `none`;
         });
-
-        // Initial load (you can change this to load a default view)
-        loadModelScript('3DModel-Third-Person.js');
     </script>
 </body>
 
