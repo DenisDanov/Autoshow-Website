@@ -106,19 +106,17 @@
     
         // Add event listeners for the buttons
         document.getElementById('firstPersonBtn').addEventListener('click', function () {
-            const timestamp = new Date().getTime();
-            loadModelScript(`3DModel-First-Person.js?timestamp=${timestamp}`);
+            loadModelScript(`3DModel-First-Person.js`);
             console.log(`added`);
         });
     
         document.getElementById('thirdPersonBtn').addEventListener('click', function () {
-            const timestamp = new Date().getTime();
-            loadModelScript(`3DModel-Third-Person.js?timestamp=${timestamp}`);
+            loadModelScript(`3DModel-Third-Person.js`);
             console.log(`added`);
         });
     
         // Initial load (you can change this to load a default view)
-        loadModelScript('3DModel-First-Person.js');
+        loadModelScript('3DModel-Third-Person.js');
     </script>    
 </body>
 
