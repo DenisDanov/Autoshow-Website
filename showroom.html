@@ -102,28 +102,7 @@
             container.appendChild(newModel);
         }
 
-
-        loadModelScript('3DModel-First-Person.js', 'firstPersonModel');
         loadModelScript('3DModel-Third-Person.js', 'thirdPersonModel');
-
-        document.getElementById('firstPersonBtn').addEventListener('click', function () {
-            const container = document.getElementById('model-container');
-            const firstCanvas = container.querySelector('canvas:nth-of-type(1)');
-            const secondCanvas = container.querySelector('canvas:nth-of-type(2)');
-            secondCanvas.style.position = `relative`;
-            secondCanvas.style.display = `block`;
-            firstCanvas.style.position = 'absolute';
-            firstCanvas.style.display = `none`;
-        });
-        document.getElementById('thirdPersonBtn').addEventListener('click', function () {
-            const container = document.getElementById('model-container');
-            const firstCanvas = container.querySelector('canvas:nth-of-type(2)');
-            const secondCanvas = container.querySelector('canvas:nth-of-type(1)');
-            secondCanvas.style.position = `relative`;
-            secondCanvas.style.display = `block`;
-            firstCanvas.style.position = 'absolute';
-            firstCanvas.style.display = `none`;
-        });
     </script>
 </body>
 
