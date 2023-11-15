@@ -61,6 +61,7 @@
     <div id="model-container"></div>
     <div id="model-container-2"></div>
     <script type="module" src="3DModel-Third-Person.js"></script>
+    <script type="module" src="3DModel-First-Person.js"></script>
     <div class="view-buttons">
         <button id="firstPersonBtn">First Person View</button>
         <button id="thirdPersonBtn">Third Person View</button>
@@ -88,18 +89,67 @@
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('firstPersonBtn').addEventListener('click', function () {
                 // Toggle visibility for first person view
-                document.getElementById('model-container-2').classList.remove('hidden');
-                document.getElementById('model-container').classList.add('hidden');
+                toggleViews('model-container-2', 'model-container');
             });
-    
+
             document.getElementById('thirdPersonBtn').addEventListener('click', function () {
                 // Toggle visibility for third person view
-                document.getElementById('model-container').classList.remove('hidden');
-                document.getElementById('model-container-2').classList.add('hidden');
+                toggleViews('model-container', 'model-container-2');
             });
 
             document.getElementById('thirdPersonBtn').click();
         });
+
+        // Store removed canvases
+        var removedCanvases = {};
+
+        function toggleViews(showId, hideId) {
+            // Hide the current view
+            hideView(hideId);
+
+            // Show the new view
+            showView(showId);
+        }
+
+        function hideView(hideId) {
+            var hideElement = document.getElementById(hideId);
+
+            // Store removed canvases for later use
+            removedCanvases[hideId] = removeChildCanvases(hideElement);
+
+            // Hide the element
+            hideElement.classList.add('hidden');
+        }
+
+        function showView(showId) {
+            var showElement = document.getElementById(showId);
+
+            // Show the element
+            showElement.classList.remove('hidden');
+
+            // Append back the removed canvases
+            appendChildCanvases(showElement, removedCanvases[showId]);
+        }
+
+        function removeChildCanvases(parent) {
+            var removed = [];
+
+            // Remove all child canvases and store them
+            var childCanvases = parent.getElementsByTagName('canvas');
+            while (childCanvases.length > 0) {
+                var removedCanvas = parent.removeChild(childCanvases[0]);
+                removed.push(removedCanvas);
+            }
+
+            return removed;
+        }
+
+        function appendChildCanvases(parent, canvases) {
+            // Append back the removed canvases
+            canvases.forEach(function (canvas) {
+                parent.appendChild(canvas);
+            });
+        }
     </script>
 </body>
 
