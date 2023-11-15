@@ -1,7 +1,7 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader';
 
-const container = document.getElementById('model-container');
+const container = document.getElementById('model-container-2');
 const containerRect = container.getBoundingClientRect();
 
 const scene = new THREE.Scene();

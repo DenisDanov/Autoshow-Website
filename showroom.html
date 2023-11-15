@@ -59,11 +59,13 @@
     </header>
     <script src="mobile-menu.js"></script>
     <div id="model-container"></div>
+    <div id="model-container-2"></div>
+    <script type="module" src="3DModel-Third-Person.js"></script>
+    <script type="module" src="3DModel-First-Person.js"></script>
     <div class="view-buttons">
         <button id="firstPersonBtn">First Person View</button>
         <button id="thirdPersonBtn">Third Person View</button>
     </div>
-    <script type="module" id="modelScript"></script>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
@@ -84,67 +86,20 @@
         </div>
     </footer>
     <script>
-        // Function to load the 3D model script based on screen width
-        function loadModelScriptBasedOnWidth() {
-            const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('firstPersonBtn').addEventListener('click', function () {
+                // Toggle visibility for first person view
+                document.getElementById('model-container-2').classList.remove('hidden');
+                document.getElementById('model-container').classList.add('hidden');
+            });
+    
+            document.getElementById('thirdPersonBtn').addEventListener('click', function () {
+                // Toggle visibility for third person view
+                document.getElementById('model-container').classList.remove('hidden');
+                document.getElementById('model-container-2').classList.add('hidden');
+            });
 
-            if (screenWidth > 600) {
-                loadModelScript('3DModel-Third-Person.js', 'thirdPersonModel', function () {
-                    loadModelScript('3DModel-First-Person.js', 'firstPersonModel');
-                });
-            } else {
-                loadModelScript('3DModel-Third-Person.js', 'thirdPersonModel');
-            }
-        }
-
-        // Function to load the 3D model script
-        function loadModelScript(scriptUrl, modelId, callback) {
-            const container = document.getElementById('model-container');
-
-            // Create a new script element
-            const newScript = document.createElement('script');
-            newScript.type = 'module';
-            newScript.src = scriptUrl;
-
-            // Set up a callback for the script's onload event
-            newScript.onload = function () {
-                console.log(modelId + ' loaded');
-                if (callback) {
-                    callback();
-                }
-            };
-
-            // Append the new script
-            container.appendChild(newScript);
-
-            // Create a new model element
-            const newModel = document.createElement('div');
-            newModel.id = modelId;
-            container.appendChild(newModel);
-        }
-
-        // Initial load based on screen width
-        loadModelScriptBasedOnWidth();
-
-        // Add event listeners for the buttons
-        document.getElementById('firstPersonBtn').addEventListener('click', function () {
-            const container = document.getElementById('model-container');
-            const firstCanvas = container.querySelector('canvas:nth-of-type(1)');
-            const secondCanvas = container.querySelector('canvas:nth-of-type(2)');
-            secondCanvas.style.position = 'relative';
-            secondCanvas.style.display = 'block';
-            firstCanvas.style.position = 'absolute';
-            firstCanvas.style.display = 'none';
-        });
-
-        document.getElementById('thirdPersonBtn').addEventListener('click', function () {
-            const container = document.getElementById('model-container');
-            const firstCanvas = container.querySelector('canvas:nth-of-type(2)');
-            const secondCanvas = container.querySelector('canvas:nth-of-type(1)');
-            firstCanvas.style.position = 'absolute';
-            firstCanvas.style.display = 'none';
-            secondCanvas.style.position = 'relative';
-            secondCanvas.style.display = 'block';
+            document.getElementById('thirdPersonBtn').click();
         });
     </script>
 </body>

@@ -1,19 +1,17 @@
-#model-container {
+#model-container,#model-container-2 {
     width: 85vw;
     height: 35vw;
     margin: 1.5rem auto;
 }
 
-#model-container canvas {
+#model-container-2 canvas,#model-container canvas {
     overflow: hidden;
     border-radius: 20px;
 }
 
-#model-container canvas:nth-of-type(1) {
-    position: absolute;
-    display: none;
+.hidden {
+    display: none !important;
 }
-
 
 body {
     background: linear-gradient(90deg, rgba(51,51,51,1) 9%, rgba(87,85,92,1) 42%, rgba(165,158,181,1) 100%);

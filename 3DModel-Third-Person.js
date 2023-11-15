@@ -40,7 +40,6 @@ function setCameraPosition() {
         } else {
             camera.position.z += cameraDistance - 20;
         }
-       
 
         // Set controls target
         controls.target.copy(center);
