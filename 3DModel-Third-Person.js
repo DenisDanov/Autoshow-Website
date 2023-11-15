@@ -96,3 +96,13 @@ window.addEventListener('resize', () => {
 controls.addEventListener('start', () => {
     autoRotate = false;
 });
+
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+if (isMobile) {
+    autoRotate = false;
+    controls.rotateSpeed = 0.2;
+    controls.zoomSpeed = 0.2;
+    controls.panSpeed = 0.2;
+}
+
