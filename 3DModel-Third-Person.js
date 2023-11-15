@@ -64,6 +64,13 @@ loader.load('3D Models/modified_lamborghini_urus.glb', (gltf) => {
     console.error('Error loading GLB model:', error);
 });
 
+const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+directionalLight.position.set(5, 5, 5).normalize();
+scene.add(directionalLight);
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Adjust intensity as needed
+scene.add(ambientLight);
+
 function animate() {
     requestAnimationFrame(animate);
 
@@ -89,22 +96,3 @@ window.addEventListener('resize', () => {
 controls.addEventListener('start', () => {
     autoRotate = false;
 });
-
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-if (isMobile) {
-    controls.rotateSpeed = 0.2;
-    controls.zoomSpeed = 0.2;
-    controls.panSpeed = 0.2;
-}
-
-const directionalLightIntensity = isMobile ? 1 : 2.5;
-const ambientLightIntensity = isMobile ? 0.5 : 1;  
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, directionalLightIntensity);
-directionalLight.position.set(5, 5, 5).normalize();
-scene.add(directionalLight);
-
-const ambientLight = new THREE.AmbientLight(0xffffff, ambientLightIntensity);
-scene.add(ambientLight);
-
