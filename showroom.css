@@ -21,8 +21,4 @@ body {
     body #model-container {
         height: 55vh;
     }
-
-    button {
-        display: none;
-    }
 }
