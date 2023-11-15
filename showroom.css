@@ -18,7 +18,7 @@ body {
 }
 
 @media (max-width: 567px) {
-    body #model-container {
+    body #model-container,body #model-container-2 {
         height: 55vh;
     }
 }
