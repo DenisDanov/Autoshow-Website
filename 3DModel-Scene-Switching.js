@@ -288,7 +288,10 @@ function initFirstPersonScript() {
 
                 // Adjust camera rotation based on touch movement
                 camera.rotation.y -= deltaX * 0.005;
-                camera.rotation.x -= deltaY * 0.005;
+
+                // Clamp vertical rotation to prevent flipping
+                const turnSpeedY = 0.005;
+                camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x - deltaY * turnSpeedY));
 
                 touchStartX = touchX;
                 touchStartY = touchY;
@@ -328,6 +331,7 @@ function initFirstPersonScript() {
 
         animate();
     }
+
 }
 
 function disposeFirstPersonScript() {
