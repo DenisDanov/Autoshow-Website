@@ -299,20 +299,15 @@ function initFirstPersonScript() {
                 const touch2 = event.touches[1];
                 const pinchDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
 
-                // Increase or decrease the zoom sensitivity by adjusting the divisor (e.g., 1000)
-                const zoomSensitivity = 1000;
+                // Adjust the camera position based on the pinch distance
+                const moveSpeed = 0.1; // Adjust the movement speed as needed
+                const moveDistance = pinchStartDistance - pinchDistance;
 
-                // Calculate the scaling factor for the camera's field of view
-                const zoomFactor = pinchStartDistance / pinchDistance;
-                const newFov = camera.fov * zoomFactor;
+                // Calculate the movement vectors in the camera's local coordinate system
+                const frontVector = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
 
-                // Limit the field of view within reasonable bounds (adjust as needed)
-                const minFov = 1;
-                const maxFov = 160;
-                camera.fov = Math.min(Math.max(newFov, minFov), maxFov);
-
-                // Update the camera projection matrix
-                camera.updateProjectionMatrix();
+                // Move the camera forward or backward based on the pinch gesture
+                camera.position.addScaledVector(frontVector, moveDistance * moveSpeed);
 
                 pinchStartDistance = pinchDistance;
 
