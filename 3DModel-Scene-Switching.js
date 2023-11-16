@@ -287,8 +287,8 @@ function initFirstPersonScript() {
                 const deltaY = touchY - touchStartY;
 
                 // Adjust camera rotation based on touch movement
-                camera.rotation.y -= deltaX * 0.002;
-                camera.rotation.x -= deltaY * 0.002;
+                camera.rotation.y -= deltaX * 0.010;
+                camera.rotation.x -= deltaY * 0.010;
 
                 touchStartX = touchX;
                 touchStartY = touchY;
