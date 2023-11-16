@@ -260,65 +260,56 @@ function initFirstPersonScript() {
         renderer.render(scene, camera);
     }
 
-    let initialDistance = 0;
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
-    // Handle touch start event
-    function handleTouchStart(event) {
-        if (event.touches.length === 1) {
-            mouseDown = true;
-            prevMouseX = event.touches[0].clientX;
-            prevMouseY = event.touches[0].clientY;
-        } else if (event.touches.length === 2) {
-            // Handle two-finger touch for zooming
-            const touch1 = event.touches[0];
-            const touch2 = event.touches[1];
-            initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+    if (isMobile) {
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableZoom = true;
+        controls.enablePan = false;
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.25;
+        controls.rotateSpeed = 0.3;
 
-            // Prevent default behavior to avoid page zooming
+        // Disable rotation of the model
+        controls.enableRotate = false;
+
+        function handleTouchStart(event) {
+            if (event.touches.length === 2) {
+                const touch1 = event.touches[0];
+                const touch2 = event.touches[1];
+                initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+                event.preventDefault();
+            }
+        }
+
+        function handleTouchMove(event) {
             event.preventDefault();
+            if (event.touches.length === 2) {
+                const touch1 = event.touches[0];
+                const touch2 = event.touches[1];
+                const currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+                const zoomFactor = currentDistance / initialDistance;
+                camera.position.z *= zoomFactor;
+                initialDistance = currentDistance;
+            }
         }
-    }
 
-    // Handle touch move event
-    function handleTouchMove(event) {
-        // Prevent default behavior to avoid page scrolling
-        event.preventDefault();
+        // Add passive: false to the touch event listeners
+        document.addEventListener('touchstart', handleTouchStart, { passive: false });
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
 
-        if (mouseDown && event.touches.length === 1) {
-            // Handle single-finger touch for rotation
-            const deltaX = event.touches[0].clientX - prevMouseX;
-            const deltaY = event.touches[0].clientY - prevMouseY;
+        function animate() {
+            requestAnimationFrame(animate);
 
-            // Vertical drag
-            camera.rotation.x -= deltaY * turnSpeedY;
-            camera.rotation.x = Math.max(-maxVerticalRotation, Math.min(maxVerticalRotation, camera.rotation.x));
+            // Update controls
+            controls.update();
 
-            // Horizontal drag
-            camera.rotation.y -= deltaX * turnSpeedX;
-
-            // Update previous touch position
-            prevMouseX = event.touches[0].clientX;
-            prevMouseY = event.touches[0].clientY;
-        } else if (event.touches.length === 2) {
-            // Handle two-finger touch for zooming
-            const touch1 = event.touches[0];
-            const touch2 = event.touches[1];
-            const currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-
-            // Calculate the zoom factor based on the initial and current distance
-            const zoomFactor = currentDistance / initialDistance;
-
-            // Adjust the camera position based on the zoom factor
-            camera.position.z *= zoomFactor;
-
-            // Update the initial distance for the next move
-            initialDistance = currentDistance;
+            // Render the scene
+            renderer.render(scene, camera);
         }
-    }
 
-    // Add passive: false to the touch event listeners
-    document.addEventListener('touchstart', handleTouchStart, { passive: false });
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        animate();
+    }
 }
 
 function disposeFirstPersonScript() {
