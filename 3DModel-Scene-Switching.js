@@ -263,34 +263,48 @@ function initFirstPersonScript() {
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableZoom = true;
-        controls.enablePan = false;
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.25;
-        controls.rotateSpeed = 0.3;
-
-        // Disable rotation of the model
-        controls.enableRotate = false;
+        let touchStartX = 0;
+        let touchStartY = 0;
 
         function handleTouchStart(event) {
-            if (event.touches.length === 2) {
-                const touch1 = event.touches[0];
-                const touch2 = event.touches[1];
-                initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-                event.preventDefault();
+            if (event.touches.length === 1) {
+                touchStartX = event.touches[0].clientX;
+                touchStartY = event.touches[0].clientY;
             }
         }
 
         function handleTouchMove(event) {
-            event.preventDefault();
-            if (event.touches.length === 2) {
+            if (event.touches.length === 1) {
+                const touchX = event.touches[0].clientX;
+                const touchY = event.touches[0].clientY;
+
+                const deltaX = touchX - touchStartX;
+                const deltaY = touchY - touchStartY;
+
+                // Adjust camera rotation based on touch movement
+                camera.rotation.y -= deltaX * 0.002;
+                camera.rotation.x -= deltaY * 0.002;
+
+                touchStartX = touchX;
+                touchStartY = touchY;
+
+                event.preventDefault();
+            } else if (event.touches.length === 2) {
+                // Handle two-finger touch for zooming
                 const touch1 = event.touches[0];
                 const touch2 = event.touches[1];
                 const currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+
+                // Calculate the zoom factor based on the initial and current distance
                 const zoomFactor = currentDistance / initialDistance;
+
+                // Adjust the camera position based on the zoom factor
                 camera.position.z *= zoomFactor;
+
+                // Update the initial distance for the next move
                 initialDistance = currentDistance;
+
+                event.preventDefault();
             }
         }
 
@@ -300,9 +314,6 @@ function initFirstPersonScript() {
 
         function animate() {
             requestAnimationFrame(animate);
-
-            // Update controls
-            controls.update();
 
             // Render the scene
             renderer.render(scene, camera);
