@@ -1,8 +1,8 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls';
-let scene; // Define scene globally
-let renderer; // Declare renderer globally
+let scene;
+let renderer;
 let model;
 
 function initThirdPersonScript() {
@@ -72,7 +72,7 @@ function initThirdPersonScript() {
     directionalLight.position.set(5, 5, 5).normalize();
     scene.add(directionalLight);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Adjust intensity as needed
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     scene.add(ambientLight);
 
     function animate() {
@@ -104,8 +104,7 @@ function initThirdPersonScript() {
 
 function disposeThirdPersonScript() {
     if (model) {
-        // Dispose logic specific to your 3D library (e.g., Three.js)
-        // For Three.js, you might use something like:
+        // Dispose the 3D model logic
         model.traverse(child => {
             if (child.isMesh) {
                 child.geometry.dispose();
@@ -138,11 +137,11 @@ function initFirstPersonScript() {
     let prevMouseX = 0;
     let prevMouseY = 0;
 
-    const turnSpeedX = 0.002; // Adjust the horizontal turn speed
-    const turnSpeedY = 0.002; // Adjust the vertical turn speed
-    const maxVerticalRotation = Math.PI / 3; // Reduced threshold
+    const turnSpeedX = 0.002;
+    const turnSpeedY = 0.002;
+    const maxVerticalRotation = Math.PI / 3;
 
-    // Set the camera rotation order to "YXZ"
+    // Set the camera rotation order to "YXZ" to prevent flipping
     camera.rotation.order = 'YXZ';
 
     document.addEventListener('mousemove', (event) => {
@@ -231,7 +230,7 @@ function initFirstPersonScript() {
     directionalLight.position.set(5, 5, 5).normalize();
     scene.add(directionalLight);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Adjust intensity as needed
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     scene.add(ambientLight);
 
     function animate() {
@@ -240,7 +239,7 @@ function initFirstPersonScript() {
         // Move the camera based on the keyboard input
         const moveSpeed = 0.1;
 
-        // Calculate the movement vectors in the camera's local coordinate system
+        // Calculate the movement vectors in the cameras local coordinate system
         const frontVector = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
         const rightVector = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
 
@@ -260,12 +259,47 @@ function initFirstPersonScript() {
         // Render the scene
         renderer.render(scene, camera);
     }
+
+    document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('touchend', handleTouchEnd);
+
+    function handleTouchStart(event) {
+        if (event.touches.length === 1) {
+            mouseDown = true;
+            prevMouseX = event.touches[0].clientX;
+            prevMouseY = event.touches[0].clientY;
+        }
+    }
+
+    // Handle touch move event
+    function handleTouchMove(event) {
+        if (mouseDown && event.touches.length === 1) {
+            const deltaX = event.touches[0].clientX - prevMouseX;
+            const deltaY = event.touches[0].clientY - prevMouseY;
+
+            // Vertical drag
+            camera.rotation.x -= deltaY * turnSpeedY;
+            camera.rotation.x = Math.max(-maxVerticalRotation, Math.min(maxVerticalRotation, camera.rotation.x));
+
+            // Horizontal drag
+            camera.rotation.y -= deltaX * turnSpeedX;
+
+            // Update previous touch position
+            prevMouseX = event.touches[0].clientX;
+            prevMouseY = event.touches[0].clientY;
+        }
+    }
+
+    // Handle touch end event
+    function handleTouchEnd() {
+        mouseDown = false;
+    }
 }
 
 function disposeFirstPersonScript() {
     if (model) {
-        // Dispose logic specific to your 3D library (e.g., Three.js)
-        // For Three.js, you might use something like:
+        // Dispose the 3D model logic
         model.traverse(child => {
             if (child.isMesh) {
                 child.geometry.dispose();
@@ -296,11 +330,10 @@ function loadModelScript(initFunction, disposeFunction, scriptSrc, containerId) 
     if (container) {
         container.innerHTML = ''; // Clear the container
 
-        // Assuming renderer is the correct object to append
         container.appendChild(renderer.domElement);
 
-        // Update the activeScript to the current scene or renderer
-        activeScript = renderer; // Update this line based on your use case
+        // Update the script to the current renderer
+        activeScript = renderer;
     } else {
         console.error(`Container with ID ${containerId} not found.`);
     }
@@ -308,7 +341,7 @@ function loadModelScript(initFunction, disposeFunction, scriptSrc, containerId) 
 
 // Event listener for the First Person button
 document.getElementById('firstPersonBtn').addEventListener('click', function () {
-    // Load the first person script if it's not already active
+    // Load the first person script if its not already active
     if (activeScript !== 'firstPerson') {
         loadModelScript(initFirstPersonScript, disposeThirdPersonScript, '3DModel-First-Person.js', 'model-container');
         activeScript = 'firstPerson';
@@ -317,7 +350,7 @@ document.getElementById('firstPersonBtn').addEventListener('click', function () 
 
 // Event listener for the Third Person button
 document.getElementById('thirdPersonBtn').addEventListener('click', function () {
-    // Load the third person script if it's not already active
+    // Load the third person script if its not already active
     if (activeScript !== 'thirdPerson') {
         loadModelScript(initThirdPersonScript, disposeFirstPersonScript, '3DModel-Third-Person.js', 'model-container');
         activeScript = 'thirdPerson';
