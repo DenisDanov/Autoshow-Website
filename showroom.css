@@ -1,10 +1,10 @@
-#model-container,#model-container-2 {
+#model-container {
     width: 85vw;
     height: 35vw;
     margin: 1.5rem auto;
 }
 
-#model-container-2 canvas,#model-container canvas {
+#model-container canvas {
     overflow: hidden;
     border-radius: 20px;
 }
@@ -18,7 +18,7 @@ body {
 }
 
 @media (max-width: 567px) {
-    body #model-container,body #model-container-2 {
+    body #model-container {
         height: 55vh;
     }
 }
