@@ -260,11 +260,9 @@ function initFirstPersonScript() {
         renderer.render(scene, camera);
     }
 
-    document.addEventListener('touchstart', handleTouchStart);
-    document.addEventListener('touchmove', handleTouchMove);
-    document.addEventListener('touchend', handleTouchEnd);
-    document.addEventListener('touchcancel', handleTouchEnd);
+    let initialDistance = 0;
 
+    // Handle touch start event
     function handleTouchStart(event) {
         if (event.touches.length === 1) {
             mouseDown = true;
@@ -275,11 +273,17 @@ function initFirstPersonScript() {
             const touch1 = event.touches[0];
             const touch2 = event.touches[1];
             initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+
+            // Prevent default behavior to avoid page zooming
+            event.preventDefault();
         }
     }
 
     // Handle touch move event
     function handleTouchMove(event) {
+        // Prevent default behavior to avoid page scrolling
+        event.preventDefault();
+
         if (mouseDown && event.touches.length === 1) {
             // Handle single-finger touch for rotation
             const deltaX = event.touches[0].clientX - prevMouseX;
@@ -312,10 +316,9 @@ function initFirstPersonScript() {
         }
     }
 
-    // Handle touch end event
-    function handleTouchEnd() {
-        mouseDown = false;
-    }
+    // Add passive: false to the touch event listeners
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
 }
 
 function disposeFirstPersonScript() {
