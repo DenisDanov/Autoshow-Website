@@ -266,7 +266,7 @@ function initFirstPersonScript() {
         let touchStartX = 0;
         let touchStartY = 0;
         let pinchStartDistance = 0;
-    
+
         function handleTouchStart(event) {
             if (event.touches.length === 1) {
                 touchStartX = event.touches[0].clientX;
@@ -277,50 +277,53 @@ function initFirstPersonScript() {
                 pinchStartDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
             }
         }
-    
+
         function handleTouchMove(event) {
             if (event.touches.length === 1) {
                 const touchX = event.touches[0].clientX;
                 const touchY = event.touches[0].clientY;
-    
+
                 const deltaX = touchX - touchStartX;
                 const deltaY = touchY - touchStartY;
-    
+
                 // Adjust camera rotation based on touch movement
                 camera.rotation.y -= deltaX * 0.002;
                 camera.rotation.x -= deltaY * 0.002;
-    
+
                 touchStartX = touchX;
                 touchStartY = touchY;
-    
+
                 event.preventDefault();
             } else if (event.touches.length === 2) {
                 const touch1 = event.touches[0];
                 const touch2 = event.touches[1];
                 const pinchDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-    
+
                 const zoomFactor = pinchDistance / pinchStartDistance;
-    
-                // Adjust the camera position based on the zoom factor
-                camera.position.z *= zoomFactor;
-    
+
+                // Calculate the new camera distance based on the zoom factor
+                const newCameraDistance = camera.position.z / zoomFactor;
+
+                // Set the new camera position without any limits
+                camera.position.z = newCameraDistance;
+
                 pinchStartDistance = pinchDistance;
-    
+
                 event.preventDefault();
             }
         }
-    
+
         // Add passive: false to the touch event listeners
         document.addEventListener('touchstart', handleTouchStart, { passive: false });
         document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    
+
         function animate() {
             requestAnimationFrame(animate);
-    
+
             // Render the scene
             renderer.render(scene, camera);
         }
-    
+
         animate();
     }
 }
