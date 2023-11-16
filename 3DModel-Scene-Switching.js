@@ -263,18 +263,25 @@ function initFirstPersonScript() {
     document.addEventListener('touchstart', handleTouchStart);
     document.addEventListener('touchmove', handleTouchMove);
     document.addEventListener('touchend', handleTouchEnd);
+    document.addEventListener('touchcancel', handleTouchEnd);
 
     function handleTouchStart(event) {
         if (event.touches.length === 1) {
             mouseDown = true;
             prevMouseX = event.touches[0].clientX;
             prevMouseY = event.touches[0].clientY;
+        } else if (event.touches.length === 2) {
+            // Handle two-finger touch for zooming
+            const touch1 = event.touches[0];
+            const touch2 = event.touches[1];
+            initialDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
         }
     }
 
     // Handle touch move event
     function handleTouchMove(event) {
         if (mouseDown && event.touches.length === 1) {
+            // Handle single-finger touch for rotation
             const deltaX = event.touches[0].clientX - prevMouseX;
             const deltaY = event.touches[0].clientY - prevMouseY;
 
@@ -288,6 +295,20 @@ function initFirstPersonScript() {
             // Update previous touch position
             prevMouseX = event.touches[0].clientX;
             prevMouseY = event.touches[0].clientY;
+        } else if (event.touches.length === 2) {
+            // Handle two-finger touch for zooming
+            const touch1 = event.touches[0];
+            const touch2 = event.touches[1];
+            const currentDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+
+            // Calculate the zoom factor based on the initial and current distance
+            const zoomFactor = currentDistance / initialDistance;
+
+            // Adjust the camera position based on the zoom factor
+            camera.position.z *= zoomFactor;
+
+            // Update the initial distance for the next move
+            initialDistance = currentDistance;
         }
     }
 
