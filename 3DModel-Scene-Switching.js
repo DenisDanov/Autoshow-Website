@@ -299,13 +299,20 @@ function initFirstPersonScript() {
                 const touch2 = event.touches[1];
                 const pinchDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
 
-                const zoomFactor = pinchDistance / pinchStartDistance;
+                // Increase or decrease the zoom sensitivity by adjusting the divisor (e.g., 1000)
+                const zoomSensitivity = 1000;
 
-                // Calculate the new camera distance based on the zoom factor
-                const newCameraDistance = camera.position.z / zoomFactor;
+                // Calculate the scaling factor for the camera's field of view
+                const zoomFactor = pinchStartDistance / pinchDistance;
+                const newFov = camera.fov * zoomFactor;
 
-                // Set the new camera position without any limits
-                camera.position.z = newCameraDistance;
+                // Limit the field of view within reasonable bounds (adjust as needed)
+                const minFov = 1;
+                const maxFov = 160;
+                camera.fov = Math.min(Math.max(newFov, minFov), maxFov);
+
+                // Update the camera projection matrix
+                camera.updateProjectionMatrix();
 
                 pinchStartDistance = pinchDistance;
 
