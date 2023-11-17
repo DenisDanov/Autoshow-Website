@@ -398,7 +398,7 @@ function initFirstPersonScript() {
                 const pinchDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
     
                 // Adjust the camera position based on the pinch distance
-                const moveSpeed = 0.007; // Adjust the movement speed as needed
+                const moveSpeed = 0.10;
                 const moveDistance = pinchStartDistance - pinchDistance;
     
                 // Calculate the movement vectors in the camera's local coordinate system
