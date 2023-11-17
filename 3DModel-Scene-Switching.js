@@ -296,7 +296,7 @@ function initFirstPersonScript() {
             scene.add(ambientLight);
         } else if (carParam.includes`lambo-aventador`) {
             model.scale.set(160, 160, 160);
-            camera.position.set(0, 100, 775);
+            camera.position.set(0, 100, 850);
             const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
             directionalLight.position.set(5, 5, 5).normalize();
             scene.add(directionalLight);
@@ -304,7 +304,7 @@ function initFirstPersonScript() {
             const ambientLight = new THREE.AmbientLight(0xffffff, 5);
             scene.add(ambientLight);
         } else if (carParam.includes(`modified_lamborghini_urus`)) {
-            camera.position.set(10,10,45)
+            camera.position.set(10.5,10,60)
         }
 
         const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
@@ -357,71 +357,86 @@ function initFirstPersonScript() {
         let touchStartX = 0;
         let touchStartY = 0;
         let pinchStartDistance = 0;
-
+        let fingerCount = 0;
+        let lockTime = 0;
+    
         function handleTouchStart(event) {
-            if (event.touches.length === 1) {
+            fingerCount = event.touches.length;
+    
+            if (fingerCount === 1) {
                 touchStartX = event.touches[0].clientX;
                 touchStartY = event.touches[0].clientY;
-            } else if (event.touches.length === 2) {
+            } else if (fingerCount === 2) {
                 const touch1 = event.touches[0];
                 const touch2 = event.touches[1];
                 pinchStartDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
             }
         }
-
+    
         function handleTouchMove(event) {
-            if (event.touches.length === 1) {
+            if (fingerCount === 1) {
                 const touchX = event.touches[0].clientX;
                 const touchY = event.touches[0].clientY;
-
+    
                 const deltaX = touchX - touchStartX;
                 const deltaY = touchY - touchStartY;
-
+    
                 // Adjust camera rotation based on touch movement
                 camera.rotation.y -= deltaX * 0.005;
-
+    
                 // Clamp vertical rotation to prevent flipping
                 const turnSpeedY = 0.005;
                 camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x - deltaY * turnSpeedY));
-
+    
                 touchStartX = touchX;
                 touchStartY = touchY;
-
+    
                 event.preventDefault();
-            } else if (event.touches.length === 2) {
+            } else if (fingerCount === 2) {
                 const touch1 = event.touches[0];
                 const touch2 = event.touches[1];
                 const pinchDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-
+    
                 // Adjust the camera position based on the pinch distance
-                const moveSpeed = 0.1; // Adjust the movement speed as needed
+                const moveSpeed = 0.007; // Adjust the movement speed as needed
                 const moveDistance = pinchStartDistance - pinchDistance;
-
-                // Calculate the movement vectors in the cameras local coordinate system
+    
+                // Calculate the movement vectors in the camera's local coordinate system
                 const frontVector = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
-
+    
                 // Move the camera forward or backward based on the pinch gesture
                 camera.position.addScaledVector(frontVector, moveDistance * moveSpeed);
-
+    
                 pinchStartDistance = pinchDistance;
-
+    
                 event.preventDefault();
             }
         }
-
+    
+        function handleTouchEnd(event) {
+            if (fingerCount === 2) {
+                // Lock camera movement for a short duration after lifting both fingers
+                lockTime = Date.now() + 500; // 500 milliseconds lock time
+            }
+        }
+    
+        function animate() {
+            requestAnimationFrame(animate);
+    
+            // Check if the lock time has passed
+            if (Date.now() > lockTime) {
+                // Render the scene only if not in the lock period
+                renderer.render(scene, camera);
+            }
+        }
+    
         // Add passive: false to the touch event listeners to disable browser default scrolling
         document.addEventListener('touchstart', handleTouchStart, { passive: false });
         document.addEventListener('touchmove', handleTouchMove, { passive: false });
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Render the scene
-            renderer.render(scene, camera);
-        }
-
+        document.addEventListener('touchend', handleTouchEnd, { passive: false });
+    
         animate();
-    }
+    }    
 
 }
 
