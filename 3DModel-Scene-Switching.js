@@ -52,17 +52,19 @@ function initThirdPersonScript() {
             // Set camera position
             camera.position.copy(center);
             if (containerRect.width > 430) {
-                if (!carParam.includes(`lambo-aventador`)) {
-                    camera.position.z += cameraDistance - 30;
-                } else {
+                if (carParam.includes(`lambo-aventador`)) {
                     camera.position.z += cameraDistance - 1910;
+                } else if (carParam.includes(`modified_lamborghini_urus.glb`)) {
+                    camera.position.z += cameraDistance - 145;
+                } else {
+                    camera.position.z += cameraDistance - 42;
                 }
             } else {
-                if (!carParam.includes(`lambo-aventador`)) {
-                    camera.position.z += cameraDistance - 20;
-                } else {
+                if (carParam.includes(`lambo-aventador`)) {
                     camera.position.z += cameraDistance - 920;
-                }
+                } else {
+                    camera.position.z += cameraDistance - 20;
+                } 
             }
 
             // Set controls target
@@ -276,7 +278,7 @@ function initFirstPersonScript() {
 
         if (carParam.includes`porsche`) {
             model.scale.set(160, 160, 160);
-            camera.position.set(0, 3, 11);
+            camera.position.set(0, 3, 20);
             model.traverse(child => {
                 if (child.isMesh) {
                     const material = child.material;
@@ -294,22 +296,23 @@ function initFirstPersonScript() {
             scene.add(ambientLight);
         } else if (carParam.includes`lambo-aventador`) {
             model.scale.set(160, 160, 160);
-            camera.position.set(0, 15, 15);
+            camera.position.set(0, 100, 775);
             const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
             directionalLight.position.set(5, 5, 5).normalize();
             scene.add(directionalLight);
 
             const ambientLight = new THREE.AmbientLight(0xffffff, 5);
             scene.add(ambientLight);
-        } else {
-            camera.position.set(0, 0, 0);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
-            directionalLight.position.set(5, 5, 5).normalize();
-            scene.add(directionalLight);
-
-            const ambientLight = new THREE.AmbientLight(0xffffff, 2);
-            scene.add(ambientLight);
+        } else if (carParam.includes(`modified_lamborghini_urus`)) {
+            camera.position.set(10,10,45)
         }
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
+        directionalLight.position.set(5, 5, 5).normalize();
+        scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+        scene.add(ambientLight);
 
         animate();
     }, undefined, (error) => {
