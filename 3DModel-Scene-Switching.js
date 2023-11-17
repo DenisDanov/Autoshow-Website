@@ -1,9 +1,12 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls';
+
 let scene;
 let renderer;
 let model;
+const urlParams = new URLSearchParams(window.location.search);
+const carParam = urlParams.get('car');
 
 function initThirdPersonScript() {
 
@@ -12,7 +15,7 @@ function initThirdPersonScript() {
     scene = new THREE.Scene();
 
     const aspectRatio = containerRect.width / containerRect.height;
-    const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 5000);
+    const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 15000);
     renderer = new THREE.WebGLRenderer();
     const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -26,6 +29,15 @@ function initThirdPersonScript() {
     scene.add(pivot);
 
     function setCameraPosition() {
+        const nearClip = 1; // Adjust this value based on your scene
+        const farClip = 5000; // Adjust this value based on your scene
+
+        // Set the near and far clipping planes for the camera
+        camera.near = nearClip;
+        camera.far = farClip;
+        camera.updateProjectionMatrix();
+        camera.fov = 30; // Adjust this value based on your scene
+        camera.updateProjectionMatrix();
         if (model) {
             // Calculate bounding box of the model
             const boundingBox = new THREE.Box3().setFromObject(model);
@@ -40,9 +52,17 @@ function initThirdPersonScript() {
             // Set camera position
             camera.position.copy(center);
             if (containerRect.width > 430) {
-                camera.position.z += cameraDistance - 30;
+                if (!carParam.includes(`lambo-aventador`)) {
+                    camera.position.z += cameraDistance - 30;
+                } else {
+                    camera.position.z += cameraDistance - 1910;
+                }
             } else {
-                camera.position.z += cameraDistance - 20;
+                if (!carParam.includes(`lambo-aventador`)) {
+                    camera.position.z += cameraDistance - 20;
+                } else {
+                    camera.position.z += cameraDistance - 920;
+                }
             }
 
             // Set controls target
@@ -51,7 +71,7 @@ function initThirdPersonScript() {
     }
 
     const loader = new GLTFLoader();
-    loader.load('3D Models/modified_lamborghini_urus.glb', (gltf) => {
+    loader.load(carParam, (gltf) => {
         model = gltf.scene;
 
         // Center the geometry based on its bounding box
@@ -61,19 +81,45 @@ function initThirdPersonScript() {
 
         // Add the model to the pivot
         pivot.add(model);
+        if (carParam.includes`porsche`) {
+            model.scale.set(165, 165, 165);
+            model.traverse(child => {
+                if (child.isMesh) {
+                    const material = child.material;
+                    if (material) {
+                        material.metalness = 0.9; // Adjust metalness
+                        material.roughness = 0.5; // Adjust roughness
+                    }
+                }
+            });
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
+            directionalLight.position.set(5, 5, 5).normalize();
+            scene.add(directionalLight);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+            scene.add(ambientLight);
+        } else if (carParam.includes`lambo-aventador`) {
+            model.scale.set(170, 170, 170);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+            directionalLight.position.set(5, 5, 5).normalize();
+            scene.add(directionalLight);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+            scene.add(ambientLight);
+        } else {
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+            directionalLight.position.set(5, 5, 5).normalize();
+            scene.add(directionalLight);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+            scene.add(ambientLight);
+        }
 
         setCameraPosition(); // Set the camera position after loading the model
 
     }, undefined, (error) => {
         console.error('Error loading GLB model:', error);
     });
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
-    directionalLight.position.set(5, 5, 5).normalize();
-    scene.add(directionalLight);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-    scene.add(ambientLight);
 
     function animate() {
         requestAnimationFrame(animate);
@@ -123,10 +169,20 @@ function initFirstPersonScript() {
     const containerRect = container.getBoundingClientRect();
     scene = new THREE.Scene();
 
-    const camera = new THREE.PerspectiveCamera(75, containerRect.width / containerRect.height, 0.1, 5000);
+    const camera = new THREE.PerspectiveCamera(75, containerRect.width / containerRect.height, 0.1, 15000);
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(containerRect.width, containerRect.height);
     container.appendChild(renderer.domElement);
+
+    const nearClip = 1; // Adjust this value based on your scene
+    const farClip = 5000; // Adjust this value based on your scene
+
+    // Set the near and far clipping planes for the camera
+    camera.near = nearClip;
+    camera.far = farClip;
+    camera.updateProjectionMatrix();
+    camera.fov = 30; // Adjust this value based on your scene
+    camera.updateProjectionMatrix();
 
     let moveForward = false;
     let moveBackward = false;
@@ -214,31 +270,63 @@ function initFirstPersonScript() {
     document.addEventListener('keyup', onKeyUp);
 
     const loader = new GLTFLoader();
-    loader.load('3D Models/modified_lamborghini_urus.glb', (gltf) => {
+    loader.load(carParam, (gltf) => {
         model = gltf.scene;
         scene.add(model);
 
-        // Set the initial camera position
-        camera.position.set(10, 12, 28);
+        if (carParam.includes`porsche`) {
+            model.scale.set(160, 160, 160);
+            camera.position.set(0, 3, 11);
+            model.traverse(child => {
+                if (child.isMesh) {
+                    const material = child.material;
+                    if (material) {
+                        material.metalness = 0.9; // Adjust metalness
+                        material.roughness = 0.5; // Adjust roughness
+                    }
+                }
+            });
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 4.5);
+            directionalLight.position.set(5, 5, 5).normalize();
+            scene.add(directionalLight);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+            scene.add(ambientLight);
+        } else if (carParam.includes`lambo-aventador`) {
+            model.scale.set(160, 160, 160);
+            camera.position.set(0, 15, 15);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
+            directionalLight.position.set(5, 5, 5).normalize();
+            scene.add(directionalLight);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+            scene.add(ambientLight);
+        } else {
+            camera.position.set(0, 0, 0);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
+            directionalLight.position.set(5, 5, 5).normalize();
+            scene.add(directionalLight);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+            scene.add(ambientLight);
+        }
 
         animate();
     }, undefined, (error) => {
         console.error('Error loading GLB model:', error);
     });
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
-    directionalLight.position.set(5, 5, 5).normalize();
-    scene.add(directionalLight);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-    scene.add(ambientLight);
-
     function animate() {
         requestAnimationFrame(animate);
 
         // Move the camera based on the keyboard input
-        const moveSpeed = 0.1;
+        let moveSpeed = 0.1;
 
+        if (carParam.includes(`porsche`)) {
+            moveSpeed = 0.02;
+        } else if (carParam.includes`lambo-aventador`) {
+            moveSpeed = 1;
+        }
         // Calculate the movement vectors in the cameras local coordinate system
         const frontVector = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
         const rightVector = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
@@ -306,7 +394,7 @@ function initFirstPersonScript() {
                 const moveSpeed = 0.1; // Adjust the movement speed as needed
                 const moveDistance = pinchStartDistance - pinchDistance;
 
-                // Calculate the movement vectors in the camera's local coordinate system
+                // Calculate the movement vectors in the cameras local coordinate system
                 const frontVector = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
 
                 // Move the camera forward or backward based on the pinch gesture
@@ -318,7 +406,7 @@ function initFirstPersonScript() {
             }
         }
 
-        // Add passive: false to the touch event listeners
+        // Add passive: false to the touch event listeners to disable browser default scrolling
         document.addEventListener('touchstart', handleTouchStart, { passive: false });
         document.addEventListener('touchmove', handleTouchMove, { passive: false });
 
