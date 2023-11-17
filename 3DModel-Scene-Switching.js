@@ -398,7 +398,18 @@ function initFirstPersonScript() {
                 const pinchDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
     
                 // Adjust the camera position based on the pinch distance
-                const moveSpeed = 0.10;
+                const moveSpeed = 0;
+
+                if (carParam.includes(`modified_lamborghini_urus.glb`)) {
+                    moveSpeed = 0.10;
+                } else if (carParam.includes(`2015_-_porsche_911_carrera_s__mid-poly (1).glb`)) {
+                    moveSpeed = 0.08;
+                } else if (carParam.includes(`lambo-aventador.glb`)) {
+                    moveSpeed = 0.15;
+                } else {
+                    moveSpeed = 0.10;
+                }
+                
                 const moveDistance = pinchStartDistance - pinchDistance;
     
                 // Calculate the movement vectors in the camera's local coordinate system
