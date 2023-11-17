@@ -405,7 +405,7 @@ function initFirstPersonScript() {
                 } else if (carParam.includes(`2015_-_porsche_911_carrera_s__mid-poly (1).glb`)) {
                     moveSpeed = 0.08;
                 } else if (carParam.includes(`lambo-aventador.glb`)) {
-                    moveSpeed = 0.15;
+                    moveSpeed = 0.35;
                 } else {
                     moveSpeed = 0.10;
                 }
