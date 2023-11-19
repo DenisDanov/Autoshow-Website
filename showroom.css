@@ -15,6 +15,14 @@
 
 .view-buttons {
     margin: 0 auto;
+    display: flex;
+    gap: 0.3rem;
+}
+
+@media (max-width: 601px) {
+    .view-buttons {
+        flex-direction: column;
+    }
 }
 
 body {
@@ -25,4 +33,19 @@ body {
     body #model-container {
         height: 55vh;
     }
+}
+
+#firstPersonBtn,#thirdPersonBtn {
+    display: inline-block;
+    background-color: #a59eb5;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 0.3rem;
+    transition: background-color 0.3s;
+    border: 2px solid black;
+}
+
+#firstPersonBtn:hover,#thirdPersonBtn:hover {
+    background-color: #8c8292;
 }
