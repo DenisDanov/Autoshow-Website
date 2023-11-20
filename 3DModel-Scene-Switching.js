@@ -15,7 +15,7 @@ function initThirdPersonScript() {
     scene = new THREE.Scene();
 
     const aspectRatio = containerRect.width / containerRect.height;
-    const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 15000);
+    const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 25000);
     renderer = new THREE.WebGLRenderer();
     const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -27,6 +27,7 @@ function initThirdPersonScript() {
     // Create a pivot object
     const pivot = new THREE.Group();
     scene.add(pivot);
+    let cameraLight;
 
     function setCameraPosition() {
         const nearClip = 1; // Adjust this value based on your scene
@@ -54,22 +55,38 @@ function initThirdPersonScript() {
             if (containerRect.width > 430) {
                 if (carParam.includes(`lambo-aventador`)) {
                     camera.position.z += cameraDistance - 1910;
-                } else if (carParam.includes(`modified_lamborghini_urus.glb`)) {
-                    camera.position.z += cameraDistance - 145;
+                } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+                    camera.position.z += cameraDistance - 285;
                 } else {
                     camera.position.z += cameraDistance - 42;
                 }
             } else {
                 if (carParam.includes(`lambo-aventador`)) {
                     camera.position.z += cameraDistance - 920;
+                } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+                    camera.position.z += cameraDistance - 145;
                 } else {
                     camera.position.z += cameraDistance - 20;
-                } 
+                }
             }
 
             // Set controls target
             controls.target.copy(center);
+
+            // Add a spotlight
+            cameraLight = new THREE.SpotLight(0xffffff, 5);
+            cameraLight.position.copy(camera.position);
+            cameraLight.target.position.copy(controls.target);
+            scene.add(cameraLight);
+            scene.add(cameraLight.target);
         }
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+        directionalLight.position.set(5, 5, 5).normalize();
+        scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+        scene.add(ambientLight);
     }
 
     const loader = new GLTFLoader();
@@ -109,12 +126,7 @@ function initThirdPersonScript() {
             const ambientLight = new THREE.AmbientLight(0xffffff, 5);
             scene.add(ambientLight);
         } else {
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
-            directionalLight.position.set(5, 5, 5).normalize();
-            scene.add(directionalLight);
-
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-            scene.add(ambientLight);
+            model.scale.set(20, 20, 20);
         }
 
         setCameraPosition(); // Set the camera position after loading the model
@@ -125,7 +137,10 @@ function initThirdPersonScript() {
 
     function animate() {
         requestAnimationFrame(animate);
-
+        if (cameraLight) {
+            cameraLight.position.copy(camera.position);
+            cameraLight.target.position.copy(controls.target);
+        }
         if (model && autoRotate) {
             // Rotate the pivot around the Y-axis
             pivot.rotation.y += 0.005;
@@ -185,6 +200,24 @@ function initFirstPersonScript() {
     camera.updateProjectionMatrix();
     camera.fov = 30; // Adjust this value based on your scene
     camera.updateProjectionMatrix();
+
+    let cameraLight;
+
+    function setCameraPosition() {
+
+        if (model) {
+        
+
+            // Create a spotlight attached to the camera
+            cameraLight = new THREE.SpotLight(0xffffff, 5);
+            cameraLight.position.copy(camera.position);
+            cameraLight.target.position.copy(camera.position);
+            scene.add(cameraLight);
+            scene.add(cameraLight.target);
+
+        }
+
+    }
 
     let moveForward = false;
     let moveBackward = false;
@@ -277,14 +310,14 @@ function initFirstPersonScript() {
         scene.add(model);
 
         if (carParam.includes`porsche`) {
-            model.scale.set(160, 160, 160);
-            camera.position.set(0, 3, 20);
+            model.scale.set(300, 300, 300);
+            camera.position.set(0, 5, 35);
             model.traverse(child => {
                 if (child.isMesh) {
                     const material = child.material;
                     if (material) {
-                        material.metalness = 0.9; // Adjust metalness
-                        material.roughness = 0.5; // Adjust roughness
+                        material.metalness = 0.9;
+                        material.roughness = 0.5; 
                     }
                 }
             });
@@ -303,12 +336,13 @@ function initFirstPersonScript() {
 
             const ambientLight = new THREE.AmbientLight(0xffffff, 5);
             scene.add(ambientLight);
-        } else if (carParam.includes(`modified_lamborghini_urus`)) {
-            camera.position.set(10.5,10,60)
+        } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+            camera.position.set(0, 20, 125)
+            model.scale.set(20,20,20);
         }
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
-        directionalLight.position.set(5, 5, 5).normalize();
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
+        directionalLight.position.set(0, 20, 125).normalize();
         scene.add(directionalLight);
 
         const ambientLight = new THREE.AmbientLight(0xffffff, 2);
@@ -322,14 +356,22 @@ function initFirstPersonScript() {
     function animate() {
         requestAnimationFrame(animate);
 
+        if (cameraLight) {
+            cameraLight.position.copy(camera.position);
+            cameraLight.target.position.copy(camera.position);
+        }
+
         // Move the camera based on the keyboard input
         let moveSpeed = 0.1;
 
         if (carParam.includes(`porsche`)) {
-            moveSpeed = 0.02;
+            moveSpeed = 0.05;
         } else if (carParam.includes`lambo-aventador`) {
             moveSpeed = 1;
+        } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+            moveSpeed = 0.15;
         }
+
         // Calculate the movement vectors in the cameras local coordinate system
         const frontVector = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
         const rightVector = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
@@ -359,10 +401,10 @@ function initFirstPersonScript() {
         let pinchStartDistance = 0;
         let fingerCount = 0;
         let lockTime = 0;
-    
+
         function handleTouchStart(event) {
             fingerCount = event.touches.length;
-    
+
             if (fingerCount === 1) {
                 touchStartX = event.touches[0].clientX;
                 touchStartY = event.touches[0].clientY;
@@ -372,31 +414,31 @@ function initFirstPersonScript() {
                 pinchStartDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
             }
         }
-    
+
         function handleTouchMove(event) {
             if (fingerCount === 1) {
                 const touchX = event.touches[0].clientX;
                 const touchY = event.touches[0].clientY;
-    
+
                 const deltaX = touchX - touchStartX;
                 const deltaY = touchY - touchStartY;
-    
+
                 // Adjust camera rotation based on touch movement
                 camera.rotation.y -= deltaX * 0.005;
-    
+
                 // Clamp vertical rotation to prevent flipping
                 const turnSpeedY = 0.005;
                 camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x - deltaY * turnSpeedY));
-    
+
                 touchStartX = touchX;
                 touchStartY = touchY;
-    
+
                 event.preventDefault();
             } else if (fingerCount === 2) {
                 const touch1 = event.touches[0];
                 const touch2 = event.touches[1];
                 const pinchDistance = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
-    
+
                 // Adjust the camera position based on the pinch distance
                 let moveSpeed = 0;
 
@@ -411,43 +453,43 @@ function initFirstPersonScript() {
                 }
 
                 const moveDistance = pinchStartDistance - pinchDistance;
-    
+
                 // Calculate the movement vectors in the camera's local coordinate system
                 const frontVector = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
-    
+
                 // Move the camera forward or backward based on the pinch gesture
                 camera.position.addScaledVector(frontVector, moveDistance * moveSpeed);
-    
+
                 pinchStartDistance = pinchDistance;
-    
+
                 event.preventDefault();
             }
         }
-    
+
         function handleTouchEnd(event) {
             if (fingerCount === 2) {
                 // Lock camera movement for a short duration after lifting both fingers
                 lockTime = Date.now() + 500; // 500 milliseconds lock time
             }
         }
-    
+
         function animate() {
             requestAnimationFrame(animate);
-    
+
             // Check if the lock time has passed
             if (Date.now() > lockTime) {
                 // Render the scene only if not in the lock period
                 renderer.render(scene, camera);
             }
         }
-    
+
         // Add passive: false to the touch event listeners to disable browser default scrolling
         document.addEventListener('touchstart', handleTouchStart, { passive: false });
         document.addEventListener('touchmove', handleTouchMove, { passive: false });
         document.addEventListener('touchend', handleTouchEnd, { passive: false });
-    
+
         animate();
-    }    
+    }
 
 }
 
