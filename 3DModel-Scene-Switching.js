@@ -369,7 +369,7 @@ function initFirstPersonScript() {
         } else if (carParam.includes`lambo-aventador`) {
             moveSpeed = 1;
         } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
-            moveSpeed = 0.15;
+            moveSpeed = 0.16;
         }
 
         // Calculate the movement vectors in the cameras local coordinate system
