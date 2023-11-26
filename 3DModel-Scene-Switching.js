@@ -30,14 +30,14 @@ function initThirdPersonScript() {
     let cameraLight;
 
     function setCameraPosition() {
-        const nearClip = 1; // Adjust this value based on your scene
-        const farClip = 5000; // Adjust this value based on your scene
+        const nearClip = 1;
+        const farClip = 5000;
 
         // Set the near and far clipping planes for the camera
         camera.near = nearClip;
         camera.far = farClip;
         camera.updateProjectionMatrix();
-        camera.fov = 30; // Adjust this value based on your scene
+        camera.fov = 30;
         camera.updateProjectionMatrix();
         if (model) {
             // Calculate bounding box of the model
@@ -106,8 +106,8 @@ function initThirdPersonScript() {
                 if (child.isMesh) {
                     const material = child.material;
                     if (material) {
-                        material.metalness = 0.9; // Adjust metalness
-                        material.roughness = 0.5; // Adjust roughness
+                        material.metalness = 0.9;
+                        material.roughness = 0.5; 
                     }
                 }
             });
@@ -191,14 +191,12 @@ function initFirstPersonScript() {
     renderer.setSize(containerRect.width, containerRect.height);
     container.appendChild(renderer.domElement);
 
-    const nearClip = 1; // Adjust this value based on your scene
-    const farClip = 5000; // Adjust this value based on your scene
-
-    // Set the near and far clipping planes for the camera
+    const nearClip = 1;
+    const farClip = 5000;
     camera.near = nearClip;
     camera.far = farClip;
     camera.updateProjectionMatrix();
-    camera.fov = 30; // Adjust this value based on your scene
+    camera.fov = 30;
     camera.updateProjectionMatrix();
 
     let cameraLight;
@@ -208,13 +206,12 @@ function initFirstPersonScript() {
         if (model) {
         
 
-            // Create a spotlight attached to the camera
+            //a spotlight attached to the camera
             cameraLight = new THREE.SpotLight(0xffffff, 5);
             cameraLight.position.copy(camera.position);
             cameraLight.target.position.copy(camera.position);
             scene.add(cameraLight);
             scene.add(cameraLight.target);
-
         }
 
     }
