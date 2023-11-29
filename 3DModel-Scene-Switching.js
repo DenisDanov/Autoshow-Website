@@ -79,14 +79,14 @@ function initThirdPersonScript() {
             cameraLight.target.position.copy(controls.target);
             scene.add(cameraLight);
             scene.add(cameraLight.target);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+            directionalLight.position.set(camera.position).normalize();
+            scene.add(directionalLight);
+    
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+            scene.add(ambientLight);
         }
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-        directionalLight.position.set(5, 5, 5).normalize();
-        scene.add(directionalLight);
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-        scene.add(ambientLight);
     }
 
     const loader = new GLTFLoader();
@@ -125,6 +125,17 @@ function initThirdPersonScript() {
 
             const ambientLight = new THREE.AmbientLight(0xffffff, 5);
             scene.add(ambientLight);
+        } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+            model.scale.set(20, 20, 20);
+            model.traverse(child => {
+                if (child.isMesh) {
+                    const material = child.material;
+                    if (material) {
+                        material.metalness = 0.1;
+                        material.roughness = 0.5; 
+                    }
+                }
+            });
         } else {
             model.scale.set(20, 20, 20);
         }
@@ -336,6 +347,15 @@ function initFirstPersonScript() {
         } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
             camera.position.set(0, 20, 125)
             model.scale.set(20,20,20);
+            model.traverse(child => {
+                if (child.isMesh) {
+                    const material = child.material;
+                    if (material) {
+                        material.metalness = 0.1;
+                        material.roughness = 0.5; 
+                    }
+                }
+            });
         }
 
         const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
