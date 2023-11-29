@@ -12,13 +12,7 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Set body height to 100% of viewport height */
-}
-
-header {
-    color: #fff;
-    padding: 10px;
-    text-align: center;
+    height: 100vh;
 }
 
 section {
