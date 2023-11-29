@@ -9,7 +9,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const carParam = urlParams.get('car');
 
 function initThirdPersonScript() {
-
+    showLoadingOverlay();
     const container = document.getElementById('model-container');
     const containerRect = container.getBoundingClientRect();
     scene = new THREE.Scene();
@@ -141,9 +141,10 @@ function initThirdPersonScript() {
         }
 
         setCameraPosition(); // Set the camera position after loading the model
-
+        hideLoadingOverlay();
     }, undefined, (error) => {
         console.error('Error loading GLB model:', error);
+        hideLoadingOverlay();
     });
 
     function animate() {
@@ -192,7 +193,7 @@ function disposeThirdPersonScript() {
 
 // First Person Script
 function initFirstPersonScript() {
-
+    showLoadingOverlay();
     const container = document.getElementById('model-container');
     const containerRect = container.getBoundingClientRect();
     scene = new THREE.Scene();
@@ -211,22 +212,6 @@ function initFirstPersonScript() {
     camera.updateProjectionMatrix();
 
     let cameraLight;
-
-    function setCameraPosition() {
-
-        if (model) {
-        
-
-            //a spotlight attached to the camera
-            cameraLight = new THREE.SpotLight(0xffffff, 5);
-            cameraLight.position.copy(camera.position);
-            cameraLight.target.position.copy(camera.position);
-            scene.add(cameraLight);
-            scene.add(cameraLight.target);
-        }
-
-    }
-
     let moveForward = false;
     let moveBackward = false;
     let moveLeft = false;
@@ -365,9 +350,11 @@ function initFirstPersonScript() {
         const ambientLight = new THREE.AmbientLight(0xffffff, 2);
         scene.add(ambientLight);
 
+        hideLoadingOverlay();
         animate();
     }, undefined, (error) => {
         console.error('Error loading GLB model:', error);
+        hideLoadingOverlay();
     });
 
     function animate() {
@@ -569,5 +556,24 @@ document.getElementById('thirdPersonBtn').addEventListener('click', function () 
         activeScript = 'thirdPerson';
     }
 });
+
+function showLoadingOverlay() {
+    console.log('Showing loading overlay');
+    const container = document.getElementById('loader');
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.id = 'loading-overlay';
+    loadingOverlay.innerHTML = '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>';
+
+    container.appendChild(loadingOverlay);
+}
+
+function hideLoadingOverlay() {
+    console.log('Hiding loading overlay');
+
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if (loadingOverlay) {
+        loadingOverlay.remove();
+    }
+}
 
 document.getElementById('thirdPersonBtn').click();
