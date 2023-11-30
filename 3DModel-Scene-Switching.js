@@ -57,8 +57,10 @@ function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 1910;
                 } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
                     camera.position.z += cameraDistance - 285;
+                } else if (carParam.includes(`bmw`)){
+                    camera.position.z += cameraDistance - 600;
                 } else {
-                    camera.position.z += cameraDistance - 42;
+                    camera.position.z += cameraDistance - 40;
                 }
             } else {
                 if (carParam.includes(`lambo-aventador`)) {
@@ -71,8 +73,8 @@ function initThirdPersonScript() {
             }
 
             // Set controls target
+            
             controls.target.copy(center);
-
             // Add a spotlight
             cameraLight = new THREE.SpotLight(0xffffff, 5);
             cameraLight.position.copy(camera.position);
@@ -83,7 +85,7 @@ function initThirdPersonScript() {
             const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
             directionalLight.position.set(camera.position).normalize();
             scene.add(directionalLight);
-    
+
             const ambientLight = new THREE.AmbientLight(0xffffff, 1);
             scene.add(ambientLight);
         }
@@ -92,7 +94,6 @@ function initThirdPersonScript() {
     const loader = new GLTFLoader();
     loader.load(carParam, (gltf) => {
         model = gltf.scene;
-
         // Center the geometry based on its bounding box
         const boundingBox = new THREE.Box3().setFromObject(model);
         boundingBox.getCenter(model.position);
@@ -107,7 +108,7 @@ function initThirdPersonScript() {
                     const material = child.material;
                     if (material) {
                         material.metalness = 0.9;
-                        material.roughness = 0.5; 
+                        material.roughness = 0.5;
                     }
                 }
             });
@@ -132,12 +133,31 @@ function initThirdPersonScript() {
                     const material = child.material;
                     if (material) {
                         material.metalness = 0.1;
-                        material.roughness = 0.5; 
+                        material.roughness = 0.5;
                     }
                 }
             });
-        } else {
+        } else if (carParam.includes(`bmw`)){
+            gltf.scene.traverse((child) => {
+                if (child.isMesh) {
+                    // Check if the material is already a MeshStandardMaterial
+                    if (child.material.isMeshStandardMaterial) {
+                        // Adjust material properties
+                        child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
+                        child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                    }
+                }
+            });
             model.scale.set(20, 20, 20);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+            directionalLight.position.set(5, 5, 5).normalize();
+            scene.add(directionalLight);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+            scene.add(ambientLight);
+        }
+        else {
+            model.scale.set(40, 40, 40);
         }
 
         setCameraPosition(); // Set the camera position after loading the model
@@ -157,7 +177,6 @@ function initThirdPersonScript() {
             // Rotate the pivot around the Y-axis
             pivot.rotation.y += 0.005;
         }
-
         controls.update();
         renderer.render(scene, camera);
     }
@@ -310,7 +329,7 @@ function initFirstPersonScript() {
                     const material = child.material;
                     if (material) {
                         material.metalness = 0.9;
-                        material.roughness = 0.5; 
+                        material.roughness = 0.5;
                     }
                 }
             });
@@ -331,13 +350,25 @@ function initFirstPersonScript() {
             scene.add(ambientLight);
         } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
             camera.position.set(0, 20, 125)
-            model.scale.set(20,20,20);
+            model.scale.set(20, 20, 20);
             model.traverse(child => {
                 if (child.isMesh) {
                     const material = child.material;
                     if (material) {
                         material.metalness = 0.1;
-                        material.roughness = 0.5; 
+                        material.roughness = 0.5;
+                    }
+                }
+            });
+        } else if (carParam.includes(`bmw`)){
+            camera.position.set(15,5,15);
+            gltf.scene.traverse((child) => {
+                if (child.isMesh) {
+                    // Check if the material is already a MeshStandardMaterial
+                    if (child.material.isMeshStandardMaterial) {
+                        // Adjust material properties
+                        child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
+                        child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
                     }
                 }
             });
@@ -347,7 +378,7 @@ function initFirstPersonScript() {
         directionalLight.position.set(0, 20, 125).normalize();
         scene.add(directionalLight);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 5);
         scene.add(ambientLight);
 
         hideLoadingOverlay();
@@ -453,7 +484,7 @@ function initFirstPersonScript() {
                 } else if (carParam.includes(`lambo-aventador.glb`)) {
                     moveSpeed = 0.35;
                 } else {
-                    moveSpeed = 0.10;
+                    moveSpeed = 0.11;
                 }
 
                 const moveDistance = pinchStartDistance - pinchDistance;
