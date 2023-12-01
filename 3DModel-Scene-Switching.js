@@ -1,5 +1,6 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader';
+import { FBXLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/FBXLoader';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls';
 
 let scene;
@@ -57,12 +58,15 @@ function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 1910;
                 } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
                     camera.position.z += cameraDistance - 285;
-                } else if (carParam.includes(`bmw`)){
-                    camera.position.z += cameraDistance - 600;
-                } else if (carParam.includes(`gallardo`)){
+                } else if (carParam.includes(`bmw`)) {
+                    camera.position.z += cameraDistance - 350;
+                } else if (carParam.includes(`gallardo`)) {
                     camera.position.z += cameraDistance - 490;
-
-                }else {
+                } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+                    camera.position.z += cameraDistance - 1200;
+                } else if (carParam.includes(`gr_supra`)) {
+                    camera.position.z += cameraDistance - 570;
+                } else {
                     camera.position.z += cameraDistance - 40;
                 }
             } else {
@@ -70,8 +74,12 @@ function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 920;
                 } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
                     camera.position.z += cameraDistance - 145;
-                } else if (carParam.includes(`gallardo`)){
+                } else if (carParam.includes(`gallardo`)) {
                     camera.position.z += cameraDistance - 240;
+                } else if (carParam.includes(`gr_supra`)) {
+                    camera.position.z += cameraDistance - 250;
+                } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+                    camera.position.z += cameraDistance - 550;
                 } else {
                     camera.position.z += cameraDistance - 20;
                 }
@@ -81,106 +89,155 @@ function initThirdPersonScript() {
             controls.target.copy(center);
 
             // Add a spotlight
-            cameraLight = new THREE.SpotLight(0xffffff, 5);
+
+            if (!carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+                cameraLight = new THREE.SpotLight(0xffffff, 2);
+            } else {
+                cameraLight = new THREE.SpotLight(0xffffff, 0.5);
+            }
+
             cameraLight.position.copy(camera.position);
             cameraLight.target.position.copy(controls.target);
             scene.add(cameraLight);
             scene.add(cameraLight.target);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-            directionalLight.position.set(camera.position).normalize();
-            scene.add(directionalLight);
+            if (!carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+                directionalLight.position.set(camera.position).normalize();
+                scene.add(directionalLight);
+            } else {
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+                directionalLight.position.set(camera.position).normalize();
+                scene.add(directionalLight);
+            }
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-            scene.add(ambientLight);
+            if (!carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+                const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+                scene.add(ambientLight);
+            } else {
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                scene.add(ambientLight);
+            }
         }
     }
 
-    const loader = new GLTFLoader();
-    loader.load(carParam, (gltf) => {
-        model = gltf.scene;
-        // Center the geometry based on its bounding box
-        const boundingBox = new THREE.Box3().setFromObject(model);
-        boundingBox.getCenter(model.position);
-        model.position.multiplyScalar(-1);
+    let loader;
 
-        // Add the model to the pivot
-        pivot.add(model);
-        if (carParam.includes`porsche`) {
-            model.scale.set(165, 165, 165);
-            model.traverse(child => {
-                if (child.isMesh) {
-                    const material = child.material;
-                    if (material) {
-                        material.metalness = 0.9;
-                        material.roughness = 0.5;
+    // Check if the model is an FBX or GLB
+    if (carParam.includes('.glb')) {
+        loader = new GLTFLoader();
+        loader.load(carParam, (gltf) => {
+            model = gltf.scene;
+            // Center the geometry based on its bounding box
+            const boundingBox = new THREE.Box3().setFromObject(model);
+            boundingBox.getCenter(model.position);
+            model.position.multiplyScalar(-1);
+
+            // Add the model to the pivot
+            pivot.add(model);
+            if (carParam.includes`porsche`) {
+                model.scale.set(165, 165, 165);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        const material = child.material;
+                        if (material) {
+                            material.metalness = 0.9;
+                            material.roughness = 0.5;
+                        }
                     }
-                }
-            });
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
-            directionalLight.position.set(5, 5, 5).normalize();
-            scene.add(directionalLight);
+                });
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
+                directionalLight.position.set(5, 5, 5).normalize();
+                scene.add(directionalLight);
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 3);
-            scene.add(ambientLight);
-        } else if (carParam.includes`lambo-aventador`) {
-            model.scale.set(170, 170, 170);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
-            directionalLight.position.set(5, 5, 5).normalize();
-            scene.add(directionalLight);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+                scene.add(ambientLight);
+            } else if (carParam.includes`lambo-aventador`) {
+                model.scale.set(170, 170, 170);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+                directionalLight.position.set(5, 5, 5).normalize();
+                scene.add(directionalLight);
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 5);
-            scene.add(ambientLight);
-        } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
-            model.scale.set(20, 20, 20);
-            model.traverse(child => {
-                if (child.isMesh) {
-                    const material = child.material;
-                    if (material) {
-                        material.metalness = 0.1;
-                        material.roughness = 0.5;
+                const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+                scene.add(ambientLight);
+            } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+                model.scale.set(20, 20, 20);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        const material = child.material;
+                        if (material) {
+                            material.metalness = 0.1;
+                            material.roughness = 0.5;
+                        }
                     }
-                }
-            });
-        } else if (carParam.includes(`bmw`)){
-            gltf.scene.traverse((child) => {
-                if (child.isMesh) {
-                    // Check if the material is already a MeshStandardMaterial
-                    if (child.material.isMeshStandardMaterial) {
-                        // Adjust material properties
-                        child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
-                        child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                });
+            } else if (carParam.includes(`bmw`)) {
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Check if the material color is white
+                            const isWhiteColor = child.material.color.equals(new THREE.Color(0xffffff));
+                            if (isWhiteColor) {
+                                // Adjust material properties for white color
+                                child.material.metalness = 1; // 0 for non-metallic, 1 for fully metallic
+                                child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                            }
+                        }
                     }
-                }
-            });
-            model.scale.set(20, 20, 20);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
-            directionalLight.position.set(5, 5, 5).normalize();
-            scene.add(directionalLight);
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-            scene.add(ambientLight);
-        }
-        else {
-            model.scale.set(40, 40, 40);
-            gltf.scene.traverse((child) => {
-                if (child.isMesh) {
-                    // Check if the material is already a MeshStandardMaterial
-                    if (child.material.isMeshStandardMaterial) {
-                        // Adjust material properties
-                        child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
-                        child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                });
+                model.scale.set(20, 20, 20);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+                directionalLight.position.set(5, 5, 5).normalize();
+                scene.add(directionalLight);
+
+                const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+                scene.add(ambientLight);
+            }
+            else {
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.7; // 0 for non-metallic, 1 for fully metallic
+                            child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
 
-        setCameraPosition(); // Set the camera position after loading the model
-        hideLoadingOverlay();
-    }, undefined, (error) => {
-        console.error('Error loading GLB model:', error);
-        hideLoadingOverlay();
-    });
+            setCameraPosition(); // Set the camera position after loading the model
+            hideLoadingOverlay();
+        }, undefined, (error) => {
+            console.error('Error loading GLB model:', error);
+            hideLoadingOverlay();
+        });
+    } else if (carParam.includes('.fbx') || carParam.includes('.FBX')) {
+        const loadingManager = new THREE.LoadingManager(() => {
+            // This function is called when all resources are loaded
+            hideLoadingOverlay();
+        });
+        loader = new FBXLoader(loadingManager);
+        loader.load(
+            carParam,
+            (fbx) => {
+                scene.add(fbx);
+                model = fbx;
+                setCameraPosition();
+                pivot.add(model);
+            },
+            undefined,
+            (error) => {
+                console.error('Error loading FBX model:', error);
+                hideLoadingOverlay();
+            }
+        );
+    } else {
+        console.error('Unsupported model format');
+    }
 
     function animate() {
         requestAnimationFrame(animate);
@@ -331,90 +388,137 @@ function initFirstPersonScript() {
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('keyup', onKeyUp);
 
-    const loader = new GLTFLoader();
-    loader.load(carParam, (gltf) => {
-        model = gltf.scene;
-        scene.add(model);
+    let loader;
 
-        if (carParam.includes`porsche`) {
-            model.scale.set(300, 300, 300);
-            camera.position.set(0, 5, 35);
-            model.traverse(child => {
-                if (child.isMesh) {
-                    const material = child.material;
-                    if (material) {
-                        material.metalness = 0.9;
-                        material.roughness = 0.5;
+    // Check if the model is an FBX or GLB
+    if (carParam.includes('.glb')) {
+        loader.load(carParam, (gltf) => {
+            model = gltf.scene;
+            scene.add(model);
+
+            if (carParam.includes`porsche`) {
+                model.scale.set(300, 300, 300);
+                camera.position.set(0, 5, 35);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        const material = child.material;
+                        if (material) {
+                            material.metalness = 0.9;
+                            material.roughness = 0.5;
+                        }
                     }
-                }
-            });
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 4.5);
-            directionalLight.position.set(5, 5, 5).normalize();
+                });
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 4.5);
+                directionalLight.position.set(5, 5, 5).normalize();
+                scene.add(directionalLight);
+
+                const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+                scene.add(ambientLight);
+            } else if (carParam.includes`lambo-aventador`) {
+                model.scale.set(160, 160, 160);
+                camera.position.set(0, 100, 850);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
+                directionalLight.position.set(5, 5, 5).normalize();
+                scene.add(directionalLight);
+
+                const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+                scene.add(ambientLight);
+            } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+                camera.position.set(0, 20, 125)
+                model.scale.set(20, 20, 20);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        const material = child.material;
+                        if (material) {
+                            material.metalness = 0.1;
+                            material.roughness = 0.5;
+                        }
+                    }
+                });
+            } else if (carParam.includes(`bmw`)) {
+                camera.position.set(15, 5, 15);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
+                            child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                        }
+                    }
+                });
+            } else if (carParam.includes(`gallardo`)) {
+                camera.position.set(0, 10, 90);
+                model.scale.set(15, 15, 15);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
+                            child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                        }
+                    }
+                });
+            } else if (carParam.includes(`gr_supra`)) {
+                camera.position.set(0, 15, 105);
+                model.scale.set(15, 15, 15);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.7; // 0 for non-metallic, 1 for fully metallic
+                            child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                        }
+                    }
+                });
+            }
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+            directionalLight.position.set(0, 20, 125).normalize();
             scene.add(directionalLight);
 
             const ambientLight = new THREE.AmbientLight(0xffffff, 5);
             scene.add(ambientLight);
-        } else if (carParam.includes`lambo-aventador`) {
-            model.scale.set(160, 160, 160);
-            camera.position.set(0, 100, 850);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
-            directionalLight.position.set(5, 5, 5).normalize();
-            scene.add(directionalLight);
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 5);
-            scene.add(ambientLight);
-        } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
-            camera.position.set(0, 20, 125)
-            model.scale.set(20, 20, 20);
-            model.traverse(child => {
-                if (child.isMesh) {
-                    const material = child.material;
-                    if (material) {
-                        material.metalness = 0.1;
-                        material.roughness = 0.5;
-                    }
+            hideLoadingOverlay();
+            animate();
+        }, undefined, (error) => {
+            console.error('Error loading GLB model:', error);
+            hideLoadingOverlay();
+        });
+    } else if (carParam.includes('.fbx') || carParam.includes('.FBX')) {
+        const loadingManager = new THREE.LoadingManager(() => {
+            // This function is called when all resources are loaded
+            hideLoadingOverlay();
+        });
+        loader = new FBXLoader(loadingManager);
+        loader.load(
+            carParam,
+            (fbx) => {
+                scene.add(fbx);
+                model = fbx;
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+                directionalLight.position.set(0, 20, 125).normalize();
+                scene.add(directionalLight);
+
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                scene.add(ambientLight);
+                animate();
+                if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+                    camera.position.set(0, 100, 600);
                 }
-            });
-        } else if (carParam.includes(`bmw`)){
-            camera.position.set(15,5,15);
-            gltf.scene.traverse((child) => {
-                if (child.isMesh) {
-                    // Check if the material is already a MeshStandardMaterial
-                    if (child.material.isMeshStandardMaterial) {
-                        // Adjust material properties
-                        child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
-                        child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
-                    }
-                }
-            });
-        } else if (carParam.includes(`gallardo`)){
-            camera.position.set(0,10,90);
-            model.scale.set(15,15,15);
-            gltf.scene.traverse((child) => {
-                if (child.isMesh) {
-                    // Check if the material is already a MeshStandardMaterial
-                    if (child.material.isMeshStandardMaterial) {
-                        // Adjust material properties
-                        child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
-                        child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
-                    }
-                }
-            });
-        }
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
-        directionalLight.position.set(0, 20, 125).normalize();
-        scene.add(directionalLight);
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 5);
-        scene.add(ambientLight);
-
-        hideLoadingOverlay();
-        animate();
-    }, undefined, (error) => {
-        console.error('Error loading GLB model:', error);
-        hideLoadingOverlay();
-    });
+            },
+            undefined,
+            (error) => {
+                console.error('Error loading FBX model:', error);
+                hideLoadingOverlay();
+            }
+        );
+    } else {
+        console.error('Unsupported model format');
+    }
 
     function animate() {
         requestAnimationFrame(animate);
@@ -433,6 +537,8 @@ function initFirstPersonScript() {
             moveSpeed = 1;
         } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
             moveSpeed = 0.16;
+        } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+            moveSpeed = 0.8;
         }
 
         // Calculate the movement vectors in the cameras local coordinate system
