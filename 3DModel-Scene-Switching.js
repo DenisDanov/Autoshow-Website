@@ -59,7 +59,10 @@ function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 285;
                 } else if (carParam.includes(`bmw`)){
                     camera.position.z += cameraDistance - 600;
-                } else {
+                } else if (carParam.includes(`gallardo`)){
+                    camera.position.z += cameraDistance - 490;
+
+                }else {
                     camera.position.z += cameraDistance - 40;
                 }
             } else {
@@ -67,14 +70,16 @@ function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 920;
                 } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
                     camera.position.z += cameraDistance - 145;
+                } else if (carParam.includes(`gallardo`)){
+                    camera.position.z += cameraDistance - 240;
                 } else {
                     camera.position.z += cameraDistance - 20;
                 }
             }
 
             // Set controls target
-            
             controls.target.copy(center);
+
             // Add a spotlight
             cameraLight = new THREE.SpotLight(0xffffff, 5);
             cameraLight.position.copy(camera.position);
@@ -158,6 +163,16 @@ function initThirdPersonScript() {
         }
         else {
             model.scale.set(40, 40, 40);
+            gltf.scene.traverse((child) => {
+                if (child.isMesh) {
+                    // Check if the material is already a MeshStandardMaterial
+                    if (child.material.isMeshStandardMaterial) {
+                        // Adjust material properties
+                        child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
+                        child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                    }
+                }
+            });
         }
 
         setCameraPosition(); // Set the camera position after loading the model
@@ -362,6 +377,19 @@ function initFirstPersonScript() {
             });
         } else if (carParam.includes(`bmw`)){
             camera.position.set(15,5,15);
+            gltf.scene.traverse((child) => {
+                if (child.isMesh) {
+                    // Check if the material is already a MeshStandardMaterial
+                    if (child.material.isMeshStandardMaterial) {
+                        // Adjust material properties
+                        child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
+                        child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                    }
+                }
+            });
+        } else if (carParam.includes(`gallardo`)){
+            camera.position.set(0,10,90);
+            model.scale.set(15,15,15);
             gltf.scene.traverse((child) => {
                 if (child.isMesh) {
                     // Check if the material is already a MeshStandardMaterial
