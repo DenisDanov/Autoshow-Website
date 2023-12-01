@@ -389,9 +389,9 @@ function initFirstPersonScript() {
     document.addEventListener('keyup', onKeyUp);
 
     let loader;
-
     // Check if the model is an FBX or GLB
     if (carParam.includes('.glb')) {
+        loader = new GLTFLoader();
         loader.load(carParam, (gltf) => {
             model = gltf.scene;
             scene.add(model);
@@ -505,10 +505,10 @@ function initFirstPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
-                animate();
                 if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
                     camera.position.set(0, 100, 600);
                 }
+                animate();
             },
             undefined,
             (error) => {
@@ -529,7 +529,7 @@ function initFirstPersonScript() {
         }
 
         // Move the camera based on the keyboard input
-        let moveSpeed = 0.1;
+        let moveSpeed = 0.2;
 
         if (carParam.includes(`porsche`)) {
             moveSpeed = 0.05;
@@ -544,7 +544,7 @@ function initFirstPersonScript() {
         // Calculate the movement vectors in the cameras local coordinate system
         const frontVector = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
         const rightVector = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
-
+        
         if (moveForward) {
             camera.position.addScaledVector(frontVector, moveSpeed);
         }
@@ -556,7 +556,7 @@ function initFirstPersonScript() {
         }
         if (moveRight) {
             camera.position.addScaledVector(rightVector, moveSpeed);
-        }
+        }        
 
         // Render the scene
         renderer.render(scene, camera);
