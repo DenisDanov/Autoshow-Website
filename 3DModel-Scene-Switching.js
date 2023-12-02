@@ -1,6 +1,7 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader';
 import { FBXLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/FBXLoader';
+import { OBJLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/OBJLoader';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls';
 
 let scene;
@@ -16,7 +17,7 @@ function initThirdPersonScript() {
     scene = new THREE.Scene();
 
     const aspectRatio = containerRect.width / containerRect.height;
-    const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 25000);
+    const camera = new THREE.PerspectiveCamera(75, aspectRatio, 15, 25000);
     renderer = new THREE.WebGLRenderer();
     const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -32,11 +33,9 @@ function initThirdPersonScript() {
 
     function setCameraPosition() {
         const nearClip = 1;
-        const farClip = 5000;
 
         // Set the near and far clipping planes for the camera
         camera.near = nearClip;
-        camera.far = farClip;
         camera.updateProjectionMatrix();
         camera.fov = 30;
         camera.updateProjectionMatrix();
@@ -58,14 +57,15 @@ function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 1910;
                 } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
                     camera.position.z += cameraDistance - 285;
-                } else if (carParam.includes(`bmw`)) {
-                    camera.position.z += cameraDistance - 350;
                 } else if (carParam.includes(`gallardo`)) {
                     camera.position.z += cameraDistance - 490;
-                } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+                } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) || 
+                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
                     camera.position.z += cameraDistance - 1200;
                 } else if (carParam.includes(`gr_supra`)) {
                     camera.position.z += cameraDistance - 570;
+                } else if(carParam.includes(`2015_-_porsche_911_carrera_s__mid-poly (1).glb`)){
+                    camera.position.z += cameraDistance - 40;
                 } else {
                     camera.position.z += cameraDistance - 40;
                 }
@@ -78,7 +78,8 @@ function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 240;
                 } else if (carParam.includes(`gr_supra`)) {
                     camera.position.z += cameraDistance - 250;
-                } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+                } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) || 
+                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
                     camera.position.z += cameraDistance - 550;
                 } else {
                     camera.position.z += cameraDistance - 20;
@@ -88,12 +89,13 @@ function initThirdPersonScript() {
             // Set controls target
             controls.target.copy(center);
 
-            // Add a spotlight
-
-            if (!carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
-                cameraLight = new THREE.SpotLight(0xffffff, 2);
-            } else {
+            if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+                cameraLight = new THREE.SpotLight(0xffffff, 3);
+            } else if(carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) || 
+            carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
                 cameraLight = new THREE.SpotLight(0xffffff, 0.5);
+            } else {
+                cameraLight = new THREE.SpotLight(0xffffff, 2);
             }
 
             cameraLight.position.copy(camera.position);
@@ -101,21 +103,23 @@ function initThirdPersonScript() {
             scene.add(cameraLight);
             scene.add(cameraLight.target);
 
-            if (!carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+            if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) || 
+            carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
                 directionalLight.position.set(camera.position).normalize();
                 scene.add(directionalLight);
             } else {
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
                 directionalLight.position.set(camera.position).normalize();
                 scene.add(directionalLight);
             }
 
-            if (!carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
-                const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+            if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) || 
+            carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
             } else {
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 2);
                 scene.add(ambientLight);
             }
         }
@@ -128,6 +132,7 @@ function initThirdPersonScript() {
         loader = new GLTFLoader();
         loader.load(carParam, (gltf) => {
             model = gltf.scene;
+
             // Center the geometry based on its bounding box
             const boundingBox = new THREE.Box3().setFromObject(model);
             boundingBox.getCenter(model.position);
@@ -171,39 +176,15 @@ function initThirdPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`bmw`)) {
-                gltf.scene.traverse((child) => {
-                    if (child.isMesh) {
-                        // Check if the material is already a MeshStandardMaterial
-                        if (child.material.isMeshStandardMaterial) {
-                            // Check if the material color is white
-                            const isWhiteColor = child.material.color.equals(new THREE.Color(0xffffff));
-                            if (isWhiteColor) {
-                                // Adjust material properties for white color
-                                child.material.metalness = 1; // 0 for non-metallic, 1 for fully metallic
-                                child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
-                            }
-                        }
-                    }
-
-                });
-                model.scale.set(20, 20, 20);
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
-                directionalLight.position.set(5, 5, 5).normalize();
-                scene.add(directionalLight);
-
-                const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-                scene.add(ambientLight);
-            }
-            else {
+            } else {
                 model.scale.set(40, 40, 40);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
                         // Check if the material is already a MeshStandardMaterial
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
-                            child.material.metalness = 0.7; // 0 for non-metallic, 1 for fully metallic
-                            child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                            child.material.metalness = 0.5; // 0 for non-metallic, 1 for fully metallic
+                            child.material.roughness = 0.2; // 0 for a smooth surface, 1 for a rough surface
                         }
                     }
                 });
@@ -215,6 +196,7 @@ function initThirdPersonScript() {
             console.error('Error loading GLB model:', error);
             hideLoadingOverlay();
         });
+
     } else if (carParam.includes('.fbx') || carParam.includes('.FBX')) {
         const loadingManager = new THREE.LoadingManager(() => {
             // This function is called when all resources are loaded
@@ -236,7 +218,25 @@ function initThirdPersonScript() {
             }
         );
     } else {
-        console.error('Unsupported model format');
+        const loadingManager = new THREE.LoadingManager(() => {
+            // This function is called when all resources are loaded
+            hideLoadingOverlay();
+        });
+        loader = new OBJLoader(loadingManager);
+        loader.load(
+            carParam,
+            (fbx) => {
+                scene.add(fbx);
+                model = fbx;
+                setCameraPosition();
+                pivot.add(model);
+            },
+            undefined,
+            (error) => {
+                console.error('Error loading FBX model:', error);
+                hideLoadingOverlay();
+            }
+        );
     }
 
     function animate() {
@@ -268,13 +268,34 @@ function initThirdPersonScript() {
     });
 }
 
+function applyTexturesToModel(model, texturePaths) {
+    model.traverse((node) => {
+        if (node.isMesh) {
+            // Assuming a simple Lambert material for demonstration
+            if (node.material.isMeshLambertMaterial) {
+                // Extract the material name or identifier from the mesh
+                const materialName = node.material.name; // Adjust this based on your model
+
+                // Check if the material has a corresponding texture path
+                const texturePath = texturePaths.find((path) => path.includes(`${materialName}`));
+
+                if (texturePath) {
+                    // Load the texture and apply it
+                    const texture = textureLoader.load(texturePath);
+                    node.material.map = texture;
+                    node.material.needsUpdate = true;
+                }
+            }
+        }
+    });
+}
+
 function disposeThirdPersonScript() {
     if (model) {
         // Dispose the 3D model logic
         model.traverse(child => {
             if (child.isMesh) {
                 child.geometry.dispose();
-                child.material.dispose();
             }
         });
         scene.remove(model);
@@ -505,7 +526,8 @@ function initFirstPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
-                if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+                if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) || 
+                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
                     camera.position.set(0, 100, 600);
                 }
                 animate();
@@ -537,14 +559,15 @@ function initFirstPersonScript() {
             moveSpeed = 1;
         } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
             moveSpeed = 0.16;
-        } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`)) {
+        } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) || 
+        carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
             moveSpeed = 0.8;
         }
 
         // Calculate the movement vectors in the cameras local coordinate system
         const frontVector = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
         const rightVector = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
-        
+
         if (moveForward) {
             camera.position.addScaledVector(frontVector, moveSpeed);
         }
@@ -556,7 +579,7 @@ function initFirstPersonScript() {
         }
         if (moveRight) {
             camera.position.addScaledVector(rightVector, moveSpeed);
-        }        
+        }
 
         // Render the scene
         renderer.render(scene, camera);
@@ -668,7 +691,6 @@ function disposeFirstPersonScript() {
         model.traverse(child => {
             if (child.isMesh) {
                 child.geometry.dispose();
-                child.material.dispose();
             }
         });
         scene.remove(model);
