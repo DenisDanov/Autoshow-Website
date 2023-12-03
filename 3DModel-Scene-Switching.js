@@ -1,8 +1,8 @@
-import * as THREE from 'https://cdn.skypack.dev/three@0.136.0';
-import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/loaders/GLTFLoader';
-import { FBXLoader } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/loaders/FBXLoader';
-import { OBJLoader } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/loaders/OBJLoader';
-import { OrbitControls } from 'https://cdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls';
+import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
+import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader';
+import { FBXLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/FBXLoader';
+import { OBJLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/OBJLoader';
+import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls';
 
 let scene;
 let renderer;
@@ -44,7 +44,9 @@ function initThirdPersonScript() {
             const boundingBox = new THREE.Box3().setFromObject(model);
             const center = new THREE.Vector3();
             boundingBox.getCenter(center);
+            model.position.sub(center);
 
+            pivot.position.copy(center);
             // distance from the center to the camera position
             const boundingBoxSize = boundingBox.getSize(new THREE.Vector3());
             const cameraDistance = Math.max(boundingBoxSize.x, boundingBoxSize.y, boundingBoxSize.z) /
