@@ -200,14 +200,11 @@ function initThirdPersonScript() {
         });
 
     } else if (carParam.includes('.fbx') || carParam.includes('.FBX')) {
-        const loadingManager = new THREE.LoadingManager(() => {
-            // This function is called when all resources are loaded
-            hideLoadingOverlay();
-        });
-        loader = new FBXLoader(loadingManager);
+        loader = new FBXLoader();
         loader.load(
             `Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`,
             (fbx) => {
+                hideLoadingOverlay();
                 scene.add(fbx);
                 model = fbx;
                 setCameraPosition();
