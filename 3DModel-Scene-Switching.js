@@ -206,7 +206,7 @@ function initThirdPersonScript() {
         });
         loader = new FBXLoader(loadingManager);
         loader.load(
-            carParam,
+            `Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`,
             (fbx) => {
                 scene.add(fbx);
                 model = fbx;
