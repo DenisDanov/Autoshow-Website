@@ -62,7 +62,7 @@ function initThirdPersonScript() {
                 } else if (carParam.includes(`gallardo`)) {
                     camera.position.z += cameraDistance - 490;
                 } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                    carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                    carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.fbx`)) {
                     camera.position.z += cameraDistance - 1200;
                 } else if (carParam.includes(`gr_supra`)) {
                     camera.position.z += cameraDistance - 570;
@@ -81,7 +81,7 @@ function initThirdPersonScript() {
                 } else if (carParam.includes(`gr_supra`)) {
                     camera.position.z += cameraDistance - 250;
                 } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                    carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                    carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.fbx`)) {
                     camera.position.z += cameraDistance - 550;
                 } else {
                     camera.position.z += cameraDistance - 20;
@@ -94,7 +94,7 @@ function initThirdPersonScript() {
             if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
                 cameraLight = new THREE.SpotLight(0xffffff, 1);
             } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.fbx`)) {
                 cameraLight = new THREE.SpotLight(0xffffff, 0.2);
             } else {
                 cameraLight = new THREE.SpotLight(0xffffff, 1);
@@ -106,7 +106,7 @@ function initThirdPersonScript() {
             scene.add(cameraLight.target);
 
             if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.fbx`)) {
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
                 directionalLight.position.set(camera.position).normalize();
                 scene.add(directionalLight);
@@ -117,7 +117,7 @@ function initThirdPersonScript() {
             }
 
             if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.fbx`)) {
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
             } else {
@@ -202,7 +202,7 @@ function initThirdPersonScript() {
     } else if (carParam.includes('.fbx') || carParam.includes('.FBX')) {
         loader = new FBXLoader();
         loader.load(
-            `Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`,
+            carParam,
             (fbx) => {
                 hideLoadingOverlay();
                 scene.add(fbx);
@@ -504,7 +504,7 @@ function initFirstPersonScript() {
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
                 if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                    carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                    carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.fbx`)) {
                     camera.position.set(0, 100, 600);
                 }
                 animate();
@@ -537,7 +537,7 @@ function initFirstPersonScript() {
         } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
             moveSpeed = 0.16;
         } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-            carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+            carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.fbx`)) {
             moveSpeed = 0.8;
         }
 
