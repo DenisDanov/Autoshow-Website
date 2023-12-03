@@ -1,8 +1,8 @@
-import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
-import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader';
-import { FBXLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/FBXLoader';
-import { OBJLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/OBJLoader';
-import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
 let scene;
 let renderer;
@@ -90,12 +90,12 @@ function initThirdPersonScript() {
             controls.target.copy(center);
 
             if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
-                cameraLight = new THREE.SpotLight(0xffffff, 3);
+                cameraLight = new THREE.SpotLight(0xffffff, 1);
             } else if(carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) || 
             carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
-                cameraLight = new THREE.SpotLight(0xffffff, 0.5);
+                cameraLight = new THREE.SpotLight(0xffffff, 0.2);
             } else {
-                cameraLight = new THREE.SpotLight(0xffffff, 2);
+                cameraLight = new THREE.SpotLight(0xffffff, 1);
             }
 
             cameraLight.position.copy(camera.position);
@@ -109,7 +109,7 @@ function initThirdPersonScript() {
                 directionalLight.position.set(camera.position).normalize();
                 scene.add(directionalLight);
             } else {
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
                 directionalLight.position.set(camera.position).normalize();
                 scene.add(directionalLight);
             }
@@ -119,7 +119,7 @@ function initThirdPersonScript() {
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
             } else {
-                const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 1);
                 scene.add(ambientLight);
             }
         }
@@ -268,28 +268,6 @@ function initThirdPersonScript() {
     });
 }
 
-function applyTexturesToModel(model, texturePaths) {
-    model.traverse((node) => {
-        if (node.isMesh) {
-            // Assuming a simple Lambert material for demonstration
-            if (node.material.isMeshLambertMaterial) {
-                // Extract the material name or identifier from the mesh
-                const materialName = node.material.name; // Adjust this based on your model
-
-                // Check if the material has a corresponding texture path
-                const texturePath = texturePaths.find((path) => path.includes(`${materialName}`));
-
-                if (texturePath) {
-                    // Load the texture and apply it
-                    const texture = textureLoader.load(texturePath);
-                    node.material.map = texture;
-                    node.material.needsUpdate = true;
-                }
-            }
-        }
-    });
-}
-
 function disposeThirdPersonScript() {
     if (model) {
         // Dispose the 3D model logic
@@ -429,20 +407,20 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 4.5);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
                 directionalLight.position.set(5, 5, 5).normalize();
                 scene.add(directionalLight);
 
-                const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 1);
                 scene.add(ambientLight);
             } else if (carParam.includes`lambo-aventador`) {
                 model.scale.set(160, 160, 160);
                 camera.position.set(0, 100, 850);
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 5.5);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
                 directionalLight.position.set(5, 5, 5).normalize();
                 scene.add(directionalLight);
 
-                const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 1);
                 scene.add(ambientLight);
             } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
                 camera.position.set(0, 20, 125)
@@ -496,11 +474,11 @@ function initFirstPersonScript() {
                 });
             }
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
             directionalLight.position.set(0, 20, 125).normalize();
             scene.add(directionalLight);
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
             scene.add(ambientLight);
 
             hideLoadingOverlay();
