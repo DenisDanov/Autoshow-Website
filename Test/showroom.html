@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showroom</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="showroom.css">
+    <meta property="og:image" content="images/logo.png">
+    <script src="https://unpkg.com/comlink/dist/umd/comlink.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.152.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.152.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="offscreen_worker.js"></script>
+</head>
+<body>
+    <header class="nav-header" id="header">
+        <a href="index.html" class="logo">
+            <img class="logo-img" src="images/logo.png" alt="Logo">
+        </a>
+        <div class="h1">
+            <h1>Where Luxury Meets Performance</h1>
+        </div>
+        <div class="container">
+            <button class="hamburger" id="hamburgerButton">
+                <i class="fas fa-bars"></i>
+                <span class="menuText">Menu</span>
+            </button>
+            <ul class="menu" id="menu">
+                <li><a class="menuItem" href="index.html" onclick="setHamburgerRelative(event)"><i
+                            class="fas fa-home"></i>
+                        Home</a></li>
+                <li><a class="menuItem" href="auto-show.html" onclick="setHamburgerRelative(event)"><i
+                            class="fas fa-car"></i>
+                        Auto
+                        Show</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                            class="fas fa-sign-in-alt"></i> Log in</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                            class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+        </div>
+        <nav class="navs">
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i></a></li>
+                    <li><a href="auto-show.html"><i class="fas fa-car"></i></a></li>
+                    <li><a href="#"><i class="fas fa-sign-in-alt"></i></a></li>
+                    <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
+                </ul>
+            </nav>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="auto-show"><a href="auto-show.html">Auto Show</a></li>
+                    <li><a href="#">Log in</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </nav>
+    </header>
+    <script src="mobile-menu.js"></script>
+    <div id="loader"></div>
+    <div id="model-container"></div>
+    <canvas id="canvas"></canvas>
+    <div class="view-buttons">
+        <button id="firstPersonBtn">First Person View</button>
+        <button id="thirdPersonBtn">Third Person View</button>
+    </div>
+    <footer class="footer-section">
+        <h3>NEWSLETTER</h3>
+        <p>Subscribe to our Newsletter!</p>
+        <div class="subscribe-form">
+            <input type="email" placeholder="Your Email Address">
+            <button>Subscribe</button>
+        </div>
+        <div class="socials-section">
+            <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
+                    class="fab fa-facebook"></i></a>
+            <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i
+                    class="fab fa-linkedin"></i></a>
+        </div>
+        <div class="copyright-section">
+            <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
+        </div>
+    </footer>
+    <script type="module" src="3DModel-Scene-Switching.js"></script>
+</body>
+
+</html>
