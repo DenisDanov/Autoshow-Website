@@ -200,59 +200,22 @@ async function initThirdPersonScript() {
         });
 
     } else if (carParam.includes('.fbx') || carParam.includes('.FBX')) {
-        // ... (your other imports)
-
-        function loadFBXModel(loader) {
-            let loadingProgress = 0;
-
-            // Function to handle progress updates during loading
-            function onProgress(xhr) {
-                if (xhr.lengthComputable) {
-                    const percentComplete = (xhr.loaded / xhr.total) * 100;
-                    loadingProgress = percentComplete;
-                }
-            }
-
-            // Function to handle completion after loading
-            async function onLoad(fbx) {
+        loader = new FBXLoader();
+        loader.load(
+            carParam,
+            (fbx) => {
                 hideLoadingOverlay();
                 scene.add(fbx);
                 model = fbx;
                 setCameraPosition();
                 pivot.add(model);
+             },
+            undefined,
+            (error) => {
+                console.error('Error loading FBX model:', error);
+                hideLoadingOverlay();
             }
-
-            // Function to load the FBX model progressively
-            function loadProgressively() {
-                loader.load(
-                    carParam,
-                    (fbx) => {
-                        onLoad(fbx);
-                    },
-                    onProgress,
-                    (error) => {
-                        console.error('Error loading FBX model:', error);
-                        hideLoadingOverlay();
-                    }
-                );
-            }
-
-            // Function to update loading progress
-            function updateLoading() {
-                if (loadingProgress < 100) {
-                    requestAnimationFrame(updateLoading);
-                    controls.update();
-                    renderer.render(scene, camera);
-                }
-            }
-
-          
-            loadProgressively();
-            updateLoading();
-        }
-
-        // Call the function to load FBX model
-        loadFBXModel(new FBXLoader());
+        );
     } else {
         const loadingManager = new THREE.LoadingManager(() => {
             // This function is called when all resources are loaded to hide the loading animation
