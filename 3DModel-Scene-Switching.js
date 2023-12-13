@@ -186,7 +186,7 @@ async function initThirdPersonScript() {
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
                             child.material.metalness = 0.5; // 0 for non-metallic, 1 for fully metallic
-                            child.material.roughness = 0.2; // 0 for a smooth surface, 1 for a rough surface
+                            child.material.roughness = 0.1; // 0 for a smooth surface, 1 for a rough surface
                         }
                     }
                 });
