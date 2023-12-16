@@ -66,8 +66,8 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 1200;
                 } else if (carParam.includes(`gr_supra`)) {
                     camera.position.z += cameraDistance - 570;
-                } else if (carParam.includes(`2015_-_porsche_911_carrera_s__mid-poly (1).glb`)) {
-                    camera.position.z += cameraDistance - 40;
+                } else if (carParam.includes(`love_spells_310_882-6330_in_des_moines_ia`)) {
+                    camera.position.z += cameraDistance - 500;
                 } else {
                     camera.position.z += cameraDistance - 40;
                 }
@@ -83,7 +83,9 @@ async function initThirdPersonScript() {
                 } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
                     carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
                     camera.position.z += cameraDistance - 550;
-                } else {
+                } else if (carParam.includes(`love_spells_310_882-6330_in_des_moines_ia`)) {
+                    camera.position.z += cameraDistance - 250;
+                }else {
                     camera.position.z += cameraDistance - 20;
                 }
             }
@@ -209,7 +211,7 @@ async function initThirdPersonScript() {
                 model = fbx;
                 setCameraPosition();
                 pivot.add(model);
-             },
+            },
             undefined,
             (error) => {
                 console.error('Error loading FBX model:', error);
@@ -460,6 +462,19 @@ function initFirstPersonScript() {
                 });
             } else if (carParam.includes(`gr_supra`)) {
                 camera.position.set(0, 15, 105);
+                model.scale.set(15, 15, 15);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.7; // 0 for non-metallic, 1 for fully metallic
+                            child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                        }
+                    }
+                });
+            } else if (carParam.includes(`love_spells`)) {
+                camera.position.set(-1, 15, 105);
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
