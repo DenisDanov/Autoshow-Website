@@ -17,7 +17,7 @@ async function initThirdPersonScript() {
     scene = new THREE.Scene();
 
     const aspectRatio = containerRect.width / containerRect.height;
-    const camera = new THREE.PerspectiveCamera(75, aspectRatio, 15, 25000);
+    const camera = new THREE.PerspectiveCamera(75, aspectRatio, 15, 215000);
     renderer = new THREE.WebGLRenderer();
     const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -31,7 +31,7 @@ async function initThirdPersonScript() {
     scene.add(pivot);
     let cameraLight;
 
-    async function setCameraPosition() {
+    function setCameraPosition() {
         const nearClip = 1;
 
         // Set the near and far clipping planes for the camera
@@ -39,6 +39,13 @@ async function initThirdPersonScript() {
         camera.updateProjectionMatrix();
         camera.fov = 30;
         camera.updateProjectionMatrix();
+
+        if (carParam.includes(`tesla_model_3`)) {
+            camera.near = 1000;
+            camera.far = 215000;
+            camera.updateProjectionMatrix();
+        }
+
         if (model) {
             // Calculate bounding box of the model
             const boundingBox = new THREE.Box3().setFromObject(model);
@@ -68,6 +75,8 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 570;
                 } else if (carParam.includes(`love_spells_310_882-6330_in_des_moines_ia`)) {
                     camera.position.z += cameraDistance - 500;
+                } else if (carParam.includes(`tesla_model_3`)) {
+                    camera.position.z += cameraDistance - 100500;
                 } else {
                     camera.position.z += cameraDistance - 40;
                 }
@@ -85,7 +94,10 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 550;
                 } else if (carParam.includes(`love_spells_310_882-6330_in_des_moines_ia`)) {
                     camera.position.z += cameraDistance - 250;
-                }else {
+                    model.scale.set(50, 50, 50);
+                } else if (carParam.includes(`tesla_model_3`)) {
+                    camera.position.z += cameraDistance - 130500;
+                } else {
                     camera.position.z += cameraDistance - 20;
                 }
             }
@@ -173,10 +185,15 @@ async function initThirdPersonScript() {
                 model.scale.set(20, 20, 20);
                 model.traverse(child => {
                     if (child.isMesh) {
-                        const material = child.material;
-                        if (material) {
-                            material.metalness = 0.1;
-                            material.roughness = 0.5;
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.4; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.1; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
                         }
                     }
                 });
@@ -187,8 +204,12 @@ async function initThirdPersonScript() {
                         // Check if the material is already a MeshStandardMaterial
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
-                            child.material.metalness = 0.5; // 0 for non-metallic, 1 for fully metallic
-                            child.material.roughness = 0.1; // 0 for a smooth surface, 1 for a rough surface
+                            child.material.metalness = 0.7; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
                         }
                     }
                 });
@@ -428,10 +449,15 @@ function initFirstPersonScript() {
                 model.scale.set(20, 20, 20);
                 model.traverse(child => {
                     if (child.isMesh) {
-                        const material = child.material;
-                        if (material) {
-                            material.metalness = 0.1;
-                            material.roughness = 0.5;
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.4; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.1; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
                         }
                     }
                 });
@@ -486,10 +512,38 @@ function initFirstPersonScript() {
                         }
                     }
                 });
+            } else if (carParam.includes(`tesla_model_3`)) {
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 15, -500);
+                } else {
+                    camera.position.set(0, 15, -800);
+                }
+                model.scale.set(1, 1, 1);
+                camera.lookAt(0, 0, 0);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.7; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
             }
 
             const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
             directionalLight.position.set(0, 20, 125).normalize();
+            if (carParam.includes(`tesla_model_3`) && containerRect.width > 430) {
+                directionalLight.position.set(0, 15, -500).normalize();
+            } else if (carParam.includes(`tesla_model_3`)) {
+                directionalLight.position.set(0, 15, -800).normalize();
+            }
+
             scene.add(directionalLight);
 
             const ambientLight = new THREE.AmbientLight(0xffffff, 1);
@@ -534,6 +588,11 @@ function initFirstPersonScript() {
         console.error('Unsupported model format');
     }
 
+    const spotLight = new THREE.SpotLight(0xffffff, 1);
+    camera.add(spotLight);
+    spotLight.position.set(0, 0, 0); // Set the initial position of the spot light (at the camera's position)
+    scene.add(camera);
+
     function animate() {
         requestAnimationFrame(animate);
 
@@ -541,6 +600,9 @@ function initFirstPersonScript() {
             cameraLight.position.copy(camera.position);
             cameraLight.target.position.copy(camera.position);
         }
+
+        spotLight.position.copy(camera.position);
+        spotLight.target.position.copy(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(100)); // Set the light direction
 
         // Move the camera based on the keyboard input
         let moveSpeed = 0.2;
@@ -553,6 +615,8 @@ function initFirstPersonScript() {
             moveSpeed = 0.16;
         } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
             carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+            moveSpeed = 0.8;
+        } else if (carParam.includes(`tesla_model_3`)) {
             moveSpeed = 0.8;
         }
 
