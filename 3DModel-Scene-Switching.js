@@ -696,6 +696,8 @@ function initFirstPersonScript() {
                     moveSpeed = 0.08;
                 } else if (carParam.includes(`lambo-aventador.glb`)) {
                     moveSpeed = 0.35;
+                } else if (carParam.includes(`tesla_model_3`)) {
+                    moveSpeed = 0.35;
                 } else {
                     moveSpeed = 0.11;
                 }
