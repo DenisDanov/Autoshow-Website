@@ -40,7 +40,7 @@ async function initThirdPersonScript() {
         camera.fov = 30;
         camera.updateProjectionMatrix();
 
-        if (carParam.includes(`tesla_model_3`)) {
+        if (carParam.includes(`Tesla-Model 3-2020.glb`)) {
             camera.near = 1000;
             camera.far = 215000;
             camera.updateProjectionMatrix();
@@ -62,40 +62,40 @@ async function initThirdPersonScript() {
             // Set camera position
             camera.position.copy(center);
             if (containerRect.width > 430) {
-                if (carParam.includes(`lambo-aventador`)) {
+                if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
                     camera.position.z += cameraDistance - 1910;
-                } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+                } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
                     camera.position.z += cameraDistance - 285;
-                } else if (carParam.includes(`gallardo`)) {
+                } else if (carParam.includes(`Lamborghini-Galardo-2007.glb`)) {
                     camera.position.z += cameraDistance - 490;
-                } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                    carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                } else if (carParam.includes(`Porshe-911-2016.FBX`) ||
+                    carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
                     camera.position.z += cameraDistance - 1200;
-                } else if (carParam.includes(`gr_supra`)) {
+                } else if (carParam.includes(`Toyota-Gr Supra-2020.glb`)) {
                     camera.position.z += cameraDistance - 570;
-                } else if (carParam.includes(`love_spells_310_882-6330_in_des_moines_ia`)) {
+                } else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
                     camera.position.z += cameraDistance - 500;
-                } else if (carParam.includes(`tesla_model_3`)) {
+                } else if (carParam.includes(`Tesla-Model 3-2020.glb`)) {
                     camera.position.z += cameraDistance - 100500;
                 } else {
                     camera.position.z += cameraDistance - 40;
                 }
             } else {
-                if (carParam.includes(`lambo-aventador`)) {
+                if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
                     camera.position.z += cameraDistance - 920;
-                } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+                } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
                     camera.position.z += cameraDistance - 145;
-                } else if (carParam.includes(`gallardo`)) {
+                } else if (carParam.includes(`Lamborghini-Galardo-2007.glb`)) {
                     camera.position.z += cameraDistance - 240;
-                } else if (carParam.includes(`gr_supra`)) {
+                } else if (carParam.includes(`Toyota-Gr Supra-2020.glb`)) {
                     camera.position.z += cameraDistance - 250;
-                } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                    carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                } else if (carParam.includes(`Porshe-911-2016.FBX`) ||
+                    carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
                     camera.position.z += cameraDistance - 550;
-                } else if (carParam.includes(`love_spells_310_882-6330_in_des_moines_ia`)) {
+                } else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
                     camera.position.z += cameraDistance - 250;
                     model.scale.set(50, 50, 50);
-                } else if (carParam.includes(`tesla_model_3`)) {
+                } else if (carParam.includes(`Tesla-Model 3-2020.glb`)) {
                     camera.position.z += cameraDistance - 130500;
                 } else {
                     camera.position.z += cameraDistance - 20;
@@ -105,10 +105,10 @@ async function initThirdPersonScript() {
             // Set controls target
             controls.target.copy(center);
 
-            if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+            if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
                 cameraLight = new THREE.SpotLight(0xffffff, 1);
-            } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+            } else if (carParam.includes(`Porshe-911-2016.FBX`) ||
+                carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
                 cameraLight = new THREE.SpotLight(0xffffff, 0.2);
             } else {
                 cameraLight = new THREE.SpotLight(0xffffff, 1);
@@ -119,8 +119,8 @@ async function initThirdPersonScript() {
             scene.add(cameraLight);
             scene.add(cameraLight.target);
 
-            if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+            if (carParam.includes(`Porshe-911-2016.FBX`) ||
+                carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
                 directionalLight.position.set(camera.position).normalize();
                 scene.add(directionalLight);
@@ -130,8 +130,8 @@ async function initThirdPersonScript() {
                 scene.add(directionalLight);
             }
 
-            if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+            if (carParam.includes(`Porshe-911-2016.FBX`) ||
+                carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
             } else {
@@ -156,7 +156,7 @@ async function initThirdPersonScript() {
 
             // Add the model to the pivot
             pivot.add(model);
-            if (carParam.includes`porsche`) {
+            if (carParam.includes`Porsche-Carrera-2015.glb`) {
                 model.scale.set(165, 165, 165);
                 model.traverse(child => {
                     if (child.isMesh) {
@@ -173,7 +173,7 @@ async function initThirdPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 3);
                 scene.add(ambientLight);
-            } else if (carParam.includes`lambo-aventador`) {
+            } else if (carParam.includes`Lamborghini-Aventador-2020.glb`) {
                 model.scale.set(170, 170, 170);
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
                 directionalLight.position.set(5, 5, 5).normalize();
@@ -181,7 +181,7 @@ async function initThirdPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 5);
                 scene.add(ambientLight);
-            } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+            } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
                 model.scale.set(20, 20, 20);
                 model.traverse(child => {
                     if (child.isMesh) {
@@ -417,7 +417,7 @@ function initFirstPersonScript() {
             model = gltf.scene;
             scene.add(model);
 
-            if (carParam.includes`porsche`) {
+            if (carParam.includes`Porsche-Carrera-2015.glb`) {
                 model.scale.set(300, 300, 300);
                 camera.position.set(0, 5, 35);
                 model.traverse(child => {
@@ -435,7 +435,7 @@ function initFirstPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
                 scene.add(ambientLight);
-            } else if (carParam.includes`lambo-aventador`) {
+            } else if (carParam.includes`Lamborghini-Aventador-2020.glb`) {
                 model.scale.set(160, 160, 160);
                 camera.position.set(0, 100, 850);
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -444,7 +444,7 @@ function initFirstPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
                 scene.add(ambientLight);
-            } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+            } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
                 camera.position.set(0, 20, 125)
                 model.scale.set(20, 20, 20);
                 model.traverse(child => {
@@ -461,19 +461,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`bmw`)) {
-                camera.position.set(15, 5, 15);
-                gltf.scene.traverse((child) => {
-                    if (child.isMesh) {
-                        // Check if the material is already a MeshStandardMaterial
-                        if (child.material.isMeshStandardMaterial) {
-                            // Adjust material properties
-                            child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
-                            child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
-                        }
-                    }
-                });
-            } else if (carParam.includes(`gallardo`)) {
+            } else if (carParam.includes(`Lamborghini-Galardo-2007.glb`)) {
                 camera.position.set(0, 10, 90);
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {
@@ -486,7 +474,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`gr_supra`)) {
+            } else if (carParam.includes(`Toyota-Gr Supra-2020.glb`)) {
                 camera.position.set(0, 15, 105);
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {
@@ -499,7 +487,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`love_spells`)) {
+            } else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
                 camera.position.set(-1, 15, 105);
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {
@@ -512,7 +500,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`tesla_model_3`)) {
+            } else if (carParam.includes(`Tesla-Model 3-2020.glb`)) {
                 if (containerRect.width > 430) {
                     camera.position.set(0, 15, -500);
                 } else {
@@ -538,9 +526,9 @@ function initFirstPersonScript() {
 
             const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
             directionalLight.position.set(0, 20, 125).normalize();
-            if (carParam.includes(`tesla_model_3`) && containerRect.width > 430) {
+            if (carParam.includes(`Tesla-Model 3-2020.glb`) && containerRect.width > 430) {
                 directionalLight.position.set(0, 15, -500).normalize();
-            } else if (carParam.includes(`tesla_model_3`)) {
+            } else if (carParam.includes(`Tesla-Model 3-2020.glb`)) {
                 directionalLight.position.set(0, 15, -800).normalize();
             }
 
@@ -572,8 +560,8 @@ function initFirstPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
-                if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-                    carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+                if (carParam.includes(`Porshe-911-2016.FBX`) ||
+                    carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
                     camera.position.set(0, 100, 600);
                 }
                 animate();
@@ -590,7 +578,6 @@ function initFirstPersonScript() {
 
     const spotLight = new THREE.SpotLight(0xffffff, 1);
     camera.add(spotLight);
-    spotLight.position.set(0, 0, 0); // Set the initial position of the spot light (at the camera's position)
     scene.add(camera);
 
     function animate() {
@@ -601,22 +588,27 @@ function initFirstPersonScript() {
             cameraLight.target.position.copy(camera.position);
         }
 
+        const lightDistance = -350;
         spotLight.position.copy(camera.position);
-        spotLight.target.position.copy(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(100)); // Set the light direction
+        spotLight.position.add(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(lightDistance));
+        spotLight.castShadow = false;
+        spotLight.shadow.mapSize.width = 1024;
+        spotLight.shadow.mapSize.height = 1024;
+        renderer.shadowMap.enabled = true;
 
         // Move the camera based on the keyboard input
         let moveSpeed = 0.2;
 
-        if (carParam.includes(`porsche`)) {
+        if (carParam.includes(`Porsche-Carrera-2015.glb`)) {
             moveSpeed = 0.05;
-        } else if (carParam.includes`lambo-aventador`) {
+        } else if (carParam.includes`Lamborghini-Aventador-2020.glb`) {
             moveSpeed = 1;
-        } else if (carParam.includes(`lamborghini_urus_graphite_capsule.glb`)) {
+        } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
             moveSpeed = 0.16;
-        } else if (carParam.includes(`Porsche_911_Turbo_S_Coupe_2016.FBX`) ||
-            carParam.includes(`Lincoln_Navigator_(Mk4)_(U554)_Black_Label_HQinterior_2017.FBX`)) {
+        } else if (carParam.includes(`Porshe-911-2016.FBX`) ||
+            carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
             moveSpeed = 0.8;
-        } else if (carParam.includes(`tesla_model_3`)) {
+        } else if (carParam.includes(`Tesla-Model 3-2020.glb`)) {
             moveSpeed = 0.8;
         }
 
@@ -690,13 +682,11 @@ function initFirstPersonScript() {
                 // Adjust the camera position based on the pinch distance
                 let moveSpeed = 0;
 
-                if (carParam.includes(`modified_lamborghini_urus.glb`)) {
-                    moveSpeed = 0.10;
-                } else if (carParam.includes(`2015_-_porsche_911_carrera_s__mid-poly (1).glb`)) {
+                if (carParam.includes(`Porsche-Carrera-2015.glb`)) {
                     moveSpeed = 0.08;
-                } else if (carParam.includes(`lambo-aventador.glb`)) {
+                } else if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
                     moveSpeed = 0.35;
-                } else if (carParam.includes(`tesla_model_3`)) {
+                } else if (carParam.includes(`Tesla-Model 3-2020.glb`)) {
                     moveSpeed = 0.35;
                 } else {
                     moveSpeed = 0.11;
