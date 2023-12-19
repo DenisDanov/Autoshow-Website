@@ -2,9 +2,8 @@
   "name": "project---website",
   "version": "1.0.0",
   "description": "",
-  "main": "3DModel-Scene-Switching.js",
+  "main": "proxy-server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node proxy-server.js"
   },
   "keywords": [],
