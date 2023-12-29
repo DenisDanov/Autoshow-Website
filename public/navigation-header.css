@@ -47,7 +47,7 @@
 }
 
 .nav-header nav ul li {
-    margin-right: 5.1px;
+    margin-right: 11px;
 }
 
 .nav-header nav ul li a {
@@ -80,7 +80,7 @@
 }
 
 .nav-header nav:nth-child(4) nav ul li {
-    flex: 0 0 23.1%;
+    flex: 0 0 13%;
     text-align: center;
 }
 
