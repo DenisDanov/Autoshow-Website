@@ -1,1 +1,1 @@
-web: node proxy-server.js
+web: bash start.sh

@@ -1,0 +1,130 @@
+@media (max-width:1281px) {
+    body .nav-header nav:nth-child(4) {
+        display: none;
+    }
+}
+
+@media (min-width: 1282px) {
+    .container {
+        display: none;
+    }
+}
+
+.nav-header {
+    color: #e2e2e2;
+    display: flex;
+    padding: 0 3.2rem;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 0%, rgba(79, 78, 83, 1) 16%, rgba(87, 85, 92, 1) 26%, rgba(129, 125, 140, 1) 52%, rgba(165, 158, 181, 1) 90%);    
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1000;
+}
+
+.nav-header.scrolled {
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px -6px black;
+}
+
+.logo {
+    padding: 0.5rem 0;
+    display: flex;
+    text-align: center;
+}
+
+.logo img {
+    max-height: 11.5vh;
+    height: 100%;
+    width: auto;
+    border-radius: 50%;
+    display: block;
+}
+
+.nav-header nav ul {
+    list-style-type: none;
+}
+
+.nav-header nav ul li {
+    margin-right: 5px;
+}
+
+.nav-header nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.nav-header nav:nth-child(4) ul li {
+    display: inline;
+}
+
+.nav-header nav:nth-child(1) ul li {
+    display: inline;
+}
+
+.nav-header nav:nth-child(1) ul li:last-child {
+    display: inline;
+}
+
+.nav-header nav:nth-child(4) {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+
+.nav-header nav:nth-child(4) nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-header nav:nth-child(4) nav ul li {
+    flex: 0 0 23%;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: #191717;
+}
+
+.auto-show {
+    margin-top: 0.5rem;
+}
+
+.nav-header .h1 h1{
+    font-family: 'Arial', sans-serif;
+    font-size: 1.5vw;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #7D7C7C;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-header .h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+a {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#nav-text {
+    width: 367px;
+    font-size: 13.5px;
+}
+
+#log-out-text,#log-out-icon {
+    display: none;
+}
