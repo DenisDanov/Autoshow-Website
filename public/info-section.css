@@ -1,0 +1,49 @@
+.info-section {
+    background: rgb(8,9,35);
+    background: linear-gradient(90deg, #ff2a00 0%, #333333 0%, #a59eb5 100%);
+    padding: 30px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.info-section h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #fff;
+    letter-spacing: 2px;
+    padding-bottom: 2rem;
+}
+
+.info-section p {
+    font-size: 18px;
+    color: #f2f2f2;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.info-section p i {
+    padding-right: 0.4rem;
+}
+
+.info-section .paragraphs {
+    display: flex;
+    flex-direction: column;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #a59eb5;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin:20px auto;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #8c8292;
+}
+

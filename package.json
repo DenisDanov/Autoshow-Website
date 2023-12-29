@@ -4,15 +4,15 @@
   "description": "",
   "main": "proxy-server.js",
   "scripts": {
-    "start": "node proxy-server.js"
+    "start": "concurrently \"npm run start-proxy\" \"npm run start-spring\"",
+    "start-proxy": "node proxy-server.js",
+    "start-spring": "java -jar demo-0.0.1-SNAPSHOT.jar"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.6.2",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "http-proxy-middleware": "^2.0.6"
+    "jwt-decode": "^4.0.0"
   }
 }
+
