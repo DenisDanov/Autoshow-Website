@@ -85,20 +85,49 @@
                 <button onclick="noThanks()">No thanks</button>
             </div>
         </div>
+        <div id="overlay-changeUsername">
+            <div id="popup-changeUsername">
+                <p id="warning-fields-username"></p>
+                <p>Please enter your password</p>
+                <input type="password" id="password">
+                <span><i class="toggle-password fas fa-eye" onclick="togglePasswordVisibility()"
+                        id="password-eye"></i></span>
+                <button id="remove-btn-changeUsername">Change Username</button>
+                <button id="close-changeUsername" onclick="closePopupChangeUsername()">Cancel</button>
+            </div>
+        </div>
         <div class="container-profile">
             <h2>Profile</h2>
+            <br>
             <div class="profile-info">
                 <label for="username">Username:</label>
-                <input type="text" id="username" value="" readonly>
+                <div id="username-container">
+                    <input type="text" id="username" value="deni">
+                    <button type="submit" id="change-username" style="display: none;">Save</button>
+                    <button type="submit" id="cancel" style="display: none;">Cancel</button>
+                </div>
                 <label for="email">Email:</label>
-                <input type="email" id="email" value="" readonly>
+                <div id="email-container">
+                    <input type="email" id="email" value="deni@abvv.bg">
+                    <button type="submit" id="change-email" style="display: none;">Save</button>
+                    <button type="submit" id="cancel-email" style="display: none;">Cancel</button>
+                </div>
                 <div class="profile-password">
                     <div>
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" value="" readonly>
+                        <label for="password">Change Password:</label>
+                        <input type="password" id="password" value="" placeholder="enter current password">
+                        <input type="password" id="new-password" placeholder="enter a new password">
+                        <input type="password" id="repeat-new-password" placeholder="enter the new password again">
                     </div>
-                    <span><i class="toggle-password fas fa-eye" onclick="togglePasswordVisibility()"></i></span>
+                    <span><i class="toggle-password fas fa-eye" onclick="togglePasswordVisibility()"
+                            id="password-eye"></i></span>
+                    <span><i class="toggle-password fas fa-eye" id="new-password-eye"
+                            onclick="togglePasswordVisibilityNewPass()"></i></span>
+                    <span><i class="toggle-password fas fa-eye" id="new-password-repeat-eye"
+                            onclick="togglePasswordVisibilityNewPassRepeat()"></i></span>
                 </div>
+                <button type="submit" id="change-password">Change password</button>
+                <p id="warning-fields" style="display: none;"></p>
                 <label for="favorite-vehicles">Favorite Vehicles:</label>
                 <ul id="favorite-vehicles"></ul>
             </div>
@@ -124,22 +153,10 @@
         </div>
     </footer>
     <script src="getProfileData.js"></script>
-    <script>
-        function togglePasswordVisibility() {
-            var passwordInput = document.getElementById("password");
-            var toggleIcon = document.querySelector(".toggle-password");
-
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                toggleIcon.classList.remove("fa-eye");
-                toggleIcon.classList.add("fa-eye-slash");
-            } else {
-                passwordInput.type = "password";
-                toggleIcon.classList.remove("fa-eye-slash");
-                toggleIcon.classList.add("fa-eye");
-            }
-        }
-    </script>
+    <script src="Password-Changing.js"></script>
+    <script src="Password-Eye-Visibility.js"></script>
+    <script src="Change-User-Details.js"></script>
+    <script src="Change-User-Password.js"></script>
 </body>
 
 </html>

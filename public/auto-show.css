@@ -94,7 +94,7 @@ section h2 {
     }
 }
 
-#overlay {
+#overlay,#overlay-changeUsername {
     display: none;
     position: fixed;
     top: 0;
@@ -108,7 +108,7 @@ section h2 {
 }
 
 /* Style for the pop-up box */
-#popup {
+#popup,#popup-changeUsername {
     background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
     padding: 20px;
     border-radius: 10px;
@@ -127,7 +127,7 @@ section h2 {
 }
 
 /* Style for the buttons */
-#popup button {
+#popup button,#popup-changeUsername button {
     padding: 10px 20px;
     margin: 10px;
     font-size: 16px;
@@ -138,6 +138,6 @@ section h2 {
     background-color: #444242;
 }
 
-#popup button:hover {
+#popup button:hover,#popup-changeUsername button:hover {
     background-color: #535353;
 }
