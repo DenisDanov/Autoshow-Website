@@ -1,8 +1,11 @@
 let unchangedUsername = document.getElementById(`username`).value;
 let unchangedEmail = document.getElementById(`email`).value;
+
 var authToken = getCookie("authToken");
 var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
 var userId = decodedToken.userId;
+
+console.log(unchangedUsername);
 
 document.getElementById(`username`).addEventListener(`input`, (e) => {
     document.getElementById(`change-username`).style.display = "block";
@@ -48,7 +51,7 @@ function requestChangeUsername (e) {
         body: JSON.stringify({
             userId: userId,
             username: document.getElementById(`username`).value,
-            password: document.querySelector(`#popup-changeUsername #password`).value
+            password: document.querySelector(`#password-overlay`).value
         })
     })
     .then(response => response.json())
@@ -56,10 +59,11 @@ function requestChangeUsername (e) {
         console.log(result.result);
         if (result.result === `Successfully changed the username`) {
             document.getElementById(`warning-fields-username`).style.backgroundColor = `green`;
+            document.getElementById(`warning-fields-username`).style.border = "3px solid green";
             document.getElementById(`warning-fields-username`).textContent = result.result;
             setTimeout(function () {
                 document.getElementById(`overlay-changeUsername`).style.display = `none`;
-                document.querySelector(`#popup-changeUsername #password`).value = ``;
+                document.querySelector(`#password-overlay`).value = ``;
             }, 2000);
         }
     })
@@ -67,7 +71,7 @@ function requestChangeUsername (e) {
 
 function closePopupChangeUsername (e) {
     document.getElementById(`overlay-changeUsername`).style.display = `none`;
-    document.querySelector(`#popup-changeUsername #password`).value = ``;
+    document.querySelector(`#password-overlay`).value = ``;
     document.getElementById(`cancel`).click();
 }
 
