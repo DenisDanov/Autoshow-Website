@@ -32,12 +32,10 @@ if (authToken) {
         .then(result => {
             const username = result.username;
             const email = result.email;
-            const password = result.password;
             const favVehiclesArr = result.favVehicles
 
             document.getElementById("username").value = username;
             document.getElementById("email").value = email;
-            document.getElementById("password").value = password;
             for (const vehicle of favVehiclesArr) {
                 const favVehiclesContainer = document.createElement(`li`);
 
