@@ -63,7 +63,9 @@ function requestChangeUsername(e) {
                 document.getElementById(`warning-fields-username`).style.backgroundColor = `green`;
                 document.getElementById(`warning-fields-username`).style.border = "3px solid green";
                 document.getElementById(`warning-fields-username`).textContent = result.result;
+                unchangedUsername = document.getElementById(`username`).value;
                 setTimeout(function () {
+                    document.getElementById(`cancel`).click();
                     document.getElementById(`overlay-changeUsername`).style.display = `none`;
                     document.querySelector(`#password-overlay`).value = ``;
                 }, 1500);
