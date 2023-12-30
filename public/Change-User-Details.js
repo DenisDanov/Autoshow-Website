@@ -105,7 +105,42 @@ document.getElementById(`email`).addEventListener(`input`, (e) => {
 });
 
 function changeEmail(e) {
-
+    fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/profile/changeEmail`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: userId,
+            email: document.getElementById(`email`).value
+        })
+    })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result.result);
+            if (result.result == `Successfully changed the email.`) {
+                document.getElementById(`changed-email`).style.display = `block`;
+                document.getElementById(`changed-email`).textContent = result.result;
+                document.getElementById(`changed-email`).style.color = `green`;
+                unchangedEmail = document.getElementById(`email`).value;
+                setTimeout(function () {
+                    document.getElementById(`changed-email`).textContent = ``;
+                    document.getElementById(`changed-email`).style.display = `none`;
+                    document.getElementById(`changed-email`).style.color = `black`;
+                    document.getElementById(`cancel`).click();
+                }, 1500);
+            } else {
+                document.getElementById(`changed-email`).style.display = `block`;
+                document.getElementById(`changed-email`).textContent = result.result;
+                document.getElementById(`changed-email`).style.color = `red`;
+                setTimeout(function () {
+                    document.getElementById(`changed-email`).textContent = ``;
+                    document.getElementById(`changed-email`).style.display = `none`;
+                    document.getElementById(`changed-email`).style.color = `black`;
+                    document.getElementById(`cancel`).click();
+                }, 1500);
+            }
+        })
 }
 
 function getCookie(name) {
