@@ -1,11 +1,13 @@
-let unchangedUsername = document.getElementById(`username`).value;
-let unchangedEmail = document.getElementById(`email`).value;
+let unchangedUsername;
+let unchangedEmail;
+setTimeout(function () {
+    unchangedUsername = document.getElementById(`username`).value;
+    unchangedEmail = document.getElementById(`email`).value;
+}, 1000);
 
 var authToken = getCookie("authToken");
 var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
 var userId = decodedToken.userId;
-
-console.log(unchangedUsername);
 
 document.getElementById(`username`).addEventListener(`input`, (e) => {
     document.getElementById(`change-username`).style.display = "block";
@@ -42,11 +44,11 @@ function changeUserName(e) {
     document.getElementById(`remove-btn-changeUsername`).addEventListener(`click`, requestChangeUsername);
 }
 
-function requestChangeUsername (e) {
-    fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/profile/changeUsername`,{
-        method:"POST",
+function requestChangeUsername(e) {
+    fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/profile/changeUsername`, {
+        method: "POST",
         headers: {
-            "Content-Type":"application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             userId: userId,
@@ -54,22 +56,22 @@ function requestChangeUsername (e) {
             password: document.querySelector(`#password-overlay`).value
         })
     })
-    .then(response => response.json())
-    .then(result => {
-        console.log(result.result);
-        if (result.result === `Successfully changed the username`) {
-            document.getElementById(`warning-fields-username`).style.backgroundColor = `green`;
-            document.getElementById(`warning-fields-username`).style.border = "3px solid green";
-            document.getElementById(`warning-fields-username`).textContent = result.result;
-            setTimeout(function () {
-                document.getElementById(`overlay-changeUsername`).style.display = `none`;
-                document.querySelector(`#password-overlay`).value = ``;
-            }, 2000);
-        }
-    })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result.result);
+            if (result.result === `Successfully changed the username`) {
+                document.getElementById(`warning-fields-username`).style.backgroundColor = `green`;
+                document.getElementById(`warning-fields-username`).style.border = "3px solid green";
+                document.getElementById(`warning-fields-username`).textContent = result.result;
+                setTimeout(function () {
+                    document.getElementById(`overlay-changeUsername`).style.display = `none`;
+                    document.querySelector(`#password-overlay`).value = ``;
+                }, 1500);
+            }
+        })
 }
 
-function closePopupChangeUsername (e) {
+function closePopupChangeUsername(e) {
     document.getElementById(`overlay-changeUsername`).style.display = `none`;
     document.querySelector(`#password-overlay`).value = ``;
     document.getElementById(`cancel`).click();
