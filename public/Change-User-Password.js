@@ -48,16 +48,18 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
                     document.getElementById(`warning-fields`).style.backgroundColor = `green`;
                     document.getElementById(`warning-fields`).style.border = "3px solid green";
                     document.getElementById(`warning-fields`).textContent = result.result;
-                    setTimeout(function () {
-                        document.getElementById(`warning-fields`).style.display = `none`;
-                    },3500);
+                    clearTimeout(timeOut);
+                    timeOut = setTimeout(function () {
+                        document.getElementById(`warning-fields`).style.display = 'none';
+                    }, 3500);
                 } else {
                     document.getElementById(`warning-fields`).style.display = `block`;
                     document.getElementById(`warning-fields`).style.backgroundColor = `red`;
                     document.getElementById(`warning-fields`).style.border = "3px solid red";
                     document.getElementById(`warning-fields`).textContent = result.result;
-                    setTimeout(function () {
-                        document.getElementById(`warning-fields`).style.display = `none`;
+                    clearTimeout(timeOut);
+                    timeOut = setTimeout(function () {
+                        document.getElementById(`warning-fields`).style.display = 'none';
                     }, 3500);
                 }
             })
