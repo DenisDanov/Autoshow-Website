@@ -59,7 +59,7 @@ function requestChangeUsername(e) {
         .then(response => response.json())
         .then(result => {
             console.log(result.result);
-            if (result.result === `Successfully changed the username`) {
+            if (result.result == `Successfully changed the username`) {
                 document.getElementById(`warning-fields-username`).style.backgroundColor = `green`;
                 document.getElementById(`warning-fields-username`).style.border = "3px solid green";
                 document.getElementById(`warning-fields-username`).textContent = result.result;
