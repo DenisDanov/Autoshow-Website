@@ -1,6 +1,8 @@
+while(document.getElementById(`email`).value === ``) {
+
+}
 let unchangedUsername = document.getElementById(`username`).value;
 let unchangedEmail = document.getElementById(`email`).value;
-let unchangedPassword = document.getElementById(`password`).value;
 
 var authToken = getCookie("authToken");
 var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
