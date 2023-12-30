@@ -137,7 +137,7 @@ function changeEmail(e) {
                     document.getElementById(`changed-email`).textContent = ``;
                     document.getElementById(`changed-email`).style.display = `none`;
                     document.getElementById(`changed-email`).style.color = `black`;
-                    document.getElementById(`cancel`).click();
+                    document.getElementById(`cancel-email`).click();
                 }, 1500);
             }
         })
