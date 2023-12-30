@@ -89,7 +89,7 @@
             <div id="popup-changeUsername">
                 <p id="warning-fields-username"></p>
                 <p>Please enter your password</p>
-                <input type="password" id="password-overlay">
+                <input type="password" id="password-overlay" autocomplete="new-password">
                 <span><i class="toggle-password fas fa-eye" onclick="togglePasswordVisibilityOverlayPass()"
                         id="password-eye-overlay"></i></span>
                 <button id="remove-btn-changeUsername">Change Username</button>
@@ -115,9 +115,9 @@
                 <div class="profile-password">
                     <div>
                         <label for="password">Change Password:</label>
-                        <input type="password" id="password" value="" placeholder="enter current password">
-                        <input type="password" id="new-password" placeholder="enter a new password">
-                        <input type="password" id="repeat-new-password" placeholder="enter the new password again">
+                        <input type="password" id="password" value="" placeholder="enter current password" autocomplete="new-password">
+                        <input type="password" id="new-password" placeholder="enter a new password" autocomplete="new-password">
+                        <input type="password" id="repeat-new-password" placeholder="enter the new password again" autocomplete="new-password">
                     </div>
                     <span><i class="toggle-password fas fa-eye" onclick="togglePasswordVisibility()"
                             id="password-eye"></i></span>

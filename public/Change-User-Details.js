@@ -67,6 +67,10 @@ function requestChangeUsername(e) {
                     document.getElementById(`overlay-changeUsername`).style.display = `none`;
                     document.querySelector(`#password-overlay`).value = ``;
                 }, 1500);
+            } else {
+                document.getElementById(`warning-fields-username`).style.backgroundColor = `red`;
+                document.getElementById(`warning-fields-username`).style.border = "3px solid red";
+                document.getElementById(`warning-fields-username`).textContent = result.result;
             }
         })
 }
