@@ -68,6 +68,9 @@ function requestChangeUsername(e) {
                     document.getElementById(`cancel`).click();
                     document.getElementById(`overlay-changeUsername`).style.display = `none`;
                     document.querySelector(`#password-overlay`).value = ``;
+                    document.getElementById(`warning-fields-username`).style.backgroundColor = ``;
+                    document.getElementById(`warning-fields-username`).style.border = "";
+                    document.getElementById(`warning-fields-username`).textContent = ``;
                 }, 1500);
             } else {
                 document.getElementById(`warning-fields-username`).style.backgroundColor = `red`;
@@ -80,6 +83,9 @@ function requestChangeUsername(e) {
 function closePopupChangeUsername(e) {
     document.getElementById(`overlay-changeUsername`).style.display = `none`;
     document.querySelector(`#password-overlay`).value = ``;
+    document.getElementById(`warning-fields-username`).style.backgroundColor = ``;
+    document.getElementById(`warning-fields-username`).style.border = "";
+    document.getElementById(`warning-fields-username`).textContent = ``;
     document.getElementById(`cancel`).click();
 }
 
