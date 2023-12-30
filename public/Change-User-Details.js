@@ -123,7 +123,7 @@ function changeEmail(e) {
                 document.getElementById(`changed-email`).textContent = result.result;
                 document.getElementById(`changed-email`).style.color = `green`;
                 unchangedEmail = document.getElementById(`email`).value;
-                document.getElementById(`cancel`).click();
+                document.getElementById(`cancel-email`).click();
                 setTimeout(function () {
                     document.getElementById(`changed-email`).textContent = ``;
                     document.getElementById(`changed-email`).style.display = `none`;
@@ -133,11 +133,11 @@ function changeEmail(e) {
                 document.getElementById(`changed-email`).style.display = `block`;
                 document.getElementById(`changed-email`).textContent = result.result;
                 document.getElementById(`changed-email`).style.color = `red`;
+                document.getElementById(`cancel-email`).click();
                 setTimeout(function () {
                     document.getElementById(`changed-email`).textContent = ``;
                     document.getElementById(`changed-email`).style.display = `none`;
                     document.getElementById(`changed-email`).style.color = `black`;
-                    document.getElementById(`cancel-email`).click();
                 }, 1500);
             }
         })

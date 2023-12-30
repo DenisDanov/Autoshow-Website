@@ -17,14 +17,14 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
         clearTimeout(timeOut);
         timeOut = setTimeout(function () {
             document.getElementById(`warning-fields`).style.display = 'none';
-        }, 4000);
+        }, 3500);
     } else if (newPassword !== newPasswordRepeat) {
         document.getElementById(`warning-fields`).textContent = `Passwords do not match.`;
         document.getElementById(`warning-fields`).style.display = `block`;
         clearTimeout(timeOut);
         timeOut = setTimeout(function () {
             document.getElementById(`warning-fields`).style.display = 'none';
-        }, 4000);
+        }, 3500);
     } else {
         fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/profile/changePassword`, {
             method: "POST",
@@ -50,7 +50,7 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
                     document.getElementById(`warning-fields`).textContent = result.result;
                     setTimeout(function () {
                         document.getElementById(`warning-fields`).style.display = `none`;
-                    }, 1500);
+                    },3500);
                 } else {
                     document.getElementById(`warning-fields`).style.display = `block`;
                     document.getElementById(`warning-fields`).style.backgroundColor = `red`;
@@ -58,7 +58,7 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
                     document.getElementById(`warning-fields`).textContent = result.result;
                     setTimeout(function () {
                         document.getElementById(`warning-fields`).style.display = `none`;
-                    }, 1500);
+                    }, 3500);
                 }
             })
     }
