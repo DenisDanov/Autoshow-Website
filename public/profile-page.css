@@ -158,6 +158,10 @@ input[type="password"]::-webkit-reveal {
     border-radius: 5px;
 }
 
+#warning-fields-username {
+    border: 0px solid red;
+}
+
 #popup-changeUsername #password {
     padding: 0.5rem;
 }
