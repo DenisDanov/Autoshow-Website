@@ -14,13 +14,25 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
     if (currentPassword === `` || newPassword === `` || newPasswordRepeat == ``) {
         document.getElementById(`warning-fields`).textContent = `Please fill out all password fields.`;
         document.getElementById(`warning-fields`).style.display = `block`;
+        document.getElementById(`warning-fields`).style.backgroundColor = `red`;
+        document.getElementById(`warning-fields`).style.border = "3px solid red";
+
+        document.querySelector("#new-password-eye").style.display = `none`;
+        document.querySelector("#password-eye").style.display = `none`;
+        document.querySelector("#new-password-repeat-eye").style.display = `none`;
         clearTimeout(timeOut);
         timeOut = setTimeout(function () {
             document.getElementById(`warning-fields`).style.display = 'none';
         }, 3500);
     } else if (newPassword !== newPasswordRepeat) {
+        document.getElementById(`warning-fields`).style.backgroundColor = `red`;
+        document.getElementById(`warning-fields`).style.border = "3px solid red";
         document.getElementById(`warning-fields`).textContent = `Passwords do not match.`;
         document.getElementById(`warning-fields`).style.display = `block`;
+
+        document.querySelector("#new-password-eye").style.display = `none`;
+        document.querySelector("#password-eye").style.display = `none`;
+        document.querySelector("#new-password-repeat-eye").style.display = `none`;
         clearTimeout(timeOut);
         timeOut = setTimeout(function () {
             document.getElementById(`warning-fields`).style.display = 'none';
@@ -48,6 +60,10 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
                     document.getElementById(`warning-fields`).style.backgroundColor = `green`;
                     document.getElementById(`warning-fields`).style.border = "3px solid green";
                     document.getElementById(`warning-fields`).textContent = result.result;
+
+                    document.querySelector("#new-password-eye").style.display = `none`;
+                    document.querySelector("#password-eye").style.display = `none`;
+                    document.querySelector("#new-password-repeat-eye").style.display = `none`;
                     clearTimeout(timeOut);
                     timeOut = setTimeout(function () {
                         document.getElementById(`warning-fields`).style.display = 'none';
@@ -57,6 +73,10 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
                     document.getElementById(`warning-fields`).style.backgroundColor = `red`;
                     document.getElementById(`warning-fields`).style.border = "3px solid red";
                     document.getElementById(`warning-fields`).textContent = result.result;
+
+                    document.querySelector("#new-password-eye").style.display = `none`;
+                    document.querySelector("#password-eye").style.display = `none`;
+                    document.querySelector("#new-password-repeat-eye").style.display = `none`;
                     clearTimeout(timeOut);
                     timeOut = setTimeout(function () {
                         document.getElementById(`warning-fields`).style.display = 'none';
