@@ -41,21 +41,23 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
             .then(result => {
                 console.log(result.result);
                 if (result.result == `Successfully changed the password.`) {
+                    document.getElementById(`password`).value = ``;
+                    document.getElementById(`new-password`).value = ``;
+                    document.getElementById(`repeat-new-password`).value = ``;
+                    document.getElementById(`warning-fields`).style.display = `block`;
                     document.getElementById(`warning-fields`).style.backgroundColor = `green`;
                     document.getElementById(`warning-fields`).style.border = "3px solid green";
                     document.getElementById(`warning-fields`).textContent = result.result;
                     setTimeout(function () {
                         document.getElementById(`warning-fields`).style.display = `none`;
-                        document.getElementById(`password`).value = ``;
-                        document.getElementById(`new-password`).value = ``;
-                        document.getElementById(`repeat-new-password`).value = ``;
                     }, 1500);
                 } else {
+                    document.getElementById(`warning-fields`).style.display = `block`;
                     document.getElementById(`warning-fields`).style.backgroundColor = `red`;
                     document.getElementById(`warning-fields`).style.border = "3px solid red";
                     document.getElementById(`warning-fields`).textContent = result.result;
                     setTimeout(function () {
-                        document.getElementById(`warning-field`).style.display = `none`;
+                        document.getElementById(`warning-fields`).style.display = `none`;
                     }, 1500);
                 }
             })
