@@ -16,7 +16,7 @@ document.getElementById(`username`).addEventListener(`input`, (e) => {
 
     document.getElementById(`change-username`).addEventListener(`click`, changeUserName);
     document.getElementById(`cancel`).addEventListener(`click`, cancel);
-
+    document.getElementById(`cancel-email`).addEventListener(`click`,cancel);
     if (document.getElementById(`username`).value === ``) {
         document.getElementById(`change-username`).style.display = `none`;
         document.getElementById(`cancel`).style.display = `none`;
@@ -123,11 +123,11 @@ function changeEmail(e) {
                 document.getElementById(`changed-email`).textContent = result.result;
                 document.getElementById(`changed-email`).style.color = `green`;
                 unchangedEmail = document.getElementById(`email`).value;
+                document.getElementById(`cancel`).click();
                 setTimeout(function () {
                     document.getElementById(`changed-email`).textContent = ``;
                     document.getElementById(`changed-email`).style.display = `none`;
                     document.getElementById(`changed-email`).style.color = `black`;
-                    document.getElementById(`cancel`).click();
                 }, 1500);
             } else {
                 document.getElementById(`changed-email`).style.display = `block`;
