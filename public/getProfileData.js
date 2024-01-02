@@ -48,7 +48,7 @@ if (authToken) {
                 <h3>${vehicle.vehicleName}</h3>
             </div>
             <div class="favorites">
-                <h3>Add to Favorites</h3>
+                <h3>Remove from Favorites</h3>
                 <label class="add-fav">
                     <input type="checkbox" />
                     <i class="icon-heart fas fa-heart">
@@ -73,7 +73,7 @@ function closePopup() {
     document.getElementById('overlay').style.display = 'none';
 }
 
-// Function to handle "Take me to log in" button click
+// Function to handle "Remove car" button click
 function removeTheCar(e) {
     var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
     var userId = decodedToken.userId;
