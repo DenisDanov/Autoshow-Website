@@ -47,6 +47,7 @@ body {
     flex-wrap: wrap;
     list-style: none;
     padding: 0;
+    justify-content: center;
 }
 
 #favorite-vehicles li {
@@ -179,4 +180,5 @@ input[type="password"]::-webkit-reveal {
     width: max-content;
     margin-bottom: 1rem;
     color: white;
+    border-radius: 5px;
 }
