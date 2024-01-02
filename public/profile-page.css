@@ -173,3 +173,10 @@ input[type="password"]::-webkit-reveal {
     background-color: #333;
     color: #aca6a6;
 }
+
+#changed-email {
+    margin: 0 auto;
+    width: max-content;
+    margin-bottom: 1rem;
+    color: white;
+}

@@ -121,25 +121,23 @@ function changeEmail(e) {
             if (result.result == `Successfully changed the email.`) {
                 document.getElementById(`changed-email`).style.display = `block`;
                 document.getElementById(`changed-email`).textContent = result.result;
-                document.getElementById(`changed-email`).style.color = `green`;
                 document.getElementById(`changed-email`).style.border = `3px solid green`;
+                document.getElementById(`changed-email`).style.backgroundColor = `green`;
                 unchangedEmail = document.getElementById(`email`).value;
                 document.getElementById(`cancel-email`).click();
                 setTimeout(function () {
                     document.getElementById(`changed-email`).textContent = ``;
                     document.getElementById(`changed-email`).style.display = `none`;
-                    document.getElementById(`changed-email`).style.color = `black`;
                 }, 1500);
             } else {
                 document.getElementById(`changed-email`).style.display = `block`;
                 document.getElementById(`changed-email`).textContent = result.result;
-                document.getElementById(`changed-email`).style.color = `red`;
                 document.getElementById(`changed-email`).style.border = `3px solid red`;
+                document.getElementById(`changed-email`).style.backgroundColor = `red`;
                 document.getElementById(`cancel-email`).click();
                 setTimeout(function () {
                     document.getElementById(`changed-email`).textContent = ``;
                     document.getElementById(`changed-email`).style.display = `none`;
-                    document.getElementById(`changed-email`).style.color = `black`;
                 }, 1500);
             }
         })
