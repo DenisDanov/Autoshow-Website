@@ -39,4 +39,6 @@ h1 {
 #cars-data-wrapper {
     display: flex;
     flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
 }
