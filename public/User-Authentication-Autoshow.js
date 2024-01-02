@@ -44,6 +44,7 @@ function checkLoginStatus() {
                 for (let vehicle of result) {
                     document.querySelectorAll(`.car-card a`).forEach(entrie => {
                         if (entrie.href === vehicle.vehicleId) {
+                            entrie.parentNode.children[2].children[0].textContent = `Remove from Favorites`;
                             entrie.parentNode.children[2].children[1].children[0].checked = true;
                             entrie.parentNode.children[2].children[1].children[0].classList.add(`checked`);
                         }
