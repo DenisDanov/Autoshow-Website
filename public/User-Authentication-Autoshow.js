@@ -62,6 +62,7 @@ function checkLoginStatus() {
                         .children[0].getAttribute("src");
                     const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].
                         children[0].textContent;
+                    e.currentTarget.parentNode.parentNode.children[0].textContent = `Remove from Favorites`;
                     fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/favorites/add`, {
                         method: "POST",
                         headers: {
@@ -78,6 +79,7 @@ function checkLoginStatus() {
                         .catch(err => console.log(err));
                 } else if (e.currentTarget.classList.contains(`checked`)) {
                     e.currentTarget.classList.remove(`checked`);
+                    e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
                     const carId = e.currentTarget.parentNode.parentNode.parentNode.
                         children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
                     fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/favorites/remove`, {
