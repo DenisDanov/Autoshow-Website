@@ -35,3 +35,8 @@ h1 {
     padding: 2rem 0;
     text-align: center;
 }
+
+#cars-data-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
