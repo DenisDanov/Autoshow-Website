@@ -126,10 +126,10 @@ input[type="password"]::-webkit-reveal {
     padding: 10px;
     margin-bottom: 15px;
     box-sizing: border-box;
-    border: 1px solid #ddd;
+    border: 1px solid #3b3838;
     border-radius: 5px;
-    background-color: #fff;
-    color: #333;
+    background-color: #3b3838;
+    color: #ddd;
     font-size: 16px;
 }
 
@@ -181,4 +181,9 @@ input[type="password"]::-webkit-reveal {
     margin-bottom: 1rem;
     color: white;
     border-radius: 5px;
+}
+
+.container-profile button:hover {
+    background-color: #333 !important;
+    cursor: pointer;
 }
