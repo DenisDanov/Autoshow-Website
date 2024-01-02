@@ -122,6 +122,7 @@ function changeEmail(e) {
                 document.getElementById(`changed-email`).style.display = `block`;
                 document.getElementById(`changed-email`).textContent = result.result;
                 document.getElementById(`changed-email`).style.color = `green`;
+                document.getElementById(`changed-email`).style.border = `3px solid green`;
                 unchangedEmail = document.getElementById(`email`).value;
                 document.getElementById(`cancel-email`).click();
                 setTimeout(function () {
@@ -133,6 +134,7 @@ function changeEmail(e) {
                 document.getElementById(`changed-email`).style.display = `block`;
                 document.getElementById(`changed-email`).textContent = result.result;
                 document.getElementById(`changed-email`).style.color = `red`;
+                document.getElementById(`changed-email`).style.border = `3px solid red`;
                 document.getElementById(`cancel-email`).click();
                 setTimeout(function () {
                     document.getElementById(`changed-email`).textContent = ``;
