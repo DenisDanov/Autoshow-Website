@@ -35,7 +35,7 @@ body {
     padding: 10px;
     margin-bottom: 15px;
     box-sizing: border-box;
-    border: 1px solid #ddd;
+    border: 1px solid rgb(80, 78, 75);
     border-radius: 5px;
     background-color: #fff;
     color: #333;
@@ -43,6 +43,7 @@ body {
 }
 
 #favorite-vehicles {
+    background-color: rgb(80, 78, 75);
     flex-wrap: wrap;
     list-style: none;
     padding: 0;
@@ -92,7 +93,7 @@ body {
 
 input[type="password"]::-ms-reveal,
 input[type="password"]::-webkit-reveal {
-  display: none !important;
+    display: none !important;
 }
 
 #new-password-eye {
@@ -147,8 +148,10 @@ input[type="password"]::-webkit-reveal {
     }
 }
 
-#warning-fields,#warning-fields-username {
-    color: white; /* Red text color for warning */
+#warning-fields,
+#warning-fields-username {
+    color: white;
+    /* Red text color for warning */
     border: 3px solid red;
     background-color: red;
     font-size: 18px;
@@ -164,4 +167,9 @@ input[type="password"]::-webkit-reveal {
 
 #popup-changeUsername #password {
     padding: 0.5rem;
+}
+
+.container-profile input {
+    background-color: #333;
+    color: #aca6a6;
 }
