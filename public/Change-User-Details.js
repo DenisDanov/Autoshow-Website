@@ -17,7 +17,8 @@ document.getElementById(`username`).addEventListener(`input`, (e) => {
     document.getElementById(`change-username`).addEventListener(`click`, changeUserName);
     document.getElementById(`cancel`).addEventListener(`click`, cancel);
     document.getElementById(`cancel-email`).addEventListener(`click`,cancel);
-    if (document.getElementById(`username`).value === ``) {
+    if (document.getElementById(`username`).value === `` || 
+    document.getElementById(`username`).value === unchangedUsername) {
         document.getElementById(`change-username`).style.display = `none`;
         document.getElementById(`cancel`).style.display = `none`;
         document.getElementById(`username-container`).style.width = "100%";
@@ -97,7 +98,8 @@ document.getElementById(`email`).addEventListener(`input`, (e) => {
     document.getElementById(`change-email`).addEventListener(`click`, changeEmail);
     document.getElementById(`cancel-email`).addEventListener(`click`, cancel);
 
-    if (document.getElementById(`email`).value === ``) {
+    if (document.getElementById(`email`).value === `` || 
+    document.getElementById(`email`).value === unchangedEmail) {
         document.getElementById(`change-email`).style.display = `none`;
         document.getElementById(`cancel-email`).style.display = `none`;
         document.getElementById(`email-container`).style.width = "100%";
