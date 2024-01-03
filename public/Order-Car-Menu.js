@@ -28,6 +28,9 @@ function takeMeToLogin() {
 
 // Function to handle "No thanks" button click
 function noThanks() {
+    document.getElementById('car-manufacturer').value = ``;
+    document.getElementById('car-model').value = ``;
+    document.getElementById('car-year').value = ``;
     closePopup();
 }
 
@@ -92,7 +95,10 @@ function orderCar(e) {
                     resultHtmlEle.style.borderRadius = `5px`;
 
                     setTimeout(function () {
-                        document.getElementById('order-car-container').style.display = `none`;
+                        document.getElementById('order-car-menu').style.display = `none`;
+                        carManufacturer.value = ``;
+                        carModel.value = ``;
+                        carYear.value = ``;
                     }, 2000);
                 }
             })
