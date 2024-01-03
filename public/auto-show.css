@@ -193,3 +193,7 @@ section h2 {
     border: 5px solid red;
     border-radius: 5px;
 }
+
+#car-manufacturer,#car-model,#car-year {
+    width: max-content;
+}

@@ -88,20 +88,22 @@
                 <div id="popup-order-car">
                     <p>Can't find a car you wanna see ? Make a order here.</p>
 
-                    <label for="car-manufacturer">Enter car manufacturer</label>
-                    <input id="car-manufacturer" type="text" required>
-                    <span class="error-message" id="error-car-manufacturer" style="display: none;">This field is
-                        required</span>
-
-                    <label for="car-model">Enter car model</label>
-                    <input id="car-model" type="text" required>
-                    <span class="error-message" id="error-car-model" style="display: none;">This field is
-                        required</span>
-
-                    <label for="car-year">Enter manufacture year</label>
-                    <input id="car-year" type="text" required>
+                    <label for="car-manufacturer">Select car manufacturer</label>
+                    <select id="car-manufacturer" required>
+                    </select>
+                    <span class="error-message" id="error-car-manufacturer" style="display: none;">This field is required</span>
+                    
+                    <label for="car-model">Select car model</label>
+                    <select id="car-model" required>
+                    </select>
+                    <span class="error-message" id="error-car-model" style="display: none;">This field is required</span>
+                    
+                    <label for="car-year">Select manufacture year</label>
+                    <select id="car-year" required>
+                    </select>
                     <span class="error-message" id="error-car-year" style="display: none;">This field is required</span>
-                    <span id="response-result" style="display: none;"></span>
+
+                    <span id="response-result" style="display: none;"></span>                    
                     <div>
                         <button onclick="orderCar()">Order car</button>
                         <button onclick="noThanks()">Cancel</button>
@@ -310,6 +312,7 @@
     </footer>
     <script src="User-Authentication-Autoshow.js"></script>
     <script src="Order-Car-Menu.js"></script>
+    <script src="Populate-CarsMenu.js"></script>
 </body>
 
 </html>
