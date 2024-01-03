@@ -30,6 +30,7 @@ function takeMeToLogin() {
     closePopup();
 }
 
+
 // Function to handle "No thanks" button click
 function noThanks() {
     document.getElementById('car-manufacturer').value = ``;
