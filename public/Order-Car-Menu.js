@@ -83,7 +83,7 @@ function orderCar(e) {
                     resultHtmlEle.style.borderRadius = `5px`;
 
                     setTimeout(function () {
-                        document.getElementById('order-car-container').style.display = `none`;
+                        document.getElementById('order-car-menu').style.display = `none`;
                     }, 2000);
                 } else {
                     const resultHtmlEle = document.getElementById(`response-result`);
