@@ -36,6 +36,7 @@ function noThanks() {
     document.getElementById('car-manufacturer').value = ``;
     document.getElementById('car-model').value = ``;
     document.getElementById('car-year').value = ``;
+    document.getElementById(`response-result`).style.display = `none`;
     closePopup();
 }
 
@@ -86,9 +87,9 @@ function orderCar(e) {
                     resultHtmlEle.style.color = `white`;
                     resultHtmlEle.style.border = `5px solid green`;
                     resultHtmlEle.style.borderRadius = `5px`;
-
                     setTimeout(function () {
                         document.getElementById('order-car-menu').style.display = `none`;
+                        document.getElementById(`response-result`).style.display = `none`;
                     }, 2000);
                 } else {
                     const resultHtmlEle = document.getElementById(`response-result`);
@@ -101,6 +102,7 @@ function orderCar(e) {
 
                     setTimeout(function () {
                         document.getElementById('order-car-menu').style.display = `none`;
+                        document.getElementById(`response-result`).style.display = `none`;
                         carManufacturer.value = ``;
                         carModel.value = ``;
                         carYear.value = ``;
