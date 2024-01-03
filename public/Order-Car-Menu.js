@@ -3,17 +3,21 @@ let timeOutModel;
 let timeOutYear;
 
 var authToken = getCookie("authToken");
-var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
-var userId = decodedToken.userId;
+var decodedToken;
+var userId;
 
-document.addEventListener('DOMContentLoaded', function () {
-    var orderCarContainer = document.getElementById('order-car-container');
-    var orderCarMenu = document.getElementById('order-car-menu');
-
-    orderCarContainer.addEventListener('click', function () {
-        orderCarMenu.style.display = 'flex';
-    });
-});
+if (authToken !== null) {
+    decodedToken = JSON.parse(atob(authToken.split('.')[1]));
+    userId = decodedToken.userId;
+    document.addEventListener('DOMContentLoaded', function () {
+        var orderCarContainer = document.getElementById('order-car-container');
+        var orderCarMenu = document.getElementById('order-car-menu');
+    
+        orderCarContainer.addEventListener('click', function () {
+            orderCarMenu.style.display = 'flex';
+        });
+    });    
+}
 
 function closePopup() {
     document.getElementById('overlay').style.display = 'none';
