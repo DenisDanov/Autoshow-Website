@@ -11,7 +11,7 @@ if (carParam.includes(`Urus`)) {
     vin = `ZHWGU12T87LA05336`;
 } else if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
     vin = `ZHWUM6ZD7KLA08087`;
-} else if (carParam.includes(`Toyota-Gr Supra-2020.glb`)) {
+} else if (carParam.includes(`Toyota-Gr-Supra-2020.glb`)) {
     vin = `WZ1DB4C04LW026201`;
 } else if (carParam.includes(`Porshe-911-2016.FBX`)) {
     vin = `WP0AD2A97FS166983`;
@@ -19,7 +19,7 @@ if (carParam.includes(`Urus`)) {
     vin = `5YMJU0C06N9J16964`;
 } else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
     vin = `SBM12ABA4FW000283`;
-} else if (carParam.includes(`Tesla-Model 3-2020.glb`)) {
+} else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
     vin = `5YJ3E1EC2PF577924`;
 } else {
     vin = `ZPBUA1ZL4NLA19618`;

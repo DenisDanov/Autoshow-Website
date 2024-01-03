@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="auto-show-page.css">
     <meta property="og:image" content="images/logo.png">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="Get-Cookie-Token.js"></script>
 </head>
 
 <body>
@@ -49,7 +50,8 @@
             <nav>
                 <ul>
                     <li><a href="index.html"><i class="fas fa-home"></i></a></li>
-                    <li style="display: none;" id="profile"><a href="https://danovs-autoshow-afcbab0f302b.herokuapp.com/profile.html"><i
+                    <li style="display: none;" id="profile"><a
+                            href="https://danovs-autoshow-afcbab0f302b.herokuapp.com/profile.html"><i
                                 class="fas fa-user"></i></a></li>
                     <li><a href="auto-show.html"><i class="fas fa-car"></i></a></li>
                     <li id="log-in-icon"><a href="https://danovs-autoshow-afcbab0f302b.herokuapp.com/login"><i
@@ -62,7 +64,8 @@
             <nav>
                 <ul id="nav-text">
                     <li><a href="index.html">Home</a></li>
-                    <li style="display: none;" id="profile"><a href="https://danovs-autoshow-afcbab0f302b.herokuapp.com/profile.html">Profile</a></li>
+                    <li style="display: none;" id="profile"><a
+                            href="https://danovs-autoshow-afcbab0f302b.herokuapp.com/profile.html">Profile</a></li>
                     <li class="auto-show"><a href="auto-show.html">Auto Show</a></li>
                     <li id="log-in-text"><a href="https://danovs-autoshow-afcbab0f302b.herokuapp.com/login">Log in</a>
                     </li>
@@ -78,10 +81,33 @@
             <h1>Welcome to Our Auto Show</h1>
             <p>Discover the Latest and Greatest Cars</p>
         </header>
-
         <section>
             <h2>Available Cars</h2>
+            <div id="order-car-container">Order Car</div>
+            <div id="order-car-menu">
+                <div id="popup-order-car">
+                    <p>Can't find a car you wanna see ? Make a order here.</p>
 
+                    <label for="car-manufacturer">Enter car manufacturer</label>
+                    <input id="car-manufacturer" type="text" required>
+                    <span class="error-message" id="error-car-manufacturer" style="display: none;">This field is
+                        required</span>
+
+                    <label for="car-model">Enter car model</label>
+                    <input id="car-model" type="text" required>
+                    <span class="error-message" id="error-car-model" style="display: none;">This field is
+                        required</span>
+
+                    <label for="car-year">Enter manufacture year</label>
+                    <input id="car-year" type="text" required>
+                    <span class="error-message" id="error-car-year" style="display: none;">This field is required</span>
+                    <span id="response-result" style="display: none;"></span>
+                    <div>
+                        <button onclick="orderCar()">Order car</button>
+                        <button onclick="noThanks()">Cancel</button>
+                    </div>
+                </div>
+            </div>
             <div class="cars-container">
                 <div id="overlay">
                     <div id="popup">
@@ -282,24 +308,8 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
-    <script>
-        // Function to close the pop-up
-        function closePopup() {
-            document.getElementById('overlay').style.display = 'none';
-        }
-
-        // Function to handle "Take me to log in" button click
-        function takeMeToLogin() {
-            location.href = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/login`;
-            closePopup();
-        }
-
-        // Function to handle "No thanks" button click
-        function noThanks() {
-            closePopup();
-        }
-    </script>
     <script src="User-Authentication-Autoshow.js"></script>
+    <script src="Order-Car-Menu.js"></script>
 </body>
 
 </html>

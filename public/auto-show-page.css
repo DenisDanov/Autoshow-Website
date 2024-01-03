@@ -94,7 +94,7 @@ section h2 {
     }
 }
 
-#overlay,#overlay-changeUsername {
+#overlay,#overlay-changeUsername,#order-car-menu {
     display: none;
     position: fixed;
     top: 0;
@@ -108,7 +108,7 @@ section h2 {
 }
 
 /* Style for the pop-up box */
-#popup,#popup-changeUsername {
+#popup,#popup-changeUsername,#popup-order-car {
     background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
     padding: 20px;
     border-radius: 10px;
@@ -117,7 +117,7 @@ section h2 {
 }
 
 /* Style for the close button */
-#close {
+#close,#close-order-car {
     cursor: pointer;
     position: absolute;
     top: 10px;
@@ -140,4 +140,56 @@ section h2 {
 
 #popup button:hover,#popup-changeUsername button:hover {
     background-color: #535353;
+}
+
+#order-car-container {
+    position: absolute;
+    top: 25%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+}
+
+#popup-order-car {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+#popup-order-car input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#popup-order-car button {
+    width: max-content;
+    background-color: #3b3e41;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#popup-order-car button:hover {
+    background-color: #6d6d6d;
+}
+
+#error-car-manufacturer,#error-car-model,#error-car-year {
+    color: white;
+    background-color: red;
+    border: 5px solid red;
+    border-radius: 5px;
 }
