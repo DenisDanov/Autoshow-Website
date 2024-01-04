@@ -55,7 +55,7 @@ function populateDataYears() {
 
 function populateData() {
     fetch(apiUrl)
-        .then(parseJSONP) // Parse the JSONP response
+        .then(response => response.json()) // Parse the JSONP response
         .then(data => {
             for (const jsonData of Object.entries(data)) {
                 const [key, value] = jsonData;
