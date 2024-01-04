@@ -169,6 +169,12 @@
     body #h1-cars-header h1 {
         font-size: 14px;
     }
+
+    #order-car-container {
+        top: 42%;
+        font-size: 13px;
+        padding: 7px;
+    }
 }
 
 .menuItem:hover {
