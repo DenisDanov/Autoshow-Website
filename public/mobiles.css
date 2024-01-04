@@ -171,9 +171,9 @@
     }
 
     #order-car-container {
-        top: 42%;
+        top: 42% !important;
         font-size: 13px;
-        padding: 7px;
+        padding: 7px !important;
     }
 }
 
