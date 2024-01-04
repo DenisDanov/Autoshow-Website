@@ -57,8 +57,10 @@ function populateData() {
     fetch(apiUrl)
         .then(response => response.json()) // Parse the JSONP response
         .then(data => {
+            console.log(data);
             for (const jsonData of Object.entries(data)) {
                 const [key, value] = jsonData;
+                console.log(value);
                 for (const carManufacturer of value) {
                     const option = document.createElement(`option`);
                     option.value = carManufacturer.make_id;
