@@ -21,7 +21,7 @@ function parseJSONP(response) {
 
 // Make the request
 document.getElementById(`car-manufacturer`).addEventListener(`change`, () => {
-    populateData();
+    populateModels();
 });
 
 document.getElementById(`car-model`).addEventListener(`change`, () => {
@@ -33,8 +33,6 @@ function populateDataYears() {
     fetch(apiUrl)
         .then(parseJSONP)
         .then(data => {
-            console.log(apiUrl);
-            console.log(data);
             document.getElementById(`car-year`).innerHTML = ``;
             let lastYear = ``;
             for (const jsonData of Object.entries(data)) {
@@ -51,6 +49,45 @@ function populateDataYears() {
             }
         })
         .catch(err => console.log(err));
+}
+
+function populateModels (params) {
+    apiUrl = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
+    fetch(apiUrl)
+        .then(parseJSONP)
+        .then(data => {
+            document.getElementById(`car-model`).innerHTML = ``;
+            for (const jsonData of Object.entries(data)) {
+                const [key, value] = jsonData;
+                for (const carModel of value) {
+                    const option = document.createElement(`option`);
+                    option.value = carModel.model_name;
+                    option.textContent = carModel.model_name;
+                    document.getElementById(`car-model`).appendChild(option);
+                }
+            }
+
+            apiUrl = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
+            fetch(apiUrl)
+                .then(parseJSONP)
+                .then(data => {
+                    document.getElementById(`car-year`).innerHTML = ``;
+                    let lastYear = ``;
+                    for (const jsonData of Object.entries(data)) {
+                        const [key, value] = jsonData;
+                        for (const carModel of value) {
+                            if (carModel.model_year !== lastYear) {
+                                const option = document.createElement(`option`);
+                                option.value = carModel.model_year;
+                                option.textContent = carModel.model_year;
+                                document.getElementById(`car-year`).appendChild(option);
+                            }
+                            lastYear = carModel.model_year;
+                        }
+                    }
+                })
+                .catch(err => console.log(err));
+        }).catch(err => console.log(err));
 }
 
 function populateData() {
