@@ -129,10 +129,10 @@ if (authToken) {
                 const imagePath = `images/${carManufacturer}-${carOrder.carModel}.png`;
                 const img = new Image();
                 img.onload = function() {
-                    container.childNodes[0].querySelector(`.car-order-model`).style.display = `flex`;
+                    container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
                 };
                 img.onerror = function() {
-                    container.childNodes[0].querySelector(`.car-order-model`).remove();
+                    container.children[0].querySelector(`.car-order-model`).remove();
                 };
                 img.src = imagePath;
                 document.querySelectorAll(`.order-status`).forEach(entrie => {
