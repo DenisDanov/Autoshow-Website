@@ -7,3 +7,4 @@
         autoplaySpeed: 2000 // Adjust as needed
     });
 });
+
