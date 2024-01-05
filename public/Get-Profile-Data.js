@@ -74,7 +74,7 @@ if (authToken) {
             for (const carOrder of result) {
                 const container = document.createElement(`li`);
                 let carManufacturer = carOrder.carManufacturer;
-                carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer;
+                carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
                 container.innerHTML = `
                 <div class="car-orders-container">
                 <div class="car-order-details">
@@ -126,8 +126,17 @@ if (authToken) {
                 </div>
             </div>
                 `
+                const imagePath = `images/${carManufacturer}-${carOrder.carModel}.png`;
+                const img = new Image();
+                img.onload = function() {
+                    container.childNodes[0].querySelector(`.car-order-model`).style.display = `flex`;
+                };
+                img.onerror = function() {
+                    container.childNodes[0].querySelector(`.car-order-model`).remove();
+                };
+                img.src = imagePath;
                 document.querySelectorAll(`.order-status`).forEach(entrie => {
-                    entrie.setAttribute("status",carOrder.orderStatus);
+                    entrie.setAttribute("status", carOrder.orderStatus);
                 });
                 document.getElementById(`car-orders`).appendChild(container);
             }
