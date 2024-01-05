@@ -66,6 +66,73 @@ if (authToken) {
                 document.getElementById(`remove-btn`).addEventListener(`click`, removeTheCar);
             }
         })
+
+    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/get?id=${userId}`)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            for (const carOrder of result) {
+                const container = document.createElement(`li`);
+                let carManufacturer = carOrder.carManufacturer;
+                carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer;
+                container.innerHTML = `
+                <div class="car-orders-container">
+                <div class="car-order-details">
+                    <div>
+                        <span>Car manufacturer</span>
+                        <p>${carManufacturer}</p>
+                    </div>
+                    <div>
+                        <span>Car model</span>
+                        <p>${carOrder.carModel}</p>
+                    </div>
+                    <div>
+                        <span>Manufacture year</span>
+                        <p>${carOrder.carYear}</p>
+                    </div>
+                </div>
+                <div class="car-order-status">
+                    <div>
+                        <span>Order status</span>
+                        <p class="order-status">${carOrder.orderStatus}</p>
+                    </div>
+                    <div>
+                        <span>Order date</span>
+                        <p>${carOrder.dateOfOrder}</p>
+                    </div>
+                </div>
+                <div class="car-order-model" style="display: none;">
+                    <h1>Ordered car</h1>
+                    <div class="car-card">
+                        <div class="img-container">
+                            <img src="images/${carManufacturer}-${carOrder.carModel}.png" alt="Car 2">
+                        </div>
+                        <div class="car-info">
+                            <h3>${carOrder.carYear} ${carManufacturer.toUpperCase()} ${carOrder.carModel.toUpperCase()}</h3>
+                        </div>
+                        <div class="favorites">
+                            <h3>Add to Favorites</h3>
+                            <label class="add-fav">
+                                <input type="checkbox" />
+                                <i class="icon-heart fas fa-heart">
+                                    <i class="icon-plus-sign fa-solid fa-plus"></i>
+                                </i>
+                            </label>
+                        </div>
+                        <a href="showroom.html?car=3D Models/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.glb"
+                            class="view-button">View in
+                            Showroom</a>
+                    </div>
+                </div>
+            </div>
+                `
+                document.querySelectorAll(`.order-status`).forEach(entrie => {
+                    entrie.setAttribute("status",carOrder.orderStatus);
+                });
+                document.getElementById(`car-orders`).appendChild(container);
+            }
+        })
+        .catch(err => console.log(err));
 }
 
 // Function to close the pop-up

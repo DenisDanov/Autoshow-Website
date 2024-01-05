@@ -29,7 +29,8 @@ body {
 }
 
 .profile-info input,
-#favorite-vehicles {
+#favorite-vehicles,
+#car-orders {
     display: flex;
     width: 100%;
     padding: 10px;
@@ -42,7 +43,8 @@ body {
     font-size: 16px;
 }
 
-#favorite-vehicles {
+#favorite-vehicles,
+#car-orders {
     background-color: rgb(80, 78, 75);
     flex-wrap: wrap;
     list-style: none;
@@ -50,7 +52,8 @@ body {
     justify-content: center;
 }
 
-#favorite-vehicles li {
+#favorite-vehicles li,
+#car-orders li {
     margin-bottom: 5px;
 }
 
@@ -105,7 +108,7 @@ input[type="password"]::-webkit-reveal {
     margin-top: 9.4rem;
 }
 
-#favorite-vehicles li .car-card {
+#favorite-vehicles li .car-card,.car-order-model .car-card {
     width: fit-content;
     max-width: 268px;
 }
@@ -186,4 +189,29 @@ input[type="password"]::-webkit-reveal {
 .container-profile button:hover {
     background-color: #333 !important;
     cursor: pointer;
+}
+
+.car-orders-container,.car-order-details,.car-order-status,.car-order-model {
+    justify-content: center;
+    display: flex;
+    gap: 0.8rem;
+}
+
+.car-order-model {
+    flex-direction: column;
+    align-items: center;
+}
+
+.car-orders-container {
+    flex-direction: column;
+}
+
+.car-order-details {
+    border-bottom: 3px solid #888;
+    padding-bottom: 0.7rem;
+    padding-top: 0.7rem;
+}
+
+.car-order-details p,.car-order-status p {
+    margin-top: 0.3rem;
 }
