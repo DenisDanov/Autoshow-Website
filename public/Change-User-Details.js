@@ -46,7 +46,7 @@ function changeUserName(e) {
 }
 
 function requestChangeUsername(e) {
-    fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/profile/changeUsername`, {
+    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/changeUsername`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -107,7 +107,7 @@ document.getElementById(`email`).addEventListener(`input`, (e) => {
 });
 
 function changeEmail(e) {
-    fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/profile/changeEmail`, {
+    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/changeEmail`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

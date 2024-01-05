@@ -30,7 +30,7 @@ function checkLoginStatus() {
         var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
         var userId = decodedToken.userId;
 
-        fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/favorites/get`, {
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/get`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -64,7 +64,7 @@ function checkLoginStatus() {
                     const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].
                         children[0].textContent;
                     e.currentTarget.parentNode.parentNode.children[0].textContent = `Remove from Favorites`;
-                    fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/favorites/add`, {
+                    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/add`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -83,7 +83,7 @@ function checkLoginStatus() {
                     e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
                     const carId = e.currentTarget.parentNode.parentNode.parentNode.
                         children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
-                    fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/favorites/remove`, {
+                    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/remove`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"

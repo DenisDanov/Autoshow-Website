@@ -25,7 +25,7 @@ if (carParam.includes(`Urus`)) {
     vin = `ZPBUA1ZL4NLA19618`;
 }
 
-const url = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/proxy/car-specs?vin=${vin}`;
+const url = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy/car-specs?vin=${vin}`;
 // Make a GET request
 fetch(url, {
     method: 'GET',

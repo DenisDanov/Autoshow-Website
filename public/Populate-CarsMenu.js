@@ -1,4 +1,4 @@
-let apiUrl = 'https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/proxy-carMenu/carquery-api?make=&model=';
+let apiUrl = 'https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=&model=';
 
 // Function to parse JSONP response
 function parseJSONP(response) {
@@ -29,7 +29,7 @@ document.getElementById(`car-model`).addEventListener(`change`, () => {
 })
 
 function populateDataYears() {
-    apiUrl = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
+    apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
     fetch(apiUrl)
         .then(parseJSONP)
         .then(data => {
@@ -52,7 +52,7 @@ function populateDataYears() {
 }
 
 function populateModels (params) {
-    apiUrl = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
+    apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
     fetch(apiUrl)
         .then(parseJSONP)
         .then(data => {
@@ -67,7 +67,7 @@ function populateModels (params) {
                 }
             }
 
-            apiUrl = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
+            apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
             fetch(apiUrl)
                 .then(parseJSONP)
                 .then(data => {
@@ -101,7 +101,7 @@ function populateData() {
                 option.textContent = value.make_display;
                 document.getElementById(`car-manufacturer`).appendChild(option);
             }
-            apiUrl = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
+            apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
             fetch(apiUrl)
                 .then(parseJSONP)
                 .then(data => {
@@ -116,7 +116,7 @@ function populateData() {
                         }
                     }
 
-                    apiUrl = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
+                    apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
                     fetch(apiUrl)
                         .then(parseJSONP)
                         .then(data => {
