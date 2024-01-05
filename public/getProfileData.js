@@ -19,7 +19,7 @@ if (authToken) {
     logOutUser();
     var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
     var userId = decodedToken.userId;
-    fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/profile/get`, {
+    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/get`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -80,7 +80,7 @@ function removeTheCar(e) {
 
     const carId = document.querySelector(`.car-id-remove`).href;
     document.querySelector(`.remove-car`).remove();
-    fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/favorites/remove`, {
+    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/remove`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -38,7 +38,7 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
             document.getElementById(`warning-fields`).style.display = 'none';
         }, 3500);
     } else {
-        fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/profile/changePassword`, {
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/changePassword`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

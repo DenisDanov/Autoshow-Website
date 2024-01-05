@@ -26,7 +26,7 @@ function closePopup() {
 
 // Function to handle "Take me to log in" button click
 function takeMeToLogin() {
-    location.href = `https://danovs-autoshow-afcbab0f302b.herokuapp.com/login`;
+    location.href = `https://danov-autoshow-656625355b99.herokuapp.com/login`;
     closePopup();
 }
 
@@ -64,7 +64,7 @@ function orderCar(e) {
     if (check) {
         return;
     } else {
-        fetch(`https://danovs-autoshow-afcbab0f302b.herokuapp.com/api/carOrders/add`, {
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/add`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
