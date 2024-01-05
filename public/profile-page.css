@@ -202,8 +202,15 @@ input[type="password"]::-webkit-reveal {
     align-items: center;
 }
 
+#car-orders {
+    padding: 0.3rem;
+}
+
 .car-orders-container {
     flex-direction: column;
+    background-color: rgb(100, 100, 100);
+    border: 5px solid #888;
+    border-radius: 5px;
 }
 
 .car-order-details {

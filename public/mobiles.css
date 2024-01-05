@@ -175,6 +175,14 @@
         font-size: 13px;
         padding: 7px !important;
     }
+
+    .car-orders-container {
+        font-size: 11px;
+    }
+
+    #car-orders .car-card {
+        margin: 7px;
+    }
 }
 
 .menuItem:hover {
