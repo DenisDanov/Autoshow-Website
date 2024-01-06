@@ -138,7 +138,7 @@ if (authToken) {
                     container.children[0].querySelector(`.car-order-model`).remove();
                 };
                 img.src = imagePath;
-                container.getElementById(`car-cancel`).addEventListener(`click`,removeCarOrder);
+                container.querySelector(`#car-cancel`).addEventListener(`click`,removeCarOrder);
                 document.getElementById(`car-orders`).appendChild(container);
             }
         })
