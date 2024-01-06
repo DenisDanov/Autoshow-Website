@@ -266,7 +266,8 @@ input[type="password"]::-webkit-reveal {
 
 @keyframes pendingAnimation {
     0%, 25% {
-        opacity: 0;
+        opacity: 1;
+        content: '.';
     }
     26%, 50% {
         opacity: 1;
