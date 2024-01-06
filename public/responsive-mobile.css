@@ -191,6 +191,10 @@
     .order-status[status="Pending"] {
         border: 1px solid black !important;
     }
+
+    .car-orders-container {
+        max-width: 281px !important;
+    }
 }
 
 .menuItem:hover {
