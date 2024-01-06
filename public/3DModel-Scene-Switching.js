@@ -147,7 +147,7 @@ async function initThirdPersonScript() {
     let loader;
 
     // Check if the model is an FBX, OBJ or GLB 
-    if (carParam.includes('.glb')) {
+    if (carParam.includes('.glb') || carParam.includes('.gltf')) {
         loader = new GLTFLoader();
         loader.load(carParam, (gltf) => {
             model = gltf.scene;
