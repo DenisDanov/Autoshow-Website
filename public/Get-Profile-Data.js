@@ -244,7 +244,7 @@ function removeCarOrder(e) {
     const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
     e.currentTarget.parentNode.parentNode.parentNode.remove();
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/remove`, {
-        method: "POST",
+        method: "DELETE",
         headers: {
             "Content-Type": "application/json"
         },
