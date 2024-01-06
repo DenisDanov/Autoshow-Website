@@ -133,11 +133,11 @@ if (authToken) {
                 const img = new Image();
                 img.onload = function () {
                     container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
+                    container.children[0].children[1].children[0].children[1].textContent = `Completed`;
+                    container.children[0].children[1].children[0].children[1].setAttribute("status","Completed");
                 };
                 img.onerror = function () {
                     container.children[0].querySelector(`.car-order-model`).remove();
-                    container.children[0].children[1].children[0].children[1].textContent = `Completed`;
-                    container.children[0].children[1].children[0].children[1].getAttribute("status") = "Completed";
                 };
                 img.src = imagePath;
                 container.querySelector(`#cancel-order`).addEventListener(`click`,removeCarOrder);
