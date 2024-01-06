@@ -137,6 +137,9 @@ if (authToken) {
                     container.children[0].children[1].children[0].children[1].textContent = `Completed`;
                     container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
                     favVehiclesIds.forEach(vehicleId => {
+                        console.log(vehicleId);
+                        console.log( container.children[0].querySelector(`.car-order-model`)
+                        .children[1].querySelector(`a`).href);
                         if (vehicleId === container.children[0].querySelector(`.car-order-model`)
                             .children[1].querySelector(`a`).href) {
                             container.children[0].querySelector(`.car-order-model`).children[1].children[2]
