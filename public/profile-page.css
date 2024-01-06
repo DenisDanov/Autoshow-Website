@@ -113,6 +113,10 @@ input[type="password"]::-webkit-reveal {
     max-width: 268px;
 }
 
+#favorite-vehicles {
+    padding: 0.3rem;
+}
+
 #username-container,
 #email-container {
     display: flex;
@@ -217,8 +221,79 @@ input[type="password"]::-webkit-reveal {
     border-bottom: 3px solid #888;
     padding-bottom: 0.7rem;
     padding-top: 0.7rem;
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
 }
 
 .car-order-details p,.car-order-status p {
     margin-top: 0.3rem;
+}
+
+.car-order-details div span,.car-order-status div span {
+    font-weight: bold;
+}
+
+.order-status[status="Pending"] {
+    border: 3px solid black;
+    border-radius: 5px;
+    background-color: yellow;
+    font-weight: 599;
+    position: relative;
+}
+
+.order-status[status="Completed"] {
+    border: 3px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    background-color: rgb(0, 255, 21);
+    font-weight: 599;
+    position: relative;
+}
+
+.order-status[status="Rejected"] {
+    border: 3px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    background-color: rgb(197, 9, 9);
+    font-weight: 599;
+    position: relative;
+}
+
+.order-status[status="Pending"]:after {
+    content: '.';
+    display: inline-block;
+    position: absolute;
+    animation: pendingAnimation 1.5s infinite steps(3);
+}
+
+@keyframes pendingAnimation {
+    0%, 25% {
+        opacity: 0;
+    }
+    26%, 50% {
+        opacity: 1;
+        content: '..';
+    }
+    51%, 75% {
+        opacity: 1;
+        content: '...';
+    }
+    76%, 100% {
+        opacity: 0;
+        content: '';
+    }
+}
+
+#cancel-order {
+    display: inline-block;
+    background-color: #b90e0e;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 0.3rem;
+    width: max-content;
+    transition: background-color 0.3s;
+    border: 2px solid black;
+}
+
+#cancel-order:hover {
+    background-color: #6e2626 !important;;
 }

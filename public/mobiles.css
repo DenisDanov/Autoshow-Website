@@ -183,6 +183,14 @@
     #car-orders .car-card {
         margin: 7px;
     }
+    
+    #cancel-order-container button {
+        padding: 5px 10px;
+    }
+
+    .order-status[status="Pending"] {
+        border: 1px solid black !important;
+    }
 }
 
 .menuItem:hover {
