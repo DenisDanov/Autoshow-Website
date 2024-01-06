@@ -124,21 +124,45 @@ if (authToken) {
                             Showroom</a>
                     </div>
                 </div>
+                <div id="car-cancel-container">
+                <button id="car-cancel"></button>
+            </div>
             </div>
                 `
                 const imagePath = `images/${carManufacturer}-${carOrder.carModel}.png`;
                 const img = new Image();
-                img.onload = function() {
+                img.onload = function () {
                     container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
                 };
-                img.onerror = function() {
+                img.onerror = function () {
                     container.children[0].querySelector(`.car-order-model`).remove();
                 };
                 img.src = imagePath;
+                container.getElementById(`car-cancel`).addEventListener(`click`,removeCarOrder);
                 document.getElementById(`car-orders`).appendChild(container);
             }
         })
         .catch(err => console.log(err));
+}
+
+function removeCarOrder(e) {
+    const carManufacturer = e.currentTarget.parentNode.children[0].children[1].textContent;
+    const carModel = e.currentTarget.parentNode.children[1].children[1].textContent;
+    const carYear = e.currentTarget.parentNode.children[2].children[1].textContent;
+    e.currentTarget.parentNode.parentNode.parentNode.remove();
+    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/remove`, {
+        method:"DELETE",
+        body: JSON.stringify({
+            id:userId,
+            carManufacturer: carManufacturer,
+            carModel:carModel,
+            carYear:carYear
+        })
+    })
+    .then(response => response.text)
+    .then(result => {
+        console.log(result);
+    })
 }
 
 // Function to close the pop-up
