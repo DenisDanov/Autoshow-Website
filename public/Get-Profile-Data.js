@@ -1,4 +1,5 @@
 var authToken = getCookie("authToken");
+const favVehiclesIds = [];
 if (authToken) {
     // User is logged in
     document.querySelectorAll(`#log-in-icon`).forEach(entrie => {
@@ -38,7 +39,7 @@ if (authToken) {
             document.getElementById("email").value = email;
             for (const vehicle of favVehiclesArr) {
                 const favVehiclesContainer = document.createElement(`li`);
-
+                favVehiclesIds.push(vehicle.vehicleId);
                 favVehiclesContainer.innerHTML = `
             <div class="car-card">
             <div class="img-container">
@@ -133,10 +134,17 @@ if (authToken) {
                 const img = new Image();
                 img.onload = function () {
                     container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
-                    container.children[0].querySelector(`.car-order-model`).children[1].children[2]
-                        .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
                     container.children[0].children[1].children[0].children[1].textContent = `Completed`;
                     container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
+                    favVehiclesIds.forEach(vehicleId => {
+                        if (vehicleId === container.children[0].querySelector(`.car-order-model`)
+                            .children[1].querySelector(`a`).href) {
+                            container.children[0].querySelector(`.car-order-model`).children[1].children[2]
+                                .children[1].children[0].checked = true;
+                        }
+                    });
+                    container.children[0].querySelector(`.car-order-model`).children[1].children[2]
+                        .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
                 };
                 img.onerror = function () {
                     container.children[0].querySelector(`.car-order-model`).remove();
@@ -201,7 +209,7 @@ function addCarOrderToFavs(e) {
             .catch(err => console.log(err));
     } else {
         const carId = e.currentTarget.parentNode.parentNode.parentNode.
-        children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+            children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
         const favVehicles = document.getElementById(`favorite-vehicles`).querySelectorAll(`li .car-card a`);
         for (const vehicle of favVehicles) {
             if (vehicle.href === carId) {
