@@ -223,7 +223,7 @@ function addCarOrderToFavs(e) {
         }
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/remove`, {
-            method: "DELETE",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
