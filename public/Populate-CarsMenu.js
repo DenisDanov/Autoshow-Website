@@ -1,4 +1,18 @@
 let apiUrl = 'https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=&model=';
+const loadingManufacturers = document.createElement(`option`);
+loadingManufacturers.id = `loading-manufacturers`;
+loadingManufacturers.value = "Loading";
+loadingManufacturers.textContent = `Loading`;
+
+const loadingModels = document.createElement(`option`);
+loadingModels.id = `loading-models`;
+loadingModels.value = "Loading";
+loadingModels.textContent = `Loading`;
+
+const loadingYears = document.createElement(`option`);
+loadingYears.id = `loading-years`;
+loadingYears.value = "Loading";
+loadingYears.textContent = `Loading`;
 
 // Function to parse JSONP response
 function parseJSONP(response) {
@@ -35,6 +49,7 @@ function populateDataYears() {
         .then(parseJSONP)
         .then(data => {
             document.getElementById(`car-year`).innerHTML = ``;
+            document.getElementById(`car-year`).appendChild(loadingYears);
             let lastYear = ``;
             for (const jsonData of Object.entries(data)) {
                 const [key, value] = jsonData;
@@ -62,6 +77,7 @@ function populateModels(params) {
         .then(parseJSONP)
         .then(data => {
             document.getElementById(`car-model`).innerHTML = ``;
+            document.getElementById(`car-model`).appendChild(loadingModels);
             for (const jsonData of Object.entries(data)) {
                 const [key, value] = jsonData;
                 for (const carModel of value) {
@@ -77,6 +93,7 @@ function populateModels(params) {
                 .then(parseJSONP)
                 .then(data => {
                     document.getElementById(`car-year`).innerHTML = ``;
+                    document.getElementById(`car-year`).appendChild(loadingYears);
                     let lastYear = ``;
                     for (const jsonData of Object.entries(data)) {
                         const [key, value] = jsonData;
@@ -116,6 +133,7 @@ function populateData() {
                 .then(parseJSONP)
                 .then(data => {
                     document.getElementById(`car-model`).innerHTML = ``;
+                    document.getElementById(`car-model`).appendChild(loadingModels);
                     for (const jsonData of Object.entries(data)) {
                         const [key, value] = jsonData;
                         for (const carModel of value) {
@@ -131,6 +149,7 @@ function populateData() {
                         .then(parseJSONP)
                         .then(data => {
                             document.getElementById(`car-year`).innerHTML = ``;
+                            document.getElementById(`car-year`).appendChild(loadingYears);
                             let lastYear = ``;
                             for (const jsonData of Object.entries(data)) {
                                 const [key, value] = jsonData;
