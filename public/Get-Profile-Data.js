@@ -94,7 +94,7 @@ if (authToken) {
                 <div class="car-order-status">
                     <div>
                         <span>Order status</span>
-                        <p class="order-status">${carOrder.orderStatus}</p>
+                        <p class="order-status" status="${carOrder.orderStatus}">${carOrder.orderStatus}</p>
                     </div>
                     <div>
                         <span>Order date</span>
@@ -135,9 +135,6 @@ if (authToken) {
                     container.children[0].querySelector(`.car-order-model`).remove();
                 };
                 img.src = imagePath;
-                document.querySelectorAll(`.order-status`).forEach(entrie => {
-                    entrie.setAttribute("status", carOrder.orderStatus);
-                });
                 document.getElementById(`car-orders`).appendChild(container);
             }
         })
