@@ -110,7 +110,7 @@ input[type="password"]::-webkit-reveal {
 
 #favorite-vehicles li .car-card,.car-order-model .car-card {
     width: fit-content;
-    max-width: 268px;
+    max-width: 264px;
 }
 
 #favorite-vehicles {
