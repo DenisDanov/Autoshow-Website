@@ -163,10 +163,10 @@ function addCarOrderToFavs(e) {
         favVehiclesContainer.innerHTML = `
     <div class="car-card">
     <div class="img-container">
-        <img src="${vehicle.vehicleImg}" alt="Car 2">
+        <img src="${carImg}" alt="Car 2">
     </div>
     <div class="car-info">
-        <h3>${vehicle.vehicleName}</h3>
+        <h3>${carName}</h3>
     </div>
     <div class="favorites">
         <h3>Remove from Favorites</h3>
@@ -177,7 +177,7 @@ function addCarOrderToFavs(e) {
             </i>
         </label>
     </div>
-    <a href="${vehicle.vehicleId}" class="view-button">View in
+    <a href="${carId}" class="view-button">View in
         Showroom</a>
 </div>
     `
