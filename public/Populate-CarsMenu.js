@@ -64,6 +64,7 @@ function populateDataYears() {
                 }
             }
             document.getElementById(`loading-years`).style.display = `none`;
+            document.getElementById(`car-year`).value =  document.getElementById(`car-year`).children[1];
         })
         .catch(err => console.log(err));
 }
@@ -88,6 +89,7 @@ function populateModels(params) {
                 }
             }
             document.getElementById(`loading-models`).style.display = `none`;
+            document.getElementById(`car-model`).value =  document.getElementById(`car-model`).children[1];
             apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
             fetch(apiUrl)
                 .then(parseJSONP)
@@ -108,6 +110,7 @@ function populateModels(params) {
                         }
                     }
                     document.getElementById(`loading-years`).style.display = `none`;
+                    document.getElementById(`car-year`).value =  document.getElementById(`car-year`).children[1];
                 })
                 .catch(err => console.log(err));
         }).catch(err => console.log(err));
@@ -128,6 +131,7 @@ function populateData() {
                 document.getElementById(`car-manufacturer`).appendChild(option);
             }
             document.getElementById(`loading-manufacturers`).style.display = `none`;
+            document.getElementById(`car-manufacturer`).value =  document.getElementById(`car-manufacturer`).children[1];
             apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
             fetch(apiUrl)
                 .then(parseJSONP)
@@ -144,6 +148,7 @@ function populateData() {
                         }
                     }
                     document.getElementById(`loading-models`).style.display = `none`;
+                    document.getElementById(`car-model`).value =  document.getElementById(`car-model`).children[1];
                     apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
                     fetch(apiUrl)
                         .then(parseJSONP)
@@ -164,6 +169,7 @@ function populateData() {
                                 }
                             }
                             document.getElementById(`loading-years`).style.display = `none`;
+                            document.getElementById(`car-year`).value = document.getElementById(`car-year`).children[1];
                         })
                         .catch(err => console.log(err));
                 }).catch(err => console.log(err));
