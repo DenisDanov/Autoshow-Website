@@ -146,12 +146,16 @@ if (authToken) {
 }
 
 function removeCarOrder(e) {
-    const carManufacturer = e.currentTarget.parentNode.parentNode.children[0].children[0].children[1].textContent;
+    let carManufacturer = e.currentTarget.parentNode.parentNode.children[0].children[0].children[1].textContent;
+    carManufacturer = carManufacturer.charAt(0).toLowerCase() + carManufacturer.substring(1);
     const carModel = e.currentTarget.parentNode.parentNode.children[0].children[1].children[1].textContent;
     const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
     e.currentTarget.parentNode.parentNode.parentNode.remove();
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/remove`, {
         method:"DELETE",
+        headers: {
+            "Content-Type":"application/json"
+        },
         body: JSON.stringify({
             id:userId,
             carManufacturer: carManufacturer,
