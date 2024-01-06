@@ -125,7 +125,7 @@ if (authToken) {
                     </div>
                 </div>
                 <div id="cancel-order-container">
-                <button id="cancel-order"></button>
+                <button id="cancel-order">Cancel Order</button>
             </div>
             </div>
                 `
@@ -146,9 +146,9 @@ if (authToken) {
 }
 
 function removeCarOrder(e) {
-    const carManufacturer = e.currentTarget.parentNode.children[0].children[1].textContent;
-    const carModel = e.currentTarget.parentNode.children[1].children[1].textContent;
-    const carYear = e.currentTarget.parentNode.children[2].children[1].textContent;
+    const carManufacturer = e.currentTarget.parentNode.parentNode.children[0].children[0].children[1].textContent;
+    const carModel = e.currentTarget.parentNode.parentNode.children[0].children[1].children[1].textContent;
+    const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
     e.currentTarget.parentNode.parentNode.parentNode.remove();
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/remove`, {
         method:"DELETE",
