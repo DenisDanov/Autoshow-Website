@@ -145,7 +145,7 @@ if (authToken) {
                             container.children[0].querySelector(`.car-order-model`).children[1].children[2]
                                 .children[1].children[0].checked = true;
                                 container.children[0].querySelector(`.car-order-model`).children[1].children[2]
-                                .children[2].textContent = `Remove from Favorites`;
+                                .children[0].textContent = `Remove from Favorites`;
                         }
                     });
                     container.children[0].querySelector(`.car-order-model`).children[1].children[2]
