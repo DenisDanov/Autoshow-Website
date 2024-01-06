@@ -124,8 +124,8 @@ if (authToken) {
                             Showroom</a>
                     </div>
                 </div>
-                <div id="car-cancel-container">
-                <button id="car-cancel"></button>
+                <div id="cancel-order-container">
+                <button id="cancel-order"></button>
             </div>
             </div>
                 `
@@ -138,7 +138,7 @@ if (authToken) {
                     container.children[0].querySelector(`.car-order-model`).remove();
                 };
                 img.src = imagePath;
-                container.querySelector(`#car-cancel`).addEventListener(`click`,removeCarOrder);
+                container.querySelector(`#cancel-order`).addEventListener(`click`,removeCarOrder);
                 document.getElementById(`car-orders`).appendChild(container);
             }
         })
