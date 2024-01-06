@@ -268,11 +268,14 @@ function closePopup() {
 
 // Function to handle "Remove car" button click
 function removeTheCar(e) {
-    var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
-    var userId = decodedToken.userId;
-
     const carId = document.querySelector(`.car-id-remove`).href;
     document.querySelector(`.remove-car`).remove();
+    document.querySelectorAll(`.car-orders-container .car-order-model car-card a`).forEach(entrie => {
+        if (entrie.href === carId) {
+            entrie.parentNode.children[2].children[0].textContent = `Add to Favorites`;
+            entrie.parentNode.children[2].children[1].children[0].checked = false;
+        }
+    });
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/remove`, {
         method: "POST",
         headers: {
