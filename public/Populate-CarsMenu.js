@@ -112,48 +112,54 @@ function populateData() {
     fetch(apiUrl)
         .then(response => response.json()) // Parse the JSONP response
         .then(data => {
-            document.getElementById(`car-manufacturer`).innerHTML = ``;
-            for (const jsonData of Object.entries(data)) {
-                const [key, value] = jsonData;
-                const option = document.createElement(`option`);
-                option.value = value.make_id;
-                option.textContent = value.make_display;
-                document.getElementById(`car-manufacturer`).appendChild(option);
-            }
+            setTimeout(function () {
+                document.getElementById(`car-manufacturer`).innerHTML = ``;
+                for (const jsonData of Object.entries(data)) {
+                    const [key, value] = jsonData;
+                    const option = document.createElement(`option`);
+                    option.value = value.make_id;
+                    option.textContent = value.make_display;
+                    document.getElementById(`car-manufacturer`).appendChild(option);
+                }
+            }, 3000);
             apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
             fetch(apiUrl)
                 .then(parseJSONP)
                 .then(data => {
-                    document.getElementById(`car-model`).innerHTML = ``;
-                    for (const jsonData of Object.entries(data)) {
-                        const [key, value] = jsonData;
-                        for (const carModel of value) {
-                            const option = document.createElement(`option`);
-                            option.value = carModel.model_name;
-                            option.textContent = carModel.model_name;
-                            document.getElementById(`car-model`).appendChild(option);
+                    setTimeout(function () {
+                        document.getElementById(`car-model`).innerHTML = ``;
+                        for (const jsonData of Object.entries(data)) {
+                            const [key, value] = jsonData;
+                            for (const carModel of value) {
+                                const option = document.createElement(`option`);
+                                option.value = carModel.model_name;
+                                option.textContent = carModel.model_name;
+                                document.getElementById(`car-model`).appendChild(option);
+                            }
+                            break;
                         }
-                        break;
-                    }
+                    }, 3000);
                     apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
                     fetch(apiUrl)
                         .then(parseJSONP)
                         .then(data => {
-                            document.getElementById(`car-year`).innerHTML = ``;
-                            let lastYear = ``;
-                            for (const jsonData of Object.entries(data)) {
-                                const [key, value] = jsonData;
-                                for (const carModel of value) {
-                                    if (carModel.model_year !== lastYear) {
-                                        const option = document.createElement(`option`);
-                                        option.value = carModel.model_year;
-                                        option.textContent = carModel.model_year;
-                                        document.getElementById(`car-year`).appendChild(option);
+                            setTimeout(function () {
+                                document.getElementById(`car-year`).innerHTML = ``;
+                                let lastYear = ``;
+                                for (const jsonData of Object.entries(data)) {
+                                    const [key, value] = jsonData;
+                                    for (const carModel of value) {
+                                        if (carModel.model_year !== lastYear) {
+                                            const option = document.createElement(`option`);
+                                            option.value = carModel.model_year;
+                                            option.textContent = carModel.model_year;
+                                            document.getElementById(`car-year`).appendChild(option);
+                                        }
+                                        lastYear = carModel.model_year;
                                     }
-                                    lastYear = carModel.model_year;
+                                    break;
                                 }
-                                break;
-                            }
+                            }, 3000);
                         })
                         .catch(err => console.log(err));
                 }).catch(err => console.log(err));
