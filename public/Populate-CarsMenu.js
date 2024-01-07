@@ -53,13 +53,13 @@ function populateDataYears() {
                     }
                     lastYear = carModel.model_year;
                 }
+                break;
             }
         })
         .catch(err => console.log(err));
 }
 
 function populateModels(params) {
-    document.getElementById(`car-year`).innerHTML = ``;
     document.getElementById(`car-year`).appendChild(loadingElement);
     document.getElementById(`car-model`).innerHTML = ``;
     document.getElementById(`car-model`).appendChild(loadingElement);
@@ -76,6 +76,7 @@ function populateModels(params) {
                     option.textContent = carModel.model_name;
                     document.getElementById(`car-model`).appendChild(option);
                 }
+                break;
             }
             apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
             fetch(apiUrl)
@@ -94,6 +95,7 @@ function populateModels(params) {
                             }
                             lastYear = carModel.model_year;
                         }
+                        break;
                     }
                 })
                 .catch(err => console.log(err));
@@ -131,6 +133,7 @@ function populateData() {
                             option.textContent = carModel.model_name;
                             document.getElementById(`car-model`).appendChild(option);
                         }
+                        break;
                     }
                     apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
                     fetch(apiUrl)
@@ -149,6 +152,7 @@ function populateData() {
                                     }
                                     lastYear = carModel.model_year;
                                 }
+                                break;
                             }
                         })
                         .catch(err => console.log(err));
