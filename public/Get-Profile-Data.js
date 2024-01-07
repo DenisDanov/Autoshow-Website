@@ -174,13 +174,25 @@ if (authToken) {
                         modifyOrder.textContent = `Remake order`;
                         modifyOrder.addEventListener(`click`, () => {
                             var carManufacturerEle = document.getElementById('car-manufacturer');
-                            for (const carManufacturers of carManufacturerEle.children) {
-                                if (carManufacturers.textContent === carManufacturer) {
-                                    carManufacturers.selected = true;
+                            var carModelEle = document.getElementById('car-model');
+                            var carYearEle = document.getElementById('car-year');
+                            carManufacturerEle.children.forEach(ele => {
+                                if (ele.textContent === carManufacturer) {
+                                    ele.selected = true;
                                     carManufacturerEle.dispatchEvent(new Event('change'));
-                                    break;
                                 }
-                            }
+                            });
+                            carModelEle.children.forEach(ele => {
+                                if (ele.textContent === carOrder.carModel) {
+                                    ele.selected = true;
+                                    carModelEle.dispatchEvent(new Event('change'));
+                                }
+                            });
+                            carYearEle.children.forEach(ele => {
+                                if (ele.textContent === carOrder.carYear) {
+                                    ele.selected = true;
+                                }
+                            });
                             document.getElementById('order-car-menu').style.display = `flex`;
                         });
                         container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
