@@ -172,8 +172,10 @@ if (authToken) {
                         const modifyOrder = document.createElement(`button`);
                         modifyOrder.id = `modify-order`;
                         modifyOrder.textContent = `Remake order`;
-                        modifyOrder.addEventListener(`click`,remakeOrder);
-                        container.children[0].appendChild(modifyOrder);
+                        modifyOrder.addEventListener(`click`, () => {
+                            document.getElementById('order-car-menu').style.display = `flex`;
+                        });
+                        container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
                     }
                 };
                 img.src = imagePath;
@@ -184,8 +186,12 @@ if (authToken) {
         .catch(err => console.log(err));
 }
 
+function cancel (e) {
+    document.getElementById('order-car-menu').style.display = `none`;
+}
+
 function remakeOrder(e) {
-    document.getElementById('order-car-menu').style.display = `flex`;
+    
 }
 
 function addCarOrderToFavs(e) {
