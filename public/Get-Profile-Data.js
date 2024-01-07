@@ -242,8 +242,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                     img.src = imagePath;
                     orderStatusCheck(img, modifyReference.parentNode.parentNode
                         , carManufacturer, result);
-                    container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
-                    document.getElementById(`car-orders`).appendChild(container);
+                    modifyReference.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
                 }, 2000);
             } else {
                 const resultHtmlEle = document.getElementById(`response-result`);
