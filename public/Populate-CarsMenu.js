@@ -44,72 +44,79 @@ document.getElementById(`car-model`).addEventListener(`change`, () => {
 })
 
 function populateDataYears() {
-    document.getElementById(`car-year`).innerHTML = ``;
-    document.getElementById(`car-year`).appendChild(loadingElement3);
-    apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
-    fetch(apiUrl)
-        .then(parseJSONP)
-        .then(data => {
-            let lastYear = ``;
-            document.getElementById(`car-year`).innerHTML = ``;
-            for (const jsonData of Object.entries(data)) {
-                const [key, value] = jsonData;
-                for (const carModel of value) {
-                    if (carModel.model_year !== lastYear) {
-                        const option = document.createElement(`option`);
-                        option.value = carModel.model_year;
-                        option.textContent = carModel.model_year;
-                        document.getElementById(`car-year`).appendChild(option);
+    return new Promise((resolve, reject) => {
+        document.getElementById(`car-year`).innerHTML = ``;
+        document.getElementById(`car-year`).appendChild(loadingElement3);
+        apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
+        fetch(apiUrl)
+            .then(parseJSONP)
+            .then(data => {
+                let lastYear = ``;
+                document.getElementById(`car-year`).innerHTML = ``;
+                for (const jsonData of Object.entries(data)) {
+                    const [key, value] = jsonData;
+                    for (const carModel of value) {
+                        if (carModel.model_year !== lastYear) {
+                            const option = document.createElement(`option`);
+                            option.value = carModel.model_year;
+                            option.textContent = carModel.model_year;
+                            document.getElementById(`car-year`).appendChild(option);
+                        }
+                        lastYear = carModel.model_year;
                     }
-                    lastYear = carModel.model_year;
+                    break;
                 }
-                break;
-            }
-        })
-        .catch(err => console.log(err));
+                resolve(`Success`);
+            })
+            .catch(err => reject(err));
+    });
 }
 
 function populateModels(params) {
-    document.getElementById(`car-year`).appendChild(loadingElement3);
-    document.getElementById(`car-model`).innerHTML = ``;
-    document.getElementById(`car-model`).appendChild(loadingElement2);
-    apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
-    fetch(apiUrl)
-        .then(parseJSONP)
-        .then(data => {
-            document.getElementById(`car-model`).innerHTML = ``;
-            for (const jsonData of Object.entries(data)) {
-                const [key, value] = jsonData;
-                for (const carModel of value) {
-                    const option = document.createElement(`option`);
-                    option.value = carModel.model_name;
-                    option.textContent = carModel.model_name;
-                    document.getElementById(`car-model`).appendChild(option);
-                }
-                break;
-            }
-            apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
-            fetch(apiUrl)
-                .then(parseJSONP)
-                .then(data => {
-                    document.getElementById(`car-year`).innerHTML = ``;
-                    let lastYear = ``;
-                    for (const jsonData of Object.entries(data)) {
-                        const [key, value] = jsonData;
-                        for (const carModel of value) {
-                            if (carModel.model_year !== lastYear) {
-                                const option = document.createElement(`option`);
-                                option.value = carModel.model_year;
-                                option.textContent = carModel.model_year;
-                                document.getElementById(`car-year`).appendChild(option);
-                            }
-                            lastYear = carModel.model_year;
-                        }
-                        break;
+    return new Promise((resolve, reject) => {
+        document.getElementById(`car-year`).appendChild(loadingElement3);
+        document.getElementById(`car-model`).innerHTML = ``;
+        document.getElementById(`car-model`).appendChild(loadingElement2);
+        apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
+        fetch(apiUrl)
+            .then(parseJSONP)
+            .then(data => {
+                document.getElementById(`car-model`).innerHTML = ``;
+                for (const jsonData of Object.entries(data)) {
+                    const [key, value] = jsonData;
+                    for (const carModel of value) {
+                        const option = document.createElement(`option`);
+                        option.value = carModel.model_name;
+                        option.textContent = carModel.model_name;
+                        document.getElementById(`car-model`).appendChild(option);
                     }
-                })
-                .catch(err => console.log(err));
-        }).catch(err => console.log(err));
+                    break;
+                }
+                apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
+                fetch(apiUrl)
+                    .then(parseJSONP)
+                    .then(data => {
+                        document.getElementById(`car-year`).innerHTML = ``;
+                        let lastYear = ``;
+                        for (const jsonData of Object.entries(data)) {
+                            const [key, value] = jsonData;
+                            for (const carModel of value) {
+                                if (carModel.model_year !== lastYear) {
+                                    const option = document.createElement(`option`);
+                                    option.value = carModel.model_year;
+                                    option.textContent = carModel.model_year;
+                                    document.getElementById(`car-year`).appendChild(option);
+                                }
+                                lastYear = carModel.model_year;
+                            }
+                            break;
+                        }
+                        resolve("Success"); // Resolve the promise with success message
+                    })
+                    .catch(err => reject(err)); // Reject the promise with an error
+            })
+            .catch(err => reject(err)); // Reject the promise with an error
+    });
 }
 
 function populateData() {

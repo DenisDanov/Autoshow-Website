@@ -182,24 +182,25 @@ if (authToken) {
                             );
                             if (optionToSelect) {
                                 optionToSelect.selected = true;
-                                carManufacturerEle.dispatchEvent(new Event('change'));
+                                populateModels().then(result => {
+                                    const optionToSelectModel = Array.from(carModelEle.children).find(
+                                        ele => ele.textContent === carOrder.carModel
+                                    );
+                                    if (optionToSelectModel) {
+                                        optionToSelectModel.selected = true;
+                                        populateDataYears().then(result => {
+                                            const optionToSelectYear = Array.from(carYearEle.children).find(
+                                                ele => ele.textContent === carOrder.carYear
+                                            );
+                                            if (optionToSelectYear) {
+                                                optionToSelectYear.selected = true;
+                                            }
+                                        }).catch(err => console.log(err));
+                                    }
+                                }).catch(err => {
+                                    console.error(err);
+                                });
                             }
-
-                            const optionToSelectModel = Array.from(carModelEle.children).find(
-                                ele => ele.textContent === carOrder.carModel
-                            );
-                            if (optionToSelectModel) {
-                                optionToSelectModel.selected = true;
-                                carModelEle.dispatchEvent(new Event('change'));
-                            }
-
-                            const optionToSelectYear = Array.from(carYearEle.children).find(
-                                ele => ele.textContent === carOrder.carYear
-                            );
-                            if (optionToSelectYear) {
-                                optionToSelectYear.selected = true;
-                            }
-
                             document.getElementById('order-car-menu').style.display = `flex`;
                         });
                         container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
