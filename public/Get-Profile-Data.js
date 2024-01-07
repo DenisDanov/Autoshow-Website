@@ -202,6 +202,9 @@ if (authToken) {
                                 });
                             }
                             document.getElementById('order-car-menu').style.display = `flex`;
+                            document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
+                                remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
+                            });
                         });
                         container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
                     }
@@ -218,8 +221,33 @@ function cancelRemakeOrder(e) {
     document.getElementById('order-car-menu').style.display = `none`;
 }
 
-function remakeOrder(e) {
+function remakeOrder(e, carManufacturer, carModel, carYear) {
+    const newManufacturer = e.currentTarget.parentNode.querySelector(`#car-manufacturer`).value;
+    const newModel = e.currentTarget.parentNode.querySelector(`#car-model`).value;
+    const newYear = e.currentTarget.parentNode.querySelector(`#car-year`).value;
 
+    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: userId,
+            currentManufacturer: carManufacturer,
+            currentModel: carModel,
+            currentYear: carYear,
+            newManufacturer: newManufacturer,
+            newModel: newModel,
+            newYear: newYear
+        })
+    })
+        .then(response => response.text())
+        .then(result => {
+            console.log(result)
+            document.getElementById(`response-result`).textContent = result;
+            document.getElementById(`response-result`).style.display = `block`;
+        })
+        .catch(err => console.log(err));
 }
 
 function addCarOrderToFavs(e) {
