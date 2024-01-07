@@ -33,7 +33,11 @@ function takeMeToLogin() {
 // Function to handle "No thanks" button click
 function noThanks() {
     var carManufacturer = document.getElementById('car-manufacturer');
+    var carModel = document.getElementById('car-model');
+    var carYear = document.getElementById('car-year');
     carManufacturer.children[0].selected = true;
+    carModel.children[0].selected = true;
+    carYear.children[0].selected = true;
     document.getElementById(`response-result`).style.display = `none`;
     closePopup();
 }
@@ -84,6 +88,8 @@ function orderCar(e) {
                     document.getElementById('order-car-menu').style.display = `none`;
                     document.getElementById(`response-result`).style.display = `none`;
                     carManufacturer.children[0].selected = true;
+                    carModel.children[0].selected = true;
+                    carYear.children[0].selected = true;
                 }, 2000);
             }
         })
