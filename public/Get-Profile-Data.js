@@ -173,6 +173,14 @@ if (authToken) {
                         modifyOrder.id = `modify-order`;
                         modifyOrder.textContent = `Remake order`;
                         modifyOrder.addEventListener(`click`, () => {
+                            var carManufacturerEle = document.getElementById('car-manufacturer');
+                            for (const carManufacturers of carManufacturerEle.children) {
+                                if (carManufacturers.textContent === carManufacturer) {
+                                    carManufacturers.selected = true;
+                                    carManufacturer.dispatchEvent(new Event('change'));
+                                    break;
+                                }
+                            }
                             document.getElementById('order-car-menu').style.display = `flex`;
                         });
                         container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
@@ -186,12 +194,12 @@ if (authToken) {
         .catch(err => console.log(err));
 }
 
-function cancel (e) {
+function cancelRemakeOrder(e) {
     document.getElementById('order-car-menu').style.display = `none`;
 }
 
 function remakeOrder(e) {
-    
+
 }
 
 function addCarOrderToFavs(e) {
