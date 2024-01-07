@@ -170,7 +170,7 @@ function remakeOrder(e, modifyReference, carManufacturer, carModel, carYear) {
             if (result.result === `Same order is made and the period is extended.` ||
                 result.result === `New order is made and the period is extended.`) {
                 const resultHtmlEle = document.getElementById(`response-result`);
-                resultHtmlEle.textContent = result;
+                resultHtmlEle.textContent = result.result;
                 resultHtmlEle.style.display = `block`;
                 resultHtmlEle.style.backgroundColor = `green`;
                 resultHtmlEle.style.color = `white`;
@@ -183,6 +183,9 @@ function remakeOrder(e, modifyReference, carManufacturer, carModel, carYear) {
 
                     let carManufacturer = result.carManufacturer;
                     carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
+                    console.log(modifyReference);
+                    console.log(modifyReference.currentTarget);
+                    console.log(modifyReference.currentTarget.parentNode);
                     modifyReference.currentTarget.parentNode.parentNode.innerHTML = `
                     <div class="car-orders-container">
                 <div class="car-order-details">
