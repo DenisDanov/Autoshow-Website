@@ -183,10 +183,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
 
                     let carManufacturer = result.carManufacturer;
                     carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
-                    console.log(modifyReference);
-                    console.log(modifyReference.currentTarget);
-                    console.log(modifyReference.currentTarget.parentNode);
-                    modifyReference.currentTarget.parentNode.parentNode.innerHTML = `
+                    modifyReference.parentNode.parentNode.innerHTML = `
                     <div class="car-orders-container">
                 <div class="car-order-details">
                     <div>
@@ -243,7 +240,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                     const imagePath = `images/${result.carManufacturer}-${result.carModel}.png`;
                     const img = new Image();
                     img.src = imagePath;
-                    orderStatusCheck(img, modifyReference.currentTarget.parentNode.parentNode
+                    orderStatusCheck(img, modifyReference.parentNode.parentNode
                         , carManufacturer, result);
                     container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
                     document.getElementById(`car-orders`).appendChild(container);
