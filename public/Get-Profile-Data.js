@@ -222,11 +222,9 @@ function cancelRemakeOrder(e) {
 }
 
 function remakeOrder(e, carManufacturer, carModel, carYear) {
-    console.log(e.currentTarget);
-    console.log(e.currentTarget.parentNode);
-    const newManufacturer = e.currentTarget.parentNode.querySelector(`#car-manufacturer`).value;
-    const newModel = e.currentTarget.parentNode.querySelector(`#car-model`).value;
-    const newYear = e.currentTarget.parentNode.querySelector(`#car-year`).value;
+    const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).value;
+    const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
+    const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
 
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
         method: "PUT",
