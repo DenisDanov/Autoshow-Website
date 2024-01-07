@@ -200,6 +200,7 @@ section h2 {
 }
 
 .fa-window-close {
+    cursor: pointer;
     top: 0.5%;
     right: 1%;
     position: absolute;
