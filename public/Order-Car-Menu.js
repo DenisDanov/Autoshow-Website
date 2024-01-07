@@ -80,10 +80,7 @@ function orderCar(e) {
                 resultHtmlEle.style.borderRadius = `5px`;
 
                 setTimeout(function () {
-                    document.getElementById('order-car-menu').style.display = `none`;
                     document.getElementById(`response-result`).style.display = `none`;
-                    carManufacturer.children[0].selected = true;
-                    carManufacturer.dispatchEvent(new Event('change'));
                 }, 2000);
             }
         })

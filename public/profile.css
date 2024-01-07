@@ -249,7 +249,7 @@ input[type="password"]::-webkit-reveal {
     position: relative;
 }
 
-.order-status[status="Rejected"] {
+.order-status[status="Expired"] {
     border: 3px solid rgb(0, 0, 0);
     border-radius: 5px;
     background-color: rgb(197, 9, 9);
@@ -296,5 +296,22 @@ input[type="password"]::-webkit-reveal {
 }
 
 #cancel-order:hover {
-    background-color: #6e2626 !important;;
+    background-color: #6e2626 !important;
+}
+
+#modify-order {
+    cursor: pointer;
+    display: inline-block;
+    background-color: #6d8f47;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 0.3rem;
+    width: max-content;
+    transition: background-color 0.3s;
+    border: 2px solid black;
+}
+
+#modify-order:hover {
+    background-color: #79aa40 !important;
 }

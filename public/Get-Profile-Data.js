@@ -138,13 +138,13 @@ if (authToken) {
                     container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
                     favVehiclesIds.forEach(vehicleId => {
                         console.log(vehicleId);
-                        console.log( container.children[0].querySelector(`.car-order-model`)
-                        .children[1].querySelector(`a`).href);
+                        console.log(container.children[0].querySelector(`.car-order-model`)
+                            .children[1].querySelector(`a`).href);
                         if (vehicleId === container.children[0].querySelector(`.car-order-model`)
                             .children[1].querySelector(`a`).href) {
                             container.children[0].querySelector(`.car-order-model`).children[1].children[2]
                                 .children[1].children[0].checked = true;
-                                container.children[0].querySelector(`.car-order-model`).children[1].children[2]
+                            container.children[0].querySelector(`.car-order-model`).children[1].children[2]
                                 .children[0].textContent = `Remove from Favorites`;
                         }
                     });
@@ -153,6 +153,26 @@ if (authToken) {
                 };
                 img.onerror = function () {
                     container.children[0].querySelector(`.car-order-model`).remove();
+                    var dateOfOrder = new Date(carOrder.dateOfOrder);
+
+                    // Get the current date
+                    var currentDate = new Date();
+
+                    // Calculate the time difference in milliseconds
+                    var timeDifference = currentDate - dateOfOrder;
+
+                    // Convert milliseconds to days
+                    var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+                    // Check if 7 days have passed
+                    if (daysDifference >= 7) {
+                        // 7 days have passed, so the order has expired
+                        container.children[0].children[1].children[0].children[1].textContent = `Expired`;
+                        container.children[0].children[1].children[0].children[1].setAttribute("status", "Expired");
+                        const modifyOrder = document.createElement(`button`);
+                        modifyOrder.id = `modify-order`;
+                        container.appendChild(modifyOrder);
+                    }
                 };
                 img.src = imagePath;
                 container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
