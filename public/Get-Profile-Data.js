@@ -132,84 +132,8 @@ if (authToken) {
                 `
                 const imagePath = `images/${carManufacturer}-${carOrder.carModel}.png`;
                 const img = new Image();
-                img.onload = function () {
-                    container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
-                    container.children[0].children[1].children[0].children[1].textContent = `Completed`;
-                    container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
-                    favVehiclesIds.forEach(vehicleId => {
-                        console.log(vehicleId);
-                        console.log(container.children[0].querySelector(`.car-order-model`)
-                            .children[1].querySelector(`a`).href);
-                        if (vehicleId === container.children[0].querySelector(`.car-order-model`)
-                            .children[1].querySelector(`a`).href) {
-                            container.children[0].querySelector(`.car-order-model`).children[1].children[2]
-                                .children[1].children[0].checked = true;
-                            container.children[0].querySelector(`.car-order-model`).children[1].children[2]
-                                .children[0].textContent = `Remove from Favorites`;
-                        }
-                    });
-                    container.children[0].querySelector(`.car-order-model`).children[1].children[2]
-                        .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
-                };
-                img.onerror = function () {
-                    container.children[0].querySelector(`.car-order-model`).remove();
-                    var dateOfOrder = new Date(carOrder.dateOfOrder);
-
-                    // Get the current date
-                    var currentDate = new Date();
-
-                    // Calculate the time difference in milliseconds
-                    var timeDifference = currentDate - dateOfOrder;
-
-                    // Convert milliseconds to days
-                    var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-                    // Check if 7 days have passed
-                    if (daysDifference >= 7) {
-                        // 7 days have passed, so the order has expired
-                        container.children[0].children[1].children[0].children[1].textContent = `Expired`;
-                        container.children[0].children[1].children[0].children[1].setAttribute("status", "Expired");
-                        const modifyOrder = document.createElement(`button`);
-                        modifyOrder.id = `modify-order`;
-                        modifyOrder.textContent = `Remake order`;
-                        modifyOrder.addEventListener(`click`, () => {
-                            var carManufacturerEle = document.getElementById('car-manufacturer');
-                            var carModelEle = document.getElementById('car-model');
-                            var carYearEle = document.getElementById('car-year');
-
-                            const optionToSelect = Array.from(carManufacturerEle.children).find(
-                                ele => ele.textContent === carManufacturer
-                            );
-                            if (optionToSelect) {
-                                optionToSelect.selected = true;
-                                populateModels().then(result => {
-                                    const optionToSelectModel = Array.from(carModelEle.children).find(
-                                        ele => ele.textContent === carOrder.carModel
-                                    );
-                                    if (optionToSelectModel) {
-                                        optionToSelectModel.selected = true;
-                                        populateDataYears().then(result => {
-                                            const optionToSelectYear = Array.from(carYearEle.children).find(
-                                                ele => ele.textContent === carOrder.carYear
-                                            );
-                                            if (optionToSelectYear) {
-                                                optionToSelectYear.selected = true;
-                                            }
-                                        }).catch(err => console.log(err));
-                                    }
-                                }).catch(err => {
-                                    console.error(err);
-                                });
-                            }
-                            document.getElementById('order-car-menu').style.display = `flex`;
-                            document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
-                                remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
-                            });
-                        });
-                        container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
-                    }
-                };
                 img.src = imagePath;
+                orderStatusCheck(img, container, carManufacturer, carOrder);
                 container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
                 document.getElementById(`car-orders`).appendChild(container);
             }
@@ -221,7 +145,7 @@ function cancelRemakeOrder(e) {
     document.getElementById('order-car-menu').style.display = `none`;
 }
 
-function remakeOrder(e, carManufacturer, carModel, carYear) {
+function remakeOrder(e, modifyReference, carManufacturer, carModel, carYear) {
     const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).value;
     const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
     const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
@@ -244,8 +168,97 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
         .then(response => response.text())
         .then(result => {
             console.log(result)
-            document.getElementById(`response-result`).textContent = result;
-            document.getElementById(`response-result`).style.display = `block`;
+            if (result.result === `Same order is made and the period is extended.` ||
+                result.result === `New order is made and the period is extended.`) {
+                const resultHtmlEle = document.getElementById(`response-result`);
+                resultHtmlEle.textContent = result;
+                resultHtmlEle.style.display = `block`;
+                resultHtmlEle.style.backgroundColor = `green`;
+                resultHtmlEle.style.color = `white`;
+                resultHtmlEle.style.border = `5px solid green`;
+                resultHtmlEle.style.borderRadius = `5px`;
+
+                setTimeout(function () {
+                    document.getElementById(`response-result`).style.display = `none`;
+                    document.getElementById('order-car-menu').style.display = `none`;
+
+                    let carManufacturer = result.carManufacturer;
+                    carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
+                    modifyReference.currentTarget.parentNode.parentNode.innerHTML = `
+                    <div class="car-orders-container">
+                <div class="car-order-details">
+                    <div>
+                        <span>Car manufacturer</span>
+                        <p>${carManufacturer}</p>
+                    </div>
+                    <div>
+                        <span>Car model</span>
+                        <p>${result.carModel}</p>
+                    </div>
+                    <div>
+                        <span>Manufacture year</span>
+                        <p>${result.carYear}</p>
+                    </div>
+                </div>
+                <div class="car-order-status">
+                    <div>
+                        <span>Order status</span>
+                        <p class="order-status" status="${result.orderStatus}">${result.orderStatus}</p>
+                    </div>
+                    <div>
+                        <span>Order date</span>
+                        <p>${result.dateOfOrder}</p>
+                    </div>
+                </div>
+                <div class="car-order-model" style="display: none;">
+                    <h1>Ordered car</h1>
+                    <div class="car-card">
+                        <div class="img-container">
+                            <img src="images/${carManufacturer}-${result.carModel}.png" alt="Car 2">
+                        </div>
+                        <div class="car-info">
+                            <h3>${result.carYear} ${result.carManufacturer.toUpperCase()} ${result.carModel.toUpperCase()}</h3>
+                        </div>
+                        <div class="favorites">
+                            <h3>Add to Favorites</h3>
+                            <label class="add-fav">
+                                <input type="checkbox" />
+                                <i class="icon-heart fas fa-heart">
+                                    <i class="icon-plus-sign fa-solid fa-plus"></i>
+                                </i>
+                            </label>
+                        </div>
+                        <a href="showroom.html?car=3D Models/${carManufacturer}-${result.carModel}-${result.carYear}.glb"
+                            class="view-button">View in
+                            Showroom</a>
+                    </div>
+                </div>
+                <div id="cancel-order-container">
+                <button id="cancel-order">Cancel Order</button>
+            </div>
+            </div>
+                    `
+                    const imagePath = `images/${result.carManufacturer}-${result.carModel}.png`;
+                    const img = new Image();
+                    img.src = imagePath;
+                    orderStatusCheck(img, modifyReference.currentTarget.parentNode.parentNode
+                        , carManufacturer, result);
+                    container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
+                    document.getElementById(`car-orders`).appendChild(container);
+                }, 2000);
+            } else {
+                const resultHtmlEle = document.getElementById(`response-result`);
+                resultHtmlEle.textContent = result.result;
+                resultHtmlEle.style.display = `block`;
+                resultHtmlEle.style.backgroundColor = `red`;
+                resultHtmlEle.style.color = `white`;
+                resultHtmlEle.style.border = `5px solid red`;
+                resultHtmlEle.style.borderRadius = `5px`;
+
+                setTimeout(function () {
+                    document.getElementById(`response-result`).style.display = `none`;
+                }, 2000);
+            }
         })
         .catch(err => console.log(err));
 }
@@ -347,6 +360,86 @@ function removeCarOrder(e) {
         .then(result => {
             console.log(result);
         })
+}
+
+function orderStatusCheck(img, container, carManufacturer, carOrder) {
+    img.onload = function () {
+        container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
+        container.children[0].children[1].children[0].children[1].textContent = `Completed`;
+        container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
+        favVehiclesIds.forEach(vehicleId => {
+            console.log(vehicleId);
+            console.log(container.children[0].querySelector(`.car-order-model`)
+                .children[1].querySelector(`a`).href);
+            if (vehicleId === container.children[0].querySelector(`.car-order-model`)
+                .children[1].querySelector(`a`).href) {
+                container.children[0].querySelector(`.car-order-model`).children[1].children[2]
+                    .children[1].children[0].checked = true;
+                container.children[0].querySelector(`.car-order-model`).children[1].children[2]
+                    .children[0].textContent = `Remove from Favorites`;
+            }
+        });
+        container.children[0].querySelector(`.car-order-model`).children[1].children[2]
+            .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
+    };
+    img.onerror = function () {
+        container.children[0].querySelector(`.car-order-model`).remove();
+        var dateOfOrder = new Date(carOrder.dateOfOrder);
+
+        // Get the current date
+        var currentDate = new Date();
+
+        // Calculate the time difference in milliseconds
+        var timeDifference = currentDate - dateOfOrder;
+
+        // Convert milliseconds to days
+        var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+        // Check if 7 days have passed
+        if (daysDifference >= 7) {
+            // 7 days have passed, so the order has expired
+            container.children[0].children[1].children[0].children[1].textContent = `Expired`;
+            container.children[0].children[1].children[0].children[1].setAttribute("status", "Expired");
+            const modifyOrder = document.createElement(`button`);
+            modifyOrder.id = `modify-order`;
+            modifyOrder.textContent = `Remake order`;
+            modifyOrder.addEventListener(`click`, (modifyReference) => {
+                var carManufacturerEle = document.getElementById('car-manufacturer');
+                var carModelEle = document.getElementById('car-model');
+                var carYearEle = document.getElementById('car-year');
+
+                const optionToSelect = Array.from(carManufacturerEle.children).find(
+                    ele => ele.textContent === carManufacturer
+                );
+                if (optionToSelect) {
+                    optionToSelect.selected = true;
+                    populateModels().then(result => {
+                        const optionToSelectModel = Array.from(carModelEle.children).find(
+                            ele => ele.textContent === carOrder.carModel
+                        );
+                        if (optionToSelectModel) {
+                            optionToSelectModel.selected = true;
+                            populateDataYears().then(result => {
+                                const optionToSelectYear = Array.from(carYearEle.children).find(
+                                    ele => ele.textContent === carOrder.carYear
+                                );
+                                if (optionToSelectYear) {
+                                    optionToSelectYear.selected = true;
+                                }
+                            }).catch(err => console.log(err));
+                        }
+                    }).catch(err => {
+                        console.error(err);
+                    });
+                }
+                document.getElementById('order-car-menu').style.display = `flex`;
+                document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
+                    remakeOrder(e, modifyReference, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
+                });
+            });
+            container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
+        }
+    };
 }
 
 // Function to close the pop-up
