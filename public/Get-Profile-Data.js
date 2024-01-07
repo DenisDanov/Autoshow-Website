@@ -239,7 +239,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
             </div>
                     `
                     modifyReference = document.querySelector('[modify-reference="true"]');
-                    const imagePath = `images/${result.carManufacturer}-${result.carModel}.png`;
+                    const imagePath = `images/${carManufacturer}-${result.carModel}.png`;
                     const img = new Image();
                     img.src = imagePath;
                     console.log(modifyReference);
@@ -387,6 +387,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
     };
     img.onerror = function () {
+        console.log(container);
         container.children[0].querySelector(`.car-order-model`).remove();
         var dateOfOrder = new Date(carOrder.dateOfOrder);
 
