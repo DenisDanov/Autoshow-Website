@@ -177,7 +177,7 @@ if (authToken) {
                             for (const carManufacturers of carManufacturerEle.children) {
                                 if (carManufacturers.textContent === carManufacturer) {
                                     carManufacturers.selected = true;
-                                    carManufacturer.dispatchEvent(new Event('change'));
+                                    carManufacturerEle.dispatchEvent(new Event('change'));
                                     break;
                                 }
                             }
