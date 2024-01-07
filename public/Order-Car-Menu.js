@@ -68,10 +68,7 @@ function orderCar(e) {
                 resultHtmlEle.style.border = `5px solid green`;
                 resultHtmlEle.style.borderRadius = `5px`;
                 setTimeout(function () {
-                    document.getElementById('order-car-menu').style.display = `none`;
                     document.getElementById(`response-result`).style.display = `none`;
-                    carManufacturer.children[0].selected = true;
-                    carManufacturer.dispatchEvent(new Event('change'));
                 }, 2000);
             } else {
                 const resultHtmlEle = document.getElementById(`response-result`);
@@ -92,3 +89,8 @@ function orderCar(e) {
         })
         .catch(err => console.log(err));
 }
+
+document.querySelector(`.fa-window-close`).addEventListener(`click`, () => {
+    document.getElementById('order-car-menu').style.display = `none`;
+    document.getElementById(`response-result`).style.display = `none`;
+});
