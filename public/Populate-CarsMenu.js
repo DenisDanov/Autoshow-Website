@@ -1,5 +1,10 @@
 let apiUrl = 'https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=&model=';
 
+const loadingElement = document.createElement(`option`);
+loadingElement.value = `loading`;
+loadingElement.selected = true;
+loadingElement.textContent = `Loading`;
+
 // Function to parse JSONP response
 function parseJSONP(response) {
     return new Promise((resolve, reject) => {
@@ -29,12 +34,14 @@ document.getElementById(`car-model`).addEventListener(`change`, () => {
 })
 
 function populateDataYears() {
+    document.getElementById(`car-year`).innerHTML = ``;
+    document.getElementById(`car-year`).appendChild(loadingElement);
     apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
     fetch(apiUrl)
         .then(parseJSONP)
         .then(data => {
-            document.getElementById(`car-year`).innerHTML = ``;
             let lastYear = ``;
+            document.getElementById(`car-year`).innerHTML = ``;
             for (const jsonData of Object.entries(data)) {
                 const [key, value] = jsonData;
                 for (const carModel of value) {
@@ -52,6 +59,10 @@ function populateDataYears() {
 }
 
 function populateModels(params) {
+    document.getElementById(`car-year`).innerHTML = ``;
+    document.getElementById(`car-year`).appendChild(loadingElement);
+    document.getElementById(`car-model`).innerHTML = ``;
+    document.getElementById(`car-model`).appendChild(loadingElement);
     apiUrl = `https://danov-autoshow-656625355b99.herokuapp.com/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
     fetch(apiUrl)
         .then(parseJSONP)
@@ -90,9 +101,16 @@ function populateModels(params) {
 }
 
 function populateData() {
+    document.getElementById(`car-year`).innerHTML = ``;
+    document.getElementById(`car-year`).appendChild(loadingElement);
+    document.getElementById(`car-model`).innerHTML = ``;
+    document.getElementById(`car-model`).appendChild(loadingElement);
+    document.getElementById(`car-manufacturer`).innerHTML = ``;
+    document.getElementById(`car-manufacturer`).appendChild(loadingElement);
     fetch(apiUrl)
         .then(response => response.json()) // Parse the JSONP response
         .then(data => {
+            document.getElementById(`car-manufacturer`).innerHTML = ``;
             for (const jsonData of Object.entries(data)) {
                 const [key, value] = jsonData;
                 const option = document.createElement(`option`);
