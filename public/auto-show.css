@@ -156,6 +156,7 @@ section h2 {
 }
 
 #popup-order-car {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: max-content;
@@ -199,7 +200,7 @@ section h2 {
 }
 
 .fa-window-close {
-    top: 30.5%;
-    right: 49%;
+    top: 0.5%;
+    right: 1%;
     position: absolute;
 }
