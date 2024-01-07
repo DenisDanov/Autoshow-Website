@@ -165,11 +165,10 @@ function remakeOrder(e, modifyReference, carManufacturer, carModel, carYear) {
             newYear: newYear
         })
     })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(result => {
-            console.log(result)
-            if (result.result == `Same order is made and the period is extended.` ||
-                result.result == `New order is made and the period is extended.`) {
+            if (result.result === `Same order is made and the period is extended.` ||
+                result.result === `New order is made and the period is extended.`) {
                 const resultHtmlEle = document.getElementById(`response-result`);
                 resultHtmlEle.textContent = result;
                 resultHtmlEle.style.display = `block`;
