@@ -222,6 +222,8 @@ function cancelRemakeOrder(e) {
 }
 
 function remakeOrder(e, carManufacturer, carModel, carYear) {
+    console.log(e.currentTarget);
+    console.log(e.currentTarget.parentNode);
     const newManufacturer = e.currentTarget.parentNode.querySelector(`#car-manufacturer`).value;
     const newModel = e.currentTarget.parentNode.querySelector(`#car-model`).value;
     const newYear = e.currentTarget.parentNode.querySelector(`#car-year`).value;
