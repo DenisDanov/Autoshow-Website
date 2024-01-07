@@ -197,3 +197,9 @@ section h2 {
 #car-manufacturer,#car-model,#car-year {
     width: max-content;
 }
+
+.fa-window-close {
+    top: 30.5%;
+    right: 49%;
+    position: absolute;
+}
