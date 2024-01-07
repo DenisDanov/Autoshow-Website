@@ -176,23 +176,30 @@ if (authToken) {
                             var carManufacturerEle = document.getElementById('car-manufacturer');
                             var carModelEle = document.getElementById('car-model');
                             var carYearEle = document.getElementById('car-year');
-                            carManufacturerEle.children.forEach(ele => {
-                                if (ele.textContent === carManufacturer) {
-                                    ele.selected = true;
-                                    carManufacturerEle.dispatchEvent(new Event('change'));
-                                }
-                            });
-                            carModelEle.children.forEach(ele => {
-                                if (ele.textContent === carOrder.carModel) {
-                                    ele.selected = true;
-                                    carModelEle.dispatchEvent(new Event('change'));
-                                }
-                            });
-                            carYearEle.children.forEach(ele => {
-                                if (ele.textContent === carOrder.carYear) {
-                                    ele.selected = true;
-                                }
-                            });
+
+                            const optionToSelect = Array.from(carManufacturerEle.children).find(
+                                ele => ele.textContent === carManufacturer
+                            );
+                            if (optionToSelect) {
+                                optionToSelect.selected = true;
+                                carManufacturerEle.dispatchEvent(new Event('change'));
+                            }
+
+                            const optionToSelectModel = Array.from(carModelEle.children).find(
+                                ele => ele.textContent === carOrder.carModel
+                            );
+                            if (optionToSelectModel) {
+                                optionToSelectModel.selected = true;
+                                carModelEle.dispatchEvent(new Event('change'));
+                            }
+
+                            const optionToSelectYear = Array.from(carYearEle.children).find(
+                                ele => ele.textContent === carOrder.carYear
+                            );
+                            if (optionToSelectYear) {
+                                optionToSelectYear.selected = true;
+                            }
+
                             document.getElementById('order-car-menu').style.display = `flex`;
                         });
                         container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
