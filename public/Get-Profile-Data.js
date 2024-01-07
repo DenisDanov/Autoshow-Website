@@ -183,7 +183,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
 
                     let carManufacturer = result.carManufacturer;
                     carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
-                    modifyReference.parentNode.parentNode.innerHTML = `
+                    modifyReference.parentNode.parentNode.parentNode.innerHTML = `
                     <div class="car-orders-container">
                 <div class="car-order-details">
                     <div>
@@ -244,8 +244,8 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                     img.src = imagePath;
                     orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
                         carManufacturer, result);
-                    modifyReference.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
-                    modifyReference.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
+                    modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
+                    modifyReference.parentNode.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
                 }, 2000);
             } else {
                 const resultHtmlEle = document.getElementById(`response-result`);
