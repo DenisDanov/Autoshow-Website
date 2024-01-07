@@ -33,11 +33,7 @@ function takeMeToLogin() {
 // Function to handle "No thanks" button click
 function noThanks() {
     var carManufacturer = document.getElementById('car-manufacturer');
-    var carModel = document.getElementById('car-model');
-    var carYear = document.getElementById('car-year');
-    carManufacturer.value = carManufacturer.children[0];
-    carModel.value = carModel.children[0];
-    carYear.value = carYear.children[0];
+    carManufacturer.children[0].selected = true;
     document.getElementById(`response-result`).style.display = `none`;
     closePopup();
 }
@@ -73,9 +69,7 @@ function orderCar(e) {
                 setTimeout(function () {
                     document.getElementById('order-car-menu').style.display = `none`;
                     document.getElementById(`response-result`).style.display = `none`;
-                    carManufacturer.value = carManufacturer.children[0];
-                    carModel.value = carModel.children[0];
-                    carYear.value = carYear.children[0];
+                    carManufacturer.children[0].selected = true;
                 }, 2000);
             } else {
                 const resultHtmlEle = document.getElementById(`response-result`);
@@ -89,9 +83,7 @@ function orderCar(e) {
                 setTimeout(function () {
                     document.getElementById('order-car-menu').style.display = `none`;
                     document.getElementById(`response-result`).style.display = `none`;
-                    carManufacturer.value = carManufacturer.children[0];
-                    carModel.value = carModel.children[0];
-                    carYear.value = carYear.children[0];
+                    carManufacturer.children[0].selected = true;
                 }, 2000);
             }
         })
