@@ -145,11 +145,11 @@ function cancelRemakeOrder(e) {
     document.getElementById('order-car-menu').style.display = `none`;
 }
 
-function remakeOrder(e, modifyReference, carManufacturer, carModel, carYear) {
+function remakeOrder(e, carManufacturer, carModel, carYear) {
     const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).value;
     const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
     const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
-
+    const modifyReference = document.querySelector('[modify-reference="true"]');
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
         method: "PUT",
         headers: {
@@ -405,7 +405,9 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             const modifyOrder = document.createElement(`button`);
             modifyOrder.id = `modify-order`;
             modifyOrder.textContent = `Remake order`;
+            modifyOrder.setAttribute(`modify-reference`, "false");
             modifyOrder.addEventListener(`click`, (modifyReference) => {
+                modifyReference.currentTarget.setAttribute(`modify-reference`, "true");
                 var carManufacturerEle = document.getElementById('car-manufacturer');
                 var carModelEle = document.getElementById('car-model');
                 var carYearEle = document.getElementById('car-year');
@@ -436,7 +438,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
                 }
                 document.getElementById('order-car-menu').style.display = `flex`;
                 document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
-                    remakeOrder(e, modifyReference.currentTarget, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
+                    remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
                 });
             });
             container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
