@@ -136,6 +136,28 @@
                 <ul id="favorite-vehicles"></ul>
                 <label for="car-orders">Ordered Vehicles</label>
                 <ul id="car-orders"></ul>
+                <div id="order-car-menu">
+                    <div id="popup-order-car">
+                        <i class="fas fa-window-close"></i>
+                        <p>Can't find a car you wanna see ? Make a order here.</p>
+
+                        <label for="car-manufacturer">Select car manufacturer</label>
+                        <select id="car-manufacturer" required>
+                        </select>
+                        <label for="car-model">Select car model</label>
+                        <select id="car-model" required>
+                        </select>
+                        <label for="car-year">Select manufacture year</label>
+                        <select id="car-year" required>
+                        </select>
+                        <span id="response-result" style="display: none;"></span>
+
+                        <div>
+                            <button onclick="orderCar()">Order car</button>
+                            <button onclick="noThanks()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
