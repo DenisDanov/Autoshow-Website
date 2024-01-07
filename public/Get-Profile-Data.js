@@ -436,7 +436,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
                 }
                 document.getElementById('order-car-menu').style.display = `flex`;
                 document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
-                    remakeOrder(e, modifyReference, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
+                    remakeOrder(e, modifyReference.currentTarget, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
                 });
             });
             container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
