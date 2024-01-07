@@ -242,11 +242,8 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                     const imagePath = `images/${carManufacturer}-${result.carModel}.png`;
                     const img = new Image();
                     img.src = imagePath;
-                    console.log(modifyReference);
-                    console.log(modifyReference.parentNode);
-                    console.log(modifyReference.parentNode.parentNode);
-                    orderStatusCheck(img, modifyReference.parentNode.parentNode
-                        , carManufacturer, result);
+                    orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
+                        carManufacturer, result);
                     modifyReference.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
                     modifyReference.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
                 }, 2000);
