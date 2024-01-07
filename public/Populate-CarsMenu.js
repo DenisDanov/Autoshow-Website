@@ -6,14 +6,14 @@ loadingElement.selected = true;
 loadingElement.textContent = `Loading`;
 
 const loadingElement2 = document.createElement(`option`);
-loadingElement.value = `loading`;
-loadingElement.selected = true;
-loadingElement.textContent = `Loading`;
+loadingElement2.value = `loading`;
+loadingElement2.selected = true;
+loadingElement2.textContent = `Loading`;
 
 const loadingElement3 = document.createElement(`option`);
-loadingElement.value = `loading`;
-loadingElement.selected = true;
-loadingElement.textContent = `Loading`;
+loadingElement3.value = `loading`;
+loadingElement3.selected = true;
+loadingElement3.textContent = `Loading`;
 
 // Function to parse JSONP response
 function parseJSONP(response) {
