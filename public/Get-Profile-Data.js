@@ -149,7 +149,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
     const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).value;
     const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
     const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
-    const modifyReference = document.querySelector('[modify-reference="true"]');
+    let modifyReference = document.querySelector('[modify-reference="true"]');
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
         method: "PUT",
         headers: {
@@ -248,6 +248,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                     orderStatusCheck(img, modifyReference.parentNode.parentNode
                         , carManufacturer, result);
                     modifyReference.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
+                    modifyReference.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
                 }, 2000);
             } else {
                 const resultHtmlEle = document.getElementById(`response-result`);
