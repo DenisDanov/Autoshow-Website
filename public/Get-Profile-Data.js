@@ -234,9 +234,11 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                 </div>
                 <div id="cancel-order-container">
                 <button id="cancel-order">Cancel Order</button>
+                <button id="modify-order" modify-reference="true">Remake order</button>
             </div>
             </div>
                     `
+                    modifyReference = document.querySelector('[modify-reference="true"]');
                     const imagePath = `images/${result.carManufacturer}-${result.carModel}.png`;
                     const img = new Image();
                     img.src = imagePath;
