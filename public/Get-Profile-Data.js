@@ -340,7 +340,6 @@ function addCarOrderToFavs(e) {
 
 function removeCarOrder(e) {
     let carManufacturer = e.currentTarget.parentNode.parentNode.children[0].children[0].children[1].textContent;
-    carManufacturer = carManufacturer.charAt(0).toLowerCase() + carManufacturer.substring(1);
     const carModel = e.currentTarget.parentNode.parentNode.children[0].children[1].children[1].textContent;
     const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
     e.currentTarget.parentNode.parentNode.parentNode.remove();
@@ -368,9 +367,6 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
         container.children[0].children[1].children[0].children[1].textContent = `Completed`;
         container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
         favVehiclesIds.forEach(vehicleId => {
-            console.log(vehicleId);
-            console.log(container.children[0].querySelector(`.car-order-model`)
-                .children[1].querySelector(`a`).href);
             if (vehicleId === container.children[0].querySelector(`.car-order-model`)
                 .children[1].querySelector(`a`).href) {
                 container.children[0].querySelector(`.car-order-model`).children[1].children[2]
@@ -383,7 +379,6 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
     };
     img.onerror = function () {
-        console.log(`yee`);
         container.children[0].querySelector(`.car-order-model`).remove();
         var dateOfOrder = new Date(carOrder.dateOfOrder);
 
