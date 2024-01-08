@@ -255,7 +255,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                 resultHtmlEle.style.color = `white`;
                 resultHtmlEle.style.border = `5px solid red`;
                 resultHtmlEle.style.borderRadius = `5px`;
-
+                document.getElementById(`reorder-car`).disabled = true;
                 setTimeout(function () {
                     document.getElementById(`response-result`).style.display = `none`;
                     document.getElementById(`reorder-car`).disabled = false;
