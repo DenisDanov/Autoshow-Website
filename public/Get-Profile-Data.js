@@ -71,7 +71,6 @@ if (authToken) {
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/get?id=${userId}`)
         .then(response => response.json())
         .then(result => {
-            console.log(result);
             for (const carOrder of result) {
                 const container = document.createElement(`li`);
                 let carManufacturer = carOrder.carManufacturer;
@@ -384,6 +383,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
     };
     img.onerror = function () {
+        console.log(`yee`);
         container.children[0].querySelector(`.car-order-model`).remove();
         var dateOfOrder = new Date(carOrder.dateOfOrder);
 
@@ -413,8 +413,6 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
 
                 const optionToSelect = Array.from(carManufacturerEle.children).find(
                     ele => ele.textContent.toLowerCase() === carManufacturer.toLowerCase());
-                console.log(optionToSelect);
-                console.log(carManufacturer);
                 if (optionToSelect) {
                     optionToSelect.selected = true;
                     populateModels().then(result => {
