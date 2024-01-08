@@ -176,11 +176,8 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                 resultHtmlEle.style.color = `white`;
                 resultHtmlEle.style.border = `5px solid green`;
                 resultHtmlEle.style.borderRadius = `5px`;
-
+                document.getElementById(`reorder-car`).disabled = true;
                 setTimeout(function () {
-                    document.getElementById(`response-result`).style.display = `none`;
-                    document.getElementById('order-car-menu').style.display = `none`;
-
                     let carManufacturer = result.carManufacturer;
                     carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
                     modifyReference.parentNode.parentNode.parentNode.innerHTML = `
@@ -246,6 +243,9 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                         carManufacturer, result);
                     modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
                     modifyReference.parentNode.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
+                    document.getElementById(`response-result`).style.display = `none`;
+                    document.getElementById('order-car-menu').style.display = `none`;
+                    document.getElementById(`reorder-car`).disabled = false;
                 }, 2000);
             } else {
                 const resultHtmlEle = document.getElementById(`response-result`);
@@ -258,6 +258,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
 
                 setTimeout(function () {
                     document.getElementById(`response-result`).style.display = `none`;
+                    document.getElementById(`reorder-car`).disabled = false;
                 }, 2000);
             }
         })
