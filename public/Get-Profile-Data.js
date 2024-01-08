@@ -412,8 +412,9 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
                 var carYearEle = document.getElementById('car-year');
 
                 const optionToSelect = Array.from(carManufacturerEle.children).find(
-                    ele => ele.textContent.toLowerCase() === carManufacturer.toLowerCase()
-                );
+                    ele => ele.textContent.toLowerCase() === carManufacturer.toLowerCase());
+                console.log(optionToSelect);
+                console.log(carManufacturer);
                 if (optionToSelect) {
                     optionToSelect.selected = true;
                     populateModels().then(result => {
