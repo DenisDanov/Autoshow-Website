@@ -51,7 +51,7 @@ function orderCar(e) {
         },
         body: JSON.stringify({
             id: userId,
-            carManufacturer: carManufacturer.value.textContent,
+            carManufacturer: carManufacturer.options[carManufacturer.selectedIndex].textContent,
             carModel: carModel.value,
             carYear: carYear.value
         })
