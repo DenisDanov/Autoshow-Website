@@ -384,7 +384,6 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
     };
     img.onerror = function () {
-        console.log(container);
         container.children[0].querySelector(`.car-order-model`).remove();
         var dateOfOrder = new Date(carOrder.dateOfOrder);
 
@@ -413,13 +412,13 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
                 var carYearEle = document.getElementById('car-year');
 
                 const optionToSelect = Array.from(carManufacturerEle.children).find(
-                    ele => ele.textContent === carManufacturer
+                    ele => ele.textContent.toLowerCase() === carManufacturer.toLowerCase()
                 );
                 if (optionToSelect) {
                     optionToSelect.selected = true;
                     populateModels().then(result => {
                         const optionToSelectModel = Array.from(carModelEle.children).find(
-                            ele => ele.textContent === carOrder.carModel
+                            ele => ele.textContent.toLocaleLowerCase() === carOrder.carModel.toLowerCase()
                         );
                         if (optionToSelectModel) {
                             optionToSelectModel.selected = true;
