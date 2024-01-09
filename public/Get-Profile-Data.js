@@ -156,9 +156,9 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
     const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
     let modifyReference = document.querySelector('[modify-reference="true"]');
     const resultHtmlEle = document.getElementById(`response-result`);
-    carManufacturer = modifyReference.parentNode.parentNode.children[0].children[0].children[1];
-    carModel = modifyReference.parentNode.parentNode.children[0].children[1].children[1];
-    carYear = modifyReference.parentNode.parentNode.children[0].children[2].children[1];
+    carManufacturer = modifyReference.parentNode.parentNode.children[0].children[0].children[1].textContent;
+    carModel = modifyReference.parentNode.parentNode.children[0].children[1].children[1].textContent;
+    carYear = modifyReference.parentNode.parentNode.children[0].children[2].children[1].textContent;
     if (modifyReference.id === `change-order`) {
         let checkForSameOrder = false;
         if (carManufacturer === newManufacturer) {
