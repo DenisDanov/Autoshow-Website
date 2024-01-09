@@ -149,6 +149,7 @@ function cancelRemakeOrder(e) {
 }
 
 function remakeOrder(e, buttonReference, carManufacturer, carModel, carYear) {
+    console.log(buttonReference);
     const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`)
         .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
     const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
@@ -580,6 +581,7 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
         });
     }
     document.getElementById('order-car-menu').style.display = `flex`;
+    console.log(modifyReference.currentTarget);
     document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
         remakeOrder(e, modifyReference.currentTarget, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
     });
