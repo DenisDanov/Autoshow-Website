@@ -148,130 +148,259 @@ function cancelRemakeOrder(e) {
     document.getElementById('order-car-menu').style.display = `none`;
 }
 
-function remakeOrder(e, carManufacturer, carModel, carYear) {
+function remakeOrder(e, buttonReference, carManufacturer, carModel, carYear) {
     const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`)
         .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
     const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
     const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
     let modifyReference = document.querySelector('[modify-reference="true"]');
-    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            id: userId,
-            currentManufacturer: carManufacturer,
-            currentModel: carModel,
-            currentYear: carYear,
-            newManufacturer: newManufacturer,
-            newModel: newModel,
-            newYear: newYear
+    if (buttonReference.id === `change-order` &&
+        newManufacturer !== carManufacturer && newModel !== carModel && newYear !== carYear) {
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: userId,
+                currentManufacturer: carManufacturer,
+                currentModel: carModel,
+                currentYear: carYear,
+                newManufacturer: newManufacturer,
+                newModel: newModel,
+                newYear: newYear
+            })
         })
-    })
-        .then(response => response.json())
-        .then(result => {
-            if (result.result === `Same order is made and the period is extended.` ||
-                result.result === `New order is made and the period is extended.`) {
-                const resultHtmlEle = document.getElementById(`response-result`);
-                resultHtmlEle.textContent = result.result;
-                resultHtmlEle.style.display = `block`;
-                resultHtmlEle.style.backgroundColor = `green`;
-                resultHtmlEle.style.color = `white`;
-                resultHtmlEle.style.border = `5px solid green`;
-                resultHtmlEle.style.borderRadius = `5px`;
-                document.getElementById(`reorder-car`).disabled = true;
-                setTimeout(function () {
-                    let carManufacturer = result.carManufacturer;
-                    carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
-                    modifyReference.parentNode.parentNode.parentNode.innerHTML = `
-                    <div class="car-orders-container">
-                <div class="car-order-details">
-                    <div>
-                        <span>Car manufacturer</span>
-                        <p>${carManufacturer}</p>
-                    </div>
-                    <div>
-                        <span>Car model</span>
-                        <p>${result.carModel}</p>
-                    </div>
-                    <div>
-                        <span>Manufacture year</span>
-                        <p>${result.carYear}</p>
-                    </div>
-                </div>
-                <div class="car-order-status">
-                    <div>
-                        <span>Order status</span>
-                        <p class="order-status" status="${result.orderStatus}">${result.orderStatus}</p>
-                    </div>
-                    <div>
-                        <span>Order date</span>
-                        <p>${result.dateOfOrder}</p>
-                    </div>
-                </div>
-                <div class="car-order-model" style="display: none;">
-                    <h1>Ordered car</h1>
-                    <div class="car-card">
-                        <div class="img-container">
-                            <img src="images/${carManufacturer}-${result.carModel}.png" alt="Car 2">
+            .then(response => response.json())
+            .then(result => {
+                if (result.result === `Same order is made and the period is extended.` ||
+                    result.result === `New order is made and the period is extended.`) {
+                    const resultHtmlEle = document.getElementById(`response-result`);
+                    resultHtmlEle.textContent = result.result;
+                    resultHtmlEle.style.display = `block`;
+                    resultHtmlEle.style.backgroundColor = `green`;
+                    resultHtmlEle.style.color = `white`;
+                    resultHtmlEle.style.border = `5px solid green`;
+                    resultHtmlEle.style.borderRadius = `5px`;
+                    document.getElementById(`reorder-car`).disabled = true;
+                    setTimeout(function () {
+                        let carManufacturer = result.carManufacturer;
+                        carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
+                        modifyReference.parentNode.parentNode.parentNode.innerHTML = `
+                            <div class="car-orders-container">
+                        <div class="car-order-details">
+                            <div>
+                                <span>Car manufacturer</span>
+                                <p>${carManufacturer}</p>
+                            </div>
+                            <div>
+                                <span>Car model</span>
+                                <p>${result.carModel}</p>
+                            </div>
+                            <div>
+                                <span>Manufacture year</span>
+                                <p>${result.carYear}</p>
+                            </div>
                         </div>
-                        <div class="car-info">
-                            <h3>${result.carYear} ${result.carManufacturer.toUpperCase()} ${result.carModel.toUpperCase()}</h3>
+                        <div class="car-order-status">
+                            <div>
+                                <span>Order status</span>
+                                <p class="order-status" status="${result.orderStatus}">${result.orderStatus}</p>
+                            </div>
+                            <div>
+                                <span>Order date</span>
+                                <p>${result.dateOfOrder}</p>
+                            </div>
                         </div>
-                        <div class="favorites">
-                            <h3>Add to Favorites</h3>
-                            <label class="add-fav">
-                                <input type="checkbox" />
-                                <i class="icon-heart fas fa-heart">
-                                    <i class="icon-plus-sign fa-solid fa-plus"></i>
-                                </i>
-                            </label>
+                        <div class="car-order-model" style="display: none;">
+                            <h1>Ordered car</h1>
+                            <div class="car-card">
+                                <div class="img-container">
+                                    <img src="images/${carManufacturer}-${result.carModel}.png" alt="Car 2">
+                                </div>
+                                <div class="car-info">
+                                    <h3>${result.carYear} ${result.carManufacturer.toUpperCase()} ${result.carModel.toUpperCase()}</h3>
+                                </div>
+                                <div class="favorites">
+                                    <h3>Add to Favorites</h3>
+                                    <label class="add-fav">
+                                        <input type="checkbox" />
+                                        <i class="icon-heart fas fa-heart">
+                                            <i class="icon-plus-sign fa-solid fa-plus"></i>
+                                        </i>
+                                    </label>
+                                </div>
+                                <a href="showroom.html?car=3D Models/${carManufacturer}-${result.carModel}-${result.carYear}.glb"
+                                    class="view-button">View in
+                                    Showroom</a>
+                            </div>
                         </div>
-                        <a href="showroom.html?car=3D Models/${carManufacturer}-${result.carModel}-${result.carYear}.glb"
-                            class="view-button">View in
-                            Showroom</a>
+                        <div id="cancel-order-container">
+                        <button id="change-order">Change Order</button>
+                        <button id="cancel-order">Cancel Order</button>
+                        <button id="modify-order" modify-reference="true">Remake order</button>
                     </div>
-                </div>
-                <div id="cancel-order-container">
-                <button id="cancel-order">Cancel Order</button>
-                <button id="change-order">Change Order</button>
-                <button id="modify-order" modify-reference="true">Remake order</button>
-            </div>
-            </div>
-                    `
-                    modifyReference = document.querySelector('[modify-reference="true"]');
-                    modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).
-                        addEventListener(`click`, (e) => {
-                            modifyOrderFunc(e, carManufacturer, result);
-                        });
-                    const imagePath = `images/${carManufacturer}-${result.carModel}.png`;
-                    const img = new Image();
-                    img.src = imagePath;
-                    orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
-                        carManufacturer, result);
-                    modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
-                    modifyReference.parentNode.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
-                    document.getElementById(`response-result`).style.display = `none`;
-                    document.getElementById('order-car-menu').style.display = `none`;
-                    document.getElementById(`reorder-car`).disabled = false;
-                }, 2000);
-            } else {
-                const resultHtmlEle = document.getElementById(`response-result`);
-                resultHtmlEle.textContent = result.result;
-                resultHtmlEle.style.display = `block`;
-                resultHtmlEle.style.backgroundColor = `red`;
-                resultHtmlEle.style.color = `white`;
-                resultHtmlEle.style.border = `5px solid red`;
-                resultHtmlEle.style.borderRadius = `5px`;
-                document.getElementById(`reorder-car`).disabled = true;
-                setTimeout(function () {
-                    document.getElementById(`response-result`).style.display = `none`;
-                    document.getElementById(`reorder-car`).disabled = false;
-                }, 2000);
-            }
+                    </div>
+                            `
+                        modifyReference = document.querySelector('[modify-reference="true"]');
+                        modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).
+                            addEventListener(`click`, (e) => {
+                                modifyOrderFunc(e, carManufacturer, result);
+                            });
+                        const imagePath = `images/${carManufacturer}-${result.carModel}.png`;
+                        const img = new Image();
+                        img.src = imagePath;
+                        orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
+                            carManufacturer, result);
+                        modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
+                        modifyReference.parentNode.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
+                        document.getElementById(`response-result`).style.display = `none`;
+                        document.getElementById('order-car-menu').style.display = `none`;
+                        document.getElementById(`reorder-car`).disabled = false;
+                    }, 2000);
+                } else {
+                    const resultHtmlEle = document.getElementById(`response-result`);
+                    resultHtmlEle.textContent = result.result;
+                    resultHtmlEle.style.display = `block`;
+                    resultHtmlEle.style.backgroundColor = `red`;
+                    resultHtmlEle.style.color = `white`;
+                    resultHtmlEle.style.border = `5px solid red`;
+                    resultHtmlEle.style.borderRadius = `5px`;
+                    document.getElementById(`reorder-car`).disabled = true;
+                    setTimeout(function () {
+                        document.getElementById(`response-result`).style.display = `none`;
+                        document.getElementById(`reorder-car`).disabled = false;
+                    }, 2000);
+                }
+            })
+            .catch(err => console.log(err));
+    } else if (buttonReference.id !== `change-order`) {
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: userId,
+                currentManufacturer: carManufacturer,
+                currentModel: carModel,
+                currentYear: carYear,
+                newManufacturer: newManufacturer,
+                newModel: newModel,
+                newYear: newYear
+            })
         })
-        .catch(err => console.log(err));
+            .then(response => response.json())
+            .then(result => {
+                if (result.result === `Same order is made and the period is extended.` ||
+                    result.result === `New order is made and the period is extended.`) {
+                    const resultHtmlEle = document.getElementById(`response-result`);
+                    resultHtmlEle.textContent = result.result;
+                    resultHtmlEle.style.display = `block`;
+                    resultHtmlEle.style.backgroundColor = `green`;
+                    resultHtmlEle.style.color = `white`;
+                    resultHtmlEle.style.border = `5px solid green`;
+                    resultHtmlEle.style.borderRadius = `5px`;
+                    document.getElementById(`reorder-car`).disabled = true;
+                    setTimeout(function () {
+                        let carManufacturer = result.carManufacturer;
+                        carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
+                        modifyReference.parentNode.parentNode.parentNode.innerHTML = `
+                        <div class="car-orders-container">
+                    <div class="car-order-details">
+                        <div>
+                            <span>Car manufacturer</span>
+                            <p>${carManufacturer}</p>
+                        </div>
+                        <div>
+                            <span>Car model</span>
+                            <p>${result.carModel}</p>
+                        </div>
+                        <div>
+                            <span>Manufacture year</span>
+                            <p>${result.carYear}</p>
+                        </div>
+                    </div>
+                    <div class="car-order-status">
+                        <div>
+                            <span>Order status</span>
+                            <p class="order-status" status="${result.orderStatus}">${result.orderStatus}</p>
+                        </div>
+                        <div>
+                            <span>Order date</span>
+                            <p>${result.dateOfOrder}</p>
+                        </div>
+                    </div>
+                    <div class="car-order-model" style="display: none;">
+                        <h1>Ordered car</h1>
+                        <div class="car-card">
+                            <div class="img-container">
+                                <img src="images/${carManufacturer}-${result.carModel}.png" alt="Car 2">
+                            </div>
+                            <div class="car-info">
+                                <h3>${result.carYear} ${result.carManufacturer.toUpperCase()} ${result.carModel.toUpperCase()}</h3>
+                            </div>
+                            <div class="favorites">
+                                <h3>Add to Favorites</h3>
+                                <label class="add-fav">
+                                    <input type="checkbox" />
+                                    <i class="icon-heart fas fa-heart">
+                                        <i class="icon-plus-sign fa-solid fa-plus"></i>
+                                    </i>
+                                </label>
+                            </div>
+                            <a href="showroom.html?car=3D Models/${carManufacturer}-${result.carModel}-${result.carYear}.glb"
+                                class="view-button">View in
+                                Showroom</a>
+                        </div>
+                    </div>
+                    <div id="cancel-order-container">
+                    <button id="change-order">Change Order</button>
+                    <button id="cancel-order">Cancel Order</button>
+                    <button id="modify-order" modify-reference="true">Remake order</button>
+                </div>
+                </div>
+                        `
+                        modifyReference = document.querySelector('[modify-reference="true"]');
+                        modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).
+                            addEventListener(`click`, (e) => {
+                                modifyOrderFunc(e, carManufacturer, result);
+                            });
+                        const imagePath = `images/${carManufacturer}-${result.carModel}.png`;
+                        const img = new Image();
+                        img.src = imagePath;
+                        orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
+                            carManufacturer, result);
+                        modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
+                        modifyReference.parentNode.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
+                        document.getElementById(`response-result`).style.display = `none`;
+                        document.getElementById('order-car-menu').style.display = `none`;
+                        document.getElementById(`reorder-car`).disabled = false;
+                    }, 2000);
+                } else {
+                    const resultHtmlEle = document.getElementById(`response-result`);
+                    resultHtmlEle.textContent = result.result;
+                    resultHtmlEle.style.display = `block`;
+                    resultHtmlEle.style.backgroundColor = `red`;
+                    resultHtmlEle.style.color = `white`;
+                    resultHtmlEle.style.border = `5px solid red`;
+                    resultHtmlEle.style.borderRadius = `5px`;
+                    document.getElementById(`reorder-car`).disabled = true;
+                    setTimeout(function () {
+                        document.getElementById(`response-result`).style.display = `none`;
+                        document.getElementById(`reorder-car`).disabled = false;
+                    }, 2000);
+                }
+            })
+            .catch(err => console.log(err));
+    } else {
+        resultHtmlEle.textContent = `Please order different model than the current one.`;
+        resultHtmlEle.style.display = `block`;
+        resultHtmlEle.style.backgroundColor = `red`;
+        resultHtmlEle.style.color = `white`;
+        resultHtmlEle.style.border = `5px solid red`;
+        resultHtmlEle.style.borderRadius = `5px`;
+    }
 }
 
 function addCarOrderToFavs(e) {
@@ -452,7 +581,7 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     }
     document.getElementById('order-car-menu').style.display = `flex`;
     document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
-        remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
+        remakeOrder(e, modifyReference.currentTarget, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
     });
 }
 
