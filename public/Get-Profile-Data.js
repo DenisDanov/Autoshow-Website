@@ -408,13 +408,15 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             modifyOrder.id = `modify-order`;
             modifyOrder.textContent = `Remake order`;
             modifyOrder.setAttribute(`modify-reference`, "false");
-            modifyOrder.addEventListener(`click`, modifyOrderFunc);
+            modifyOrder.addEventListener(`click`, (e) => {
+                modifyOrderFunc(e, carManufacturer);
+            });
             container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
         }
     };
 }
 
-function modifyOrderFunc(modifyReference) {
+function modifyOrderFunc(modifyReference, carManufacturer) {
     modifyReference.currentTarget.setAttribute(`modify-reference`, "true");
     var carManufacturerEle = document.getElementById('car-manufacturer');
     var carModelEle = document.getElementById('car-model');
