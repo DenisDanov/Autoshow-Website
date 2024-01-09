@@ -125,10 +125,12 @@ if (authToken) {
                     </div>
                 </div>
                 <div id="cancel-order-container">
+                <button id="change-order">Change Order</button>
                 <button id="cancel-order">Cancel Order</button>
             </div>
             </div>
                 `
+                container.querySelector(`#change-order`).addEventListener(`click`, modifyOrderFunc);
                 const imagePath = `images/${carManufacturer}-${carOrder.carModel}.png`;
                 const img = new Image();
                 img.src = imagePath;
@@ -146,7 +148,7 @@ function cancelRemakeOrder(e) {
 
 function remakeOrder(e, carManufacturer, carModel, carYear) {
     const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`)
-    .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
+        .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
     const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
     const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
     let modifyReference = document.querySelector('[modify-reference="true"]');
@@ -231,11 +233,14 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                 </div>
                 <div id="cancel-order-container">
                 <button id="cancel-order">Cancel Order</button>
+                <button id="change-order">Change Order</button>
                 <button id="modify-order" modify-reference="true">Remake order</button>
             </div>
             </div>
                     `
                     modifyReference = document.querySelector('[modify-reference="true"]');
+                    modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).
+                        addEventListener(`click`, modifyOrderFunc);
                     const imagePath = `images/${carManufacturer}-${result.carModel}.png`;
                     const img = new Image();
                     img.src = imagePath;
@@ -381,6 +386,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
     };
     img.onerror = function () {
+        container.children[0].querySelector(`#change-order`).remove();
         container.children[0].querySelector(`.car-order-model`).remove();
         var dateOfOrder = new Date(carOrder.dateOfOrder);
 
@@ -402,43 +408,45 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             modifyOrder.id = `modify-order`;
             modifyOrder.textContent = `Remake order`;
             modifyOrder.setAttribute(`modify-reference`, "false");
-            modifyOrder.addEventListener(`click`, (modifyReference) => {
-                modifyReference.currentTarget.setAttribute(`modify-reference`, "true");
-                var carManufacturerEle = document.getElementById('car-manufacturer');
-                var carModelEle = document.getElementById('car-model');
-                var carYearEle = document.getElementById('car-year');
-
-                const optionToSelect = Array.from(carManufacturerEle.children).find(
-                    ele => ele.textContent.toLowerCase() === carManufacturer.toLowerCase());
-                if (optionToSelect) {
-                    optionToSelect.selected = true;
-                    populateModels().then(result => {
-                        const optionToSelectModel = Array.from(carModelEle.children).find(
-                            ele => ele.textContent.toLowerCase() === carOrder.carModel.toLowerCase()
-                        );
-                        if (optionToSelectModel) {
-                            optionToSelectModel.selected = true;
-                            populateDataYears().then(result => {
-                                const optionToSelectYear = Array.from(carYearEle.children).find(
-                                    ele => ele.textContent === carOrder.carYear
-                                );
-                                if (optionToSelectYear) {
-                                    optionToSelectYear.selected = true;
-                                }
-                            }).catch(err => console.log(err));
-                        }
-                    }).catch(err => {
-                        console.error(err);
-                    });
-                }
-                document.getElementById('order-car-menu').style.display = `flex`;
-                document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
-                    remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
-                });
-            });
+            modifyOrder.addEventListener(`click`, modifyOrderFunc);
             container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
         }
     };
+}
+
+function modifyOrderFunc(modifyReference) {
+    modifyReference.currentTarget.setAttribute(`modify-reference`, "true");
+    var carManufacturerEle = document.getElementById('car-manufacturer');
+    var carModelEle = document.getElementById('car-model');
+    var carYearEle = document.getElementById('car-year');
+
+    const optionToSelect = Array.from(carManufacturerEle.children).find(
+        ele => ele.textContent.toLowerCase() === carManufacturer.toLowerCase());
+    if (optionToSelect) {
+        optionToSelect.selected = true;
+        populateModels().then(result => {
+            const optionToSelectModel = Array.from(carModelEle.children).find(
+                ele => ele.textContent.toLowerCase() === carOrder.carModel.toLowerCase()
+            );
+            if (optionToSelectModel) {
+                optionToSelectModel.selected = true;
+                populateDataYears().then(result => {
+                    const optionToSelectYear = Array.from(carYearEle.children).find(
+                        ele => ele.textContent === carOrder.carYear
+                    );
+                    if (optionToSelectYear) {
+                        optionToSelectYear.selected = true;
+                    }
+                }).catch(err => console.log(err));
+            }
+        }).catch(err => {
+            console.error(err);
+        });
+    }
+    document.getElementById('order-car-menu').style.display = `flex`;
+    document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
+        remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
+    });
 }
 
 // Function to close the pop-up
