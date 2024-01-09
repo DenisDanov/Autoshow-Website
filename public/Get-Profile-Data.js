@@ -148,14 +148,13 @@ function cancelRemakeOrder(e) {
     document.getElementById('order-car-menu').style.display = `none`;
 }
 
-function remakeOrder(e, buttonReference, carManufacturer, carModel, carYear) {
-    console.log(buttonReference);
+function remakeOrder(e, carManufacturer, carModel, carYear) {
     const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`)
         .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
     const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
     const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
     let modifyReference = document.querySelector('[modify-reference="true"]');
-    if (buttonReference.id === `change-order` &&
+    if (modifyReference.id === `change-order` &&
         newManufacturer !== carManufacturer && newModel !== carModel && newYear !== carYear) {
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
             method: "PUT",
@@ -275,7 +274,7 @@ function remakeOrder(e, buttonReference, carManufacturer, carModel, carYear) {
                 }
             })
             .catch(err => console.log(err));
-    } else if (buttonReference.id !== `change-order`) {
+    } else if (modifyReference.id !== `change-order`) {
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
             method: "PUT",
             headers: {
@@ -583,7 +582,7 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     document.getElementById('order-car-menu').style.display = `flex`;
     console.log(modifyReference.currentTarget);
     document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
-        remakeOrder(e, modifyReference.currentTarget, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
+        remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
     });
 }
 
