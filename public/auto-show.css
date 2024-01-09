@@ -25,7 +25,7 @@ section {
 }
 
 .view-button {
-    background-color: #4CAF50;
+    background-color: #3a703b;
     color: white;
     padding: 10px 20px;
     text-align: center;
@@ -35,6 +35,10 @@ section {
     cursor: pointer;
     margin-bottom: 1rem;
     border-radius: 15px;
+}
+
+.view-button:hover {
+    background-color: #67a368;
 }
 
 section .cars-container {
