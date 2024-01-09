@@ -155,8 +155,8 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
     const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
     let modifyReference = document.querySelector('[modify-reference="true"]');
     const resultHtmlEle = document.getElementById(`response-result`);
-    if (modifyReference.id === `change-order` &&
-        newManufacturer !== carManufacturer && newModel !== carModel) {
+    if (modifyReference.id === `change-order`) {
+        console.log(`yes`);
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
             method: "PUT",
             headers: {
