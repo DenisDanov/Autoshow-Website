@@ -598,10 +598,11 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
         });
     }
     document.getElementById('order-car-menu').style.display = `flex`;
-    console.log(modifyReference.currentTarget);
-    document.getElementById(`reorder-car`).addEventListener(`click`, function (e) {
+    function handleReorderClick(e) {
         remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
-    });
+    }
+    document.getElementById(`reorder-car`).removeEventListener(`click`, handleReorderClick);
+    document.getElementById(`reorder-car`).addEventListener(`click`, handleReorderClick);
 }
 
 // Function to close the pop-up
