@@ -414,7 +414,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
                     optionToSelect.selected = true;
                     populateModels().then(result => {
                         const optionToSelectModel = Array.from(carModelEle.children).find(
-                            ele => ele.textContent.toLocaleLowerCase() === carOrder.carModel.toLowerCase()
+                            ele => ele.textContent.toLowerCase() === carOrder.carModel.toLowerCase()
                         );
                         if (optionToSelectModel) {
                             optionToSelectModel.selected = true;
