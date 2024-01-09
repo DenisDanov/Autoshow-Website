@@ -154,6 +154,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
     const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
     const newYear = e.currentTarget.parentNode.parentNode.querySelector(`#car-year`).value;
     let modifyReference = document.querySelector('[modify-reference="true"]');
+    const resultHtmlEle = document.getElementById(`response-result`);
     if (modifyReference.id === `change-order` &&
         newManufacturer !== carManufacturer && newModel !== carModel && newYear !== carYear) {
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
@@ -175,7 +176,6 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
             .then(result => {
                 if (result.result === `Same order is made and the period is extended.` ||
                     result.result === `New order is made and the period is extended.`) {
-                    const resultHtmlEle = document.getElementById(`response-result`);
                     resultHtmlEle.textContent = result.result;
                     resultHtmlEle.style.display = `block`;
                     resultHtmlEle.style.backgroundColor = `green`;
@@ -259,7 +259,6 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                         document.getElementById(`reorder-car`).disabled = false;
                     }, 2000);
                 } else {
-                    const resultHtmlEle = document.getElementById(`response-result`);
                     resultHtmlEle.textContent = result.result;
                     resultHtmlEle.style.display = `block`;
                     resultHtmlEle.style.backgroundColor = `red`;
@@ -294,7 +293,6 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
             .then(result => {
                 if (result.result === `Same order is made and the period is extended.` ||
                     result.result === `New order is made and the period is extended.`) {
-                    const resultHtmlEle = document.getElementById(`response-result`);
                     resultHtmlEle.textContent = result.result;
                     resultHtmlEle.style.display = `block`;
                     resultHtmlEle.style.backgroundColor = `green`;
@@ -378,7 +376,6 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                         document.getElementById(`reorder-car`).disabled = false;
                     }, 2000);
                 } else {
-                    const resultHtmlEle = document.getElementById(`response-result`);
                     resultHtmlEle.textContent = result.result;
                     resultHtmlEle.style.display = `block`;
                     resultHtmlEle.style.backgroundColor = `red`;
