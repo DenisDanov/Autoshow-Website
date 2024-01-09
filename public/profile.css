@@ -90,7 +90,7 @@ body {
     display: none;
     cursor: pointer;
     color: #888;
-    margin-top: 2.4rem;
+    margin-top: 35px;
     position: absolute;
     right: 0.5rem;
 }
@@ -101,11 +101,11 @@ input[type="password"]::-webkit-reveal {
 }
 
 #new-password-eye {
-    margin-top: 5.9rem;
+    margin-top: 90px;
 }
 
 #new-password-repeat-eye {
-    margin-top: 9.4rem;
+    margin-top: 145px;
 }
 
 #favorite-vehicles li .car-card,.car-order-model .car-card {
