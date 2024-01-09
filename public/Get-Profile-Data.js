@@ -240,7 +240,9 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                     `
                     modifyReference = document.querySelector('[modify-reference="true"]');
                     modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).
-                        addEventListener(`click`, modifyOrderFunc);
+                        addEventListener(`click`, (e) => {
+                            modifyOrderFunc(e, carManufacturer, result);
+                        });
                     const imagePath = `images/${carManufacturer}-${result.carModel}.png`;
                     const img = new Image();
                     img.src = imagePath;
@@ -409,14 +411,14 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             modifyOrder.textContent = `Remake order`;
             modifyOrder.setAttribute(`modify-reference`, "false");
             modifyOrder.addEventListener(`click`, (e) => {
-                modifyOrderFunc(e, carManufacturer);
+                modifyOrderFunc(e, carManufacturer, carOrder);
             });
             container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
         }
     };
 }
 
-function modifyOrderFunc(modifyReference, carManufacturer) {
+function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     modifyReference.currentTarget.setAttribute(`modify-reference`, "true");
     var carManufacturerEle = document.getElementById('car-manufacturer');
     var carModelEle = document.getElementById('car-model');
