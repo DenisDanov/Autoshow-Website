@@ -130,7 +130,9 @@ if (authToken) {
             </div>
             </div>
                 `
-                container.querySelector(`#change-order`).addEventListener(`click`, modifyOrderFunc);
+                container.querySelector(`#change-order`).addEventListener(`click`, (e) => {
+                    modifyOrderFunc(e, carManufacturer, carOrder);
+                });
                 const imagePath = `images/${carManufacturer}-${carOrder.carModel}.png`;
                 const img = new Image();
                 img.src = imagePath;
@@ -372,6 +374,7 @@ function removeCarOrder(e) {
 
 function orderStatusCheck(img, container, carManufacturer, carOrder) {
     img.onload = function () {
+        container.children[0].querySelector(`#change-order`).remove();
         container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
         container.children[0].children[1].children[0].children[1].textContent = `Completed`;
         container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
@@ -388,7 +391,6 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
             .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
     };
     img.onerror = function () {
-        container.children[0].querySelector(`#change-order`).remove();
         container.children[0].querySelector(`.car-order-model`).remove();
         var dateOfOrder = new Date(carOrder.dateOfOrder);
 
@@ -404,6 +406,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
         // Check if 7 days have passed
         if (daysDifference >= 7) {
             // 7 days have passed, so the order has expired
+            container.children[0].querySelector(`#change-order`).remove();
             container.children[0].children[1].children[0].children[1].textContent = `Expired`;
             container.children[0].children[1].children[0].children[1].setAttribute("status", "Expired");
             const modifyOrder = document.createElement(`button`);
