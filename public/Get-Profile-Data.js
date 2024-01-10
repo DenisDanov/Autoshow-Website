@@ -1,6 +1,6 @@
 var authToken = getCookie("authToken");
 const favVehiclesIds = [];
-var eventListeners = {};
+var eventListener;
 if (authToken) {
     // User is logged in
     document.querySelectorAll(`#log-in-icon`).forEach(entrie => {
@@ -271,6 +271,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                             document.getElementById(`response-result`).style.display = `none`;
                             document.getElementById('order-car-menu').style.display = `none`;
                             document.getElementById(`reorder-car`).disabled = false;
+                            removeReorderCarClickListener();
                         }, 2000);
                     } else {
                         resultHtmlEle.textContent = result.result;
@@ -283,6 +284,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                         setTimeout(function () {
                             document.getElementById(`response-result`).style.display = `none`;
                             document.getElementById(`reorder-car`).disabled = false;
+                            removeReorderCarClickListener();
                         }, 2000);
                     }
                 })
@@ -296,6 +298,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
             resultHtmlEle.style.borderRadius = `5px`;
             setTimeout(function () {
                 document.getElementById(`response-result`).style.display = `none`;
+                removeReorderCarClickListener();
             }, 3000);
         }
     } else if (modifyReference.id !== `change-order`) {
@@ -400,6 +403,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                         document.getElementById('order-car-menu').style.display = `none`;
                         document.getElementById(`reorder-car`).disabled = false;
                         modifyReference.removeAttribute(`modify-reference`);
+                        removeReorderCarClickListener();
                     }, 2000);
                 } else {
                     resultHtmlEle.textContent = result.result;
@@ -412,6 +416,7 @@ function remakeOrder(e, carManufacturer, carModel, carYear) {
                     setTimeout(function () {
                         document.getElementById(`response-result`).style.display = `none`;
                         document.getElementById(`reorder-car`).disabled = false;
+                        removeReorderCarClickListener();
                     }, 2000);
                 }
             })
@@ -596,22 +601,24 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
         });
     }
     document.getElementById('order-car-menu').style.display = `flex`;
-    // Store a reference to the callback function
-    const reorderCarCallback = (e) => {
-        remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
-    };
+    // Define the event listener function
+    function reorderCarClickListener(e) {
+        remakeOrder(e, carManufacturer, carOrder.carModel, carOrder.carYear);
+    }
 
-    // Remove existing event listener (if any)
-    document.getElementById(`reorder-car`).removeEventListener(`click`, reorderCarCallback);
+    // Add the event listener using the named function
+    document.getElementById('reorder-car').addEventListener('click', reorderCarClickListener);
 
-    // Add a new event listener
-    document.getElementById(`reorder-car`).addEventListener(`click`, reorderCarCallback);
-
+    // To remove the event listener, use the same named function
+    function removeReorderCarClickListener() {
+        document.getElementById('reorder-car').removeEventListener('click', reorderCarClickListener);
+    }
 }
 
 // Function to close the pop-up
 function closePopup() {
     document.getElementById('overlay').style.display = 'none';
+    removeReorderCarClickListener();
 }
 
 // Function to handle "Remove car" button click
