@@ -146,6 +146,7 @@ if (authToken) {
 }
 
 function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
+    console.log(carOrderBtnEvent);
     if (!carOrderBtnEvent) {
         const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`)
             .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
@@ -607,7 +608,11 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     let funcReference;
     document.getElementById('reorder-car').addEventListener('click', function reorderCar(e) {
         funcReference = reorderCar;
-        reorderCarClickListener(reorderCar, e, carManufacturer, carOrder.carModel, carOrder.carYear);
+        if (!carOrderBtnEvent) {
+            reorderCarClickListener(reorderCar, e, carManufacturer, carOrder.carModel, carOrder.carYear);
+        } else {
+            carOrderBtnEvent = false;
+        }
     });
 
     document.getElementById('reorder-car').click();
