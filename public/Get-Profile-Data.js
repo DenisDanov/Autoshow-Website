@@ -624,6 +624,7 @@ function reorderCarClickListener(reorderCar, e, carManufacturer, carModel, carYe
 
 function removeReorderCarClickListener(reorderCarClickListener) {
     document.getElementById('reorder-car').removeEventListener('click', reorderCarClickListener);
+    console.log(reorderCarClickListener.name)
     console.log(`yews`);
 }
 
