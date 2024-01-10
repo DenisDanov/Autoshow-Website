@@ -618,12 +618,14 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     document.getElementById(`cancel-order-icon`).addEventListener(`click`, function cancelButtons(e) {
         carOrderBtnEvent = true;
         document.getElementById('reorder-car').click();
+        carOrderBtnEvent = false;
         console.log(carOrderBtnEvent);
         cancelRemakeOrder(funcReference, cancelButtons);
     });
     document.getElementById(`cancel-orderbtn`).addEventListener(`click`, function cancelButtons(e) {
         carOrderBtnEvent = true;
         document.getElementById('reorder-car').click();
+        carOrderBtnEvent = false;
         cancelRemakeOrder(funcReference, cancelButtons);
     });
 }
