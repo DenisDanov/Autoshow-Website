@@ -608,6 +608,7 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
         funcReference = reorderCar;
         reorderCarClickListener(reorderCar, e, carManufacturer, carOrder.carModel, carOrder.carYear);
     });
+    console.log(funcReference);
     document.getElementById(`cancel-order-icon`).addEventListener(`click`, function cancelButtons(e) {
         cancelRemakeOrder(funcReference, cancelButtons);
     });
