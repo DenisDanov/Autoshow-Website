@@ -1,5 +1,6 @@
 var authToken = getCookie("authToken");
 const favVehiclesIds = [];
+var eventListeners = {};
 if (authToken) {
     // User is logged in
     document.querySelectorAll(`#log-in-icon`).forEach(entrie => {
@@ -595,15 +596,17 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
         });
     }
     document.getElementById('order-car-menu').style.display = `flex`;
-    var listeners = getEventListeners(document.getElementById(`reorder-car`));
-    for (var type in listeners) {
-        listeners[type].forEach(function (listener) {
-            myButton.removeEventListener(type, listener.listener);
-        });
-    }
-    document.getElementById(`reorder-car`).addEventListener(`click`, (e) => {
+    // Store a reference to the callback function
+    const reorderCarCallback = (e) => {
         remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
-    });
+    };
+
+    // Remove existing event listener (if any)
+    document.getElementById(`reorder-car`).removeEventListener(`click`, reorderCarCallback);
+
+    // Add a new event listener
+    document.getElementById(`reorder-car`).addEventListener(`click`, reorderCarCallback);
+
 }
 
 // Function to close the pop-up
