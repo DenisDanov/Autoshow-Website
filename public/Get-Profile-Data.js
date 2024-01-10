@@ -1,6 +1,5 @@
 var authToken = getCookie("authToken");
 const favVehiclesIds = [];
-var eventListener;
 if (authToken) {
     // User is logged in
     document.querySelectorAll(`#log-in-icon`).forEach(entrie => {
@@ -592,15 +591,22 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     }
     document.getElementById('order-car-menu').style.display = `flex`;
     document.getElementById('reorder-car').addEventListener('click', function reorderCar(e) {
-        eventListener = reorderCar;
+        document.getElementById(`cancel-order-icon`).addEventListener(`click`, (e) => {
+            cancelRemakeOrder(reorderCar, e);
+        });
+        document.getElementById(`cancel-order`).addEventListener(`click`, (e) => {
+            cancelRemakeOrder(reorderCar, e);
+        });
         reorderCarClickListener(reorderCar, e, carManufacturer, carOrder.carModel, carOrder.carYear);
     });
 }
 
-function cancelRemakeOrder(e) {
+function cancelRemakeOrder(eventListener,e) {
     document.getElementById('order-car-menu').style.display = `none`;
     document.querySelector('[modify-reference="true"]').removeAttribute(`modify-reference`);
     removeReorderCarClickListener(eventListener);
+    document.getElementById('cancel-order').removeEventListener('click', e);
+    document.getElementById('cancel-order-icon').removeEventListener('click', e);
 }
 
 function reorderCarClickListener(reorderCar, e, carManufacturer, carModel, carYear) {
