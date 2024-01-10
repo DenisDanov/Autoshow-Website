@@ -138,7 +138,7 @@
                 <ul id="car-orders"></ul>
                 <div id="order-car-menu">
                     <div id="popup-order-car">
-                        <i class="fas fa-window-close" onclick="cancelRemakeOrder()" style="cursor: pointer;"></i>
+                        <i class="fas fa-window-close" onclick="cancelRemakeOrder(this)" style="cursor: pointer;"></i>
                         <p>Reorder the same car, or choose a different one.</p>
                         <label for="car-manufacturer">Select car manufacturer</label>
                         <select id="car-manufacturer" required>
@@ -153,7 +153,7 @@
 
                         <div>
                             <button id="reorder-car">Order car</button>
-                            <button onclick="cancelRemakeOrder()">Cancel</button>
+                            <button onclick="cancelRemakeOrder(this)">Cancel</button>
                         </div>
                     </div>
                 </div>

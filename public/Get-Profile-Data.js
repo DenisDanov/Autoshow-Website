@@ -145,11 +145,6 @@ if (authToken) {
         .catch(err => console.log(err));
 }
 
-function cancelRemakeOrder(e) {
-    document.getElementById('order-car-menu').style.display = `none`;
-    document.querySelector('[modify-reference="true"]').removeAttribute(`modify-reference`);
-}
-
 function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
     const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`)
         .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
@@ -284,7 +279,6 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         setTimeout(function () {
                             document.getElementById(`response-result`).style.display = `none`;
                             document.getElementById(`reorder-car`).disabled = false;
-                            removeReorderCarClickListener(reorderCar);
                         }, 2000);
                     }
                 })
@@ -298,7 +292,6 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
             resultHtmlEle.style.borderRadius = `5px`;
             setTimeout(function () {
                 document.getElementById(`response-result`).style.display = `none`;
-                removeReorderCarClickListener(reorderCar);
             }, 3000);
         }
     } else if (modifyReference.id !== `change-order`) {
@@ -412,11 +405,8 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     resultHtmlEle.style.color = `white`;
                     resultHtmlEle.style.border = `5px solid red`;
                     resultHtmlEle.style.borderRadius = `5px`;
-                    document.getElementById(`reorder-car`).disabled = true;
                     setTimeout(function () {
                         document.getElementById(`response-result`).style.display = `none`;
-                        document.getElementById(`reorder-car`).disabled = false;
-                        removeReorderCarClickListener(reorderCar);
                     }, 2000);
                 }
             })
@@ -602,8 +592,15 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     }
     document.getElementById('order-car-menu').style.display = `flex`;
     document.getElementById('reorder-car').addEventListener('click', function reorderCar(e) {
+        eventListener = reorderCar;
         reorderCarClickListener(reorderCar, e, carManufacturer, carOrder.carModel, carOrder.carYear);
     });
+}
+
+function cancelRemakeOrder(e) {
+    document.getElementById('order-car-menu').style.display = `none`;
+    document.querySelector('[modify-reference="true"]').removeAttribute(`modify-reference`);
+    removeReorderCarClickListener(eventListener);
 }
 
 function reorderCarClickListener(reorderCar, e, carManufacturer, carModel, carYear) {
@@ -618,7 +615,6 @@ function removeReorderCarClickListener(reorderCarClickListener) {
 // Function to close the pop-up
 function closePopup() {
     document.getElementById('overlay').style.display = 'none';
-    removeReorderCarClickListener();
 }
 
 // Function to handle "Remove car" button click
