@@ -613,19 +613,19 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
 
 function cancelRemakeOrder(eventListener, e) {
     document.getElementById('order-car-menu').style.display = `none`;
-    removeReorderCarClickListener(eventListener);
-    document.getElementById('cancel-order').removeEventListener('click', e);
-    document.getElementById('cancel-order-icon').removeEventListener('click', e);
+    removeReorderCarClickListener(eventListener, e);
 }
 
 function reorderCarClickListener(reorderCar, e, carManufacturer, carModel, carYear) {
     remakeOrder(reorderCar, e, carManufacturer, carModel, carYear);
 }
 
-function removeReorderCarClickListener(reorderCarClickListener) {
+function removeReorderCarClickListener(reorderCarClickListener, e) {
     document.getElementById('reorder-car').removeEventListener('click', reorderCarClickListener);
     console.log(reorderCarClickListener.name)
     console.log(`yews`);
+    document.getElementById('cancel-order').removeEventListener('click', e);
+    document.getElementById('cancel-order-icon').removeEventListener('click', e);
 }
 
 // Function to close the pop-up
