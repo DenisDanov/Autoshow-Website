@@ -1,6 +1,7 @@
 var authToken = getCookie("authToken");
 const favVehiclesIds = [];
 var carOrderBtnEvent = false;
+let funcReference;
 if (authToken) {
     // User is logged in
     document.querySelectorAll(`#log-in-icon`).forEach(entrie => {
@@ -605,7 +606,6 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     }
     document.getElementById('order-car-menu').style.display = `flex`;
 
-    let funcReference;
     document.getElementById('reorder-car').addEventListener('click', function reorderCar(e) {
         funcReference = reorderCar;
         if (!carOrderBtnEvent) {
@@ -614,9 +614,6 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
             carOrderBtnEvent = false;
         }
     });
-
-    document.getElementById('reorder-car').click();
-    carOrderBtnEvent = true;
 
     document.getElementById(`cancel-order-icon`).addEventListener(`click`, function cancelButtons(e) {
         cancelRemakeOrder(funcReference, cancelButtons);
@@ -627,6 +624,8 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
 }
 
 function cancelRemakeOrder(eventListener, e) {
+    document.getElementById('reorder-car').click();
+    carOrderBtnEvent = true;
     document.getElementById('order-car-menu').style.display = `none`;
     removeReorderCarClickListener(eventListener, e);
 }
@@ -638,7 +637,6 @@ function reorderCarClickListener(reorderCar, e, carManufacturer, carModel, carYe
 function removeReorderCarClickListener(reorderCarClickListener, e) {
     document.getElementById('reorder-car').removeEventListener('click', reorderCarClickListener);
     console.log(reorderCarClickListener.name)
-    console.log(`yews`);
     document.getElementById('cancel-order').removeEventListener('click', e);
     document.getElementById('cancel-order-icon').removeEventListener('click', e);
 }
