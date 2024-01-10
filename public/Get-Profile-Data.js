@@ -612,6 +612,7 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     // To remove the event listener, use the same named function
     function removeReorderCarClickListener() {
         document.getElementById('reorder-car').removeEventListener('click', reorderCarClickListener);
+        console.log(`yews`);
     }
 }
 
