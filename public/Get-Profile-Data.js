@@ -616,14 +616,14 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     });
 
     document.getElementById(`cancel-order-icon`).addEventListener(`click`, function cancelButtons(e) {
-        document.getElementById('reorder-car').click();
         carOrderBtnEvent = true;
+        document.getElementById('reorder-car').click();
         console.log(carOrderBtnEvent);
         cancelRemakeOrder(funcReference, cancelButtons);
     });
     document.getElementById(`cancel-orderbtn`).addEventListener(`click`, function cancelButtons(e) {
-        document.getElementById('reorder-car').click();
         carOrderBtnEvent = true;
+        document.getElementById('reorder-car').click();
         cancelRemakeOrder(funcReference, cancelButtons);
     });
 }
