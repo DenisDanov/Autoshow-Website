@@ -147,8 +147,8 @@ if (authToken) {
 }
 
 function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
-    console.log(carOrderBtnEvent);
     if (!carOrderBtnEvent) {
+        console.log(`yes sir`);
         const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`)
             .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
         const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
@@ -618,6 +618,7 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     document.getElementById(`cancel-order-icon`).addEventListener(`click`, function cancelButtons(e) {
         document.getElementById('reorder-car').click();
         carOrderBtnEvent = true;
+        console.log(carOrderBtnEvent);
         cancelRemakeOrder(funcReference, cancelButtons);
     });
     document.getElementById(`cancel-orderbtn`).addEventListener(`click`, function cancelButtons(e) {
@@ -628,6 +629,7 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
 }
 
 function cancelRemakeOrder(eventListener, e) {
+    console.log(carOrderBtnEvent);
     document.getElementById('order-car-menu').style.display = `none`;
     removeReorderCarClickListener(eventListener, e);
 }
