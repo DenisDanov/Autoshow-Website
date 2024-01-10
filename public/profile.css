@@ -297,6 +297,7 @@ input[type="password"]::-webkit-reveal {
 
 #change-order {
     background-color: #c1934d;
+    padding: 10px 20px;
     border: 2px solid black;
     border-radius: 5px;
     transition: background-color 0.3s;
