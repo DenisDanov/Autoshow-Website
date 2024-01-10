@@ -295,6 +295,17 @@ input[type="password"]::-webkit-reveal {
     border: 2px solid black;
 }
 
+#change-order {
+    background-color: #c1934d;
+    border: 2px solid black;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#change-order:hover {
+    background-color: #d68f25;
+}
+
 #cancel-order:hover {
     background-color: #882727 !important;
 }
