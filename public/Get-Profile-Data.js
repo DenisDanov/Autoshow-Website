@@ -595,11 +595,15 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
         });
     }
     document.getElementById('order-car-menu').style.display = `flex`;
-    function handleReorderClick(e) {
-        remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
+    var listeners = getEventListeners(document.getElementById(`reorder-car`));
+    for (var type in listeners) {
+        listeners[type].forEach(function (listener) {
+            myButton.removeEventListener(type, listener.listener);
+        });
     }
-    document.getElementById(`reorder-car`).removeEventListener(`click`, handleReorderClick);
-    document.getElementById(`reorder-car`).addEventListener(`click`, handleReorderClick);
+    document.getElementById(`reorder-car`).addEventListener(`click`, (e) => {
+        remakeOrder(e, carOrder.carManufacturer, carOrder.carModel, carOrder.carYear);
+    });
 }
 
 // Function to close the pop-up
