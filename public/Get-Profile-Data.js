@@ -266,7 +266,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                             document.getElementById(`response-result`).style.display = `none`;
                             document.getElementById('order-car-menu').style.display = `none`;
                             document.getElementById(`reorder-car`).disabled = false;
-                        }, 2000);
+                        }, 1700);
                     } else {
                         resultHtmlEle.textContent = result.result;
                         resultHtmlEle.style.display = `block`;
@@ -278,7 +278,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         setTimeout(function () {
                             document.getElementById(`response-result`).style.display = `none`;
                             document.getElementById(`reorder-car`).disabled = false;
-                        }, 2000);
+                        }, 2200);
                     }
                 })
                 .catch(err => console.log(err));
@@ -396,7 +396,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         document.getElementById(`response-result`).style.display = `none`;
                         document.getElementById('order-car-menu').style.display = `none`;
                         document.getElementById(`reorder-car`).disabled = false;
-                    }, 2000);
+                    }, 1700);
                 } else {
                     resultHtmlEle.textContent = result.result;
                     resultHtmlEle.style.display = `block`;
@@ -406,7 +406,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     resultHtmlEle.style.borderRadius = `5px`;
                     setTimeout(function () {
                         document.getElementById(`response-result`).style.display = `none`;
-                    }, 2000);
+                    }, 2200);
                 }
             })
             .catch(err => console.log(err));
@@ -564,6 +564,11 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     document.querySelectorAll(`[modify-reference="true"]`).forEach(entrie => {
         entrie.removeAttribute(`modify-reference`);
     });
+    if (modifyReference.currentTarget.id === `change-order`) {
+        document.getElementById(`order-car-menu-header`).textContent = `Please change your order here.`;
+    } else {
+        document.getElementById(`order-car-menu-header`).textContent = `Reorder the same car, or choose a different one.`;
+    }
     modifyReference.currentTarget.setAttribute(`modify-reference`, "true");
     var carManufacturerEle = document.getElementById('car-manufacturer');
     var carModelEle = document.getElementById('car-model');
