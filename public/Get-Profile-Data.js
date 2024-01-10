@@ -605,7 +605,9 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
 
 function cancelRemakeOrder(eventListener,e) {
     document.getElementById('order-car-menu').style.display = `none`;
-    document.querySelector('[modify-reference="true"]').removeAttribute(`modify-reference`);
+    setTimeout(function () {
+        document.querySelector('[modify-reference="true"]').removeAttribute(`modify-reference`);
+    }, 2000);
     removeReorderCarClickListener(eventListener);
     document.getElementById('cancel-order').removeEventListener('click', e);
     document.getElementById('cancel-order-icon').removeEventListener('click', e);
