@@ -603,11 +603,11 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
         funcReference = reorderCar;
         reorderCarClickListener(reorderCar, e, carManufacturer, carOrder.carModel, carOrder.carYear);
     });
-    document.getElementById(`cancel-order-icon`).addEventListener(`click`, (e) => {
-        cancelRemakeOrder(funcReference, e);
+    document.getElementById(`cancel-order-icon`).addEventListener(`click`, function cancelButtons(e) {
+        cancelRemakeOrder(funcReference, cancelButtons);
     });
-    document.getElementById(`cancel-orderbtn`).addEventListener(`click`, (e) => {
-        cancelRemakeOrder(funcReference, e);
+    document.getElementById(`cancel-orderbtn`).addEventListener(`click`, function cancelButtons(e) {
+        cancelRemakeOrder(funcReference, cancelButtons);
     });
 }
 
