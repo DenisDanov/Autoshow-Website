@@ -148,7 +148,6 @@ if (authToken) {
 
 function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
     if (!carOrderBtnEvent) {
-        console.log(`yes sir`);
         const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`)
             .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
         const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
@@ -549,7 +548,6 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
         // Convert milliseconds to days
         var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-        // Check if 7 days have passed
         if (daysDifference >= 7) {
             // 7 days have passed, so the order has expired
             container.children[0].querySelector(`#change-order`).remove();
@@ -619,7 +617,6 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
         carOrderBtnEvent = true;
         document.getElementById('reorder-car').click();
         carOrderBtnEvent = false;
-        console.log(carOrderBtnEvent);
         cancelRemakeOrder(funcReference, cancelButtons);
     });
     document.getElementById(`cancel-orderbtn`).addEventListener(`click`, function cancelButtons(e) {
@@ -631,7 +628,6 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
 }
 
 function cancelRemakeOrder(eventListener, e) {
-    console.log(carOrderBtnEvent);
     document.getElementById('order-car-menu').style.display = `none`;
     removeReorderCarClickListener(eventListener, e);
 }
@@ -642,7 +638,6 @@ function reorderCarClickListener(reorderCar, e, carManufacturer, carModel, carYe
 
 function removeReorderCarClickListener(reorderCarClickListener, e) {
     document.getElementById('reorder-car').removeEventListener('click', reorderCarClickListener);
-    console.log(reorderCarClickListener.name)
     document.getElementById('cancel-order').removeEventListener('click', e);
     document.getElementById('cancel-order-icon').removeEventListener('click', e);
 }
