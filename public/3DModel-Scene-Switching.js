@@ -41,7 +41,8 @@ async function initThirdPersonScript() {
         camera.fov = 30;
         camera.updateProjectionMatrix();
 
-        if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
+        if (carParam.includes(`Tesla-Model-3-2020.glb`) ||
+            carParam.includes(`Lamborghini-Aventador-2019.glb`)) {
             camera.near = 1000;
             camera.far = 215000;
             camera.updateProjectionMatrix();
@@ -85,6 +86,12 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 1745;
                 } else if (carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
                     camera.position.z += cameraDistance - 1645;
+                } else if (carParam.includes(`Lamborghini-Aventador-2019.glb`)) {
+                    camera.position.z += cameraDistance - 145000;
+                } else if (carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
+                    camera.position.z += cameraDistance - 1900;
+                } else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
+                    camera.position.z += cameraDistance - 600;
                 } else {
                     camera.position.z += cameraDistance - 40;
                 }
@@ -112,6 +119,12 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 900;
                 } else if (carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
                     camera.position.z += cameraDistance - 845;
+                } else if (carParam.includes(`Lamborghini-Aventador-2019.glb`)) {
+                    camera.position.z += cameraDistance - 71845;
+                } else if (carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
+                    camera.position.z += cameraDistance - 900;
+                } else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
+                    camera.position.z += cameraDistance - 280;
                 } else {
                     camera.position.z += cameraDistance - 20;
                 }
@@ -242,6 +255,38 @@ async function initThirdPersonScript() {
                         }
                     }
                 });
+            } else if (carParam.includes(`Lamborghini-Aventador-2019.glb`)) {
+                model.scale.set(100, 100, 100);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.7; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Porsche-Boxster-2016.glb`)){
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.5; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
             } else {
                 model.scale.set(40, 40, 40);
                 gltf.scene.traverse((child) => {
@@ -249,7 +294,7 @@ async function initThirdPersonScript() {
                         // Check if the material is already a MeshStandardMaterial
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
-                            child.material.metalness = 0.7; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
                             child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
@@ -607,6 +652,72 @@ function initFirstPersonScript() {
                         }
                     }
                 });
+            } else if (carParam.includes(`Lamborghini-Aventador-2019.glb`)) {
+                if (containerRect.width > 430) {
+                    camera.position.set(10, 75, -500);
+                } else {
+                    camera.position.set(10, 25, 250);
+                }
+                // Rotate the camera 180 degrees around its Y-axis
+                camera.rotation.y -= Math.PI;
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
+                if (containerRect.width > 430) {
+                    camera.position.set(-150, 12, 205);
+                } else {
+                    camera.position.set(-190, 12, 206);
+                }
+                model.scale.set(5, 5, 5);
+                // Rotate the camera a bit to the right (adjust the angle as needed)
+                camera.rotation.y -= Math.PI / 2; // Rotate by 15 degrees, for example
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
+                model.scale.set(15, 15, 15);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 11.5, 70);
+                } else {
+                    camera.position.set(0, 11.5, 90);
+                }
             }
 
             const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -702,7 +813,8 @@ function initFirstPersonScript() {
             moveSpeed = 0.16;
         } else if (carParam.includes(`BMW-M4-2022.glb`) ||
             carParam.includes(`Ford-F-150-2022.glb`) ||
-            carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
+            carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`) ||
+            carParam.includes(`Lamborghini-Aventador-2019.glb`)) {
             moveSpeed = 0.8;
         } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
             moveSpeed = 0.8;
