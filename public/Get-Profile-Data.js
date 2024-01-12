@@ -489,7 +489,10 @@ function addCarOrderToFavs(e) {
                 vehicleId: carId
             })
         })
-            .then(response => console.log(response))
+            .then(response => {
+                console.log(response);
+                favVehiclesIds.splice(favVehiclesIds.indexOf(vehicleId), 1);
+            })
             .catch(err => console.log(err));
     }
 }
@@ -667,7 +670,10 @@ function removeTheCar(e) {
             vehicleId: carId
         })
     })
-        .then(response => console.log(response))
+        .then(response => {
+            favVehiclesIds.splice(favVehiclesIds.indexOf(vehicleId), 1);
+            console.log(response.text());
+        })
         .catch(err => console.log(err));
     closePopup();
 }
