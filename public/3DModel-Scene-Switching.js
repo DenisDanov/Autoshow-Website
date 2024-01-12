@@ -9,6 +9,7 @@ let renderer;
 let model;
 const urlParams = new URLSearchParams(window.location.search);
 const carParam = urlParams.get('car');
+let timeOut;
 
 async function initThirdPersonScript() {
     showLoadingOverlay();
@@ -68,9 +69,8 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 285;
                 } else if (carParam.includes(`Lamborghini-Galardo-2007.glb`)) {
                     camera.position.z += cameraDistance - 490;
-                } else if (carParam.includes(`Porshe-911-2016.FBX`) ||
-                    carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
-                    camera.position.z += cameraDistance - 1200;
+                } else if (carParam.includes(`BMW-M4-2022.glb`)) {
+                    camera.position.z += cameraDistance - 720;
                 } else if (carParam.includes(`Toyota-Gr-Supra-2020.glb`)) {
                     camera.position.z += cameraDistance - 570;
                 } else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
@@ -79,6 +79,12 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 100500;
                 } else if (carParam.includes(`BMW-X5.glb`)) {
                     camera.position.z += cameraDistance - 550;
+                } else if (carParam.includes(`Bugatti-Chiron-2005.glb`)) {
+                    camera.position.z += cameraDistance - 345;
+                } else if (carParam.includes(`Ford-F-150-2022.glb`)) {
+                    camera.position.z += cameraDistance - 1745;
+                } else if (carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
+                    camera.position.z += cameraDistance - 1645;
                 } else {
                     camera.position.z += cameraDistance - 40;
                 }
@@ -91,17 +97,22 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 240;
                 } else if (carParam.includes(`Toyota-Gr-Supra-2020.glb`)) {
                     camera.position.z += cameraDistance - 250;
-                } else if (carParam.includes(`Porshe-911-2016.FBX`) ||
-                    carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
-                    camera.position.z += cameraDistance - 550;
+                } else if (carParam.includes(`BMW-M4-2022.glb`)) {
+                    camera.position.z += cameraDistance - 360;
                 } else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
                     camera.position.z += cameraDistance - 250;
                     model.scale.set(50, 50, 50);
                 } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
                     camera.position.z += cameraDistance - 130500;
+                } else if (carParam.includes(`Bugatti-Chiron-2005.glb`)) {
+                    camera.position.z += cameraDistance - 145;
                 } else if (carParam.includes(`BMW-X5.glb`)) {
                     camera.position.z += cameraDistance - 250;
-                }  else {
+                } else if (carParam.includes(`Ford-F-150-2022.glb`)) {
+                    camera.position.z += cameraDistance - 900;
+                } else if (carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
+                    camera.position.z += cameraDistance - 845;
+                } else {
                     camera.position.z += cameraDistance - 20;
                 }
             }
@@ -111,9 +122,8 @@ async function initThirdPersonScript() {
 
             if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
                 cameraLight = new THREE.SpotLight(0xffffff, 1);
-            } else if (carParam.includes(`Porshe-911-2016.FBX`) ||
-                carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
-                cameraLight = new THREE.SpotLight(0xffffff, 0.2);
+            } else if (carParam.includes(`BMW-M4-2022.glb`)) {
+                cameraLight = new THREE.SpotLight(0xffffff, 1.2);
             } else {
                 cameraLight = new THREE.SpotLight(0xffffff, 1);
             }
@@ -123,7 +133,7 @@ async function initThirdPersonScript() {
             scene.add(cameraLight);
             scene.add(cameraLight.target);
 
-            if (carParam.includes(`Porshe-911-2016.FBX`) ||
+            if (carParam.includes(`BMW-M4-2022.glb`) ||
                 carParam.includes(`BMW-X5.glb`)) {
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
                 directionalLight.position.set(camera.position).normalize();
@@ -134,7 +144,7 @@ async function initThirdPersonScript() {
                 scene.add(directionalLight);
             }
 
-            if (carParam.includes(`Porshe-911-2016.FBX`)) {
+            if (carParam.includes(`BMW-M4-2022.glb`)) {
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
             } else {
@@ -200,7 +210,23 @@ async function initThirdPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`BMW-X5.glb`)){
+            } else if (carParam.includes(`BMW-X5.glb`)) {
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`BMW-M4-2022.glb`)) {
                 model.scale.set(40, 40, 40);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
@@ -306,6 +332,12 @@ async function initThirdPersonScript() {
     // Add event listeners to stop automatic rotation when the user interacts
     controls.addEventListener('start', () => {
         autoRotate = false;
+    });
+    controls.addEventListener('end', () => {
+        clearTimeout(timeOut);
+        timeOut = setTimeout(function () {
+            autoRotate = true;
+        }, 10500);
     });
 }
 
@@ -541,13 +573,26 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            }  else if (carParam.includes(`BMW-X5.glb`)) {
+            } else if (carParam.includes(`BMW-X5.glb`) || carParam.includes(`BMW-M4-2022.glb`) ||
+                carParam.includes(`Bugatti-Chiron-2005.glb`) || carParam.includes(`Ford-F-150-2022.glb`) ||
+                carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
                 if (containerRect.width > 430) {
                     camera.position.set(10, 25, 200);
                 } else {
                     camera.position.set(10, 25, 250);
                 }
+                if (carParam.includes(`Bugatti-Chiron-2005.glb`)) {
+                    camera.position.set(5, 20, 120);
+                } else if (carParam.includes(`Ford-F-150-2022.glb`)) {
+                    camera.position.set(5, -10, 450);
+                } else if (carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
+                    camera.position.set(5, 10, 650);
+                }
                 model.scale.set(40, 40, 40);
+                if (carParam.includes(`BMW-M4-2022.glb`) ||
+                    carParam.includes(`Ford-F-150-2022.glb`)) {
+                    model.scale.set(30, 30, 30);
+                }
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
                         // Check if the material is already a MeshStandardMaterial
@@ -574,6 +619,12 @@ function initFirstPersonScript() {
                 directionalLight.position.set(10, 25, 200).normalize();
             } else if (carParam.includes(`BMW-X5.glb`) && containerRect.width < 430) {
                 directionalLight.position.set(0, 15, -800).normalize();
+            } else if (carParam.includes(`BMW-M4-2022.glb`)
+                && containerRect.width > 430) {
+                directionalLight.position.set(10, 25, 200).normalize();
+            } else if (carParam.includes(`Bugatti-Chiron-2005.glb`)
+                && containerRect.width > 430) {
+                directionalLight.position.set(5, 20, 120).normalize();
             }
 
             scene.add(directionalLight);
@@ -649,8 +700,9 @@ function initFirstPersonScript() {
             moveSpeed = 1;
         } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
             moveSpeed = 0.16;
-        } else if (carParam.includes(`Porshe-911-2016.FBX`) ||
-            carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
+        } else if (carParam.includes(`BMW-M4-2022.glb`) ||
+            carParam.includes(`Ford-F-150-2022.glb`) ||
+            carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
             moveSpeed = 0.8;
         } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
             moveSpeed = 0.8;
@@ -731,7 +783,8 @@ function initFirstPersonScript() {
                 if (carParam.includes(`Porsche-Carrera-2015.glb`)) {
                     moveSpeed = 0.08;
                 } else if (carParam.includes(`Lamborghini-Aventador-2020.glb`) ||
-                carParam.includes(`Tesla-Model-3-2020.glb`) || carParam.includes(`BMW-X5.glb`)) {
+                    carParam.includes(`Tesla-Model-3-2020.glb`) || carParam.includes(`BMW-X5.glb`) ||
+                    carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
                     moveSpeed = 0.35;
                 } else {
                     moveSpeed = 0.11;
