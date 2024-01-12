@@ -135,7 +135,7 @@ if (authToken) {
                 container.querySelector(`#change-order`).addEventListener(`click`, (e) => {
                     modifyOrderFunc(e, carManufacturer, carOrder);
                 });
-                const imagePath = `images/${carManufacturer}-${carOrder.carModel}-${result.carYear}.png`;
+                const imagePath = `images/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.png`;
                 const img = new Image();
                 img.src = imagePath;
                 orderStatusCheck(img, container, carManufacturer, carOrder);
@@ -224,7 +224,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         <h1>Ordered car</h1>
                         <div class="car-card">
                             <div class="img-container">
-                                <img src="images/${carManufacturer}-${result.carModel}-${carOrder.carYear}.png" alt="Car 2">
+                                <img src="images/${carManufacturer}-${result.carModel}-${result.carYear}.png" alt="Car 2">
                             </div>
                             <div class="car-info">
                                 <h3>${result.carYear} ${result.carManufacturer.toUpperCase()} ${result.carModel.toUpperCase()}</h3>
@@ -354,7 +354,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     <h1>Ordered car</h1>
                     <div class="car-card">
                         <div class="img-container">
-                            <img src="images/${carManufacturer}-${result.carModel}-${carOrder.carYear}.png" alt="Car 2">
+                            <img src="images/${carManufacturer}-${result.carModel}-${result.carYear}.png" alt="Car 2">
                         </div>
                         <div class="car-info">
                             <h3>${result.carYear} ${result.carManufacturer.toUpperCase()} ${result.carModel.toUpperCase()}</h3>
