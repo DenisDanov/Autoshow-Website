@@ -135,7 +135,7 @@ if (authToken) {
                 container.querySelector(`#change-order`).addEventListener(`click`, (e) => {
                     modifyOrderFunc(e, carManufacturer, carOrder);
                 });
-                const imagePath = `images/${carManufacturer}-${carOrder.carModel}.png`;
+                const imagePath = `images/${carManufacturer}-${carOrder.carModel}-${result.carYear}.png`;
                 const img = new Image();
                 img.src = imagePath;
                 orderStatusCheck(img, container, carManufacturer, carOrder);
@@ -255,7 +255,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                                 addEventListener(`click`, (e) => {
                                     modifyOrderFunc(e, carManufacturer, result);
                                 });
-                            const imagePath = `images/${carManufacturer}-${result.carModel}.png`;
+                            const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                             const img = new Image();
                             img.src = imagePath;
                             orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
@@ -385,7 +385,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                             addEventListener(`click`, (e) => {
                                 modifyOrderFunc(e, carManufacturer, result);
                             });
-                        const imagePath = `images/${carManufacturer}-${result.carModel}.png`;
+                        const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                         const img = new Image();
                         img.src = imagePath;
                         orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
