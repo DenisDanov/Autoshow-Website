@@ -671,7 +671,7 @@ function removeTheCar(e) {
         })
     })
         .then(response => {
-            favVehiclesIds.splice(favVehiclesIds.indexOf(vehicleId), 1);
+            favVehiclesIds.splice(favVehiclesIds.indexOf(carId), 1);
             console.log(response.text());
         })
         .catch(err => console.log(err));
