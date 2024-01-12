@@ -107,7 +107,7 @@ if (authToken) {
                     <h1>Ordered car</h1>
                     <div class="car-card">
                         <div class="img-container">
-                            <img src="images/${carManufacturer}-${carOrder.carModel}.png" alt="Car 2">
+                            <img src="images/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.png" alt="Car 2">
                         </div>
                         <div class="car-info">
                             <h3>${carOrder.carYear} ${carManufacturer.toUpperCase()} ${carOrder.carModel.toUpperCase()}</h3>
@@ -184,8 +184,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 })
                     .then(response => response.json())
                     .then(result => {
-                        if (result.result === `Same order is made and the period is extended.` ||
-                            result.result === `New order is made and the period is extended.`) {
+                        if (result.result === `New order is made and the period is extended.`) {
                             resultHtmlEle.textContent = result.result;
                             resultHtmlEle.style.display = `block`;
                             resultHtmlEle.style.backgroundColor = `green`;
@@ -225,7 +224,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         <h1>Ordered car</h1>
                         <div class="car-card">
                             <div class="img-container">
-                                <img src="images/${carManufacturer}-${result.carModel}.png" alt="Car 2">
+                                <img src="images/${carManufacturer}-${result.carModel}-${carOrder.carYear}.png" alt="Car 2">
                             </div>
                             <div class="car-info">
                                 <h3>${result.carYear} ${result.carManufacturer.toUpperCase()} ${result.carModel.toUpperCase()}</h3>
@@ -355,7 +354,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     <h1>Ordered car</h1>
                     <div class="car-card">
                         <div class="img-container">
-                            <img src="images/${carManufacturer}-${result.carModel}.png" alt="Car 2">
+                            <img src="images/${carManufacturer}-${result.carModel}-${carOrder.carYear}.png" alt="Car 2">
                         </div>
                         <div class="car-info">
                             <h3>${result.carYear} ${result.carManufacturer.toUpperCase()} ${result.carModel.toUpperCase()}</h3>
