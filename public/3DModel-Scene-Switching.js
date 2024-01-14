@@ -92,6 +92,18 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 1900;
                 } else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
                     camera.position.z += cameraDistance - 600;
+                } else if (carParam.includes(`McLaren-P1-2019.glb`)) {
+                    camera.position.z += cameraDistance - 620;
+                } else if (carParam.includes(`Mercedes-Benz-E-Class-2017.glb`)) {
+                    camera.position.z += cameraDistance - 520;
+                } else if (carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
+                    camera.position.z += cameraDistance - 520;
+                } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2021.glb`)) {
+                    camera.position.z += cameraDistance - 1920;
+                } else if (carParam.includes(`Nissan-GT-R-2017.glb`)) {
+                    camera.position.z += cameraDistance - 530;
+                } else if (carParam.includes(`Volkswagen-Golf-2021.glb`)) {
+                    camera.position.z += cameraDistance - 1750;
                 } else {
                     camera.position.z += cameraDistance - 40;
                 }
@@ -125,6 +137,18 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 900;
                 } else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
                     camera.position.z += cameraDistance - 280;
+                } else if (carParam.includes(`McLaren-P1-2019.glb`)) {
+                    camera.position.z += cameraDistance - 280;
+                } else if (carParam.includes(`Mercedes-Benz-E-Class-2017.glb`)) {
+                    camera.position.z += cameraDistance - 280;
+                } else if (carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
+                    camera.position.z += cameraDistance - 250;
+                } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2021.glb`)) {
+                    camera.position.z += cameraDistance - 1020;
+                } else if (carParam.includes(`Nissan-GT-R-2017.glb`)) {
+                    camera.position.z += cameraDistance - 250;
+                } else if (carParam.includes(`Volkswagen-Golf-2021.glb`)) {
+                    camera.position.z += cameraDistance - 550;
                 } else {
                     camera.position.z += cameraDistance - 20;
                 }
@@ -271,7 +295,7 @@ async function initThirdPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Porsche-Boxster-2016.glb`)){
+            } else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
                 model.scale.set(40, 40, 40);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
@@ -294,8 +318,8 @@ async function initThirdPersonScript() {
                         // Check if the material is already a MeshStandardMaterial
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
-                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
-                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                            child.material.metalness = 0.4; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
                             child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
@@ -407,9 +431,24 @@ function initFirstPersonScript() {
     scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(75, containerRect.width / containerRect.height, 0.1, 15000);
+    const lightDistance = 40;
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(containerRect.width, containerRect.height);
     container.appendChild(renderer.domElement);
+
+    const spotLight = new THREE.SpotLight(0xffffff, 1);
+    spotLight.castShadow = false;
+    spotLight.shadow.mapSize.width = 1024;
+    spotLight.shadow.mapSize.height = 1024;
+    renderer.shadowMap.enabled = true;
+    camera.add(spotLight);
+    scene.add(camera);
+
+    // Set up the spotlight position and properties
+    function updateSpotlight() {
+        spotLight.position.copy(camera.position);
+        spotLight.position.add(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(lightDistance));
+    }
 
     const nearClip = 1;
     const farClip = 5000;
@@ -453,6 +492,8 @@ function initFirstPersonScript() {
             // Update previous mouse position
             prevMouseX = event.clientX;
             prevMouseY = event.clientY;
+
+            updateSpotlight();
         }
     });
 
@@ -483,6 +524,7 @@ function initFirstPersonScript() {
                 moveRight = true;
                 break;
         }
+        updateSpotlight();
     };
 
     const onKeyUp = (event) => {
@@ -500,6 +542,7 @@ function initFirstPersonScript() {
                 moveRight = false;
                 break;
         }
+        updateSpotlight();
     };
 
     document.addEventListener('keydown', onKeyDown);
@@ -620,7 +663,8 @@ function initFirstPersonScript() {
                 });
             } else if (carParam.includes(`BMW-X5.glb`) || carParam.includes(`BMW-M4-2022.glb`) ||
                 carParam.includes(`Bugatti-Chiron-2005.glb`) || carParam.includes(`Ford-F-150-2022.glb`) ||
-                carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
+                carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`) ||
+                carParam.includes(`Nissan-GT-R-2017.glb`)) {
                 if (containerRect.width > 430) {
                     camera.position.set(10, 25, 200);
                 } else {
@@ -674,15 +718,20 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
-                if (containerRect.width > 430) {
+            } else if (carParam.includes(`Lamborghini-Murcielago-2010.glb`) ||
+                carParam.includes(`Volkswagen-Golf-2021.glb`)) {
+                if (containerRect.width > 430 && carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
                     camera.position.set(-150, 12, 205);
-                } else {
+                } else if (containerRect.width < 430 && carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
                     camera.position.set(-190, 12, 206);
+                } else {
+                    camera.position.set(-85, 12, 50);
                 }
                 model.scale.set(5, 5, 5);
                 // Rotate the camera a bit to the right (adjust the angle as needed)
-                camera.rotation.y -= Math.PI / 2; // Rotate by 15 degrees, for example
+                if (carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
+                    camera.rotation.y -= Math.PI / 2; // Rotate by 15 degrees, for example
+                }
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
                         // Check if the material is already a MeshStandardMaterial
@@ -697,7 +746,10 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
+            } else if (carParam.includes(`Porsche-Boxster-2016.glb`) ||
+                carParam.includes(`McLaren-P1-2019.glb`) ||
+                carParam.includes(`Mercedes-Benz-E-Class-2017.glb`) ||
+                carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
@@ -705,7 +757,7 @@ function initFirstPersonScript() {
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
                             child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
-                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                            child.material.roughness = 0.3; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
                             child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
@@ -718,6 +770,23 @@ function initFirstPersonScript() {
                 } else {
                     camera.position.set(0, 11.5, 90);
                 }
+            } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2021.glb`)) {
+                model.scale.set(15, 15, 15);
+                camera.position.set(2400, 50.5, 2300);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.3; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
             }
 
             const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -736,6 +805,12 @@ function initFirstPersonScript() {
             } else if (carParam.includes(`Bugatti-Chiron-2005.glb`)
                 && containerRect.width > 430) {
                 directionalLight.position.set(5, 20, 120).normalize();
+            } else if (carParam.includes(`Mercedes-Benz-E-Class-2017.glb`) && containerRect.width > 430) {
+                directionalLight.position.set(0, 11.5, 70).normalize();
+            } else if (carParam.includes(`Mercedes-Benz-E-Class-2017.glb`) && containerRect.width < 430) {
+                directionalLight.position.set(0, 11.5, 90).normalize();
+            } else if (carParam.includes(`Volkswagen-Golf-2021.glb`)) {
+                directionalLight.position.set(-85, 12, 50).normalize();
             }
 
             scene.add(directionalLight);
@@ -766,10 +841,6 @@ function initFirstPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambientLight);
-                if (carParam.includes(`Porshe-911-2016.FBX`) ||
-                    carParam.includes(`Lincoln-Navigator-2016.FBX`)) {
-                    camera.position.set(0, 100, 600);
-                }
                 animate();
             },
             undefined,
@@ -782,8 +853,6 @@ function initFirstPersonScript() {
         console.error('Unsupported model format');
     }
 
-    const spotLight = new THREE.SpotLight(0xffffff, 1);
-    camera.add(spotLight);
     scene.add(camera);
 
     function animate() {
@@ -794,20 +863,14 @@ function initFirstPersonScript() {
             cameraLight.target.position.copy(camera.position);
         }
 
-        const lightDistance = -350;
-        spotLight.position.copy(camera.position);
-        spotLight.position.add(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(lightDistance));
-        spotLight.castShadow = false;
-        spotLight.shadow.mapSize.width = 1024;
-        spotLight.shadow.mapSize.height = 1024;
-        renderer.shadowMap.enabled = true;
+        updateSpotlight();
 
         // Move the camera based on the keyboard input
         let moveSpeed = 0.2;
 
         if (carParam.includes(`Porsche-Carrera-2015.glb`)) {
             moveSpeed = 0.05;
-        } else if (carParam.includes`Lamborghini-Aventador-2020.glb`) {
+        } else if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
             moveSpeed = 1;
         } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
             moveSpeed = 0.16;
@@ -818,7 +881,9 @@ function initFirstPersonScript() {
             moveSpeed = 0.8;
         } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
             moveSpeed = 0.8;
-        } else if (carParam.includes(`BMW-X5.glb`)) {
+        } else if (carParam.includes(`BMW-X5.glb`) ||
+            carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2021.glb`) ||
+            carParam.includes(`Nissan-GT-R-2017.glb`)) {
             moveSpeed = 0.5;
         }
 
