@@ -81,6 +81,28 @@
             <h1>Welcome to Our Auto Show</h1>
             <p>Discover the Latest and Greatest Cars</p>
         </header>
+        <div id="popup-container" class="popup-container">
+            <div class="popup-content">
+                <p class="motd-text">
+                    🎉 We're thrilled to announce the latest additions to our exquisite collection of exotic cars! 🌟
+                    <br><br>
+                    <strong>Bugatti Chiron 2020</strong> - Unleash unparalleled power.
+                    <br><br>
+                    <strong>Lamborghini Murcielago 2010</strong> - Embrace the roar of the bull in this iconic masterpiece.
+                    <br><br>
+                    <strong>Mercedes Benz AMG GT 2021</strong> - Combining performance and sophistication in every curve.
+                    <br><br>
+                    <strong>Nissan GTR 2017</strong> - Precision engineering meets pure adrenaline.
+                    <br><br>
+                    These are just a few of the cars that have been added. You can order these, or explore many more
+                    through the Order menu.
+                </p>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button onclick="popUpOrderCar()">Order car</button>
+                    <button onclick="cancelPopUpOrder()">Cancel</button>
+                </div>
+            </div>
+        </div>
         <section>
             <h2>Available Cars</h2>
             <div id="order-car-container">Order Car</div>
@@ -92,19 +114,21 @@
                     <label for="car-manufacturer">Select car manufacturer</label>
                     <select id="car-manufacturer" required>
                     </select>
-                    <span class="error-message" id="error-car-manufacturer" style="display: none;">This field is required</span>
-                    
+                    <span class="error-message" id="error-car-manufacturer" style="display: none;">This field is
+                        required</span>
+
                     <label for="car-model">Select car model</label>
                     <select id="car-model" required>
                     </select>
-                    <span class="error-message" id="error-car-model" style="display: none;">This field is required</span>
-                    
+                    <span class="error-message" id="error-car-model" style="display: none;">This field is
+                        required</span>
+
                     <label for="car-year">Select manufacture year</label>
                     <select id="car-year" required>
                     </select>
                     <span class="error-message" id="error-car-year" style="display: none;">This field is required</span>
 
-                    <span id="response-result" style="display: none;"></span>                    
+                    <span id="response-result" style="display: none;"></span>
                     <div>
                         <button onclick="orderCar()">Order car</button>
                         <button onclick="noThanks()">Cancel</button>
@@ -311,6 +335,7 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
+    <script src="Pop-Up-Msg.js"></script>
     <script src="User Authentication Autoshow.js"></script>
     <script src="Order-Car-Menu.js"></script>
     <script src="Populate-CarsMenu.js"></script>

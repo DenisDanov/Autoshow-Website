@@ -151,7 +151,7 @@ section h2 {
     top: 25%;
     right: 0;
     transform: translateY(-50%);
-    background-color: #007bff;
+    background-color: #539236;
     color: #fff;
     padding: 10px;
     border-top-left-radius: 20px;
@@ -208,4 +208,59 @@ section h2 {
     top: 0.5%;
     right: 1%;
     position: absolute;
+}
+
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    z-index: 1;
+    overflow: hidden; /* Disable scrolling on the body when pop-up is displayed */
+}
+
+/* Styles for the pop-up content */
+.popup-content {
+    background-color: #4e4747;
+    color: #d3d2d2;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 13% auto;
+}
+
+.motd-text {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #161010;
+}
+
+/* Styles for the buttons */
+.popup-container button {
+    background-color: #696767;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.popup-container button:hover {
+    background-color: rgb(152, 153, 152)
+}
+
+@media (max-width: 600px) {
+    .popup-content {
+        max-width: 90%;
+        margin: 22% auto;
+    }
+
+    .motd-text {
+        font-size: 13px !important;
+    }
 }
