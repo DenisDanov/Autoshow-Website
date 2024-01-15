@@ -490,7 +490,7 @@ function addCarOrderToFavs(e) {
         })
             .then(response => {
                 console.log(response);
-                favVehiclesIds.splice(favVehiclesIds.indexOf(vehicleId), 1);
+                favVehiclesIds.splice(favVehiclesIds.indexOf(carId), 1);
             })
             .catch(err => console.log(err));
     }
