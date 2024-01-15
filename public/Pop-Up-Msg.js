@@ -1,4 +1,5 @@
 // Function to set a cookie
+var authToken = getCookie("authToken");
 function setCookie(name, value, days) {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -41,7 +42,11 @@ function hidePopup() {
 // Function to handle ordering a car
 function popUpOrderCar() {
     hidePopup();
-    document.getElementById('order-car-menu').style.display = 'flex';
+    if (authToken) {
+        document.getElementById('order-car-menu').style.display = 'flex';
+    } else {
+        document.getElementById('popup').style.display = 'block';
+    }
 }
 
 // Function to handle canceling the order
