@@ -88,9 +88,11 @@
                     <br><br>
                     <strong>Bugatti Chiron 2020</strong> - Unleash unparalleled power.
                     <br><br>
-                    <strong>Lamborghini Murcielago 2010</strong> - Embrace the roar of the bull in this iconic masterpiece.
+                    <strong>Lamborghini Murcielago 2010</strong> - Embrace the roar of the bull in this iconic
+                    masterpiece.
                     <br><br>
-                    <strong>Mercedes Benz AMG GT 2021</strong> - Combining performance and sophistication in every curve.
+                    <strong>Mercedes Benz AMG GT 2021</strong> - Combining performance and sophistication in every
+                    curve.
                     <br><br>
                     <strong>Nissan GTR 2017</strong> - Precision engineering meets pure adrenaline.
                     <br><br>
@@ -335,6 +337,21 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
+    <script>
+        document.querySelectorAll(`.add-fav .icon-heart`).forEach(entrie => {
+            console.log(entrie);
+            entrie.addEventListener(`mouseover`, (e) => {
+                if (e.currentTarget.parentNode.children[0].checked) {
+                    e.currentTarget.style.color = `#333`;
+                }
+            });
+            entrie.addEventListener(`mouseout`, (e) => {
+                if (e.currentTarget.parentNode.children[0].checked) {
+                    e.currentTarget.style.color = `orange`;
+                }
+            });
+        });
+    </script>
     <script src="Pop-Up-Msg.js"></script>
     <script src="User Authentication Autoshow.js"></script>
     <script src="Order-Car-Menu.js"></script>

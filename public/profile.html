@@ -178,6 +178,21 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
+    <script>
+        document.querySelectorAll(`.add-fav .icon-heart`).forEach(entrie => {
+            console.log(entrie);
+            entrie.addEventListener(`mouseover`, (e) => {
+                if (e.currentTarget.parentNode.children[0].checked) {
+                    e.currentTarget.style.color = `#333`;
+                }
+            });
+            entrie.addEventListener(`mouseout`, (e) => {
+                if (e.currentTarget.parentNode.children[0].checked) {
+                    e.currentTarget.style.color = `orange`;
+                }
+            });
+        });
+    </script>
     <script src="Get-Profile-Data.js" defer></script>
     <script src="Password-Changing.js" defer></script>
     <script src="Password-Eye-Visibility.js" defer></script>
