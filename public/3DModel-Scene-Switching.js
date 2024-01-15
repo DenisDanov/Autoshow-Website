@@ -94,11 +94,11 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 600;
                 } else if (carParam.includes(`McLaren-P1-2019.glb`)) {
                     camera.position.z += cameraDistance - 620;
-                } else if (carParam.includes(`Mercedes-Benz-E-Class-2017.glb`)) {
+                } else if (carParam.includes(`Mercedes-Benz-E-Class-2014.glb`)) {
                     camera.position.z += cameraDistance - 520;
                 } else if (carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
                     camera.position.z += cameraDistance - 520;
-                } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2021.glb`)) {
+                } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`)) {
                     camera.position.z += cameraDistance - 1920;
                 } else if (carParam.includes(`Nissan-GT-R-2017.glb`)) {
                     camera.position.z += cameraDistance - 530;
@@ -139,11 +139,11 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 280;
                 } else if (carParam.includes(`McLaren-P1-2019.glb`)) {
                     camera.position.z += cameraDistance - 280;
-                } else if (carParam.includes(`Mercedes-Benz-E-Class-2017.glb`)) {
+                } else if (carParam.includes(`Mercedes-Benz-E-Class-2014.glb`)) {
                     camera.position.z += cameraDistance - 280;
                 } else if (carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
                     camera.position.z += cameraDistance - 250;
-                } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2021.glb`)) {
+                } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`)) {
                     camera.position.z += cameraDistance - 1020;
                 } else if (carParam.includes(`Nissan-GT-R-2017.glb`)) {
                     camera.position.z += cameraDistance - 250;
@@ -748,7 +748,7 @@ function initFirstPersonScript() {
                 });
             } else if (carParam.includes(`Porsche-Boxster-2016.glb`) ||
                 carParam.includes(`McLaren-P1-2019.glb`) ||
-                carParam.includes(`Mercedes-Benz-E-Class-2017.glb`) ||
+                carParam.includes(`Mercedes-Benz-E-Class-2014.glb`) ||
                 carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {
@@ -770,7 +770,7 @@ function initFirstPersonScript() {
                 } else {
                     camera.position.set(0, 11.5, 90);
                 }
-            } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2021.glb`)) {
+            } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`)) {
                 model.scale.set(15, 15, 15);
                 camera.position.set(2400, 50.5, 2300);
                 gltf.scene.traverse((child) => {
@@ -805,9 +805,9 @@ function initFirstPersonScript() {
             } else if (carParam.includes(`Bugatti-Chiron-2005.glb`)
                 && containerRect.width > 430) {
                 directionalLight.position.set(5, 20, 120).normalize();
-            } else if (carParam.includes(`Mercedes-Benz-E-Class-2017.glb`) && containerRect.width > 430) {
+            } else if (carParam.includes(`Mercedes-Benz-E-Class-2014.glb`) && containerRect.width > 430) {
                 directionalLight.position.set(0, 11.5, 70).normalize();
-            } else if (carParam.includes(`Mercedes-Benz-E-Class-2017.glb`) && containerRect.width < 430) {
+            } else if (carParam.includes(`Mercedes-Benz-E-Class-2014.glb`) && containerRect.width < 430) {
                 directionalLight.position.set(0, 11.5, 90).normalize();
             } else if (carParam.includes(`Volkswagen-Golf-2021.glb`)) {
                 directionalLight.position.set(-85, 12, 50).normalize();
@@ -882,7 +882,7 @@ function initFirstPersonScript() {
         } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
             moveSpeed = 0.8;
         } else if (carParam.includes(`BMW-X5.glb`) ||
-            carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2021.glb`) ||
+            carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`) ||
             carParam.includes(`Nissan-GT-R-2017.glb`)) {
             moveSpeed = 0.5;
         }
