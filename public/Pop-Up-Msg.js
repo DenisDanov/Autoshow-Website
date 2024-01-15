@@ -45,7 +45,7 @@ function popUpOrderCar() {
     if (authToken) {
         document.getElementById('order-car-menu').style.display = 'flex';
     } else {
-        document.getElementById('popup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'flex';
     }
 }
 
