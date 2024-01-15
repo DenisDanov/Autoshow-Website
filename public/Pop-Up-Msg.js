@@ -8,7 +8,7 @@ function setCookie(name, value, days) {
 }
 
 // Function to get a cookie value
-function getCookie(name) {
+function getCookiePopUpMsg(name) {
     const decodedCookie = decodeURIComponent(document.cookie);
     const cookies = decodedCookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -28,7 +28,7 @@ function showPopup() {
     const popupContainer = document.getElementById('popup-container');
 
     // Check if the cookie exists and if it has been more than 3 days
-    if (!getCookie('popupShown') || (new Date() - new Date(getCookie('popupShown'))) > (3 * 24 * 60 * 60 * 1000)) {
+    if (!getCookiePopUpMsg('popupShown') || (new Date() - new Date(getCookie('popupShown'))) > (3 * 24 * 60 * 60 * 1000)) {
         popupContainer.style.display = 'block';
         setCookie('popupShown', new Date().toUTCString(), 3); // Set the cookie to remember the pop-up display time
     }
