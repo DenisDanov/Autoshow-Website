@@ -57,6 +57,12 @@ body {
     margin-bottom: 5px;
 }
 
+@media (min-width: 601px) {
+    #car-orders li {
+        min-height: 465px;
+    }
+}
+
 /* Style for the footer, adjust as needed */
 .footer-section {
     background-color: #333;
