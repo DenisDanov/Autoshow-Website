@@ -185,19 +185,21 @@
     <script src="Change-User-Password.js" defer></script>
     <script src="Populate-CarsMenu.js" defer></script>
     <script defer>
-        document.querySelectorAll(`.add-fav .icon-heart`).forEach(entrie => {
-            console.log(entrie);
-            entrie.addEventListener(`mouseover`, (e) => {
-                if (e.currentTarget.parentNode.children[0].checked) {
-                    e.currentTarget.style.color = `#333`;
-                }
+        setTimeout(function () {
+            document.querySelectorAll(`.add-fav .icon-heart`).forEach(entrie => {
+                console.log(entrie);
+                entrie.addEventListener(`mouseover`, (e) => {
+                    if (e.currentTarget.parentNode.children[0].checked) {
+                        e.currentTarget.style.color = `#333`;
+                    }
+                });
+                entrie.addEventListener(`mouseout`, (e) => {
+                    if (e.currentTarget.parentNode.children[0].checked) {
+                        e.currentTarget.style.color = `orange`;
+                    }
+                });
             });
-            entrie.addEventListener(`mouseout`, (e) => {
-                if (e.currentTarget.parentNode.children[0].checked) {
-                    e.currentTarget.style.color = `orange`;
-                }
-            });
-        });
+        }, 1700);
     </script>
 </body>
 
