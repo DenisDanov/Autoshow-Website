@@ -343,6 +343,8 @@
             entrie.addEventListener(`mouseover`, (e) => {
                 if (e.currentTarget.parentNode.children[0].checked) {
                     e.currentTarget.style.color = `#333`;
+                } else {
+                    e.currentTarget.style.color = `orange`;
                 }
             });
             entrie.addEventListener(`mouseout`, (e) => {
