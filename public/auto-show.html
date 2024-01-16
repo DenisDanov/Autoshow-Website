@@ -350,6 +350,8 @@
             entrie.addEventListener(`mouseout`, (e) => {
                 if (e.currentTarget.parentNode.children[0].checked) {
                     e.currentTarget.style.color = `orange`;
+                } else {
+                    e.currentTarget.style.color = `#333`;
                 }
             });
         });
