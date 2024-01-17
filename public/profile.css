@@ -135,7 +135,8 @@ input[type="password"]::-webkit-reveal {
 #cancel,
 #change-email,
 #cancel-email,
-#change-password {
+#change-password,
+#forgotten-password {
     padding: 10px;
     margin-bottom: 15px;
     box-sizing: border-box;
