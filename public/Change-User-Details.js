@@ -3,6 +3,32 @@ let unchangedEmail;
 setTimeout(function () {
     unchangedUsername = document.getElementById(`username`).value;
     unchangedEmail = document.getElementById(`email`).value;
+
+    document.getElementById(`forgotten-password`).addEventListener(`click`, () => {
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/v1/user/forgot-password?email=${unchangedEmail}`, {
+            method: `POST`
+        })
+            .then(response => response.text())
+            .then(result => {
+                if (result === `Password reset initiated. Check your email for further instructions.`) {
+                    document.getElementById(`forgotten-password-result`).textContent = result;
+                    document.getElementById(`forgotten-password-result`).style.display = `block`;
+                    document.getElementById(`forgotten-password-result`).style.backgroundColor = `green`;
+                    document.getElementById(`forgotten-password-result`).style.border = "3px solid green";
+                    setTimeout(function () {
+                        document.getElementById(`forgotten-password-result`).style.display = `none`;
+                    }, 1500);
+                } else {
+                    document.getElementById(`forgotten-password-result`).textContent = result;
+                    document.getElementById(`forgotten-password-result`).style.display = `block`;
+                    document.getElementById(`forgotten-password-result`).style.backgroundColor = `red`;
+                    document.getElementById(`forgotten-password-result`).style.border = "3px solid red";
+                    setTimeout(function () {
+                        document.getElementById(`forgotten-password-result`).style.display = `none`;
+                    }, 1500);
+                }
+            })
+    });
 }, 1000);
 
 var authToken = getCookie("authToken");
@@ -16,9 +42,9 @@ document.getElementById(`username`).addEventListener(`input`, (e) => {
 
     document.getElementById(`change-username`).addEventListener(`click`, changeUserName);
     document.getElementById(`cancel`).addEventListener(`click`, cancel);
-    document.getElementById(`cancel-email`).addEventListener(`click`,cancel);
-    if (document.getElementById(`username`).value === `` || 
-    document.getElementById(`username`).value === unchangedUsername) {
+    document.getElementById(`cancel-email`).addEventListener(`click`, cancel);
+    if (document.getElementById(`username`).value === `` ||
+        document.getElementById(`username`).value === unchangedUsername) {
         document.getElementById(`change-username`).style.display = `none`;
         document.getElementById(`cancel`).style.display = `none`;
         document.getElementById(`username-container`).style.width = "100%";
@@ -98,8 +124,8 @@ document.getElementById(`email`).addEventListener(`input`, (e) => {
     document.getElementById(`change-email`).addEventListener(`click`, changeEmail);
     document.getElementById(`cancel-email`).addEventListener(`click`, cancel);
 
-    if (document.getElementById(`email`).value === `` || 
-    document.getElementById(`email`).value === unchangedEmail) {
+    if (document.getElementById(`email`).value === `` ||
+        document.getElementById(`email`).value === unchangedEmail) {
         document.getElementById(`change-email`).style.display = `none`;
         document.getElementById(`cancel-email`).style.display = `none`;
         document.getElementById(`email-container`).style.width = "100%";
