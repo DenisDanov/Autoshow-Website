@@ -36,7 +36,6 @@ public class ProxyControllerCarMenu {
                 InputStream inputStream = resource.getInputStream();
                 String jsonString = new BufferedReader(new InputStreamReader(inputStream))
                         .lines().collect(Collectors.joining("\n"));
-
                 return ResponseEntity.ok(jsonString);
             } catch (IOException e) {
                 e.printStackTrace();
