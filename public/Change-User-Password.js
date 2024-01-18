@@ -23,7 +23,7 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
         clearTimeout(timeOut);
         timeOut = setTimeout(function () {
             document.getElementById(`warning-fields`).style.display = 'none';
-        }, 3500);
+        }, 5000);
     } else if (newPassword !== newPasswordRepeat) {
         document.getElementById(`warning-fields`).style.backgroundColor = `red`;
         document.getElementById(`warning-fields`).style.border = "3px solid red";
@@ -36,7 +36,7 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
         clearTimeout(timeOut);
         timeOut = setTimeout(function () {
             document.getElementById(`warning-fields`).style.display = 'none';
-        }, 3500);
+        }, 5000);
     } else {
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/changePassword`, {
             method: "POST",

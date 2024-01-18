@@ -11,10 +11,10 @@ function resetPassword() {
         alert("Please use password with at least 8 characters.")
         return;
     } else {
-        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/reset-password?token=${token}?newPassword=${password}`)
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/reset-password?token=${token}&newPassword=${password}`)
             .then(response => response.text())
-            .then(data => {
-                if (data === `Password reset successful!`) {
+            .then(result => {
+                if (result === `Password reset successful!`) {
                     document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
                     document.getElementById(`result-msg`).textContent = result + " Redirecting you to the log in page...";
                     document.getElementById(`result-msg`).style.display = `block`;
