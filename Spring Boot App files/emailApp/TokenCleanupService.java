@@ -10,7 +10,7 @@ public class TokenCleanupService {
     @Autowired
     private PasswordResetService passwordResetService;
 
-    @Scheduled(cron = "0 0 * * * *") // Run every hour
+    @Scheduled(cron = "0 */30 * * * *") // Run every 30 mins
     public void removeExpiredTokens() {
         passwordResetService.removeExpiredTokens();
     }
