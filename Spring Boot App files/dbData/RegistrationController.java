@@ -28,7 +28,7 @@ public class RegistrationController {
         User userFromDB = userRepository.findByUsername(user.getUsername());
         String emailRegex = "[A-Za-z0-9]+[@][A-Za-z]{2,}[.][a-zA-Z]{2,}";
 
-        if (userFromDB == null) {
+        if (userFromDB == null && userRepository.findByEmail(user.getEmail()) == null) {
             if (user.getPassword().length() < 8) {
                 return "redirect:/register?errorPassword";
             }
@@ -53,7 +53,11 @@ public class RegistrationController {
         } else {
             // Log an error message or return an error view
             System.err.println("Error saving user to the database");
-            return "redirect:/register?error";
+            if (userFromDB != null) {
+                return "redirect:/register?error";
+            } else {
+                return "redirect:/register?errorEmailExists";
+            }
         }
     }
 }

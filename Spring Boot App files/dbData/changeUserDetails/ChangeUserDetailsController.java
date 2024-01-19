@@ -68,9 +68,13 @@ public class ChangeUserDetailsController {
             if (userOptional.isPresent()) {
                 if (request.getEmail().matches(emailRegex)) {
                     User user = userOptional.get();
-                    user.setEmail(request.getEmail());
-                    userRepository.save(user);
-                    return ResponseEntity.ok(new UsernameResponse("Successfully changed the email."));
+                    if (userRepository.findByEmail(request.getEmail()) == null) {
+                        user.setEmail(request.getEmail());
+                        userRepository.save(user);
+                        return ResponseEntity.ok(new UsernameResponse("Successfully changed the email."));
+                    } else {
+                        return ResponseEntity.ok(new UsernameResponse("Account with this email already exists."));
+                    }
                 } else {
                     return ResponseEntity.ok(new UsernameResponse("Please use a valid email."));
                 }
