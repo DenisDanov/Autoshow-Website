@@ -17,6 +17,14 @@ if (authToken !== null) {
             orderCarMenu.style.display = 'flex';
         });
     });
+    if (popup !== null) {
+        document.getElementById('order-car-menu').style.display = 'flex';
+        document.getElementById('popup-order-car').style.display = `flex`;
+    }
+} else {
+    if (popup !== null) {
+        document.getElementById('overlay').style.display = `flex`;
+    }
 }
 
 function closePopup() {

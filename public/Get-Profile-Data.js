@@ -1,5 +1,6 @@
 var authToken = getCookie("authToken");
 const favVehiclesIds = [];
+const carOrdersIds = [];
 var carOrderBtnEvent = false;
 let funcReference;
 if (authToken) {
@@ -63,6 +64,7 @@ if (authToken) {
                 Showroom</a>
         </div>
             `
+                showroomAccess(vehicle.vehicleId);
                 document.getElementById(`favorite-vehicles`).appendChild(favVehiclesContainer);
                 favVehiclesContainer.children[0].children[2].children[1].children[0].checked = true;
                 favVehiclesContainer.children[0].children[2].children[1].children[0].addEventListener(`change`, removeFavVehicle);
@@ -135,6 +137,7 @@ if (authToken) {
                 container.querySelector(`#change-order`).addEventListener(`click`, (e) => {
                     modifyOrderFunc(e, carManufacturer, carOrder);
                 });
+                showroomAccess(container.querySelector(`.car-order-model .car-card .view-button`).href);
                 const imagePath = `images/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.png`;
                 const img = new Image();
                 img.src = imagePath;
@@ -258,6 +261,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                             const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                             const img = new Image();
                             img.src = imagePath;
+                            showroomAccess(modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model .car-card .view-button`).href);
                             orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
                                 carManufacturer, result);
                             modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
@@ -388,6 +392,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                         const img = new Image();
                         img.src = imagePath;
+                        showroomAccess(modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model .car-card .view-button`).href);
                         orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
                             carManufacturer, result);
                         modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
@@ -449,7 +454,10 @@ function addCarOrderToFavs(e) {
     <a href="${carId}" class="view-button">View in
         Showroom</a>
 </div>
-    `
+    `   
+        showroomAccess(carId);
+        favVehiclesIds.push(carId);
+        favVehiclesContainer.children[0].children[favVehiclesContainer.children.length - 1].addEventListener(`click`, showroomAccess);
         document.getElementById(`favorite-vehicles`).appendChild(favVehiclesContainer);
         favVehiclesContainer.children[0].children[2].children[1].children[0].checked = true;
         favVehiclesContainer.children[0].children[2].children[1].children[0].addEventListener(`change`, removeFavVehicle);
@@ -496,35 +504,14 @@ function addCarOrderToFavs(e) {
     }
 }
 
-function removeCarOrder(e) {
-    let carManufacturer = e.currentTarget.parentNode.parentNode.children[0].children[0].children[1].textContent;
-    const carModel = e.currentTarget.parentNode.parentNode.children[0].children[1].children[1].textContent;
-    const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
-    e.currentTarget.parentNode.parentNode.parentNode.remove();
-    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/remove`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            id: userId,
-            carManufacturer: carManufacturer,
-            carModel: carModel,
-            carYear: carYear
-        })
-    })
-        .then(response => response.text)
-        .then(result => {
-            console.log(result);
-        })
-}
-
 function orderStatusCheck(img, container, carManufacturer, carOrder) {
     img.onload = function () {
         container.children[0].querySelector(`#change-order`).remove();
         container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
         container.children[0].children[1].children[0].children[1].textContent = `Completed`;
         container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
+        carOrdersIds.push(container.children[0].querySelector(`.car-order-model`)
+            .children[1].querySelector(`a`).href);
         favVehiclesIds.forEach(vehicleId => {
             if (vehicleId === container.children[0].querySelector(`.car-order-model`)
                 .children[1].querySelector(`a`).href) {
@@ -649,9 +636,39 @@ function closePopup() {
     document.getElementById('overlay').style.display = 'none';
 }
 
+function removeCarOrder(e) {
+    let carManufacturer = e.currentTarget.parentNode.parentNode.children[0].children[0].children[1].textContent;
+    const carModel = e.currentTarget.parentNode.parentNode.children[0].children[1].children[1].textContent;
+    const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
+    if (!favVehiclesIds.includes(`https://danov-autoshow-656625355b99.herokuapp.com/showroom.html?car=3D%20Models/${carManufacturer}-${carModel}-${carYear}.glb`)) {
+        removeCarFromCookie(`https://danov-autoshow-656625355b99.herokuapp.com/showroom.html?car=3D%20Models/${carManufacturer}-${carModel}-${carYear}.glb`);
+    }
+    carOrdersIds.splice(carOrdersIds.indexOf(`https://danov-autoshow-656625355b99.herokuapp.com/showroom.html?car=3D%20Models/${carManufacturer}-${carModel}-${carYear}.glb`), 1);
+    e.currentTarget.parentNode.parentNode.parentNode.remove();
+    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/remove`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: userId,
+            carManufacturer: carManufacturer,
+            carModel: carModel,
+            carYear: carYear
+        })
+    })
+        .then(response => response.text)
+        .then(result => {
+            console.log(result);
+        })
+}
+
 // Function to handle "Remove car" button click
 function removeTheCar(e) {
     const carId = document.querySelector(`.car-id-remove`).href;
+    if (!carOrdersIds.includes(carId)) {
+        removeCarFromCookie(carId);
+    }
     document.querySelector(`.remove-car`).remove();
     document.querySelectorAll(`.car-orders-container .car-order-model .car-card a`).forEach(entrie => {
         if (entrie.href === carId) {
@@ -713,7 +730,7 @@ function logOutUser() {
         entrie.addEventListener(`click`, () => {
             // Set expiry to a past date, and include path and domain
             document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
-
+            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
             // Reload the page
             location.reload();
         });
@@ -722,7 +739,7 @@ function logOutUser() {
         entrie.addEventListener(`click`, () => {
             // Set expiry to a past date, and include path and domain
             document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
-
+            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
             // Reload the page
             location.reload();
         });

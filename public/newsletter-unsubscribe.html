@@ -4,21 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Showroom</title>
+    <title>Ubsubscribe</title>
     <link rel="stylesheet" href="pages-style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="showroom.css">
-    <meta property="og:image" content="images/logo.png">
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.152.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.152.0/examples/jsm/"
+    <link rel="stylesheet" href="newsletter-unsubscribe.css">
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/v1/user/newsletter-emails/unsubscribe?email=${email}`, {
+            method: "DELETE"
+        })
+        .then(response => response.text())
+        .then(result => {
+            if (result === `You have been unsubscribed successfully.`) {
+                document.getElementById(`unsubscribe-confirmation`).style.display = `block`;
+            } else {
+                document.getElementById(`unsubscribe-confirmation-2`).style.display = `block`;
             }
-        }
+        })
     </script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -82,24 +85,17 @@
             </nav>
         </nav>
     </header>
-    <script src="mobile-menu.js"></script>
-    <div id="loader"></div>
-    <div id="model-container"></div>
+    <div id="unsubscribe-confirmation" style="display: none;">
+        <p style="color: #28a745; font-size: 18px; font-weight: bold;">Unsubscribe Successful</p>
+        <img src="images/green-tick-icon.png" alt="Green Tick Icon" width="50" height="50">
+        <p style="color: #333333;">You have been successfully unsubscribed from our newsletter. We're sorry to see you
+            go!</p>
+    </div>
     <div id="unsubscribe-confirmation-2" style="display: none;">
-        <p style="color: #a02828; font-size: 18px; font-weight: bold;">You don't have access to this model.</p>
+        <p style="color: #a02828; font-size: 18px; font-weight: bold;">Unsubscribe Unsuccessful</p>
         <img src="images/Red_X.svg.png" alt="Green Tick Icon" width="50" height="50">
-        <p style="color: #333333;">You either don't have the model ordered, or your session expired. Please try accessing the model through the profile page.</p>
+        <p style="color: #333333;">The provided email is not subscribed to our Newsletter.</p>
     </div>
-    <div class="view-buttons">
-        <button id="firstPersonBtn" style="flex-direction: column; align-items: center;">First Person View</button>
-        <button id="thirdPersonBtn">Third Person View</button>
-    </div>
-    <a href="#" id="info-page">Check Vehicle Info</a>
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const carParam = urlParams.get('car');
-        document.getElementById(`info-page`).href = `cars-info.html?car=${carParam}`;
-    </script>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
@@ -120,10 +116,7 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
-    <script type="module" src="3DModel-Scene-Switching.js"></script>
-    <script src="User Authentication.js"></script>
     <script src="Subsribe-To-Newsletter.js"></script>
-    <script src="Showroom-Authentication.js"></script>
 </body>
 
 </html>

@@ -58,11 +58,11 @@ public class LoginController {
             cookie.setMaxAge(3600 * 24 * 7); // 7 days
             cookie.setPath("/"); // Save the cookie for all pages of the site
             cookie.setSecure(true);
-            cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
+            cookie.setDomain("danovs-autoshow-afcbab0f302b.herokuapp.com");
             response.addCookie(cookie);
 
             System.out.println("Successfully logged in the user.");
-            return "redirect:https://danov-autoshow-656625355b99.herokuapp.com"; // Redirect to the home page
+            return "redirect:https://danovs-autoshow-afcbab0f302b.herokuapp.com"; // Redirect to the home page
         } else {
             // Failed login
             return "redirect:/login?error"; // Redirect back to the login page with an error parameter

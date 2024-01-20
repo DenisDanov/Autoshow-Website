@@ -29,7 +29,7 @@ public class PasswordResetController {
 
     @GetMapping
     public ResponseEntity<String> resetPassword(@RequestParam String token,String newPassword) {
-        // Step 1: Validate Token
+        // Validate Token
         Optional<PasswordResetToken> resetTokenOptional = tokenRepository.findByToken(token);
         if (resetTokenOptional.isEmpty() || resetTokenOptional.get().isExpired()) {
             return ResponseEntity.badRequest().body("Invalid or expired token.");

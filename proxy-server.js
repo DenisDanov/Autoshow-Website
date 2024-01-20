@@ -14,15 +14,12 @@ const apiProxy = createProxyMiddleware({
   target: 'https://www.carqueryapi.com',
   changeOrigin: true,
   pathRewrite: {
-    '^/carquery-api': '', // Remove the '/api' prefix when forwarding the request
+    '^/carquery-api': '',
   },
 });
 
-// Use the '/carquery-api' route for forwarding API requests
+// '/carquery-api' route for forwarding API requests
 app.use('/carquery-api', apiProxy);
-
-// Your existing routes go here
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Proxy server is running on http://localhost:${PORT}`);
