@@ -18,11 +18,7 @@ public class CarOrder {
         this.carModel = carModel;
         this.carYear = carYear;
         this.orderStatus = "Pending";
-        this.dateOfOrder = String.valueOf(LocalDate.now());
-    }
-
-    public void setDateOfOrder(String dateOfOrder) {
-        this.dateOfOrder = dateOfOrder;
+        this.dateOfOrder = String.valueOf(LocalDate.now());;
     }
 
     public String getDateOfOrder() {

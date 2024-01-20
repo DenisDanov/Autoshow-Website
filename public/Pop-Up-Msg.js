@@ -1,5 +1,7 @@
 // Function to set a cookie
 var authToken = getCookie("authToken");
+const urlParams = new URLSearchParams(window.location.search);
+const popup = urlParams.get('popup');
 function setCookie(name, value, days) {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -29,8 +31,10 @@ function showPopup() {
 
     // Check if the cookie exists and if it has been more than 3 days
     if (!getCookiePopUpMsg('popupShown') || (new Date() - new Date(getCookie('popupShown'))) > (3 * 24 * 60 * 60 * 1000)) {
-        popupContainer.style.display = 'block';
         setCookie('popupShown', new Date().toUTCString(), 3); // Set the cookie to remember the pop-up display time
+        if (popup !== null) {
+            popupContainer.style.display = 'block';
+        }
     }
 }
 

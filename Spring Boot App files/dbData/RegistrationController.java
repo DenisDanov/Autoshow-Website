@@ -26,27 +26,16 @@ public class RegistrationController {
     @PostMapping("/register")
     public String processRegistration(@ModelAttribute("user") User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
-        String emailRegex = "[A-Za-z0-9]+[@][A-Za-z]{2,}[.][a-zA-Z]{2,}";
-
         if (userFromDB == null) {
-            if (user.getPassword().length() < 8) {
-                return "redirect:/register?errorPassword";
-            }
-
-            // Validate email using regex
-            if (!user.getEmail().matches(emailRegex)) {
-                return "redirect:/register?errorEmail";
-            }
 
             // Save the user to the database
             User savedUser = userRepository.save(user);
-
             // Check if the user is saved successfully
             if (savedUser != null && savedUser.getId() != null) {
                 // Log a success message or return a success view
                 System.out.println("User saved successfully. ID: " + savedUser.getId());
-                return "redirect:https://danov-autoshow-656625355b99.herokuapp.com/login";
-            } else {
+                return "redirect:https://danovs-autoshow-afcbab0f302b.herokuapp.com/login";
+            } else  {
                 System.err.println("Error saving user to the database");
                 return "redirect:/register?error";
             }
