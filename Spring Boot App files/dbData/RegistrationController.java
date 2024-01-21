@@ -26,7 +26,21 @@ public class RegistrationController {
     @PostMapping("/register")
     public String processRegistration(@ModelAttribute("user") User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
+<<<<<<< HEAD
         if (userFromDB == null) {
+=======
+        String emailRegex = "[A-Za-z0-9]+[@][A-Za-z]{2,}[.][a-zA-Z]{2,}";
+
+        if (userFromDB == null && userRepository.findByEmail(user.getEmail()) == null) {
+            if (user.getPassword().length() < 8) {
+                return "redirect:/register?errorPassword";
+            }
+
+            // Validate email using regex
+            if (!user.getEmail().matches(emailRegex)) {
+                return "redirect:/register?errorEmail";
+            }
+>>>>>>> 01852e0dc7d90c77ffa7d99930dce7b1ae748c81
 
             // Save the user to the database
             User savedUser = userRepository.save(user);
@@ -42,7 +56,11 @@ public class RegistrationController {
         } else {
             // Log an error message or return an error view
             System.err.println("Error saving user to the database");
-            return "redirect:/register?error";
+            if (userFromDB != null) {
+                return "redirect:/register?error";
+            } else {
+                return "redirect:/register?errorEmailExists";
+            }
         }
     }
 }

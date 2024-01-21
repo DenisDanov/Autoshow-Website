@@ -21,4 +21,24 @@ public class UserController {
     public List<User> getUser() {
         return this.userService.userData();
     }
+<<<<<<< HEAD
+=======
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> initiatePasswordReset(@RequestParam String email) throws IOException {
+        User user = userRepository.findByEmail(email);
+
+        if (user != null) {
+            if (passwordResetTokenRepository.findByUser(user).isEmpty()) {
+                passwordResetService.initiatePasswordReset(user);
+                return ResponseEntity.ok("Password reset initiated. Check your email for further instructions.");
+            } else {
+                return ResponseEntity.ok("Password reset have already been requested on this email. Please check the email for further instructions.");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The account with this email could not be found. Please try with different email.");
+        }
+    }
+
+>>>>>>> 01852e0dc7d90c77ffa7d99930dce7b1ae748c81
 }
