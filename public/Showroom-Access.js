@@ -52,7 +52,6 @@ function removeCarFromCookie(carUrl) {
     }
 }
 
-
 // Helper function to get the value of a cookie by name
 function getCookiesCars(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));

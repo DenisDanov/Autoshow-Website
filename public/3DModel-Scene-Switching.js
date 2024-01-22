@@ -68,7 +68,7 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 1910;
                 } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
                     camera.position.z += cameraDistance - 285;
-                } else if (carParam.includes(`Lamborghini-Galardo-2007.glb`)) {
+                } else if (carParam.includes(`Lamborghini-Gallardo-2007.glb`)) {
                     camera.position.z += cameraDistance - 490;
                 } else if (carParam.includes(`BMW-M4-2022.glb`)) {
                     camera.position.z += cameraDistance - 720;
@@ -112,7 +112,7 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 920;
                 } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
                     camera.position.z += cameraDistance - 145;
-                } else if (carParam.includes(`Lamborghini-Galardo-2007.glb`)) {
+                } else if (carParam.includes(`Lamborghini-Gallardo-2007.glb`)) {
                     camera.position.z += cameraDistance - 240;
                 } else if (carParam.includes(`Toyota-Gr-Supra-2020.glb`)) {
                     camera.position.z += cameraDistance - 250;
@@ -600,7 +600,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Lamborghini-Galardo-2007.glb`)) {
+            } else if (carParam.includes(`Lamborghini-Gallardo-2007.glb`)) {
                 camera.position.set(0, 10, 90);
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {
@@ -609,7 +609,7 @@ function initFirstPersonScript() {
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
                             child.material.metalness = 0.8; // 0 for non-metallic, 1 for fully metallic
-                            child.material.roughness = 0.5; // 0 for a smooth surface, 1 for a rough surface
+                            child.material.roughness = 0.3; // 0 for a smooth surface, 1 for a rough surface
                         }
                     }
                 });
