@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Show</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="pages-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -13,6 +13,12 @@
     <link rel="stylesheet" href="auto-show.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="Showroom-Access.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
 </head>
 
 <body>
@@ -162,6 +168,12 @@
             </div>
         </div>
     </section>
+    <h1 style="text-align: center;">Recently viewed cars</h1>
+    <div class="slider-container">
+        <div class="recently-viewed-cars" style="display: flex; justify-content: center; flex-wrap: wrap;"
+            bis_skin_checked="1">
+        </div>
+    </div>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
@@ -182,7 +194,7 @@
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
         </div>
     </footer>
-    <script src="Get-Profile-Data.js"></script>
+    <script src="Get-Profile-Data.js" defer></script>
     <script src="Password-Changing.js" defer></script>
     <script src="Password-Eye-Visibility.js" defer></script>
     <script src="Change-User-Details.js" defer></script>
@@ -191,7 +203,6 @@
     <script defer>
         setTimeout(function () {
             document.querySelectorAll(`.add-fav .icon-heart`).forEach(entrie => {
-                console.log(entrie);
                 entrie.addEventListener(`mouseover`, (e) => {
                     if (e.currentTarget.parentNode.children[0].checked) {
                         e.currentTarget.style.color = `#333`;
@@ -205,7 +216,9 @@
             });
         }, 1700);
     </script>
-    <script src="Subsribe-To-Newsletter.js"></script>
+    <script src="Subsribe-To-Newsletter.js" defer></script>
+    <script src="Populate-Recently-Viewed.js" defer></script>
+    <script src="Recently-Viewed-Slider.js" defer></script>
 </body>
 
 </html>

@@ -114,7 +114,8 @@ input[type="password"]::-webkit-reveal {
     margin-top: 145px;
 }
 
-#favorite-vehicles li .car-card,.car-order-model .car-card {
+#favorite-vehicles li .car-card,
+.car-order-model .car-card {
     width: fit-content;
     max-width: 264px;
 }
@@ -202,7 +203,10 @@ input[type="password"]::-webkit-reveal {
     cursor: pointer;
 }
 
-.car-orders-container,.car-order-details,.car-order-status,.car-order-model {
+.car-orders-container,
+.car-order-details,
+.car-order-status,
+.car-order-model {
     justify-content: center;
     display: flex;
     gap: 0.8rem;
@@ -232,11 +236,13 @@ input[type="password"]::-webkit-reveal {
     padding-left: 0.3rem;
 }
 
-.car-order-details p,.car-order-status p {
+.car-order-details p,
+.car-order-status p {
     margin-top: 0.3rem;
 }
 
-.car-order-details div span,.car-order-status div span {
+.car-order-details div span,
+.car-order-status div span {
     font-weight: bold;
 }
 
@@ -272,19 +278,27 @@ input[type="password"]::-webkit-reveal {
 }
 
 @keyframes pendingAnimation {
-    0%, 25% {
+
+    0%,
+    25% {
         opacity: 1;
         content: '.';
     }
-    26%, 50% {
+
+    26%,
+    50% {
         opacity: 1;
         content: '..';
     }
-    51%, 75% {
+
+    51%,
+    75% {
         opacity: 1;
         content: '...';
     }
-    76%, 100% {
+
+    76%,
+    100% {
         opacity: 0;
         content: '';
     }
@@ -333,4 +347,40 @@ input[type="password"]::-webkit-reveal {
 
 #modify-order:hover {
     background-color: #79aa40 !important;
+}
+
+.slider-container {
+    max-width: 100%;
+    position: relative;
+}
+
+.recently-viewed-cars {
+    padding: 0 2rem;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slick-prev {
+    font-size: 30px !important;
+    left: 8px !important;
+}
+
+.slick-next {
+    right: 8px !important;
+}
+
+@media (min-width: 601px) {
+
+    .slick-list,
+    .draggable {
+        min-width: 380px !important;
+    }
+
+    .slick-track {
+        min-width: 380px !important;
+    }
+
+    .slick-track .car-card {
+        min-width: 340px !important;
+    }
 }

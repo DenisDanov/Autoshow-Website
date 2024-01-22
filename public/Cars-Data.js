@@ -7,7 +7,7 @@ if (carParam.includes(`Urus`)) {
     vin = `ZPBUA1ZL4NLA19618`;
 } else if (carParam.includes(`Porsche-Carrera-2015.glb`)) {
     vin = `WP0AA2A90FS106665`;
-} else if (carParam.includes(`Lamborghini-Galardo-2007.glb`)) {
+} else if (carParam.includes(`Lamborghini-Gallardo-2007.glb`)) {
     vin = `ZHWGU12T87LA05336`;
 } else if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
     vin = `ZHWUM6ZD7KLA08087`;

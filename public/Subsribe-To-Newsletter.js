@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-let timeOutNewsLetter = setTimeout(function () {
-=======
-let timeOut = setTimeout(function () {
->>>>>>> 01852e0dc7d90c77ffa7d99930dce7b1ae748c81
-    resultField.style.display = 'none';
-}, 3500);
+let timeOutNewsLetter;
 document.querySelector(`.subscribe-form button`).addEventListener(`click`, (e) => {
     const email = document.querySelector(`.subscribe-form input[type="email"]`).value;
     const resultField = document.getElementById(`sub-result`);
@@ -22,13 +16,8 @@ document.querySelector(`.subscribe-form button`).addEventListener(`click`, (e) =
                     resultField.style.background = "green";
                     resultField.style.width = "max-content";
                     resultField.style.margin = "0.5rem auto";
-<<<<<<< HEAD
                     clearTimeout(timeOutNewsLetter);
                     timeOutNewsLetter = setTimeout(function () {
-=======
-                    clearTimeout(timeOut);
-                    timeOut = setTimeout(function () {
->>>>>>> 01852e0dc7d90c77ffa7d99930dce7b1ae748c81
                         resultField.style.display = 'none';
                     }, 3500);
                 } else {
@@ -39,13 +28,8 @@ document.querySelector(`.subscribe-form button`).addEventListener(`click`, (e) =
                     resultField.style.background = "red";
                     resultField.style.width = "max-content";
                     resultField.style.margin = "0.5rem auto";
-<<<<<<< HEAD
                     clearTimeout(timeOutNewsLetter);
                     timeOutNewsLetter = setTimeout(function () {
-=======
-                    clearTimeout(timeOut);
-                    timeOut = setTimeout(function () {
->>>>>>> 01852e0dc7d90c77ffa7d99930dce7b1ae748c81
                         resultField.style.display = 'none';
                     }, 3500);
                 }
@@ -58,13 +42,8 @@ document.querySelector(`.subscribe-form button`).addEventListener(`click`, (e) =
         resultField.style.background = "red";
         resultField.style.width = "max-content";
         resultField.style.margin = "0.5rem auto";
-<<<<<<< HEAD
         clearTimeout(timeOutNewsLetter);
         timeOutNewsLetter = setTimeout(function () {
-=======
-        clearTimeout(timeOut);
-        timeOut = setTimeout(function () {
->>>>>>> 01852e0dc7d90c77ffa7d99930dce7b1ae748c81
             resultField.style.display = 'none';
         }, 3500);
     }
