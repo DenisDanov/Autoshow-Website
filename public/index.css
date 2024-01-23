@@ -1,0 +1,111 @@
+body {
+    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
+}
+
+.slider-container {
+    max-width: 100%;
+    position: relative;
+}
+
+.recently-viewed-cars {
+    padding: 0 2rem;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slick-prev {
+    font-size: 30px !important;
+    left: 8px !important;
+}
+
+.slick-next {
+    right: 8px !important;
+}
+
+@media (min-width: 601px) {
+
+    .slick-list,
+    .draggable {
+        min-width: 380px !important;
+    }
+
+    .slick-track {
+        min-width: 380px !important;
+    }
+
+    .slick-track .car-card {
+        min-width: 340px !important;
+    }
+}
+
+.add-fav {
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+    position: relative;
+    transition: all .5s ease;
+
+    .icon-heart {
+        font-size: 24px;
+        color: #666;
+        position: relative;
+        transition: all .5s ease-in-out;
+    }
+
+    .icon-plus-sign {
+        font-size: 10px;
+        color: #333;
+        background: #fff;
+        border-radius: 100%;
+        position: absolute;
+        height: 11px;
+        width: 11px;
+        line-height: 11px;
+        text-align: center;
+        transition: all 1s ease-in-out;
+    }
+
+    input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+
+        &:checked+.icon-heart {
+            color: orange;
+
+            .icon-plus-sign {
+                display: none;
+            }
+        }
+    }
+}
+
+.add-fav:hover {
+    .icon-heart {
+        color: orange;
+    }
+}
+
+.favorites {
+    margin-bottom: 1rem;
+}
+
+.view-button {
+    background-color: #3a703b;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    border-radius: 15px;
+}
+
+.view-button:hover {
+    background-color: #67a368;
+}
+
+.car-card {
+    text-align: center;
+}

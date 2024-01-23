@@ -74,7 +74,7 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 720;
                 } else if (carParam.includes(`Toyota-Gr-Supra-2020.glb`)) {
                     camera.position.z += cameraDistance - 570;
-                } else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
+                } else if (carParam.includes(`Mclaren-P1-2015.glb`)) {
                     camera.position.z += cameraDistance - 500;
                 } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
                     camera.position.z += cameraDistance - 100500;
@@ -118,7 +118,7 @@ async function initThirdPersonScript() {
                     camera.position.z += cameraDistance - 250;
                 } else if (carParam.includes(`BMW-M4-2022.glb`)) {
                     camera.position.z += cameraDistance - 360;
-                } else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
+                } else if (carParam.includes(`Mclaren-P1-2015.glb`)) {
                     camera.position.z += cameraDistance - 250;
                     model.scale.set(50, 50, 50);
                 } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
@@ -626,7 +626,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
+            } else if (carParam.includes(`Mclaren-P1-2015.glb`)) {
                 camera.position.set(-1, 15, 105);
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {

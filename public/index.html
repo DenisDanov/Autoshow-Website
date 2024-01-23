@@ -20,6 +20,11 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="User Authentication.js"></script>
     <link rel="icon" href="images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
@@ -222,9 +227,9 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const carCards = document.querySelectorAll('.car-card');
+            const carCards = document.querySelectorAll('#last .car-card');
             carCards.forEach(function (card) {
-                const flickity = new Flickity(card.querySelector('.img-container'), {
+                const flickity = new Flickity(card.querySelector('#last .car-card .img-container'), {
                     cellAlign: 'left',
                     contain: true,
                     prevNextButtons: true,
@@ -233,8 +238,13 @@
             });
         });
     </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <h1 style="text-align: center;">Recently viewed cars</h1>
+    <div class="slider-container">
+        <div class="recently-viewed-cars" style="display: flex; justify-content: center; flex-wrap: wrap;"
+            bis_skin_checked="1">
+        </div>
+    </div>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
@@ -256,6 +266,8 @@
         </div>
     </footer>
     <script src="Subsribe-To-Newsletter.js"></script>
+    <script src="Populate-Recently-Viewed.js" defer></script>
+    <script src="Recently-Viewed-Slider.js" defer></script>
 </body>
 
 </html>
