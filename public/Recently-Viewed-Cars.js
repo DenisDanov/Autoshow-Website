@@ -31,7 +31,4 @@ const carParamValue = getCarParam();
 if (carParamValue) {
     // Save the new car param to the cookie
     saveCarParam(carParamValue);
-
-    // You can now use the getSavedCarParams() function to get the array of saved car params
-    console.log(getSavedCarParams());
 }
