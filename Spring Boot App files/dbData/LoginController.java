@@ -1,21 +1,27 @@
 package com.example.demo.dbData;
 
+import com.example.demo.dbData.recentlyViewedToken.RecentlyViewedRepository;
+import com.example.demo.dbData.recentlyViewedToken.RecentlyViewedToken;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
+
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 @Controller
 public class LoginController {
@@ -30,10 +36,12 @@ public class LoginController {
     }
 
     private final UserRepository userRepository;
+    private final RecentlyViewedRepository recentlyViewedRepository;
 
     @Autowired
-    public LoginController(UserRepository userRepository) {
+    public LoginController(UserRepository userRepository, RecentlyViewedRepository recentlyViewedRepository) {
         this.userRepository = userRepository;
+        this.recentlyViewedRepository = recentlyViewedRepository;
     }
 
     @GetMapping("/login")
@@ -44,7 +52,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String processLogin(@ModelAttribute("loginUser") User loginUser,
-                               HttpServletResponse response) {
+                               HttpServletResponse response) throws UnsupportedEncodingException {
         // Retrieve the user from the database based on the entered username
         User userFromDB = userRepository.findByUsername(loginUser.getUsername());
 
@@ -58,11 +66,44 @@ public class LoginController {
             cookie.setMaxAge(3600 * 24 * 7); // 7 days
             cookie.setPath("/"); // Save the cookie for all pages of the site
             cookie.setSecure(true);
-            cookie.setDomain("danovs-autoshow-afcbab0f302b.herokuapp.com");
+            cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
             response.addCookie(cookie);
 
+            RecentlyViewedToken recentlyViewedToken = new RecentlyViewedToken();
+            if (recentlyViewedRepository.findByUser(userFromDB).isEmpty()) {
+                recentlyViewedToken.setUser(userFromDB);
+                recentlyViewedToken.setExpireDate();
+                recentlyViewedRepository.save(recentlyViewedToken);
+
+                Cookie cookieRecentlyViewed = new Cookie("saved_car_params", recentlyViewedToken.getRecentlyViewedCars());
+
+                // Set the cookie's expiration date based on the token's expireDate
+                LocalDateTime expireDateTime = recentlyViewedToken.getExpireDate();
+                long secondsUntilExpiration = LocalDateTime.now().until(expireDateTime, SECONDS);
+
+                cookieRecentlyViewed.setMaxAge((int) secondsUntilExpiration);
+                cookieRecentlyViewed.setPath("/");
+                cookieRecentlyViewed.setSecure(true);
+                cookieRecentlyViewed.setDomain("danov-autoshow-656625355b99.herokuapp.com");
+                response.addCookie(cookieRecentlyViewed);
+            } else {
+                RecentlyViewedToken tokenFromDb = recentlyViewedRepository.findByUser(userFromDB).get();
+                String encodedCookieValue = URLEncoder.encode( tokenFromDb.getRecentlyViewedCars(), StandardCharsets.UTF_8.toString());
+                Cookie cookieRecentlyViewed = new Cookie("saved_car_params", encodedCookieValue);
+
+                // Set the cookie's expiration date based on the token's expireDate
+                LocalDateTime expireDateTime = tokenFromDb.getExpireDate();
+                long secondsUntilExpiration = LocalDateTime.now().until(expireDateTime, SECONDS);
+
+                cookieRecentlyViewed.setMaxAge((int) secondsUntilExpiration);
+                cookieRecentlyViewed.setPath("/");
+                cookieRecentlyViewed.setSecure(true);
+                cookieRecentlyViewed.setDomain("danov-autoshow-656625355b99.herokuapp.com");
+                response.addCookie(cookieRecentlyViewed);
+            }
+
             System.out.println("Successfully logged in the user.");
-            return "redirect:https://danovs-autoshow-afcbab0f302b.herokuapp.com"; // Redirect to the home page
+            return "redirect:https://danov-autoshow-656625355b99.herokuapp.com"; // Redirect to the home page
         } else {
             // Failed login
             return "redirect:/login?error"; // Redirect back to the login page with an error parameter

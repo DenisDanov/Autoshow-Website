@@ -1,6 +1,7 @@
 package com.example.demo.dbData;
 
 import com.example.demo.dbData.orderCarService.CarOrder;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -26,11 +27,13 @@ public class User {
     private String email;
     private String password;
 
+    @JsonProperty("favorite_vehicles")
     @Convert(converter = ListConverterFavVehicles.class)
     @Column(columnDefinition = "TEXT")
     private List<FavoriteResponse> favoriteVehicles;
 
-    @Convert(converter = ListConverter.class)
+    @JsonProperty("car_orders")
+    @Convert(converter = CarOrderListConverter.class)
     @Column(columnDefinition = "TEXT")
     private List<CarOrder> carOrders;
 
