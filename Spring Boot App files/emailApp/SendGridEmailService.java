@@ -42,35 +42,30 @@ public class SendGridEmailService {
     }
 
     public void sendWeeklyNewsletter(String email, String subject) throws IOException {
-        String text = "<p class=\"motd-text\">" +
-                "🎉 We're thrilled to announce the latest additions to our exquisite collection of exotic cars! 🌟" +
-                "<br><br>" +
-                "<strong>Ford Raptor F-150 - 4X4 Beast." +
-                "<br><br>" +
-                "<strong>Lamborghini Murcielago 2010</strong> - Embrace the roar of the bull in this iconic masterpiece." +
-                "<br><br>" +
-                "<strong>Mercedes Benz E-Class 2014</strong> - Combining performance and sophistication in every curve." +
-                "<br><br>" +
-                "<strong>BMW M4 2022</strong> - Precision engineering meets pure adrenaline." +
-                "<br><br>" +
-                "These are just a few of the cars that have been added. You can order these, or explore many more through the Order menu." +
-                "</p>";
+        String unsubscribeLink = "https://danov-autoshow-656625355b99.herokuapp.com/newsletter-unsubscribe.html?email=" + email;
+        String text = "<div id=\"popup-container\" class=\"popup-container\" style=\"display: flex;\">" +
+                "    <div class=popup-content>" +
+                "        <p class=\"motd-text\">" +
+                "            🎉 Exciting news! New exotic cars added to our collection 🌟" +
+                "            <br><br>" +
+                "            <strong>Bugatti Chiron 2020</strong> - Unleash unparalleled power." +
+                "            <br><br>" +
+                "            <strong>Lamborghini Murcielago 2010</strong> - Embrace the roar of the bull." +
+                "            <br><br>" +
+                "            <strong>Mercedes Benz AMG GT 2020</strong> - Performance and sophistication in every curve." +
+                "            <br><br>" +
+                "            <strong>Nissan GTR 2017</strong> - Precision engineering meets pure adrenaline." +
+                "            <br><br>" +
+                "             Order these or explore more through the Order menu." +
+                "        </p>" +
+                "        <div style=\"text-align: center; margin-top: 20px;\">" +
+                "            <a href=\"https://danov-autoshow-656625355b99.herokuapp.com/auto-show.html?popup=true\">Order car</a>" +
+                "      <p class=\"unsub-btn\">Unsubscribe <a href=\"" + unsubscribeLink + "\">here</a></p>" +
+                "        </div>" +
+                "    </div>" +
+                "</div>";
 
         String cssStyles = "<style>" +
-                ".popup-container {" +
-                "    display: none;" +
-                "    position: fixed;" +
-                "    top: 0;" +
-                "    left: 0;" +
-                "    width: 100%;" +
-                "    height: 100%;" +
-                "    background: rgba(0, 0, 0, 0.5);" +
-                "    /* Semi-transparent overlay */" +
-                "    z-index: 1;" +
-                "    overflow: hidden;" +
-                "    /* Disable scrolling on the body when pop-up is displayed */" +
-                "}" +
-                "" +
                 "/* Styles for the pop-up content */" +
                 ".popup-content {" +
                 "    background-color: #4e4747;" +
@@ -78,8 +73,6 @@ public class SendGridEmailService {
                 "    padding: 10px;" +
                 "    border-radius: 10px;" +
                 "    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);" +
-                "    max-width: 800px;" +
-                "    margin: 13% auto;" +
                 "}" +
                 "" +
                 ".motd-text {" +
@@ -89,7 +82,9 @@ public class SendGridEmailService {
                 "}" +
                 "" +
                 "/* Styles for the buttons */" +
-                ".popup-container button {" +
+                ".popup-container button,.popup-container a,.popup-content a {" +
+                "    text-decoration: none;" +
+                "    cursor: pointer;" +
                 "    background-color: #696767;" +
                 "    color: white;" +
                 "    padding: 10px 20px;" +
@@ -99,8 +94,11 @@ public class SendGridEmailService {
                 "    margin: 5px;" +
                 "}" +
                 "" +
-                ".popup-container button:hover {" +
+                ".popup-container button:hover,.popup-container a:hover {" +
                 "    background-color: rgb(152, 153, 152);" +
+                "}" +
+                ".unsub-btn {" +
+                "    margin-top: 2rem;" +
                 "}" +
                 "" +
                 "@media (max-width: 600px) {" +

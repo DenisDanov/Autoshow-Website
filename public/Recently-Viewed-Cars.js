@@ -17,12 +17,25 @@ function getSavedCarParams() {
 function saveCarParam(newCarParam) {
     let savedParams = getSavedCarParams();
 
-    if (!savedParams.includes(newCarParam)) {
+    if (!savedParams.includes(newCarParam) && authToken) {
+        const decodedToken = JSON.parse(atob(authToken.split('.')[1]));
+        const userId = decodedToken.userId;
         savedParams.push(newCarParam);
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/recently-viewed/add?userId=${userId}&carId=${newCarParam}`, {
+            method: "POST"
+        })
+            .then(response => response.text())
+            .then(result => {
+                if (result === `Successfully added the car.`) {
+                    // Save the updated array to the cookie
+                    document.cookie = `saved_car_params=${savedParams.join(',')}; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure`;
+                }
+            })
+            .catch(err => console.log(err))
+    } else if (!savedParams.includes(newCarParam)) {
+        savedParams.push(newCarParam);
+        document.cookie = `saved_car_params=${savedParams.join(',')}; expires=${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString()}; path=/;  domain=danov-autoshow-656625355b99.herokuapp.com; secure`;
     }
-
-    // Save the updated array to the cookie
-    document.cookie = `saved_car_params=${savedParams.join(',')}; expires=${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString()}; path=/;`;
 }
 
 // Usage

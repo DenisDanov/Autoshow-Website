@@ -1,4 +1,5 @@
 //Function to log out the user
+var authToken = getCookie("authToken");
 function logOutUser() {
     document.querySelectorAll(`#log-out-icon`).forEach(entrie => {
         entrie.addEventListener(`click`, () => {
@@ -22,9 +23,6 @@ function logOutUser() {
 
 // Function to check the login status
 function checkLoginStatus() {
-    // Retrieve the auth token from cookies
-    var authToken = getCookie("authToken");
-
     if (authToken) {
         // User is logged in
         console.log('User is logged in.');
