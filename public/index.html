@@ -19,6 +19,7 @@
     <meta property="og:image" content="images/logo.png">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="User Authentication.js"></script>
+    <script src="Decode-Token.js"></script>
     <link rel="icon" href="images/logo.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" type="text/css"
@@ -245,6 +246,22 @@
             bis_skin_checked="1">
         </div>
     </div>
+    <div id="overlay" style="display: none;">
+        <div id="popup">
+            <span id="close" onclick="closePopup()">&times;</span>
+            <p>To have access to this feature, please log in.</p>
+            <button onclick="takeMeToLogin()">Take me to log in</button>
+            <button onclick="noThanks()">No thanks</button>
+        </div>
+    </div>
+    <script>
+        function takeMeToLogin() {
+            window.location = "https://danov-autoshow-656625355b99.herokuapp.com/login";
+        }
+        function noThanks() {
+            document.getElementById(`overlay`).style.display = `none`;
+        }
+    </script>
     <footer class="footer-section">
         <h3>NEWSLETTER</h3>
         <p>Subscribe to our Newsletter!</p>
@@ -258,8 +275,7 @@
                     class="fab fa-facebook"></i></a>
             <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
             <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i
-                    class="fab fa-linkedin"></i></a>
+            <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i class="fab fa-linkedin"></i></a>
         </div>
         <div class="copyright-section">
             <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>

@@ -64,93 +64,133 @@ async function initThirdPersonScript() {
             // Set camera position
             camera.position.copy(center);
             if (containerRect.width > 430) {
-                if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
-                    camera.position.z += cameraDistance - 1910;
-                } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
-                    camera.position.z += cameraDistance - 285;
-                } else if (carParam.includes(`Lamborghini-Gallardo-2007.glb`)) {
-                    camera.position.z += cameraDistance - 490;
-                } else if (carParam.includes(`BMW-M4-2022.glb`)) {
-                    camera.position.z += cameraDistance - 720;
-                } else if (carParam.includes(`Toyota-Gr-Supra-2020.glb`)) {
-                    camera.position.z += cameraDistance - 570;
-                } else if (carParam.includes(`Mclaren-P1-2015.glb`)) {
-                    camera.position.z += cameraDistance - 500;
-                } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
-                    camera.position.z += cameraDistance - 100500;
-                } else if (carParam.includes(`BMW-X5.glb`)) {
-                    camera.position.z += cameraDistance - 550;
-                } else if (carParam.includes(`Bugatti-Chiron-2005.glb`)) {
-                    camera.position.z += cameraDistance - 345;
-                } else if (carParam.includes(`Ford-F-150-2022.glb`)) {
-                    camera.position.z += cameraDistance - 1745;
-                } else if (carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
-                    camera.position.z += cameraDistance - 1645;
-                } else if (carParam.includes(`Lamborghini-Aventador-2019.glb`)) {
-                    camera.position.z += cameraDistance - 145000;
-                } else if (carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
-                    camera.position.z += cameraDistance - 1900;
-                } else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
-                    camera.position.z += cameraDistance - 600;
-                } else if (carParam.includes(`McLaren-P1-2019.glb`)) {
-                    camera.position.z += cameraDistance - 620;
-                } else if (carParam.includes(`Mercedes-Benz-E-Class-2014.glb`)) {
-                    camera.position.z += cameraDistance - 520;
-                } else if (carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
-                    camera.position.z += cameraDistance - 520;
-                } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`)) {
-                    camera.position.z += cameraDistance - 1920;
-                } else if (carParam.includes(`Nissan-GT-R-2017.glb`)) {
-                    camera.position.z += cameraDistance - 530;
-                } else if (carParam.includes(`Volkswagen-Golf-2021.glb`)) {
-                    camera.position.z += cameraDistance - 1750;
-                } else {
-                    camera.position.z += cameraDistance - 40;
+                switch (true) {
+                    case carParam.includes('Lamborghini-Aventador-2020.glb'):
+                        camera.position.z += cameraDistance - 1910;
+                        break;
+                    case carParam.includes('Lamborghini-Urus-2020.glb'):
+                        camera.position.z += cameraDistance - 285;
+                        break;
+                    case carParam.includes('Lamborghini-Gallardo-2007.glb'):
+                        camera.position.z += cameraDistance - 490;
+                        break;
+                    case carParam.includes('BMW-M4-2022.glb'):
+                        camera.position.z += cameraDistance - 720;
+                        break;
+                    case carParam.includes('Toyota-Gr-Supra-2020.glb'):
+                        camera.position.z += cameraDistance - 570;
+                        break;
+                    case carParam.includes('Mclaren-P1-2015.glb'):
+                        camera.position.z += cameraDistance - 500;
+                        break;
+                    case carParam.includes('Tesla-Model-3-2020.glb'):
+                        camera.position.z += cameraDistance - 100500;
+                        break;
+                    case carParam.includes('BMW-X5.glb'):
+                        camera.position.z += cameraDistance - 550;
+                        break;
+                    case carParam.includes('Bugatti-Chiron-2005.glb'):
+                        camera.position.z += cameraDistance - 345;
+                        break;
+                    case carParam.includes('Ford-F-150-2022.glb'):
+                        camera.position.z += cameraDistance - 1745;
+                        break;
+                    case carParam.includes('Jeep-Grand Cherokee SRT-2017.glb'):
+                        camera.position.z += cameraDistance - 1645;
+                        break;
+                    case carParam.includes('Lamborghini-Aventador-2019.glb'):
+                        camera.position.z += cameraDistance - 145000;
+                        break;
+                    case carParam.includes('Lamborghini-Murcielago-2010.glb'):
+                        camera.position.z += cameraDistance - 1900;
+                        break;
+                    case carParam.includes('Porsche-Boxster-2016.glb'):
+                        camera.position.z += cameraDistance - 600;
+                        break;
+                    case carParam.includes('McLaren-P1-2019.glb'):
+                        camera.position.z += cameraDistance - 620;
+                        break;
+                    case carParam.includes('Mercedes-Benz-E-Class-2014.glb'):
+                    case carParam.includes('Mercedes-Benz-G-Class-2022.glb'):
+                        camera.position.z += cameraDistance - 520;
+                        break;
+                    case carParam.includes('Mercedes-Benz-SLS AMG GT Final Edition-2020.glb'):
+                        camera.position.z += cameraDistance - 1920;
+                        break;
+                    case carParam.includes('Nissan-GT-R-2017.glb'):
+                        camera.position.z += cameraDistance - 530;
+                        break;
+                    case carParam.includes('Volkswagen-Golf-2021.glb'):
+                        camera.position.z += cameraDistance - 1750;
+                        break;
+                    default:
+                        camera.position.z += cameraDistance - 40;
+                        break;
                 }
             } else {
-                if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
-                    camera.position.z += cameraDistance - 920;
-                } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
-                    camera.position.z += cameraDistance - 145;
-                } else if (carParam.includes(`Lamborghini-Gallardo-2007.glb`)) {
-                    camera.position.z += cameraDistance - 240;
-                } else if (carParam.includes(`Toyota-Gr-Supra-2020.glb`)) {
-                    camera.position.z += cameraDistance - 250;
-                } else if (carParam.includes(`BMW-M4-2022.glb`)) {
-                    camera.position.z += cameraDistance - 360;
-                } else if (carParam.includes(`Mclaren-P1-2015.glb`)) {
-                    camera.position.z += cameraDistance - 250;
-                    model.scale.set(50, 50, 50);
-                } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
-                    camera.position.z += cameraDistance - 130500;
-                } else if (carParam.includes(`Bugatti-Chiron-2005.glb`)) {
-                    camera.position.z += cameraDistance - 145;
-                } else if (carParam.includes(`BMW-X5.glb`)) {
-                    camera.position.z += cameraDistance - 250;
-                } else if (carParam.includes(`Ford-F-150-2022.glb`)) {
-                    camera.position.z += cameraDistance - 900;
-                } else if (carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
-                    camera.position.z += cameraDistance - 845;
-                } else if (carParam.includes(`Lamborghini-Aventador-2019.glb`)) {
-                    camera.position.z += cameraDistance - 71845;
-                } else if (carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
-                    camera.position.z += cameraDistance - 900;
-                } else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
-                    camera.position.z += cameraDistance - 280;
-                } else if (carParam.includes(`McLaren-P1-2019.glb`)) {
-                    camera.position.z += cameraDistance - 280;
-                } else if (carParam.includes(`Mercedes-Benz-E-Class-2014.glb`)) {
-                    camera.position.z += cameraDistance - 280;
-                } else if (carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
-                    camera.position.z += cameraDistance - 250;
-                } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`)) {
-                    camera.position.z += cameraDistance - 1020;
-                } else if (carParam.includes(`Nissan-GT-R-2017.glb`)) {
-                    camera.position.z += cameraDistance - 250;
-                } else if (carParam.includes(`Volkswagen-Golf-2021.glb`)) {
-                    camera.position.z += cameraDistance - 550;
-                } else {
-                    camera.position.z += cameraDistance - 20;
+                switch (true) {
+                    case carParam.includes('Lamborghini-Aventador-2020.glb'):
+                        camera.position.z += cameraDistance - 920;
+                        break;
+                    case carParam.includes('Lamborghini-Urus-2020.glb'):
+                        camera.position.z += cameraDistance - 145;
+                        break;
+                    case carParam.includes('Lamborghini-Gallardo-2007.glb'):
+                        camera.position.z += cameraDistance - 240;
+                        break;
+                    case carParam.includes('Toyota-Gr-Supra-2020.glb'):
+                        camera.position.z += cameraDistance - 250;
+                        break;
+                    case carParam.includes('BMW-M4-2022.glb'):
+                        camera.position.z += cameraDistance - 360;
+                        break;
+                    case carParam.includes('Mclaren-P1-2015.glb'):
+                        camera.position.z += cameraDistance - 250;
+                        model.scale.set(50, 50, 50);
+                        break;
+                    case carParam.includes('Tesla-Model-3-2020.glb'):
+                        camera.position.z += cameraDistance - 130500;
+                        break;
+                    case carParam.includes('Bugatti-Chiron-2005.glb'):
+                        camera.position.z += cameraDistance - 145;
+                        break;
+                    case carParam.includes('BMW-X5.glb'):
+                        camera.position.z += cameraDistance - 250;
+                        break;
+                    case carParam.includes('Ford-F-150-2022.glb'):
+                        camera.position.z += cameraDistance - 900;
+                        break;
+                    case carParam.includes('Jeep-Grand Cherokee SRT-2017.glb'):
+                        camera.position.z += cameraDistance - 845;
+                        break;
+                    case carParam.includes('Lamborghini-Aventador-2019.glb'):
+                        camera.position.z += cameraDistance - 71845;
+                        break;
+                    case carParam.includes('Lamborghini-Murcielago-2010.glb'):
+                        camera.position.z += cameraDistance - 900;
+                        break;
+                    case carParam.includes('Porsche-Boxster-2016.glb'):
+                        camera.position.z += cameraDistance - 280;
+                        break;
+                    case carParam.includes('McLaren-P1-2019.glb'):
+                        camera.position.z += cameraDistance - 280;
+                        break;
+                    case carParam.includes('Mercedes-Benz-E-Class-2014.glb'):
+                    case carParam.includes('Mercedes-Benz-G-Class-2022.glb'):
+                        camera.position.z += cameraDistance - 280;
+                        break;
+                    case carParam.includes('Mercedes-Benz-SLS AMG GT Final Edition-2020.glb'):
+                        camera.position.z += cameraDistance - 1020;
+                        break;
+                    case carParam.includes('Nissan-GT-R-2017.glb'):
+                        camera.position.z += cameraDistance - 250;
+                        break;
+                    case carParam.includes('Volkswagen-Golf-2021.glb'):
+                        camera.position.z += cameraDistance - 550;
+                        break;
+                    default:
+                        camera.position.z += cameraDistance - 20;
+                        break;
                 }
             }
 
