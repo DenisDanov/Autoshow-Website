@@ -28,7 +28,9 @@ function saveCarParam(newCarParam) {
             .then(result => {
                 if (result === `Successfully added the car.`) {
                     // Save the updated array to the cookie
-                    document.cookie = `saved_car_params=${savedParams.join(',')}; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure`;
+                    document.cookie = `saved_car_params=${savedParams
+                        .filter(s => s !== null && s !== "")
+                        .join(',')}; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure`;
                 }
             })
             .catch(err => console.log(err))
