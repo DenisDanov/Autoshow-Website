@@ -2,6 +2,7 @@
 var authToken = getCookie("authToken");
 const urlParams = new URLSearchParams(window.location.search);
 const popup = urlParams.get('popup');
+var currentUrl = window.location.href;
 function setCookie(name, value, days) {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -30,10 +31,20 @@ function showPopup() {
     const popupContainer = document.getElementById('popup-container');
 
     // Check if the cookie exists and if it has been more than 3 days
-    if (!getCookiePopUpMsg('popupShown') || (new Date() - new Date(getCookie('popupShown'))) > (3 * 24 * 60 * 60 * 1000)) {
+    if (!getCookiePopUpMsg('popupShown') || (new Date() - new Date(getCookiePopUpMsg('popupShown'))) > (3 * 24 * 60 * 60 * 1000)) {
         setCookie('popupShown', new Date().toUTCString(), 3); // Set the cookie to remember the pop-up display time
-        if (popup !== null) {
-            popupContainer.style.display = 'block';
+        popupContainer.style.display = 'block';
+    } else {
+        if (authToken && popup !== null) {
+            urlParams.delete('popup');
+            const newUrl = currentUrl.split('?')[0] + '?' + urlParams.toString();
+            // Replace the current URL with the new one
+            window.history.replaceState({}, document.title, newUrl);
+        } else if (popup !== null) {
+            urlParams.delete('popup');
+            const newUrl = currentUrl.split('?')[0] + '?' + urlParams.toString();
+            // Replace the current URL with the new one
+            window.history.replaceState({}, document.title, newUrl);
         }
     }
 }
