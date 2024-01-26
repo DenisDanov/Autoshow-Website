@@ -34,7 +34,7 @@ body {
     }
 
     .slick-track .car-card {
-        min-width: 340px !important;
+        max-width: 400px !important;
     }
 }
 
