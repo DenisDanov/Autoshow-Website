@@ -42,35 +42,37 @@ if (authToken) {
 
                 document.getElementById("username").value = username;
                 document.getElementById("email").value = email;
-                for (const vehicle of favVehiclesArr) {
-                    const favVehiclesContainer = document.createElement(`li`);
-                    favVehiclesIds.push(vehicle.vehicleId);
-                    favVehiclesContainer.innerHTML = `
-            <div class="car-card">
-            <div class="img-container">
-                <img src="${vehicle.vehicleImg}" alt="Car 2">
+                if (favVehiclesArr !== null) {
+                    for (const vehicle of favVehiclesArr) {
+                        const favVehiclesContainer = document.createElement(`li`);
+                        favVehiclesIds.push(vehicle.vehicleId);
+                        favVehiclesContainer.innerHTML = `
+                <div class="car-card">
+                <div class="img-container">
+                    <img src="${vehicle.vehicleImg}" alt="Car 2">
+                </div>
+                <div class="car-info">
+                    <h3>${vehicle.vehicleName}</h3>
+                </div>
+                <div class="favorites">
+                    <h3>Remove from Favorites</h3>
+                    <label class="add-fav">
+                        <input type="checkbox" />
+                        <i class="icon-heart fas fa-heart">
+                            <i class="icon-plus-sign fa-solid fa-plus"></i>
+                        </i>
+                    </label>
+                </div>
+                <a href="${vehicle.vehicleId}" class="view-button">View in
+                    Showroom</a>
             </div>
-            <div class="car-info">
-                <h3>${vehicle.vehicleName}</h3>
-            </div>
-            <div class="favorites">
-                <h3>Remove from Favorites</h3>
-                <label class="add-fav">
-                    <input type="checkbox" />
-                    <i class="icon-heart fas fa-heart">
-                        <i class="icon-plus-sign fa-solid fa-plus"></i>
-                    </i>
-                </label>
-            </div>
-            <a href="${vehicle.vehicleId}" class="view-button">View in
-                Showroom</a>
-        </div>
-            `
-                    showroomAccess(vehicle.vehicleId);
-                    document.getElementById(`favorite-vehicles`).appendChild(favVehiclesContainer);
-                    favVehiclesContainer.children[0].children[2].children[1].children[0].checked = true;
-                    favVehiclesContainer.children[0].children[2].children[1].children[0].addEventListener(`change`, removeFavVehicle);
-                    document.getElementById(`remove-btn`).addEventListener(`click`, removeTheCar);
+                `
+                        showroomAccess(vehicle.vehicleId);
+                        document.getElementById(`favorite-vehicles`).appendChild(favVehiclesContainer);
+                        favVehiclesContainer.children[0].children[2].children[1].children[0].checked = true;
+                        favVehiclesContainer.children[0].children[2].children[1].children[0].addEventListener(`change`, removeFavVehicle);
+                        document.getElementById(`remove-btn`).addEventListener(`click`, removeTheCar);
+                    }
                 }
                 resolve();
             }).catch(error => {
@@ -144,7 +146,6 @@ if (authToken) {
                 container.querySelector(`#change-order`).addEventListener(`click`, (e) => {
                     modifyOrderFunc(e, carManufacturer, carOrder);
                 });
-                showroomAccess(container.querySelector(`.car-order-model .car-card .view-button`).href);
                 const imagePath = `images/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.png`;
                 const img = new Image();
                 img.src = imagePath;
@@ -268,7 +269,6 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                             const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                             const img = new Image();
                             img.src = imagePath;
-                            showroomAccess(modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model .car-card .view-button`).href);
                             orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
                                 carManufacturer, result);
                             modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
@@ -399,7 +399,6 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                         const img = new Image();
                         img.src = imagePath;
-                        showroomAccess(modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model .car-card .view-button`).href);
                         orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
                             carManufacturer, result);
                         modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
@@ -533,6 +532,7 @@ function addCarOrderToFavs(e) {
                     }
                 });
                 favVehiclesIds.splice(favVehiclesIds.indexOf(carId), 1);
+                removeCarFromCookie(carId);
             })
             .catch(err => console.log(err));
     }
@@ -544,6 +544,8 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
         container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
         container.children[0].children[1].children[0].children[1].textContent = `Completed`;
         container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
+        showroomAccess(container.children[0].querySelector(`.car-order-model`)
+        .children[1].querySelector(`a`).href);
         carOrdersIds.push(container.children[0].querySelector(`.car-order-model`)
             .children[1].querySelector(`a`).href);
         favVehiclesIds.forEach(vehicleId => {
@@ -772,7 +774,7 @@ function logOutUser() {
         entrie.addEventListener(`click`, () => {
             // Set expiry to a past date, and include path and domain
             document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
-            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
             document.cookie = "saved_car_params=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
 
             // Reload the page
@@ -783,7 +785,7 @@ function logOutUser() {
         entrie.addEventListener(`click`, () => {
             // Set expiry to a past date, and include path and domain
             document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
-            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
             document.cookie = "saved_car_params=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
 
             // Reload the page

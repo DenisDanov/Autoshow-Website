@@ -52,47 +52,64 @@ function orderCar(e) {
     var carModel = document.getElementById('car-model');
     var carYear = document.getElementById('car-year');
 
-    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/add`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            id: userId,
-            carManufacturer: carManufacturer.options[carManufacturer.selectedIndex].textContent,
-            carModel: carModel.value,
-            carYear: carYear.value
+    if (carManufacturer.options[carManufacturer.selectedIndex].textContent !== '' &&
+        carManufacturer.options[carManufacturer.selectedIndex].textContent !== "Loading" &&
+        carModel.textContent !== '' && carModel.textContent !== "Loading" &&
+        carYear.textContent !== '' && carYear.textContent !== 'Loading') {
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/add`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: userId,
+                carManufacturer: carManufacturer.options[carManufacturer.selectedIndex].textContent,
+                carModel: carModel.value,
+                carYear: carYear.value
+            })
         })
-    })
-        .then(response => response.text())
-        .then(result => {
-            console.log(result);
-            if (result === `Order sent successfully.`) {
-                const resultHtmlEle = document.getElementById(`response-result`);
-                resultHtmlEle.textContent = result;
-                resultHtmlEle.style.display = `block`;
-                resultHtmlEle.style.backgroundColor = `green`;
-                resultHtmlEle.style.color = `white`;
-                resultHtmlEle.style.border = `5px solid green`;
-                resultHtmlEle.style.borderRadius = `5px`;
-                setTimeout(function () {
-                    document.getElementById(`response-result`).style.display = `none`;
-                }, 2000);
-            } else {
-                const resultHtmlEle = document.getElementById(`response-result`);
-                resultHtmlEle.textContent = result;
-                resultHtmlEle.style.display = `block`;
-                resultHtmlEle.style.backgroundColor = `red`;
-                resultHtmlEle.style.color = `white`;
-                resultHtmlEle.style.border = `5px solid red`;
-                resultHtmlEle.style.borderRadius = `5px`;
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+                if (result === `Order sent successfully.`) {
+                    const resultHtmlEle = document.getElementById(`response-result`);
+                    resultHtmlEle.textContent = result;
+                    resultHtmlEle.style.display = `block`;
+                    resultHtmlEle.style.backgroundColor = `green`;
+                    resultHtmlEle.style.color = `white`;
+                    resultHtmlEle.style.border = `5px solid green`;
+                    resultHtmlEle.style.borderRadius = `5px`;
+                    setTimeout(function () {
+                        document.getElementById(`response-result`).style.display = `none`;
+                    }, 2000);
+                } else {
+                    const resultHtmlEle = document.getElementById(`response-result`);
+                    resultHtmlEle.textContent = result;
+                    resultHtmlEle.style.display = `block`;
+                    resultHtmlEle.style.backgroundColor = `red`;
+                    resultHtmlEle.style.color = `white`;
+                    resultHtmlEle.style.border = `5px solid red`;
+                    resultHtmlEle.style.borderRadius = `5px`;
 
-                setTimeout(function () {
-                    document.getElementById(`response-result`).style.display = `none`;
-                }, 2000);
-            }
-        })
-        .catch(err => console.log(err));
+                    setTimeout(function () {
+                        document.getElementById(`response-result`).style.display = `none`;
+                    }, 2000);
+                }
+            })
+            .catch(err => console.log(err));
+    } else {
+        const resultHtmlEle = document.getElementById(`response-result`);
+        resultHtmlEle.textContent = "Please wait for the car queries to load.";
+        resultHtmlEle.style.display = `block`;
+        resultHtmlEle.style.backgroundColor = `red`;
+        resultHtmlEle.style.color = `white`;
+        resultHtmlEle.style.border = `5px solid red`;
+        resultHtmlEle.style.borderRadius = `5px`;
+
+        setTimeout(function () {
+            document.getElementById(`response-result`).style.display = `none`;
+        }, 2000);
+    }
 }
 
 document.querySelector(`.fa-window-close`).addEventListener(`click`, () => {

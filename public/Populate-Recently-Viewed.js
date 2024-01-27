@@ -1,7 +1,7 @@
 function getCarParamsFromCookie() {
     const savedParamsCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('saved_car_params='));
     if (savedParamsCookie) {
-        const paramsString = savedParamsCookie.split('=')[1];
+        const paramsString = savedParamsCookie.split('=')[1].replace(/\+/g, ' ');
         return paramsString ? paramsString.split(',') : [];
     }
     return [];
@@ -74,8 +74,10 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                     .then(response => response.json())
                     .then(result => {
                         const favVehiclesArr = result.favVehicles
-                        for (const vehicle of favVehiclesArr) {
-                            favVehiclesIdsHome.push(vehicle.vehicleId);
+                        if (favVehiclesArr !== null) {
+                            for (const vehicle of favVehiclesArr) {
+                                favVehiclesIdsHome.push(vehicle.vehicleId);
+                            }
                         }
 
                         const container = document.querySelector(`.recently-viewed-cars`);

@@ -8,14 +8,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/profile")
 public class ProfileDataController {
 
-    @Autowired
     private UserRepository userRepository;
+
+    private FavoriteVehiclesRepository favoriteVehiclesRepository;
+
+    @Autowired
+    public ProfileDataController(UserRepository userRepository,
+                                 FavoriteVehiclesRepository favoriteVehiclesRepository) {
+        this.userRepository = userRepository;
+        this.favoriteVehiclesRepository = favoriteVehiclesRepository;
+    }
 
     @PostMapping("/get")
     public ResponseEntity<ProfileResponse> getProfileData (@RequestBody ProfileRequest request) {
@@ -25,10 +35,18 @@ public class ProfileDataController {
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+            List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
+                    .findByUser_Id(userId)
+                    .stream()
+                    .map(favoriteVehicle -> new FavoriteResponse(
+                            favoriteVehicle.getVehicleId(),
+                            favoriteVehicle.getVehicleImg(),
+                            favoriteVehicle.getVehicleName()))
+                    .collect(Collectors.toList());
             return ResponseEntity.ok(new ProfileResponse(user.getUsername(),
                     user.getEmail(),
                     user.getPassword(),
-                    null));
+                    getAllVehicles));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

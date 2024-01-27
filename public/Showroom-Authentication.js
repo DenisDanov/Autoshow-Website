@@ -11,7 +11,7 @@ function getCookieShowroom(name) {
 }
 
 const autoshowCars = ['Lamborghini-Urus-2020.glb', 'BMW-X5.glb', 'Lamborghini-Aventador-2020.glb',
-    'Lamborghini-Gallardo-2007.glb', 'Mclaren-P1-2020.glb', 'Porsche-Boxster-2016.glb',
+    'Lamborghini-Gallardo-2007.glb', 'Mclaren-P1-2015.glb', 'Porsche-Boxster-2016.glb',
     'Porsche-Carrera-2015.glb', `Toyota-Gr-Supra-2020.glb`, `Tesla-Model-3-2020.glb`];
 const cookie = getCookieShowroom('showroomToken');
 

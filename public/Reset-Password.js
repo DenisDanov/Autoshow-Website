@@ -16,6 +16,8 @@ function resetPassword() {
             .then(result => {
                 if (result === `Password reset successful!`) {
                     document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
+                    document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
+                    document.cookie = "saved_car_params=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
                     document.getElementById(`result-msg`).textContent = result + " Redirecting you to the log in page...";
                     document.getElementById(`result-msg`).style.display = `block`;
                     document.getElementById(`result-msg`).style.backgroundColor = `green`;
