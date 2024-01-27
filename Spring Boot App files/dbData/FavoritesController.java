@@ -11,13 +11,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/favorites")
 public class FavoritesController {
 
+    private final UserRepository userRepository;
+
+    private final FavoriteVehiclesRepository favoriteVehiclesRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public FavoritesController(UserRepository userRepository,
+                               FavoriteVehiclesRepository favoriteVehiclesRepository) {
+        this.userRepository = userRepository;
+        this.favoriteVehiclesRepository = favoriteVehiclesRepository;
+    }
 
     @PostMapping("/add")
     public ResponseEntity<String> addToFavorites(@RequestBody FavoriteRequest request) {
@@ -31,16 +40,21 @@ public class FavoritesController {
             FavoriteResponse vehicleData = new FavoriteResponse(request.getVehicleId(),
                     request.getVehicleImg(),
                     request.getVehicleName());
-            if (user.getFavoriteVehicles() != null && !user.getFavoriteVehicles().contains(vehicleData)) {
-                user.getFavoriteVehicles().add(vehicleData);
+
+            List<FavoriteVehiclesEntity> matchingEntities = favoriteVehiclesRepository.findByUser_Id(userId).stream()
+                    .filter(favoriteVehiclesEntity ->
+                            favoriteVehiclesEntity.getVehicleId().equals(request.getVehicleId()) &&
+                                    favoriteVehiclesEntity.getVehicleImg().equals(request.getVehicleImg()) &&
+                                    favoriteVehiclesEntity.getVehicleName().equals(request.getVehicleName()))
+                    .collect(Collectors.toList());
+
+            if (matchingEntities.isEmpty()) {
+                favoriteVehiclesRepository.save(new FavoriteVehiclesEntity(request.getVehicleId(),
+                        request.getVehicleImg(), request.getVehicleName(), user));
+                return ResponseEntity.ok("Vehicle added to favorites successfully.");
             } else {
-                user.setFavoriteVehicles(new ArrayList<>());
+                return ResponseEntity.ok("Vehicle already exists.");
             }
-
-            // Save the updated user
-            userRepository.save(user);
-
-            return ResponseEntity.ok("Vehicle added to favorites successfully.");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
@@ -51,16 +65,13 @@ public class FavoritesController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userRepository.findById(userId);
-
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             // Remove the vehicle ID from the user's favorites
-            List<FavoriteResponse> favoriteVehicles = user.getFavoriteVehicles();
+            List<FavoriteVehiclesEntity> favoriteVehicles = favoriteVehiclesRepository.findByUser_Id(userId);
 
             // Modify the removal logic to check the vehicleId using equals
-            if (user.getFavoriteVehicles().
-                    removeIf(vehicle -> vehicle.getVehicleId().equals(request.getVehicleId()))) {
-                userRepository.save(user);
+            if (favoriteVehiclesRepository.deleteByVehicleIdAndUserId(request.getVehicleId(), userId) > 0) {
                 return ResponseEntity.ok("Vehicle removed from favorites successfully.");
             } else {
                 return ResponseEntity.ok("Vehicle is not present in the list.");
@@ -73,14 +84,23 @@ public class FavoritesController {
     @PostMapping("/get")
     public ResponseEntity<List<FavoriteResponse>> getFavVehicles(@RequestBody FavoriteRequest request) {
         Long userId = Long.parseLong(request.getUserId());
+
         Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isPresent()) {
-            List<FavoriteResponse> getAllVehicles = new ArrayList<>();
-            getAllVehicles.addAll(userOptional.get().getFavoriteVehicles());
+            List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
+                    .findByUser_Id(userId)
+                    .stream()
+                    .map(favoriteVehicle -> new FavoriteResponse(
+                            favoriteVehicle.getVehicleId(),
+                            favoriteVehicle.getVehicleImg(),
+                            favoriteVehicle.getVehicleName()))
+                    .collect(Collectors.toList());
+
             return ResponseEntity.ok(getAllVehicles);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
 }

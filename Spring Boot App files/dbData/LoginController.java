@@ -75,7 +75,7 @@ public class LoginController {
                 recentlyViewedToken.setExpireDate();
                 recentlyViewedRepository.save(recentlyViewedToken);
 
-                Cookie cookieRecentlyViewed = new Cookie("saved_car_params", recentlyViewedToken.getRecentlyViewedCars());
+                Cookie cookieRecentlyViewed = new Cookie("saved_car_params", "");
 
                 // Set the cookie's expiration date based on the token's expireDate
                 LocalDateTime expireDateTime = recentlyViewedToken.getExpireDate();
@@ -88,8 +88,11 @@ public class LoginController {
                 response.addCookie(cookieRecentlyViewed);
             } else {
                 RecentlyViewedToken tokenFromDb = recentlyViewedRepository.findByUser(userFromDB).get();
-                String encodedCookieValue = URLEncoder.encode( tokenFromDb.getRecentlyViewedCars(), StandardCharsets.UTF_8.toString());
-                Cookie cookieRecentlyViewed = new Cookie("saved_car_params", encodedCookieValue);
+                String modelPaths = tokenFromDb.getRecentlyViewedCars();
+
+                // Use URLEncoder to encode the entire string
+                String encodedModelPaths = URLEncoder.encode(modelPaths, StandardCharsets.UTF_8);
+                Cookie cookieRecentlyViewed = new Cookie("saved_car_params", encodedModelPaths);
 
                 // Set the cookie's expiration date based on the token's expireDate
                 LocalDateTime expireDateTime = tokenFromDb.getExpireDate();

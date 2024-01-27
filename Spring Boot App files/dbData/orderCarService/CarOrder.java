@@ -1,5 +1,6 @@
 package com.example.demo.dbData.orderCarService;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class CarOrder {
@@ -8,7 +9,7 @@ public class CarOrder {
     private String carModel;
     private String carYear;
     private String orderStatus;
-    private String dateOfOrder;
+    private Date dateOfOrder;
 
     public CarOrder() {
     }
@@ -18,14 +19,22 @@ public class CarOrder {
         this.carModel = carModel;
         this.carYear = carYear;
         this.orderStatus = "Pending";
-        this.dateOfOrder = String.valueOf(LocalDate.now());
+        this.dateOfOrder = Date.valueOf(String.valueOf(LocalDate.now()));
     }
 
-    public void setDateOfOrder(String dateOfOrder) {
+    public CarOrder(String carManufacturer, String carModel, String carYear,String orderStatus,Date dateOfOrder) {
+        this.carManufacturer = carManufacturer;
+        this.carModel = carModel;
+        this.carYear = carYear;
+        this.orderStatus = orderStatus;
         this.dateOfOrder = dateOfOrder;
     }
 
-    public String getDateOfOrder() {
+    public void setDateOfOrder(String dateOfOrder) {
+        this.dateOfOrder = Date.valueOf(dateOfOrder);
+    }
+
+    public Date getDateOfOrder() {
         return dateOfOrder;
     }
 
