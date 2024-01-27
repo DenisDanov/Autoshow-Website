@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
-@Table(name = "recently_viewed_token")
+@Table(name = "recently_viewed_tokens")
 public class RecentlyViewedToken {
 
     private String expireDate;

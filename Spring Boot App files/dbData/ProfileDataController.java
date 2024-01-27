@@ -28,7 +28,7 @@ public class ProfileDataController {
             return ResponseEntity.ok(new ProfileResponse(user.getUsername(),
                     user.getEmail(),
                     user.getPassword(),
-                    user.getFavoriteVehicles()));
+                    null));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

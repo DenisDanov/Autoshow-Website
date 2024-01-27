@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,8 +16,15 @@ import java.util.Optional;
 @RequestMapping("/api/carOrders")
 public class CarOrderController {
 
+    private final UserRepository userRepository;
+
+    private final CarOrdersRepository carOrdersRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public CarOrderController(UserRepository userRepository, CarOrdersRepository carOrdersRepository) {
+        this.userRepository = userRepository;
+        this.carOrdersRepository = carOrdersRepository;
+    }
 
     @PostMapping("/add")
     public ResponseEntity<String> addOrder(@RequestBody CarOrderRequest request) {
@@ -32,21 +39,24 @@ public class CarOrderController {
                     request.getCarModel(),
                     request.getCarYear());
 
-            if (user.getCarOrders() != null) {
-                if (user.getCarOrders().stream().noneMatch(carOrder1 ->
+            List<CarOrdersEntity> carOrders = carOrdersRepository.findByUser_Id(userId);
+            if (!carOrders.isEmpty()) {
+                if (carOrders.stream().noneMatch(carOrder1 ->
                         carOrder1.getCarManufacturer().equals(carOrder.getCarManufacturer()) &&
                                 carOrder1.getCarModel().equals(carOrder.getCarModel()) &&
-                                carOrder1.getCarYear().equals(carOrder.getCarYear()))) {
-                    user.getCarOrders().add(carOrder);
+                                carOrder1.getCarYear() == (Integer.parseInt(carOrder.getCarYear())))) {
+                    carOrdersRepository.save(new CarOrdersEntity(user, carOrder.getCarManufacturer(),
+                            carOrder.getCarModel(), Integer.parseInt(carOrder.getCarYear()), carOrder.getOrderStatus(),
+                            carOrder.getDateOfOrder()));
                     userRepository.save(user);
                     return ResponseEntity.ok("Order sent successfully.");
                 } else {
                     return ResponseEntity.ok("Car order already exists.");
                 }
             } else {
-                user.setCarOrders(new ArrayList<>());
-                user.getCarOrders().add(carOrder);
-                userRepository.save(user);
+                carOrdersRepository.save(new CarOrdersEntity(user, carOrder.getCarManufacturer(),
+                        carOrder.getCarModel(), Integer.parseInt(carOrder.getCarYear()), carOrder.getOrderStatus(),
+                        carOrder.getDateOfOrder()));
                 return ResponseEntity.ok("Order sent successfully.");
             }
         } else {
@@ -60,8 +70,17 @@ public class CarOrderController {
         Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return ResponseEntity.ok(user.getCarOrders());
+            List<CarOrder> getAllOrders = carOrdersRepository
+                    .findByUser_Id(userId)
+                    .stream()
+                    .map(carOrder -> new CarOrder(
+                            carOrder.getCarManufacturer(),
+                            carOrder.getCarModel(),
+                            String.valueOf(carOrder.getCarYear()),
+                            carOrder.getOrderStatus(),
+                            (Date) carOrder.getDateOfOrder()))
+                    .toList();
+            return ResponseEntity.ok(getAllOrders);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -74,11 +93,10 @@ public class CarOrderController {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (user.getCarOrders().removeIf(carOrder ->
-                    carOrder.getCarManufacturer().equals(request.getCarManufacturer()) &&
-                            carOrder.getCarModel().equals(request.getCarModel()) &&
-                            carOrder.getCarYear().equals(request.getCarYear()))) {
-                userRepository.save(user);
+            if (carOrdersRepository.deleteCarOrder(request.getCarManufacturer(),
+                    userId,
+                    request.getCarModel(),
+                    request.getCarYear()) > 0) {
                 return ResponseEntity.ok("Car order successfully removed.");
             } else {
                 return ResponseEntity.ok("Car order doesn't exist.");
@@ -94,57 +112,63 @@ public class CarOrderController {
         Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            for (CarOrder carOrder : user.getCarOrders()) {
-                if (carOrder.getCarManufacturer().equals(request.getCurrentManufacturer()) &&
-                        carOrder.getCarModel().equals(request.getCurrentModel()) &&
-                        carOrder.getCarYear().equals(request.getCurrentYear())) {
+            if (carOrdersRepository.findByUser_IdAndCarManufacturerAndCarModelAndCarYear(userId,
+                    request.getCurrentManufacturer(),
+                    request.getCurrentModel(),
+                    Integer.parseInt(request.getCurrentYear())).isPresent()) {
 
-                    if (carOrder.getCarManufacturer().equals(request.getNewManufacturer()) &&
-                            carOrder.getCarModel().equals(request.getNewModel()) &&
-                            carOrder.getCarYear().equals(request.getNewYear())) {
-                        carOrder.setDateOfOrder(String.valueOf(LocalDate.now()));
-                        userRepository.save(user);
-                        return ResponseEntity.ok(new ModifyCarOrderResponse("Same order is made and the period is extended.",
+                CarOrdersEntity carOrder = carOrdersRepository.findByUser_IdAndCarManufacturerAndCarModelAndCarYear(userId,
+                        request.getCurrentManufacturer(),
+                        request.getCurrentModel(),
+                        Integer.parseInt(request.getCurrentYear())).get();
+
+                if (carOrder.getCarManufacturer().equals(request.getNewManufacturer()) &&
+                        carOrder.getCarModel().equals(request.getNewModel()) &&
+                        carOrder.getCarYear() == Integer.parseInt(request.getNewYear())) {
+                    carOrder.setDateOfOrder(Date.valueOf(String.valueOf(LocalDate.now())));
+                    carOrdersRepository.save(carOrder);
+                    return ResponseEntity.ok(new ModifyCarOrderResponse("Same order is made and the period is extended.",
+                            carOrder.getCarManufacturer(),
+                            carOrder.getCarModel(),
+                            String.valueOf(carOrder.getCarYear()),
+                            String.valueOf(carOrder.getDateOfOrder()),
+                            carOrder.getOrderStatus()));
+                } else {
+                    List<CarOrdersEntity> carOrders = carOrdersRepository.findByUser_Id(userId);
+                    if (carOrders.stream().noneMatch(carOrder1 ->
+                            carOrder1.getCarManufacturer().equals(request.getNewManufacturer()) &&
+                                    carOrder1.getCarModel().equals(request.getNewModel()) &&
+                                    carOrder1.getCarYear() == Integer.parseInt(request.getNewYear()))) {
+
+                        carOrder.setCarModel(request.getNewModel());
+                        carOrder.setCarManufacturer(request.getNewManufacturer());
+                        carOrder.setCarYear(Integer.parseInt(request.getNewYear()));
+                        carOrder.setDateOfOrder(Date.valueOf(String.valueOf(LocalDate.now())));
+                        carOrdersRepository.save(carOrder);
+
+                        return ResponseEntity.ok(new ModifyCarOrderResponse("New order is made and the period is extended.",
                                 carOrder.getCarManufacturer(),
                                 carOrder.getCarModel(),
-                                carOrder.getCarYear(),
-                                carOrder.getDateOfOrder(),
+                                String.valueOf(carOrder.getCarYear()),
+                                String.valueOf(carOrder.getDateOfOrder()),
                                 carOrder.getOrderStatus()));
                     } else {
-                        if (user.getCarOrders().stream().noneMatch(carOrder1 ->
-                                carOrder1.getCarManufacturer().equals(request.getNewManufacturer()) &&
-                                        carOrder1.getCarModel().equals(request.getNewModel()) &&
-                                        carOrder1.getCarYear().equals(request.getNewYear()))) {
-                            carOrder.setCarModel(request.getNewModel());
-                            carOrder.setCarManufacturer(request.getNewManufacturer());
-                            carOrder.setCarYear(request.getNewYear());
-                            carOrder.setDateOfOrder(String.valueOf(LocalDate.now()));
-                            userRepository.save(user);
-
-                            return ResponseEntity.ok(new ModifyCarOrderResponse("New order is made and the period is extended.",
-                                    carOrder.getCarManufacturer(),
-                                    carOrder.getCarModel(),
-                                    carOrder.getCarYear(),
-                                    carOrder.getDateOfOrder(),
-                                    carOrder.getOrderStatus()));
-                        } else {
-                            return ResponseEntity.ok(new ModifyCarOrderResponse("An order matching your request already exists.",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    ""));
-                        }
+                        return ResponseEntity.ok(new ModifyCarOrderResponse("An order matching your request already exists.",
+                                "",
+                                "",
+                                "",
+                                "",
+                                ""));
                     }
                 }
+            } else {
+                return ResponseEntity.ok(new ModifyCarOrderResponse("Order is not found.",
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""));
             }
-            return ResponseEntity.ok(new ModifyCarOrderResponse("Order is not found.",
-                    "",
-                    "",
-                    "",
-                    "",
-                    ""));
         } else {
             return ResponseEntity.ok(new ModifyCarOrderResponse("User is not found.",
                     "",
