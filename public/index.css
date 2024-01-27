@@ -14,12 +14,13 @@ body {
 }
 
 .slick-prev {
-    font-size: 30px !important;
-    left: 8px !important;
+    left: 55px !important;
+    z-index: 1;
 }
 
 .slick-next {
-    right: 8px !important;
+    right: 55px !important;
+    z-index: 1;
 }
 
 @media (min-width: 601px) {
@@ -31,10 +32,6 @@ body {
 
     .slick-track {
         min-width: 380px !important;
-    }
-
-    .slick-track .car-card {
-        max-width: 400px !important;
     }
 }
 

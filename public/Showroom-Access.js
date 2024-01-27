@@ -27,7 +27,7 @@ function showroomAccess(href) {
         const newToken = existingToken ? `${existingToken},${carParam}` : carParam;
 
         // Set the updated cookie with the authentication token
-        document.cookie = 'showroomToken=' + newToken + '; expires=' + new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString() + '; path=/;';
+        document.cookie = 'showroomToken=' + newToken + '; expires=' + new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString() + '; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure';
     }
 }
 
@@ -48,7 +48,7 @@ function removeCarFromCookie(carUrl) {
         const updatedToken = carParams.filter(param => param !== carParamToRemove).join(',');
 
         // Update the cookie with the modified value
-        document.cookie = 'showroomToken=' + updatedToken + '; expires=' + new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString() + '; path=/;';
+        document.cookie = 'showroomToken=' + updatedToken + '; expires=' + new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString() + '; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure';
     }
 }
 

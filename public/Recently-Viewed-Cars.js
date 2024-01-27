@@ -8,7 +8,8 @@ function getCarParam() {
 function getSavedCarParams() {
     const savedParamsCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('saved_car_params='));
     if (savedParamsCookie) {
-        return savedParamsCookie.split('=')[1].split(',');
+        const paramsString = savedParamsCookie.split('=')[1].replace(/\+/g, ' ');
+        return paramsString.split(',');
     }
     return [];
 }

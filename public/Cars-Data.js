@@ -17,7 +17,7 @@ if (carParam.includes(`Urus`)) {
     vin = `WP0AD2A97FS166983`;
 } else if (carParam.includes(`BMW-X5.glb`)) {
     vin = `5YMJU0C06N9J16964`;
-} else if (carParam.includes(`Mclaren-P1-2020.glb`)) {
+} else if (carParam.includes(`Mclaren-P1-2015.glb`)) {
     vin = `SBM12ABA4FW000283`;
 } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
     vin = `5YJ3E1EC2PF577924`;

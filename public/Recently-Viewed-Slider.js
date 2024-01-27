@@ -3,6 +3,10 @@ recentlyViewedLoaded.then(response => {
     let recentlyViewedCarsCount = document.querySelector(`.recently-viewed-cars`).children.length;
     if (recentlyViewedCarsCount > 3) {
         recentlyViewedCarsCount = 3;
+    } else {
+        document.querySelectorAll(`.slider-container .car-card`).forEach(entrie => {
+            entrie.style.maxWidth = "400px !important";
+        });
     }
     if (screenWidth <= 600) {
         recentlyViewedCarsCount = 1;

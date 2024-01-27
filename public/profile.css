@@ -362,11 +362,13 @@ input[type="password"]::-webkit-reveal {
 
 .slick-prev {
     font-size: 30px !important;
-    left: 8px !important;
+    left: 55px !important;
+    z-index: 1;
 }
 
 .slick-next {
-    right: 8px !important;
+    right: 55px !important;
+    z-index: 1;
 }
 
 @media (min-width: 601px) {
@@ -380,7 +382,4 @@ input[type="password"]::-webkit-reveal {
         min-width: 380px !important;
     }
 
-    .slick-track .car-card {
-        min-width: 340px !important;
-    }
 }

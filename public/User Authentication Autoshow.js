@@ -4,7 +4,7 @@ function logOutUser() {
         entrie.addEventListener(`click`, () => {
             // Set expiry to a past date, and include path and domain
             document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
-            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
             document.cookie = "saved_car_params=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
             // Reload the page
             location.reload();
@@ -14,7 +14,7 @@ function logOutUser() {
         entrie.addEventListener(`click`, () => {
             // Set expiry to a past date, and include path and domain
             document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
-            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = "showroomToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
             document.cookie = "saved_car_params=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure";
             // Reload the page
             location.reload();
