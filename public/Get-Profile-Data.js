@@ -3,6 +3,7 @@ const favVehiclesIds = [];
 const carOrdersIds = [];
 var carOrderBtnEvent = false;
 let funcReference;
+
 if (authToken) {
     // User is logged in
     document.querySelectorAll(`#log-in-icon`).forEach(entrie => {
@@ -21,6 +22,7 @@ if (authToken) {
         entrie.style.display = `inline`;
     });
     logOutUser();
+
     var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
     var userId = decodedToken.userId;
 
@@ -31,7 +33,8 @@ if (authToken) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                userId: userId
+                userId: userId,
+                authToken: authToken
             })
         })
             .then(response => response.json())
@@ -40,8 +43,11 @@ if (authToken) {
                 const email = result.email;
                 const favVehiclesArr = result.favVehicles
 
+                unchangedUsername = username
+                unchangedEmail = email
                 document.getElementById("username").value = username;
                 document.getElementById("email").value = email;
+
                 if (favVehiclesArr !== null) {
                     for (const vehicle of favVehiclesArr) {
                         const favVehiclesContainer = document.createElement(`li`);
@@ -190,7 +196,8 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         currentYear: carYear,
                         newManufacturer: newManufacturer,
                         newModel: newModel,
-                        newYear: newYear
+                        newYear: newYear,
+                        authToken: authToken
                     })
                 })
                     .then(response => response.json())
@@ -319,7 +326,8 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     currentYear: carYear,
                     newManufacturer: newManufacturer,
                     newModel: newModel,
-                    newYear: newYear
+                    newYear: newYear,
+                    authToken: authToken
                 })
             })
                 .then(response => response.json())
@@ -490,7 +498,8 @@ function addCarOrderToFavs(e) {
                 userId: userId,
                 vehicleId: carId,
                 vehicleImg: carImg,
-                vehicleName: carName
+                vehicleName: carName,
+                authToken: authToken
             })
         })
             .then(response => console.log(response))
@@ -512,7 +521,8 @@ function addCarOrderToFavs(e) {
             },
             body: JSON.stringify({
                 userId: userId,
-                vehicleId: carId
+                vehicleId: carId,
+                authToken: authToken
             })
         })
             .then(response => {
@@ -545,7 +555,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
         container.children[0].children[1].children[0].children[1].textContent = `Completed`;
         container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
         showroomAccess(container.children[0].querySelector(`.car-order-model`)
-        .children[1].querySelector(`a`).href);
+            .children[1].querySelector(`a`).href);
         carOrdersIds.push(container.children[0].querySelector(`.car-order-model`)
             .children[1].querySelector(`a`).href);
         favVehiclesIds.forEach(vehicleId => {
@@ -690,7 +700,8 @@ function removeCarOrder(e) {
             id: userId,
             carManufacturer: carManufacturer,
             carModel: carModel,
-            carYear: carYear
+            carYear: carYear,
+            authToken: authToken
         })
     })
         .then(response => response.text)
@@ -727,7 +738,8 @@ function removeTheCar(e) {
         },
         body: JSON.stringify({
             userId: userId,
-            vehicleId: carId
+            vehicleId: carId,
+            authToken: authToken
         })
     })
         .then(response => {

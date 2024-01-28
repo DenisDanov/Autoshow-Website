@@ -15,11 +15,20 @@ const autoshowCars = ['Lamborghini-Urus-2020.glb', 'BMW-X5.glb', 'Lamborghini-Av
     'Porsche-Carrera-2015.glb', `Toyota-Gr-Supra-2020.glb`, `Tesla-Model-3-2020.glb`];
 const cookie = getCookieShowroom('showroomToken');
 
-if (!checkIfCookieMatchesCar() && !autoshowCars.includes(carParam.split("3D Models/")[1])) {
+const indexCarParam = window.location.href.indexOf(`?`);
+const pageUrl = window.location.href.substring(0, indexCarParam);
+
+if (!checkIfCookieMatchesCar() && !autoshowCars.includes(carParam.split("3D Models/")[1]) &&
+    pageUrl.includes(`showroom.html`)) {
     document.getElementById(`loader`).style.display = `none`;
     document.getElementById(`model-container`).style.display = `none`;
     document.querySelector(`.view-buttons`).style.display = `none`;
     document.querySelector(`#info-page`).style.display = `none`;
+    document.getElementById(`unsubscribe-confirmation-2`).style.display = `block`;
+} else if (!checkIfCookieMatchesCar() && !autoshowCars.includes(carParam.split("3D Models/")[1]) &&
+    !pageUrl.includes(`showroom.html`)) {
+    document.getElementById(`loader`).style.display = `none`;
+    document.getElementById(`cars-data-wrapper`).style.display = `none`;
     document.getElementById(`unsubscribe-confirmation-2`).style.display = `block`;
 }
 

@@ -161,3 +161,7 @@ body {
 #popup-changeUsername button:hover {
     background-color: #535353;
 }
+
+.car-card[max-width="true"] {
+    max-width: 400px !important;
+}

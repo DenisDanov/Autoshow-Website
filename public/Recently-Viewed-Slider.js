@@ -4,9 +4,9 @@ recentlyViewedLoaded.then(response => {
     if (recentlyViewedCarsCount > 3) {
         recentlyViewedCarsCount = 3;
     } else {
-        document.querySelectorAll(`.slider-container .car-card`).forEach(entrie => {
-            entrie.style.maxWidth = "400px !important";
-        });
+        document.querySelectorAll('.slider-container .recently-viewed-cars .car-card').forEach(entrie => {
+            entrie.setAttribute(`max-width`,`true`);
+        });        
     }
     if (screenWidth <= 600) {
         recentlyViewedCarsCount = 1;
