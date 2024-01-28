@@ -38,7 +38,8 @@ function checkLoginStatus() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                userId: userId
+                userId: userId,
+                authToken: authToken
             })
         })
             .then(response => response.json())
@@ -75,7 +76,8 @@ function checkLoginStatus() {
                             userId: userId,
                             vehicleId: carId,
                             vehicleImg: carImg,
-                            vehicleName: carName
+                            vehicleName: carName,
+                            authToken: authToken
                         })
                     })
                         .then(response => console.log(response))
@@ -92,7 +94,8 @@ function checkLoginStatus() {
                         },
                         body: JSON.stringify({
                             userId: userId,
-                            vehicleId: carId
+                            vehicleId: carId,
+                            authToken: authToken
                         })
                     })
                         .then(response => console.log(response))

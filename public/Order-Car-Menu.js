@@ -65,7 +65,8 @@ function orderCar(e) {
                 id: userId,
                 carManufacturer: carManufacturer.options[carManufacturer.selectedIndex].textContent,
                 carModel: carModel.value,
-                carYear: carYear.value
+                carYear: carYear.value,
+                authToken: authToken
             })
         })
             .then(response => response.text())

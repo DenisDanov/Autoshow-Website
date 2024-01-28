@@ -46,7 +46,8 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
             body: JSON.stringify({
                 id: userId,
                 currentPassword: document.getElementById(`password`).value,
-                newPassword: document.querySelector(`#new-password`).value
+                newPassword: document.querySelector(`#new-password`).value,
+                authToken: authToken
             })
         })
             .then(response => response.json())

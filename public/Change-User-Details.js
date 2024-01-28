@@ -1,11 +1,7 @@
-let unchangedUsername;
-let unchangedEmail;
+var unchangedUsername;
+var unchangedEmail;
 
-setTimeout(function () {
-    unchangedUsername = document.getElementById(`username`).value;
-    unchangedEmail = document.getElementById(`email`).value;
-    document.getElementById(`forgotten-password`).addEventListener(`click`, requestResetPass);
-}, 1000);
+document.getElementById(`forgotten-password`).addEventListener(`click`, requestResetPass);
 
 var authToken = getCookie("authToken");
 var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
@@ -56,7 +52,8 @@ function requestChangeUsername(e) {
         body: JSON.stringify({
             userId: userId,
             username: document.getElementById(`username`).value,
-            password: document.querySelector(`#password-overlay`).value
+            password: document.querySelector(`#password-overlay`).value,
+            authToken: authToken
         })
     })
         .then(response => response.json())
@@ -116,7 +113,8 @@ function changeEmail(e) {
         },
         body: JSON.stringify({
             id: userId,
-            email: document.getElementById(`email`).value
+            email: document.getElementById(`email`).value,
+            authToken: authToken
         })
     })
         .then(response => response.json())
