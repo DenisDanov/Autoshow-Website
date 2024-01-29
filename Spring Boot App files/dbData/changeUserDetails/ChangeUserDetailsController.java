@@ -1,5 +1,6 @@
 package com.example.demo.dbData.changeUserDetails;
 
+import com.example.demo.dbData.AuthenticationTokensRepository;
 import com.example.demo.dbData.User;
 import com.example.demo.dbData.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class ChangeUserDetailsController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AuthenticationTokensRepository authenticationTokensRepository;
+
     @PostMapping("/changeUsername")
     public ResponseEntity<UsernameResponse> changeUsername(@RequestBody UsernameChangeRequest request) {
         try {
@@ -30,7 +34,8 @@ public class ChangeUserDetailsController {
             Long userId = Long.parseLong(request.getUserId());
             Optional<User> userOptional = userRepository.findById(userId);
 
-            if (userOptional.isPresent()) {
+            if (userOptional.isPresent() &&
+                    authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
                 User user = userOptional.get();
                 if (user.getPassword().equals(request.getPassword())) {
                     if (userRepository.findByUsername(request.getUsername()) == null) {
@@ -65,7 +70,8 @@ public class ChangeUserDetailsController {
             Long userId = Long.parseLong(request.getId());
             Optional<User> userOptional = userRepository.findById(userId);
 
-            if (userOptional.isPresent()) {
+            if (userOptional.isPresent() &&
+                    authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
                 if (request.getEmail().matches(emailRegex)) {
                     User user = userOptional.get();
                     if (userRepository.findByEmail(request.getEmail()) == null) {
@@ -100,7 +106,8 @@ public class ChangeUserDetailsController {
             Long userId = Long.parseLong(request.getId());
             Optional<User> userOptional = userRepository.findById(userId);
 
-            if (userOptional.isPresent()) {
+            if (userOptional.isPresent() &&
+                    authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
                 User user = userOptional.get();
                 if (user.getPassword().equals(request.getCurrentPassword())) {
                     if (request.getNewPassword().length() >= 8) {

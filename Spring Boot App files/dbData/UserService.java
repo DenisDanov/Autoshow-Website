@@ -25,20 +25,4 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void loadDataFromJson(UserRepository userRepository) {
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            Resource resource = new ClassPathResource("BOOT-INF/classes/website-databaseCSV.json");
-            InputStream inputStream = resource.getInputStream();
-
-            List<User> users = mapper.readValue(inputStream, new TypeReference<List<User>>() {});
-
-            // Save users to the repository
-            userRepository.saveAll(users);
-            System.out.println("Data loaded successfully!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

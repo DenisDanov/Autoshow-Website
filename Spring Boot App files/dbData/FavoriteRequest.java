@@ -5,6 +5,7 @@ public class FavoriteRequest {
     private String vehicleId;
     private String vehicleImg;
     private String vehicleName;
+    private String authToken;
 
     public String getUserId() {
         return userId;
@@ -36,5 +37,9 @@ public class FavoriteRequest {
 
     public void setVehicleName(String vehicleName) {
         this.vehicleName = vehicleName;
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 }

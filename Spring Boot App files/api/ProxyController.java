@@ -66,16 +66,4 @@ public class ProxyController {
                 .body(responseEntity.getBody());
     }
 
-    /*@GetMapping("/db")
-    public ResponseEntity<String> proxyCarSpecs() {
-        try {
-            UserService service = new UserService(this.userRepository);
-            service.loadDataFromJson(userRepository);
-            return ResponseEntity.ok("Data loaded successfully");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok("err");
-    }
-     */
 }
