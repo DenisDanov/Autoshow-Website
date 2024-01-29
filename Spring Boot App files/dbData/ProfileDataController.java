@@ -20,20 +20,25 @@ public class ProfileDataController {
 
     private FavoriteVehiclesRepository favoriteVehiclesRepository;
 
+    private AuthenticationTokensRepository authenticationTokensRepository;
+
     @Autowired
     public ProfileDataController(UserRepository userRepository,
-                                 FavoriteVehiclesRepository favoriteVehiclesRepository) {
+                                 FavoriteVehiclesRepository favoriteVehiclesRepository,
+                                 AuthenticationTokensRepository authenticationTokensRepository) {
         this.userRepository = userRepository;
         this.favoriteVehiclesRepository = favoriteVehiclesRepository;
+        this.authenticationTokensRepository = authenticationTokensRepository;
     }
 
     @PostMapping("/get")
-    public ResponseEntity<ProfileResponse> getProfileData (@RequestBody ProfileRequest request) {
+    public ResponseEntity<ProfileResponse> getProfileData(@RequestBody ProfileRequest request) {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userRepository.findById(userId);
 
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent() &&
+                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
             User user = userOptional.get();
             List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
                     .findByUser_Id(userId)

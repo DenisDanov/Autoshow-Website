@@ -2,8 +2,12 @@ package com.example.demo.dbData.changeUserDetails;
 
 public class PasswordRequest {
     private String id;
+
     private String currentPassword;
+
     private String newPassword;
+
+    private String authToken;
 
     public String getId() {
         return id;
@@ -27,5 +31,9 @@ public class PasswordRequest {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 }

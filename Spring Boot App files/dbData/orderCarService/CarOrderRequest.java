@@ -7,6 +7,7 @@ public class CarOrderRequest {
     private String orderStatus;
     private String id;
     private String dateOfOrder;
+    private String authToken;
 
     public String getCarManufacturer() {
         return carManufacturer;
@@ -54,5 +55,9 @@ public class CarOrderRequest {
 
     public void setDateOfOrder(String dateOfOrder) {
         this.dateOfOrder = dateOfOrder;
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 }

@@ -6,6 +6,8 @@ public class UsernameChangeRequest {
     private String username;
     private String password;
 
+    private String authToken;
+
     public String getPassword() {
         return password;
     }
@@ -16,5 +18,9 @@ public class UsernameChangeRequest {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 }

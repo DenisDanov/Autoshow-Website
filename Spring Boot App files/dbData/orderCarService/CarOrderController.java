@@ -1,5 +1,7 @@
 package com.example.demo.dbData.orderCarService;
 
+import com.example.demo.dbData.AuthenticationToken;
+import com.example.demo.dbData.AuthenticationTokensRepository;
 import com.example.demo.dbData.User;
 import com.example.demo.dbData.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,15 @@ public class CarOrderController {
 
     private final CarOrdersRepository carOrdersRepository;
 
+    private final AuthenticationTokensRepository authenticationTokensRepository;
+
     @Autowired
-    public CarOrderController(UserRepository userRepository, CarOrdersRepository carOrdersRepository) {
+    public CarOrderController(UserRepository userRepository,
+                              CarOrdersRepository carOrdersRepository,
+                              AuthenticationTokensRepository authenticationTokensRepository) {
         this.userRepository = userRepository;
         this.carOrdersRepository = carOrdersRepository;
+        this.authenticationTokensRepository = authenticationTokensRepository;
     }
 
     @PostMapping("/add")
@@ -32,7 +39,8 @@ public class CarOrderController {
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userRepository.findById(userId);
 
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent() &&
+                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
             User user = userOptional.get();
 
             CarOrder carOrder = new CarOrder(request.getCarManufacturer(),
@@ -68,8 +76,8 @@ public class CarOrderController {
     public ResponseEntity<List<CarOrder>> getOrders(@RequestParam("id") Long userId) {
         // Find the user by ID
         Optional<User> userOptional = userRepository.findById(userId);
-
-        if (userOptional.isPresent()) {
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+        if (userOptional.isPresent() && authenticationToken != null) {
             List<CarOrder> getAllOrders = carOrdersRepository
                     .findByUser_Id(userId)
                     .stream()
@@ -91,7 +99,8 @@ public class CarOrderController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent() &&
+                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
             User user = userOptional.get();
             if (carOrdersRepository.deleteCarOrder(request.getCarManufacturer(),
                     userId,
@@ -111,7 +120,8 @@ public class CarOrderController {
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userRepository.findById(userId);
 
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent() &&
+                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
             if (carOrdersRepository.findByUser_IdAndCarManufacturerAndCarModelAndCarYear(userId,
                     request.getCurrentManufacturer(),
                     request.getCurrentModel(),

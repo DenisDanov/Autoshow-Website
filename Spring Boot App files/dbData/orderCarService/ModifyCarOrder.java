@@ -8,6 +8,11 @@ public class ModifyCarOrder {
     private String newManufacturer;
     private String newModel;
     private String newYear;
+    private String authToken;
+
+    public String getAuthToken() {
+        return authToken;
+    }
 
     public String getId() {
         return id;

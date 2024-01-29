@@ -17,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
@@ -36,12 +37,18 @@ public class LoginController {
     }
 
     private final UserRepository userRepository;
+
     private final RecentlyViewedRepository recentlyViewedRepository;
 
+    private final AuthenticationTokensRepository authenticationTokensRepository;
+
     @Autowired
-    public LoginController(UserRepository userRepository, RecentlyViewedRepository recentlyViewedRepository) {
+    public LoginController(UserRepository userRepository,
+                           RecentlyViewedRepository recentlyViewedRepository,
+                           AuthenticationTokensRepository authenticationTokensRepository) {
         this.userRepository = userRepository;
         this.recentlyViewedRepository = recentlyViewedRepository;
+        this.authenticationTokensRepository = authenticationTokensRepository;
     }
 
     @GetMapping("/login")
@@ -62,12 +69,27 @@ public class LoginController {
             String token = generateToken(userFromDB);
 
             // Set the token as a cookie with a longer expiration time
+            Timestamp expireTime = new Timestamp(System.currentTimeMillis() + (1000L * 3600 * 24 * 7));
+            long maxAgeInSeconds = (expireTime.getTime() - System.currentTimeMillis()) / 1000;
             Cookie cookie = new Cookie("authToken", token);
-            cookie.setMaxAge(3600 * 24 * 7); // 7 days
+            cookie.setMaxAge((int) maxAgeInSeconds); // 7 days
             cookie.setPath("/"); // Save the cookie for all pages of the site
             cookie.setSecure(true);
             cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
-            response.addCookie(cookie);
+
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            if (authenticationTokensRepository.findByUser_Id(userFromDB.getId()) == null) {
+                AuthenticationToken authenticationToken = new AuthenticationToken(token, userFromDB, expireTime);
+                authenticationTokensRepository.save(authenticationToken);
+                response.addCookie(cookie);
+            } else if (currentTime
+                    .after(authenticationTokensRepository.findByUser_Id(userFromDB.getId()).getExpireDate())) {
+                authenticationTokensRepository.updateUserToken(userFromDB.getId(), token, expireTime);
+                response.addCookie(cookie);
+            } else {
+                cookie.setValue(authenticationTokensRepository.findByUser_Id(userFromDB.getId()).getToken());
+                response.addCookie(cookie);
+            }
 
             RecentlyViewedToken recentlyViewedToken = new RecentlyViewedToken();
             if (recentlyViewedRepository.findByUser(userFromDB).isEmpty()) {
@@ -91,18 +113,20 @@ public class LoginController {
                 String modelPaths = tokenFromDb.getRecentlyViewedCars();
 
                 // Use URLEncoder to encode the entire string
-                String encodedModelPaths = URLEncoder.encode(modelPaths, StandardCharsets.UTF_8);
-                Cookie cookieRecentlyViewed = new Cookie("saved_car_params", encodedModelPaths);
+                if (modelPaths != null) {
+                    String encodedModelPaths = URLEncoder.encode(modelPaths, StandardCharsets.UTF_8);
+                    Cookie cookieRecentlyViewed = new Cookie("saved_car_params", encodedModelPaths);
 
-                // Set the cookie's expiration date based on the token's expireDate
-                LocalDateTime expireDateTime = tokenFromDb.getExpireDate();
-                long secondsUntilExpiration = LocalDateTime.now().until(expireDateTime, SECONDS);
+                    // Set the cookie's expiration date based on the token's expireDate
+                    LocalDateTime expireDateTime = tokenFromDb.getExpireDate();
+                    long secondsUntilExpiration = LocalDateTime.now().until(expireDateTime, SECONDS);
 
-                cookieRecentlyViewed.setMaxAge((int) secondsUntilExpiration);
-                cookieRecentlyViewed.setPath("/");
-                cookieRecentlyViewed.setSecure(true);
-                cookieRecentlyViewed.setDomain("danov-autoshow-656625355b99.herokuapp.com");
-                response.addCookie(cookieRecentlyViewed);
+                    cookieRecentlyViewed.setMaxAge((int) secondsUntilExpiration);
+                    cookieRecentlyViewed.setPath("/");
+                    cookieRecentlyViewed.setSecure(true);
+                    cookieRecentlyViewed.setDomain("danov-autoshow-656625355b99.herokuapp.com");
+                    response.addCookie(cookieRecentlyViewed);
+                }
             }
 
             System.out.println("Successfully logged in the user.");

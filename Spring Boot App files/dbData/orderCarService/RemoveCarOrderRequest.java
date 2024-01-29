@@ -5,6 +5,7 @@ public class RemoveCarOrderRequest {
     private String carManufacturer;
     private String carModel;
     private String carYear;
+    private String authToken;
 
     public String getId() {
         return id;
@@ -20,5 +21,9 @@ public class RemoveCarOrderRequest {
 
     public String getCarYear() {
         return carYear;
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 }
