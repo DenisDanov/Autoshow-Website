@@ -53,9 +53,9 @@ function orderCar(e) {
     var carYear = document.getElementById('car-year');
 
     if (carManufacturer.options[carManufacturer.selectedIndex].textContent !== '' &&
-        carManufacturer.options[carManufacturer.selectedIndex].textContent !== "Loading" &&
-        carModel.textContent !== '' && carModel.textContent !== "Loading" &&
-        carYear.textContent !== '' && carYear.textContent !== 'Loading') {
+        carManufacturer.options[carManufacturer.selectedIndex].textContent !== "loading" &&
+        carModel.value !== '' && carModel.value !== "loading" &&
+        carYear.value !== '' && carYear.value !== 'loading') {
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/add`, {
             method: "POST",
             headers: {

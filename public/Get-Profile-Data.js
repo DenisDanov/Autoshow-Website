@@ -86,6 +86,7 @@ if (authToken) {
                 reject(error);
             });
     });
+    
 
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/get?id=${userId}`)
         .then(response => response.json())
@@ -183,7 +184,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     }
                 }
             }
-            if (!checkForSameOrder) {
+            if (!checkForSameOrder && newManufacturer !== "loading" && newModel !== "loading" && newYear !== "loading") {
                 fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
                     method: "PUT",
                     headers: {
@@ -303,7 +304,11 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     })
                     .catch(err => console.log(err));
             } else {
-                resultHtmlEle.textContent = `Please order different model than the current one.`;
+                if (newManufacturer !== "loading" && newModel !== "loading" && newYear !== "loading") {
+                    resultHtmlEle.textContent = `Please order different model than the current one.`;
+                } else {
+                    resultHtmlEle.textContent = `Please wait for the car queries to load.`;
+                }
                 resultHtmlEle.style.display = `block`;
                 resultHtmlEle.style.backgroundColor = `red`;
                 resultHtmlEle.style.color = `white`;
@@ -314,36 +319,47 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 }, 3000);
             }
         } else if (modifyReference.id !== `change-order`) {
-            fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    id: userId,
-                    currentManufacturer: carManufacturer,
-                    currentModel: carModel,
-                    currentYear: carYear,
-                    newManufacturer: newManufacturer,
-                    newModel: newModel,
-                    newYear: newYear,
-                    authToken: authToken
+            if (newManufacturer == "loading" && newModel == "loading" && newYear == "loading") {
+                resultHtmlEle.textContent = "Please wait for the car queries to laod.";
+                resultHtmlEle.style.display = `block`;
+                resultHtmlEle.style.backgroundColor = `red`;
+                resultHtmlEle.style.color = `white`;
+                resultHtmlEle.style.border = `5px solid red`;
+                resultHtmlEle.style.borderRadius = `5px`;
+                setTimeout(function () {
+                    document.getElementById(`response-result`).style.display = `none`;
+                }, 2200);
+            } else {
+                fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/modify`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        id: userId,
+                        currentManufacturer: carManufacturer,
+                        currentModel: carModel,
+                        currentYear: carYear,
+                        newManufacturer: newManufacturer,
+                        newModel: newModel,
+                        newYear: newYear,
+                        authToken: authToken
+                    })
                 })
-            })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.result === `Same order is made and the period is extended.` ||
-                        result.result === `New order is made and the period is extended.`) {
-                        resultHtmlEle.textContent = result.result;
-                        resultHtmlEle.style.display = `block`;
-                        resultHtmlEle.style.backgroundColor = `green`;
-                        resultHtmlEle.style.color = `white`;
-                        resultHtmlEle.style.border = `5px solid green`;
-                        resultHtmlEle.style.borderRadius = `5px`;
-                        document.getElementById(`reorder-car`).disabled = true;
-                        let carManufacturer = result.carManufacturer;
-                        carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
-                        modifyReference.parentNode.parentNode.parentNode.innerHTML = `
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.result === `Same order is made and the period is extended.` ||
+                            result.result === `New order is made and the period is extended.`) {
+                            resultHtmlEle.textContent = result.result;
+                            resultHtmlEle.style.display = `block`;
+                            resultHtmlEle.style.backgroundColor = `green`;
+                            resultHtmlEle.style.color = `white`;
+                            resultHtmlEle.style.border = `5px solid green`;
+                            resultHtmlEle.style.borderRadius = `5px`;
+                            document.getElementById(`reorder-car`).disabled = true;
+                            let carManufacturer = result.carManufacturer;
+                            carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
+                            modifyReference.parentNode.parentNode.parentNode.innerHTML = `
                     <div class="car-orders-container">
                 <div class="car-order-details">
                     <div>
@@ -399,38 +415,39 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
             </div>
             </div>
                     `
-                        modifyReference = document.querySelector('[modify-reference="true"]');
-                        modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).
-                            addEventListener(`click`, (e) => {
-                                modifyOrderFunc(e, carManufacturer, result);
-                            });
-                        const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
-                        const img = new Image();
-                        img.src = imagePath;
-                        orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
-                            carManufacturer, result);
-                        modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
-                        modifyReference.parentNode.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
-                        modifyReference.removeAttribute(`modify-reference`);
-                        removeReorderCarClickListener(reorderCar);
-                        setTimeout(function () {
-                            document.getElementById(`response-result`).style.display = `none`;
-                            document.getElementById('order-car-menu').style.display = `none`;
-                            document.getElementById(`reorder-car`).disabled = false;
-                        }, 1700);
-                    } else {
-                        resultHtmlEle.textContent = result.result;
-                        resultHtmlEle.style.display = `block`;
-                        resultHtmlEle.style.backgroundColor = `red`;
-                        resultHtmlEle.style.color = `white`;
-                        resultHtmlEle.style.border = `5px solid red`;
-                        resultHtmlEle.style.borderRadius = `5px`;
-                        setTimeout(function () {
-                            document.getElementById(`response-result`).style.display = `none`;
-                        }, 2200);
-                    }
-                })
-                .catch(err => console.log(err));
+                            modifyReference = document.querySelector('[modify-reference="true"]');
+                            modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).
+                                addEventListener(`click`, (e) => {
+                                    modifyOrderFunc(e, carManufacturer, result);
+                                });
+                            const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
+                            const img = new Image();
+                            img.src = imagePath;
+                            orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
+                                carManufacturer, result);
+                            modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
+                            modifyReference.parentNode.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
+                            modifyReference.removeAttribute(`modify-reference`);
+                            removeReorderCarClickListener(reorderCar);
+                            setTimeout(function () {
+                                document.getElementById(`response-result`).style.display = `none`;
+                                document.getElementById('order-car-menu').style.display = `none`;
+                                document.getElementById(`reorder-car`).disabled = false;
+                            }, 1700);
+                        } else {
+                            resultHtmlEle.textContent = result.result;
+                            resultHtmlEle.style.display = `block`;
+                            resultHtmlEle.style.backgroundColor = `red`;
+                            resultHtmlEle.style.color = `white`;
+                            resultHtmlEle.style.border = `5px solid red`;
+                            resultHtmlEle.style.borderRadius = `5px`;
+                            setTimeout(function () {
+                                document.getElementById(`response-result`).style.display = `none`;
+                            }, 2200);
+                        }
+                    })
+                    .catch(err => console.log(err));
+            }
         }
     } else {
         carOrderBtnEvent = false;
