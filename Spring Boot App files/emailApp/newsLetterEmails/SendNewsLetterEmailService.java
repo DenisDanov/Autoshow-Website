@@ -31,7 +31,7 @@ public class SendNewsLetterEmailService {
 
         // Iterate over the subscribed emails and send emails every two weeks
         for (NewsletterEmails email : subscribedEmails) {
-            Instant lastSentDate = email.getDateOfLastEmailSended();
+            Instant lastSentDate = email.getDateOfLastEmailSend();
 
             // Check if two weeks have passed since the last email
             if (lastSentDate == null || lastSentDate.plusSeconds(2 * 7 * 24 * 60 * 60)
@@ -40,7 +40,7 @@ public class SendNewsLetterEmailService {
                 sendGridEmailService.sendWeeklyNewsletter(email.getEmail(),"Weekly Newsletter");
 
                 // Update the last sent date in the database
-                email.setDateOfLastEmailSended(currentDate);
+                email.setDateOfLastEmailSend(currentDate);
                 newsletterEmailsRepository.save(email);
             }
         }

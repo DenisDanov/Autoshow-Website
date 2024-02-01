@@ -43,7 +43,7 @@ public class ProxyControllerCarMenu {
             }
         }
 
-        // Continue with the existing logic for making external API calls
+        // logic for making external API calls
         String apiUrl = "";
         if (Objects.equals(model, "")) {
             apiUrl = "https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModels&make=" + make;

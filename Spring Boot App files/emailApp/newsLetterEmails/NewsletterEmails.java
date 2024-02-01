@@ -15,17 +15,17 @@ public class NewsletterEmails {
     @Column(unique = true)
     private String email;
 
-    private Instant dateOfLastEmailSended;
+    private Instant dateOfLastEmailSend;
 
     public NewsletterEmails(Long id, String email) {
         this.id = id;
         this.email = email;
-        this.dateOfLastEmailSended = Instant.now().minus(Duration.ofDays(14));
+        this.dateOfLastEmailSend = Instant.now().minus(Duration.ofDays(14));
     }
 
     public NewsletterEmails(String email) {
         this.email = email;
-        this.dateOfLastEmailSended = Instant.now().minus(Duration.ofDays(14));
+        this.dateOfLastEmailSend = Instant.now().minus(Duration.ofDays(14));
     }
 
     public NewsletterEmails() {
@@ -47,11 +47,11 @@ public class NewsletterEmails {
         this.email = email;
     }
 
-    public Instant getDateOfLastEmailSended() {
-        return dateOfLastEmailSended;
+    public Instant getDateOfLastEmailSend() {
+        return dateOfLastEmailSend;
     }
 
-    public void setDateOfLastEmailSended(Instant dateOfLastEmailSended) {
-        this.dateOfLastEmailSended = dateOfLastEmailSended;
+    public void setDateOfLastEmailSend(Instant dateOfLastEmailSended) {
+        this.dateOfLastEmailSend = dateOfLastEmailSended;
     }
 }

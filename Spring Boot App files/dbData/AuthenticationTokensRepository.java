@@ -1,15 +1,13 @@
 package com.example.demo.dbData;
 
-import com.example.demo.dbData.AuthenticationToken;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
-public interface AuthenticationTokensRepository extends JpaRepository<AuthenticationToken,Long> {
+public interface AuthenticationTokensRepository extends JpaRepository<AuthenticationToken, Long> {
 
     AuthenticationToken findByUser_Id(Long userId);
 
