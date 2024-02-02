@@ -6,11 +6,8 @@ import com.example.demo.dbData.unsuccessfulLoginAttempts.FailedLoginAttempts;
 import com.example.demo.dbData.unsuccessfulLoginAttempts.FailedLoginAttemptsRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
@@ -86,7 +84,8 @@ public class LoginController {
         }
 
         if (failedLoginAttempts != null) {
-            if (failedLoginAttempts.isUserLocked() && failedLoginAttempts.getAmountFailedLogins() == 20) {
+            if (getFailedLoginsAmount(getAccountLockCookie(request.getCookies())) >= 20 ||
+                    failedLoginAttempts.getAmountFailedLogins() >= 20) {
                 return "redirect:/login?errorToManyFailedAttempts";
             }
         }
@@ -164,22 +163,108 @@ public class LoginController {
             // Failed login
             if (userFromDB != null) {
                 if (failedLoginAttempts == null) {
-                    failedLoginAttemptsRepository.save(setNewFailedLoginEntity(userFromDB));
+                    failedLoginAttempts = setNewFailedLoginEntity(userFromDB);
+                    failedLoginAttemptsRepository.save(failedLoginAttempts);
+                    Cookie existingCookie = getAccountLockCookie(request.getCookies());
+                    int amountFailedLogins = 0;
+
+                    if (existingCookie == null) {
+                        amountFailedLogins = 1;
+                    } else {
+                        String cookieValue = existingCookie.getValue();
+                        // Decode the JWT token
+                        String[] parts = cookieValue.split("\\.");
+
+                        // Decode payload from Base64
+                        String payloadJson = base64Decode(parts[1]);
+
+                        // Parse JSON payload into a JsonNode
+                        JsonNode payloadNode = parseJson(payloadJson);
+
+                        // Extract values from the JsonNode
+                        amountFailedLogins = Objects.requireNonNull(payloadNode).get("failed_logins_amount").asInt() + 1;
+                    }
+                    if (existingCookie != null) {
+                        existingCookie.setValue(generateTokenFailedLogins(
+                                failedLoginAttempts.getAccountLockExpireTime(),
+                                failedLoginAttempts.getUser().getId(),
+                                amountFailedLogins,
+                                failedLoginAttempts));
+                        response.addCookie(existingCookie);
+                    } else {
+                        Cookie cookie = new Cookie("account_lock", generateTokenFailedLogins(
+                                failedLoginAttempts.getAccountLockExpireTime(),
+                                failedLoginAttempts.getUser().getId(),
+                                amountFailedLogins,
+                                failedLoginAttempts));
+                        Date expireDate = new Date(failedLoginAttempts.getAccountLockExpireTime().getTime());
+                        cookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
+                        cookie.setPath("/"); // Save the cookie for all pages of the site
+                        response.addCookie(cookie);
+                    }
                 } else {
                     if ((failedLoginAttempts.getAmountFailedLogins() + 1) % 10 == 0) {
-                        failedLoginAttemptsRepository.save(lockUserAccount(failedLoginAttempts, response,
+                        failedLoginAttemptsRepository.save(lockUserAccount(
+                                failedLoginAttempts,
+                                response,
+                                request,
                                 failedLoginAttempts.getUser().getId()));
                         return "redirect:/login?errorToManyFailedAttempts";
                     } else {
                         failedLoginAttempts.setAmountFailedLogins(failedLoginAttempts.getAmountFailedLogins() + 1);
                         failedLoginAttemptsRepository.save(failedLoginAttempts);
+                        Cookie existingCookie = getAccountLockCookie(request.getCookies());
+                        int amountFailedLogins = 0;
+
+                        if (existingCookie == null) {
+                            amountFailedLogins = failedLoginAttempts.getAmountFailedLogins();
+                        } else {
+                            String cookieValue = existingCookie.getValue();
+                            // Decode the JWT token
+                            String[] parts = cookieValue.split("\\.");
+
+                            // Decode payload from Base64
+                            String payloadJson = base64Decode(parts[1]);
+
+                            // Parse JSON payload into a JsonNode
+                            JsonNode payloadNode = parseJson(payloadJson);
+
+                            // Extract values from the JsonNode
+                            amountFailedLogins = Objects.requireNonNull(payloadNode).
+                                    get("failed_logins_amount").
+                                    asInt() + 1;
+                        }
+                        if (existingCookie != null) {
+                            existingCookie.setValue(generateTokenFailedLogins(
+                                    failedLoginAttempts.getAccountLockExpireTime(),
+                                    failedLoginAttempts.getUser().getId(),
+                                    amountFailedLogins,
+                                    failedLoginAttempts));
+                            response.addCookie(existingCookie);
+                        } else {
+                            Cookie cookie = new Cookie("account_lock", generateTokenFailedLogins(
+                                    failedLoginAttempts.getAccountLockExpireTime(),
+                                    failedLoginAttempts.getUser().getId(),
+                                    amountFailedLogins,
+                                    failedLoginAttempts));
+                            Date expireDate = new Date(failedLoginAttempts.getAccountLockExpireTime().getTime());
+                            cookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
+                            cookie.setPath("/"); // Save the cookie for all pages of the site
+                            response.addCookie(cookie);
+                        }
                         if (failedLoginAttempts.getAmountFailedLogins() >= 10) {
                             return "redirect:/login?errorToManyFailedAttempts";
                         }
                     }
                 }
             } else {
-                lockUnregisteredUser(response, request);
+                if (failedLoginAttempts.getAmountFailedLogins() < 20) {
+                    if (lockUnregisteredUser(response, request)) {
+                        return "redirect:/login?errorToManyFailedAttempts";
+                    } else {
+                        return "redirect:/login?error";
+                    }
+                }
             }
             return "redirect:/login?error"; // Redirect back to the login page with an error parameter
         }
@@ -202,6 +287,7 @@ public class LoginController {
 
     private static FailedLoginAttempts lockUserAccount(FailedLoginAttempts failedLoginAttempts,
                                                        HttpServletResponse response,
+                                                       HttpServletRequest request,
                                                        Long userId) {
         int amount = failedLoginAttempts.getAmountFailedLogins() + 1;
         Calendar calendar = Calendar.getInstance();
@@ -223,8 +309,31 @@ public class LoginController {
         // Convert Timestamp to Date
         Date expireDate = new Date(futureTimestamp.getTime());
 
+        Cookie existingCookie = getAccountLockCookie(request.getCookies());
+        int amountFailedLogins = 0;
+
+        if (existingCookie == null) {
+            amountFailedLogins = failedLoginAttempts.getAmountFailedLogins();
+        } else {
+            String cookieValue = existingCookie.getValue();
+            // Decode the JWT token
+            String[] parts = cookieValue.split("\\.");
+
+            // Decode payload from Base64
+            String payloadJson = base64Decode(parts[1]);
+
+            // Parse JSON payload into a JsonNode
+            JsonNode payloadNode = parseJson(payloadJson);
+
+            // Extract values from the JsonNode
+            amountFailedLogins = Objects.requireNonNull(payloadNode).get("failed_logins_amount").asInt() + 1;
+            String expirationDateClaim = payloadNode.get("expirationDate").asText();
+            long timestamp = Long.parseLong(expirationDateClaim);
+            expireDate = new Date(timestamp);
+        }
+
         // Set the cookie with the formatted string
-        Cookie cookie = new Cookie("account_lock", generateTokenFailedLogins(expireDate, userId));
+        Cookie cookie = new Cookie("account_lock", generateTokenFailedLogins(expireDate, userId, amountFailedLogins, failedLoginAttempts));
         cookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
         cookie.setPath("/"); // Save the cookie for all pages of the site
 
@@ -233,50 +342,83 @@ public class LoginController {
         return failedLoginAttempts;
     }
 
-    private void lockUnregisteredUser(HttpServletResponse response, HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        boolean changed = false;
+    private boolean lockUnregisteredUser(HttpServletResponse response, HttpServletRequest request) {
+        Cookie cookie = getAccountLockCookie(request.getCookies());
+        if (cookie != null) {
+            String cookieValue = cookie.getValue();
+            // Decode the JWT token
+            String[] parts = cookieValue.split("\\.");
+
+            // Decode payload from Base64
+            String payloadJson = base64Decode(parts[1]);
+
+            // Parse JSON payload into a JsonNode
+            JsonNode payloadNode = parseJson(payloadJson);
+
+            // Extract values from the JsonNode
+            int failedLoginsAmount = payloadNode.get("failed_logins_amount").asInt() + 1;
+            String expirationDateClaim = payloadNode.get("expirationDate").asText();
+            long timestamp = Long.parseLong(expirationDateClaim);
+
+            Date expireDate = new Date(timestamp);
+
+            if (failedLoginsAmount == 20) {
+                Date currentTime = new Date();
+
+                // Create a Calendar instance and set it to the current time
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(currentTime);
+
+                // Add 60 minutes to the current time
+                calendar.add(Calendar.MINUTE, 60);
+
+                expireDate = calendar.getTime();
+            }
+
+            Cookie newCookie = new Cookie("account_lock", generateTokenFailedLogins(expireDate, null, failedLoginsAmount, null));
+            newCookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
+            newCookie.setPath("/"); // Save the cookie for all pages of the site
+            response.addCookie(newCookie);
+            return failedLoginsAmount >= 10;
+        } else {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, 30);
+            Timestamp futureTimestamp = new Timestamp(calendar.getTime().getTime());
+            Date expireDate = new Date(futureTimestamp.getTime());
+            Cookie newCookie = new Cookie("account_lock", generateTokenFailedLogins(expireDate, null, 1, null));
+            newCookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
+            newCookie.setPath("/"); // Save the cookie for all pages of the site
+            response.addCookie(newCookie);
+            return false;
+        }
+    }
+
+    private int getFailedLoginsAmount(Cookie cookie) {
+        String cookieValue = cookie.getValue();
+        // Decode the JWT token
+        String[] parts = cookieValue.split("\\.");
+
+        // Decode payload from Base64
+        String payloadJson = base64Decode(parts[1]);
+
+        // Parse JSON payload into a JsonNode
+        JsonNode payloadNode = parseJson(payloadJson);
+
+        // Extract values from the JsonNode
+        return Objects.requireNonNull(payloadNode).
+                get("failed_logins_amount").
+                asInt();
+    }
+
+    private static Cookie getAccountLockCookie(Cookie[] cookies) {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("account_lock".equals(cookie.getName())) {
-                    String cookieValue = cookie.getValue();
-                    // Decode the JWT token
-                    String[] parts = cookieValue.split("\\.");
-
-                    // Decode payload from Base64
-                    String payloadJson = base64Decode(parts[1]);
-
-                    // Parse JSON payload into a JsonNode
-                    JsonNode payloadNode = parseJson(payloadJson);
-
-                    // Extract values from the JsonNode
-                    String expirationDateClaim = payloadNode.get("expirationDate").asText();
-                    int failedLoginsAmount = payloadNode.get("failed_logins_amount").asInt() + 1;
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.add(Calendar.MINUTE,30);
-                    Timestamp futureTimestamp = new Timestamp(calendar.getTime().getTime());
-                    Date expireDate = new Date(futureTimestamp.getTime());
-
-                    Cookie newCookie = new Cookie("account_lock", generateTokenUnregisteredUsers(expireDate,failedLoginsAmount));
-                    newCookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
-                    newCookie.setPath("/"); // Save the cookie for all pages of the site
-                    response.addCookie(cookie);
-                    changed = true;
+                    return cookie;
                 }
             }
-            if (!changed) {
-                System.out.println(changed);
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.MINUTE,30);
-                Timestamp futureTimestamp = new Timestamp(calendar.getTime().getTime());
-                Date expireDate = new Date(futureTimestamp.getTime());
-
-                Cookie newCookie = new Cookie("account_lock", generateTokenUnregisteredUsers(expireDate, 1));
-                newCookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
-                newCookie.setPath("/"); // Save the cookie for all pages of the site
-                response.addCookie(newCookie);
-            }
         }
+        return null;
     }
 
     private String generateAuthToken(User user) {
@@ -289,24 +431,21 @@ public class LoginController {
                 .compact();
     }
 
-    private static String generateTokenFailedLogins(Date expirationDate, Long userId) {
+    private static String generateTokenFailedLogins(Date expirationDate, Long userId, int failedTimes,
+                                                    FailedLoginAttempts failedLoginAttempts) {
+        boolean isUserLocked = false;
+        if (failedLoginAttempts != null) {
+            isUserLocked = failedLoginAttempts.isUserLocked();
+        }
         return Jwts.builder()
                 .setExpiration(expirationDate)
                 .claim("expirationDate", expirationDate.getTime())
                 .claim("id", userId)
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-                .compact();
-
-    }
-
-    private static String generateTokenUnregisteredUsers(Date expirationDate, int failedTimes) {
-        System.out.println(failedTimes);
-        return Jwts.builder()
-                .setExpiration(expirationDate)
-                .claim("expirationDate", expirationDate.getTime())
                 .claim("failed_logins_amount", failedTimes)
+                .claim("isUserLocked", isUserLocked)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
+
     }
 
     private static String base64Decode(String input) {
