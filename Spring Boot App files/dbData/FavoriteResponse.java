@@ -1,6 +1,7 @@
 package com.example.demo.dbData;
 
 public class FavoriteResponse {
+
     private String vehicleId;
     private String vehicleImg;
     private String vehicleName;
