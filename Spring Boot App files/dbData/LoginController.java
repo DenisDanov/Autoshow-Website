@@ -127,10 +127,8 @@ public class LoginController {
                 Cookie cookieRecentlyViewed = new Cookie("saved_car_params", "");
 
                 // Set the cookie's expiration date based on the token's expireDate
-                LocalDateTime expireDateTime = recentlyViewedToken.getExpireDate();
-                long secondsUntilExpiration = LocalDateTime.now().until(expireDateTime, SECONDS);
-
-                cookieRecentlyViewed.setMaxAge((int) secondsUntilExpiration);
+                long expirationInSeconds = recentlyViewedToken.getExpireDate().getTime() / 1000;
+                cookieRecentlyViewed.setMaxAge((int) (expirationInSeconds - System.currentTimeMillis() / 1000));
                 cookieRecentlyViewed.setPath("/");
                 cookieRecentlyViewed.setSecure(true);
                 cookieRecentlyViewed.setDomain("danov-autoshow-656625355b99.herokuapp.com");
@@ -140,21 +138,20 @@ public class LoginController {
                 String modelPaths = tokenFromDb.getRecentlyViewedCars();
 
                 // Use URLEncoder to encode the entire string
+                String encodedModelPaths = "";
                 if (modelPaths != null) {
-                    String encodedModelPaths = URLEncoder.encode(modelPaths, StandardCharsets.UTF_8);
-                    Cookie cookieRecentlyViewed = new Cookie("saved_car_params", encodedModelPaths);
-
-                    // Set the cookie's expiration date based on the token's expireDate
-                    tokenFromDb.setExpireDate();
-                    LocalDateTime expireDateTime = tokenFromDb.getExpireDate();
-                    long secondsUntilExpiration = LocalDateTime.now().until(expireDateTime, SECONDS);
-
-                    cookieRecentlyViewed.setMaxAge((int) secondsUntilExpiration);
-                    cookieRecentlyViewed.setPath("/");
-                    cookieRecentlyViewed.setSecure(true);
-                    cookieRecentlyViewed.setDomain("danov-autoshow-656625355b99.herokuapp.com");
-                    response.addCookie(cookieRecentlyViewed);
+                     encodedModelPaths = URLEncoder.encode(modelPaths, StandardCharsets.UTF_8);
                 }
+
+                Cookie cookieRecentlyViewed = new Cookie("saved_car_params", encodedModelPaths);
+
+                // Set the cookie's expiration date based on the token's expireDate
+                long expirationInSeconds = recentlyViewedToken.getExpireDate().getTime() / 1000;
+                cookieRecentlyViewed.setMaxAge((int) (expirationInSeconds - System.currentTimeMillis() / 1000));
+                cookieRecentlyViewed.setPath("/");
+                cookieRecentlyViewed.setSecure(true);
+                cookieRecentlyViewed.setDomain("danov-autoshow-656625355b99.herokuapp.com");
+                response.addCookie(cookieRecentlyViewed);
             }
 
             System.out.println("Successfully logged in the user.");

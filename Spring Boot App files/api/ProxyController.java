@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class ProxyController {
 
     private final RestTemplate restTemplate;
+
     private UserRepository userRepository;
 
     public ProxyController(RestTemplate restTemplate) {
