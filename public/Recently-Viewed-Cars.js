@@ -27,7 +27,7 @@ function saveCarParam(newCarParam) {
         })
             .then(response => response.text())
             .then(result => {
-                if (result === `Successfully added the car.`) {
+                if (result.split(".")[0].includes(`Successfully added the car`)) {
                     // Save the updated array to the cookie
                     document.cookie = `saved_car_params=${savedParams
                         .filter(s => s !== null && s !== "")

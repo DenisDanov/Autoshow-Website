@@ -3,14 +3,16 @@ package com.example.demo.dbData.recentlyViewedToken;
 import com.example.demo.dbData.User;
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 @Entity
 @Table(name = "recently_viewed_tokens")
 public class RecentlyViewedToken {
 
-    private String expireDate;
+    private Date expireDate;
 
     @Column(columnDefinition = "TEXT")
     private String recentlyViewedCars;
@@ -30,21 +32,22 @@ public class RecentlyViewedToken {
         return recentlyViewedCars;
     }
 
-    public LocalDateTime getExpireDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return LocalDateTime.parse(this.expireDate, formatter);
+    public Date getExpireDate() {
+        return this.expireDate;
     }
 
     public void setExpireDate() {
-        // Get the current date and time
-        LocalDateTime currentDate = LocalDateTime.now();
+        java.util.Date currentDate = new java.util.Date();
 
-        // Add one month to the current date
-        LocalDateTime expireDate = currentDate.plusMonths(1);
+        // Convert java.util.Date to java.sql.Date
+        Date sqlDate = new Date(currentDate.getTime());
 
-        // Format the expiration date as a string
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        this.expireDate = expireDate.format(formatter);
+        // Set the date to one month from now
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(sqlDate);
+        calendar.add(Calendar.MONTH, 1);
+        sqlDate = new Date(calendar.getTimeInMillis());
+        this.expireDate = sqlDate;
     }
 
     public void setRecentlyViewedCars(String recentlyViewedCars) {
