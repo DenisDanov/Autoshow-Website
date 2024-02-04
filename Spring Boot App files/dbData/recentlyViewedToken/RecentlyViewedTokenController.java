@@ -29,7 +29,7 @@ public class RecentlyViewedTokenController {
             }
             recentlyViewedToken.setRecentlyViewedCars(recentlyViewedCars);
             recentlyViewedRepository.save(recentlyViewedToken);
-            return ResponseEntity.ok("Successfully added the car.");
+            return ResponseEntity.ok("Successfully added the car." + recentlyViewedToken.getExpireDate());
         } else {
             return ResponseEntity.ok("Invalid user");
         }
