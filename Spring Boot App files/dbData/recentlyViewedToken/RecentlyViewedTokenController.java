@@ -1,20 +1,31 @@
 package com.example.demo.dbData.recentlyViewedToken;
 
+import com.example.demo.dbData.AuthenticationTokensRepository;
+import com.example.demo.dbData.User;
+import com.example.demo.dbData.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
 
 @RestController
 @RequestMapping("/api/recently-viewed")
 public class RecentlyViewedTokenController {
     private final RecentlyViewedRepository recentlyViewedRepository;
 
+    private final UserRepository userRepository;
+
+    private final AuthenticationTokensRepository authenticationTokensRepository;
+
     @Autowired
-    public RecentlyViewedTokenController(RecentlyViewedRepository recentlyViewedRepository) {
+    public RecentlyViewedTokenController(RecentlyViewedRepository recentlyViewedRepository,
+                                         UserRepository userRepository,
+                                         AuthenticationTokensRepository authenticationTokensRepository) {
         this.recentlyViewedRepository = recentlyViewedRepository;
+        this.userRepository = userRepository;
+        this.authenticationTokensRepository = authenticationTokensRepository;
     }
 
     @PostMapping("/add")
@@ -33,6 +44,23 @@ public class RecentlyViewedTokenController {
         } else {
             return ResponseEntity.ok("Invalid user");
         }
+    }
 
+    @GetMapping("/get")
+    public ResponseEntity<Date> getRecentlyViewedTokenExpireDate(@RequestParam String userId, String authToken) {
+        if (userRepository.findById(Long.parseLong(userId)).isPresent()) {
+            User user = userRepository.findById(Long.parseLong(userId)).get();
+            if (authenticationTokensRepository.findByToken(authToken) != null) {
+                if (recentlyViewedRepository.findByUser_Id(user.getId()).isPresent()) {
+                    return ResponseEntity.ok(recentlyViewedRepository.findByUser_Id(user.getId()).get().getExpireDate());
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
