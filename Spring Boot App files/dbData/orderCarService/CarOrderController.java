@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -38,9 +39,9 @@ public class CarOrderController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userRepository.findById(userId);
-
-        if (userOptional.isPresent() &&
-                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        if (userOptional.isPresent() && authenticationToken != null &&
+                Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             User user = userOptional.get();
 
             CarOrder carOrder = new CarOrder(request.getCarManufacturer(),
@@ -77,7 +78,8 @@ public class CarOrderController {
         // Find the user by ID
         Optional<User> userOptional = userRepository.findById(userId);
         AuthenticationToken authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
-        if (userOptional.isPresent() && authenticationToken != null) {
+        if (userOptional.isPresent() && authenticationToken != null &&
+                Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             List<CarOrder> getAllOrders = carOrdersRepository
                     .findByUser_Id(userId)
                     .stream()
@@ -99,8 +101,9 @@ public class CarOrderController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent() &&
-                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        if (userOptional.isPresent() && authenticationToken != null &&
+                Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             User user = userOptional.get();
             if (carOrdersRepository.deleteCarOrder(request.getCarManufacturer(),
                     userId,
@@ -119,9 +122,9 @@ public class CarOrderController {
     public ResponseEntity<ModifyCarOrderResponse> modifyCarOrder(@RequestBody ModifyCarOrder request) {
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userRepository.findById(userId);
-
-        if (userOptional.isPresent() &&
-                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        if (userOptional.isPresent() && authenticationToken != null &&
+                Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             if (carOrdersRepository.findByUser_IdAndCarManufacturerAndCarModelAndCarYear(userId,
                     request.getCurrentManufacturer(),
                     request.getCurrentModel(),

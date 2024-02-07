@@ -3,18 +3,18 @@ package com.example.demo.dbData;
 import java.util.List;
 
 public class ProfileResponse {
-   private String username;
+    private String username;
+
     private String email;
-    private String password;
+
     private List<FavoriteResponse> favVehicles;
 
     public ProfileResponse() {
     }
 
-    public ProfileResponse(String username, String email, String password, List<FavoriteResponse> favVehicles) {
+    public ProfileResponse(String username, String email, List<FavoriteResponse> favVehicles) {
         this.username = username;
         this.email = email;
-        this.password = password;
         this.favVehicles = favVehicles;
     }
 
@@ -32,14 +32,6 @@ public class ProfileResponse {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public List<FavoriteResponse> getFavVehicles() {

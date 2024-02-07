@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,9 +37,9 @@ public class ProfileDataController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userRepository.findById(userId);
-
-        if (userOptional.isPresent() &&
-                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        if (userOptional.isPresent() && authenticationToken != null &&
+                Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             User user = userOptional.get();
             List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
                     .findByUser_Id(userId)
@@ -50,7 +51,6 @@ public class ProfileDataController {
                     .collect(Collectors.toList());
             return ResponseEntity.ok(new ProfileResponse(user.getUsername(),
                     user.getEmail(),
-                    user.getPassword(),
                     getAllVehicles));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
