@@ -6,7 +6,7 @@ function getCarParam() {
 
 // Function to get the array of saved car params from the cookie
 function getSavedCarParams() {
-    const savedParamsCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('saved_car_params='));
+    const savedParamsCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('recently_viewed='));
     if (savedParamsCookie) {
         const paramsString = savedParamsCookie.split('=')[1].replace(/\+/g, ' ');
         return paramsString.split(',');
@@ -18,26 +18,38 @@ function getSavedCarParams() {
 function saveCarParam(newCarParam) {
     let savedParams = getSavedCarParams();
 
-    if (!savedParams.includes(newCarParam) && authToken) {
+    if (authToken) {
         const decodedToken = JSON.parse(atob(authToken.split('.')[1]));
         const userId = decodedToken.userId;
-        savedParams.push(newCarParam);
-        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/recently-viewed/add?userId=${userId}&carId=${newCarParam}`, {
+        if (savedParams.includes(newCarParam)) {
+            savedParams.splice(savedParams.indexOf(newCarParam), 1);
+            savedParams.push(newCarParam);
+        } else {
+            savedParams.push(newCarParam);
+        }
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/recently-viewed/add?userId=${userId}&carId=${newCarParam}&authToken=${authToken}`, {
             method: "POST"
         })
             .then(response => response.text())
             .then(result => {
                 if (result.split(".")[0].includes(`Successfully added the car`)) {
                     // Save the updated array to the cookie
-                    document.cookie = `saved_car_params=${savedParams
+                    const date = new Date(result.split(".")[1]);
+                    const expires = date.toUTCString();
+                    document.cookie = `recently_viewed=${savedParams
                         .filter(s => s !== null && s !== "")
-                        .join(',')}; path=/; domain=danov-autoshow-656625355b99.herokuapp.com; secure`;
+                        .join(',')}; expires=${expires}; path=/;`;
                 }
             })
             .catch(err => console.log(err))
-    } else if (!savedParams.includes(newCarParam)) {
-        savedParams.push(newCarParam);
-        document.cookie = `saved_car_params=${savedParams.join(',')}; expires=${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString()}; path=/;  domain=danov-autoshow-656625355b99.herokuapp.com; secure`;
+    } else {
+        if (savedParams.includes(newCarParam)) {
+            savedParams.splice(savedParams.indexOf(newCarParam), 1);
+            savedParams.push(newCarParam);
+        } else {
+            savedParams.push(newCarParam);
+        }
+        document.cookie = `recently_viewed=${savedParams.join(',')}; expires=${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString()}; path=/;`;
     }
 }
 

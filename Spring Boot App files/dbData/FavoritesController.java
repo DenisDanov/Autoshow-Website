@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,9 +38,9 @@ public class FavoritesController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userRepository.findById(userId);
-
-        if (userOptional.isPresent() &&
-                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        if (userOptional.isPresent() && authenticationToken != null &&
+                Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             User user = userOptional.get();
             // Add the vehicle ID to the user's favorites
             FavoriteResponse vehicleData = new FavoriteResponse(request.getVehicleId(),
@@ -70,8 +71,9 @@ public class FavoritesController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent() &&
-                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        if (userOptional.isPresent() && authenticationToken != null &&
+                Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             User user = userOptional.get();
             // Remove the vehicle ID from the user's favorites
             List<FavoriteVehiclesEntity> favoriteVehicles = favoriteVehiclesRepository.findByUser_Id(userId);
@@ -92,9 +94,9 @@ public class FavoritesController {
         Long userId = Long.parseLong(request.getUserId());
 
         Optional<User> userOptional = userRepository.findById(userId);
-
-        if (userOptional.isPresent() &&
-                authenticationTokensRepository.findByToken(request.getAuthToken()) != null) {
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        if (userOptional.isPresent() && authenticationToken != null &&
+                Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
                     .findByUser_Id(userId)
                     .stream()
