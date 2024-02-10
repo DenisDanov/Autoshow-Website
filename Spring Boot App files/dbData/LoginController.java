@@ -75,15 +75,13 @@ public class LoginController {
         // Retrieve the user from the database based on the entered username
         User userFromDB = userRepository.findByUsername(loginUser.getUsername());
         FailedLoginAttempts failedLoginAttempts = null;
+        // maybe stop the db queries if the user has 20 unsuccessful attempts
         if (userFromDB != null) {
             failedLoginAttempts = failedLoginAttemptsRepository.findByUser_Id(userRepository.findByUsername(userFromDB.getUsername()).getId());
         }
 
-        if (failedLoginAttempts != null && (getFailedLoginsAmount(getAccountLockCookie(request.getCookies())) >= 20 ||
-                failedLoginAttempts.getAmountFailedLogins() >= 20) &&
-                (getExpireTime(getAccountLockCookie(request.getCookies())) != null &&
-                        isWithin30Minutes(getExpireTime(getAccountLockCookie(request.getCookies()))))) {
-
+        if (failedLoginAttempts != null && failedLoginAttempts.getAmountFailedLogins() >= 20 &&
+                (getExpireTime(getAccountLockCookie(request.getCookies())) == null)) {
             Cookie cookie = new Cookie("account_lock", generateTokenFailedLogins(
                     failedLoginAttempts.getAccountLockExpireTime(),
                     failedLoginAttempts.getUser().getId(),
@@ -94,7 +92,8 @@ public class LoginController {
             cookie.setPath("/"); // Save the cookie for all pages of the site
             response.addCookie(cookie);
             return "redirect:/login?errorToManyFailedAttempts";
-        } else if ((getFailedLoginsAmount(getAccountLockCookie(request.getCookies())) >= 20)) {
+        } else if ((getFailedLoginsAmount(getAccountLockCookie(request.getCookies())) >= 20) ||
+                (failedLoginAttempts != null && failedLoginAttempts.getAmountFailedLogins() >= 20)) {
             return "redirect:/login?errorToManyFailedAttempts";
         }
 
@@ -165,6 +164,8 @@ public class LoginController {
                     if (!userFromDB.getPassword().equals(loginUser.getPassword())) {
                         failedLoginAttempts = setNewFailedLoginEntity(userFromDB);
                         failedLoginAttemptsRepository.save(failedLoginAttempts);
+                        System.out.println(failedLoginAttempts.getAccountLockExpireTime().getTime() - System.currentTimeMillis());
+                        expiringEntityDeleter.cancelScheduledDeletion(failedLoginAttempts);
                         expiringEntityDeleter.scheduleDeletion(failedLoginAttempts);
                     }
 
@@ -191,17 +192,29 @@ public class LoginController {
                         String expirationDateClaim = payloadNode.get("expirationDate").asText();
                         long timestamp = Long.parseLong(expirationDateClaim);
                         if (timestamp == 0 && amountFailedLogins >= 10) {
-                            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                            TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
+                            Calendar calendar = Calendar.getInstance(sofiaTimeZone);
 
                             // Add 30 minutes
-                            calendar.add(Calendar.MINUTE, 27); // for 30 minutes from now
-                            calendar.add(Calendar.SECOND, 8);
+                            if (amountFailedLogins < 20) {
+                                // Add 30 minutes
+                                calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
+                            } else {
+                                // Add 30 minutes
+                                calendar.add(Calendar.MINUTE, 60); // for 30 minutes from now
+                            }
                             timestamp = new Timestamp(calendar.getTime().getTime()).getTime();
                         }
                         expireTime = new Date(timestamp);
                     }
                     if (!userFromDB.getPassword().equals(loginUser.getPassword())) {
-                        userLoginFailed(loginUser, response, userFromDB, failedLoginAttempts, existingCookie, amountFailedLogins, expireTime);
+                        userLoginFailed(loginUser,
+                                response,
+                                userFromDB,
+                                failedLoginAttempts,
+                                existingCookie,
+                                amountFailedLogins,
+                                expireTime);
                     }
                 } else {
 
@@ -212,7 +225,10 @@ public class LoginController {
                                 response,
                                 request,
                                 failedLoginAttempts.getUser().getId()));
+                        expiringEntityDeleter.cancelScheduledDeletion(failedLoginAttempts);
                         expiringEntityDeleter.scheduleDeletion(failedLoginAttempts);
+                        System.out.println(new Date(failedLoginAttempts.getAccountLockExpireTime().getTime()));
+                        System.out.println(failedLoginAttempts.getAccountLockExpireTime().getTime() - System.currentTimeMillis());
                         return "redirect:/login?errorToManyFailedAttempts";
                     } else {
                         if (!userFromDB.getPassword().equals(loginUser.getPassword())) {
@@ -244,28 +260,40 @@ public class LoginController {
                             String expirationDateClaim = payloadNode.get("expirationDate").asText();
                             long timestamp = Long.parseLong(expirationDateClaim);
                             if (timestamp == 0 && amountFailedLogins >= 10) {
-                                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                                TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
+                                Calendar calendar = Calendar.getInstance(sofiaTimeZone);
 
-                                // Add 30 minutes
-                                calendar.add(Calendar.MINUTE, 27); // for 30 minutes from now
-                                calendar.add(Calendar.SECOND, 8);
+                                if (amountFailedLogins < 20) {
+                                    // Add 30 minutes
+                                    calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
+                                } else {
+                                    // Add 30 minutes
+                                    calendar.add(Calendar.MINUTE, 60); // for 30 minutes from now
+                                }
 
                                 timestamp = new Timestamp(calendar.getTime().getTime()).getTime();
                             } else if (failedLoginAttempts.getAmountFailedLogins() >= 10 &&
-                            amountFailedLogins < 10) {
-                                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                                    amountFailedLogins < 10) {
+                                TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
+                                Calendar calendar = Calendar.getInstance(sofiaTimeZone);
 
                                 // Add 30 minutes
-                                calendar.add(Calendar.MINUTE, 27); // for 30 minutes from now
-                                calendar.add(Calendar.SECOND, 8);
+                                calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
 
                                 timestamp = new Timestamp(calendar.getTime().getTime()).getTime();
                                 amountFailedLogins = failedLoginAttempts.getAmountFailedLogins();
                             }
                             expireTime = new Date(timestamp);
                         }
-                        if (!userFromDB.getPassword().equals(loginUser.getPassword())) {
-                            userLoginFailed(loginUser, response, userFromDB, failedLoginAttempts, existingCookie, amountFailedLogins, expireTime);
+                        if (!userFromDB.getPassword().equals(loginUser.getPassword()) ||
+                                failedLoginAttempts.isUserLocked()) {
+                            userLoginFailed(loginUser,
+                                    response,
+                                    userFromDB,
+                                    failedLoginAttempts,
+                                    existingCookie,
+                                    amountFailedLogins,
+                                    expireTime);
                         }
                         if (failedLoginAttempts.getAmountFailedLogins() >= 10) {
                             return "redirect:/login?errorToManyFailedAttempts";
@@ -325,7 +353,8 @@ public class LoginController {
                                  Cookie existingCookie,
                                  int amountFailedLogins,
                                  Date expireTime) {
-        if (userFromDB.getPassword().equals(loginUser.getPassword())) {
+        if (userFromDB.getPassword().equals(loginUser.getPassword()) &&
+                failedLoginAttempts.getAmountFailedLogins() < 20) {
             amountFailedLogins -= 1;
         }
         if (existingCookie != null) {
@@ -338,12 +367,21 @@ public class LoginController {
             existingCookie.setPath("/");
             response.addCookie(existingCookie);
         } else {
-            Cookie cookie = new Cookie("account_lock", generateTokenFailedLogins(
-                    null,
-                    failedLoginAttempts.getUser().getId(),
-                    amountFailedLogins,
-                    failedLoginAttempts));
-            Date expireDate = new Date(failedLoginAttempts.getAccountLockExpireTime().getTime());
+            Cookie cookie;
+            Date expireDate = new Date(failedLoginAttempts.getAccountLockExpireTime().getTime());// Save the cookie for all pages of the site
+            if (!failedLoginAttempts.isUserLocked()) {
+                cookie = new Cookie("account_lock", generateTokenFailedLogins(
+                        null,
+                        failedLoginAttempts.getUser().getId(),
+                        amountFailedLogins,
+                        failedLoginAttempts));
+            } else {
+                cookie = new Cookie("account_lock", generateTokenFailedLogins(
+                        failedLoginAttempts.getAccountLockExpireTime(),
+                        failedLoginAttempts.getUser().getId(),
+                        amountFailedLogins,
+                        failedLoginAttempts));
+            }
             cookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
             cookie.setPath("/"); // Save the cookie for all pages of the site
             response.addCookie(cookie);
@@ -351,11 +389,11 @@ public class LoginController {
     }
 
     private static FailedLoginAttempts setNewFailedLoginEntity(User userFromDB) {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
+        Calendar calendar = Calendar.getInstance(sofiaTimeZone);
 
         // Add 30 minutes
-        calendar.add(Calendar.MINUTE, 27); // for 30 minutes from now
-        calendar.add(Calendar.SECOND, 8);
+        calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
 
         // new timestamp
         Timestamp futureTimestamp = new Timestamp(calendar.getTime().getTime());
@@ -371,18 +409,17 @@ public class LoginController {
                                                        HttpServletRequest request,
                                                        Long userId) {
         int amount = failedLoginAttempts.getAmountFailedLogins() + 1;
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC")); // Set timezone to UTC
+        TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
+        Calendar calendar = Calendar.getInstance(sofiaTimeZone);
+
         if (failedLoginAttempts.getAmountFailedLogins() == 9) {
             // Add 30 minutes
-            calendar.add(Calendar.MINUTE, 27); // for 30 minutes from now
-            calendar.add(Calendar.SECOND, 8);
-            failedLoginAttempts.setAmountFailedLogins(amount);
+            calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
         } else {
             // Add 60 minutes
-            calendar.add(Calendar.MINUTE, 57);
-            calendar.add(Calendar.SECOND, 8);
-            failedLoginAttempts.setAmountFailedLogins(amount);
+            calendar.add(Calendar.MINUTE, 60);
         }
+        failedLoginAttempts.setAmountFailedLogins(amount);
 
         // Get the new timestamp
         Timestamp futureTimestamp = new Timestamp(calendar.getTime().getTime());
@@ -415,13 +452,12 @@ public class LoginController {
             long timestamp = Long.parseLong(expirationDateClaim);
             if (amount < 20 && amount != 10) {
                 expireDate = new Date(timestamp);
-                if (amount < amountFailedLogins) {
-                    amountFailedLogins = amount;
-                }
-            } else if (amountFailedLogins < 10){
+            } else if (amountFailedLogins < 10) {
                 amountFailedLogins = amount;
             } else if (amount == 10 && lock.equals("true")) {
                 expireDate = new Date(timestamp);
+            } else if (amount == 20 && amountFailedLogins < 20) {
+                amountFailedLogins = amount;
             }
         }
 
@@ -456,24 +492,17 @@ public class LoginController {
             Date expireDate = new Date(timestamp);
 
             if (failedLoginsAmount >= 20) {
-                Calendar calendar = Calendar.getInstance();
+                TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
+                Calendar calendar = Calendar.getInstance(sofiaTimeZone);
 
-                // Specify the desired time zone (e.g., "UTC")
-                TimeZone timeZone = TimeZone.getTimeZone("UTC");
-                calendar.setTimeZone(timeZone);
-
-                calendar.add(Calendar.MINUTE, 57); // for 60 minutes from now
-                calendar.add(Calendar.SECOND, 8);
+                calendar.add(Calendar.MINUTE, 60); // for 60 minutes from now
 
                 expireDate = calendar.getTime();
             } else if (timestamp == 0 && failedLoginsAmount == 10) {
-                Calendar calendar = Calendar.getInstance();
-                // Specify the desired time zone (e.g., "UTC")
-                TimeZone timeZone = TimeZone.getTimeZone("UTC");
-                calendar.setTimeZone(timeZone);
+                TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
+                Calendar calendar = Calendar.getInstance(sofiaTimeZone);
 
-                calendar.add(Calendar.MINUTE, 27); // for 30 minutes from now
-                calendar.add(Calendar.SECOND, 8);
+                calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
 
                 // Convert to Date object
                 expireDate = calendar.getTime();
@@ -485,15 +514,10 @@ public class LoginController {
             response.addCookie(newCookie);
             return failedLoginsAmount >= 10;
         } else {
-            // Get current time
-            Calendar calendar = Calendar.getInstance();
+            TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
+            Calendar calendar = Calendar.getInstance(sofiaTimeZone);
 
-            // Specify the desired time zone (e.g., "UTC")
-            TimeZone timeZone = TimeZone.getTimeZone("UTC");
-            calendar.setTimeZone(timeZone);
-
-            calendar.add(Calendar.MINUTE, 27); // for 30 minutes from now
-            calendar.add(Calendar.SECOND, 8);
+            calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
 
             // Convert to Date object
             Date expireDate = calendar.getTime();
@@ -552,17 +576,6 @@ public class LoginController {
         return new Date(timestamp);
     }
 
-    private static boolean isWithin30Minutes(Date expirationDate) {
-        // Get the current time
-        Date currentTime = new Date();
-
-        // Calculate the time difference in milliseconds
-        long timeDifference = expirationDate.getTime() - currentTime.getTime();
-
-        // Check if the time difference is less than 30 minutes (30 * 60 * 1000 milliseconds)
-        return timeDifference < (30 * 60 * 1000);
-    }
-
     private static Cookie getAccountLockCookie(Cookie[] cookies) {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -572,16 +585,6 @@ public class LoginController {
             }
         }
         return null;
-    }
-
-    private String generateAuthToken(User user) {
-        // Logic to generate a JWT token with user ID in the payload
-        return Jwts.builder()
-                .setSubject(user.getUsername())
-                .claim("userId", user.getId()) //ID in the payload
-                .setExpiration(new Date(System.currentTimeMillis() + 3600 * 24 * 7 * 1000)) // 7 days
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-                .compact();
     }
 
     private static String generateTokenFailedLogins(Date expirationDate, Long userId, int failedTimes,
@@ -627,6 +630,16 @@ public class LoginController {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private String generateAuthToken(User user) {
+        // Logic to generate a JWT token with user ID in the payload
+        return Jwts.builder()
+                .setSubject(user.getUsername())
+                .claim("userId", user.getId()) //ID in the payload
+                .setExpiration(new Date(System.currentTimeMillis() + 3600 * 24 * 7 * 1000)) // 7 days
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .compact();
     }
 
 }

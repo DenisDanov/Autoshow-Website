@@ -4,29 +4,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import java.util.Date;
+import java.util.concurrent.*;
 
 @Service
 public class ExpiringEntityDeleter {
 
     private final ScheduledExecutorService scheduler;
-
     private final FailedLoginAttemptsRepository failedLoginAttemptsRepository;
+    private final Map<Long, ScheduledFuture<?>> scheduledTasks;
 
     @Autowired
     public ExpiringEntityDeleter(FailedLoginAttemptsRepository failedLoginAttemptsRepository) {
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
         this.failedLoginAttemptsRepository = failedLoginAttemptsRepository;
+        this.scheduledTasks = new HashMap<>();
     }
 
     public void scheduleDeletion(FailedLoginAttempts failedLoginAttempts) {
-        Date expirationDate = failedLoginAttempts.getAccountLockExpireTime();
-        long delay = calculateDelay(expirationDate);
+        long delay = calculateDelay(failedLoginAttempts.getAccountLockExpireTime()) + 250;
+        System.out.println(failedLoginAttempts.getAccountLockExpireTime());
+        // Schedule the deletion task and store the ScheduledFuture
+        ScheduledFuture<?> future = scheduler.schedule(() -> deleteEntity(failedLoginAttempts), delay, TimeUnit.MILLISECONDS);
+        scheduledTasks.put(failedLoginAttempts.getUser().getId(), future);
+    }
 
-        // Schedule the deletion task
-        scheduler.schedule(() -> deleteEntity(failedLoginAttempts), delay, TimeUnit.MILLISECONDS);
+    public void cancelScheduledDeletion(FailedLoginAttempts failedLoginAttempts) {
+        // Retrieve the ScheduledFuture for the given failedLoginAttempts
+        ScheduledFuture<?> future = scheduledTasks.get(failedLoginAttempts.getUser().getId());
+        if (future != null) {
+            // Cancel the scheduled task
+            System.out.println(future.cancel(false));
+            // Remove the entry from the map
+            scheduledTasks.remove(failedLoginAttempts);
+        }
     }
 
     public void deleteEntityImmediately(FailedLoginAttempts failedLoginAttempts) {
