@@ -45,7 +45,7 @@ body {
 
 #favorite-vehicles,
 #car-orders {
-    background-color: rgb(80, 78, 75);
+    background: linear-gradient(90deg, rgb(61 56 56) 9%, rgb(65 63 71) 42%, rgb(139 132 157) 100%);
     flex-wrap: wrap;
     list-style: none;
     padding: 0;
@@ -222,14 +222,15 @@ input[type="password"]::-webkit-reveal {
 }
 
 .car-orders-container {
+    color: #a3a3a3;
     flex-direction: column;
-    background-color: rgb(100, 100, 100);
-    border: 5px solid #888;
+    background: linear-gradient(90deg, rgb(26 21 21) 9%, rgb(65 63 71) 42%, rgb(118 116 121) 100%);
+    border: 2px solid #211c1c;
     border-radius: 5px;
 }
 
 .car-order-details {
-    border-bottom: 3px solid #888;
+    border-bottom: 3px solid #434343;
     padding-bottom: 0.7rem;
     padding-top: 0.7rem;
     padding-right: 0.3rem;
@@ -255,6 +256,7 @@ input[type="password"]::-webkit-reveal {
 }
 
 .order-status[status="Completed"] {
+    color: black;
     border: 2px solid rgb(0, 0, 0);
     border-radius: 5px;
     background-color: rgb(83, 126, 87);
@@ -386,4 +388,9 @@ input[type="password"]::-webkit-reveal {
 
 .car-card[max-width="true"] {
     max-width: 400px !important;
+}
+
+.car-card {
+    background: linear-gradient(90deg, rgb(61 56 56) 9%, rgb(65 63 71) 42%, rgb(139 132 157) 100%) !important;
+    color: #000000 !important;
 }
