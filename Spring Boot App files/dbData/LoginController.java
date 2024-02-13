@@ -1,5 +1,7 @@
 package com.example.demo.dbData;
 
+import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokens;
+import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
 import com.example.demo.dbData.recentlyViewedToken.RecentlyViewedRepository;
 import com.example.demo.dbData.recentlyViewedToken.RecentlyViewedToken;
 import com.example.demo.dbData.unsuccessfulLoginAttempts.ExpiringEntityDeleter;
@@ -21,22 +23,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.*;
 
 @Controller
 public class LoginController {
 
-    private static final String SECRET_KEY = generateRandomKey();
-
-    private static String generateRandomKey() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] keyBytes = new byte[64]; // Token length
-
-        secureRandom.nextBytes(keyBytes);
-        return Base64.getEncoder().encodeToString(keyBytes);
-    }
+    private static final String SECRET_KEY = "312op3v53452jv231VWQE3v167456psdapqovk12opvj2opevjas312jvd1jQWEQWE1V21dsa41241vsada123v41AS23vj1p23v123v1kdpaWEQE12VGGDFKPOGKDPFOs";
 
     private final UserRepository userRepository;
 
@@ -48,17 +41,21 @@ public class LoginController {
 
     private final ExpiringEntityDeleter expiringEntityDeleter;
 
+    private final ReplacedAuthTokensRepo replacedAuthTokensRepo;
+
     @Autowired
     public LoginController(UserRepository userRepository,
                            RecentlyViewedRepository recentlyViewedRepository,
                            AuthenticationTokensRepository authenticationTokensRepository,
                            FailedLoginAttemptsRepository failedLoginAttemptsRepository,
-                           ExpiringEntityDeleter expiringEntityDeleter) {
+                           ExpiringEntityDeleter expiringEntityDeleter,
+                           ReplacedAuthTokensRepo replacedAuthTokensRepo) {
         this.userRepository = userRepository;
         this.recentlyViewedRepository = recentlyViewedRepository;
         this.authenticationTokensRepository = authenticationTokensRepository;
         this.failedLoginAttemptsRepository = failedLoginAttemptsRepository;
         this.expiringEntityDeleter = expiringEntityDeleter;
+        this.replacedAuthTokensRepo = replacedAuthTokensRepo;
     }
 
     @GetMapping("/login")
@@ -114,13 +111,18 @@ public class LoginController {
             cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            if (authenticationTokensRepository.findByUser_Id(userFromDB.getId()) == null) {
-                AuthenticationToken authenticationToken = new AuthenticationToken(token, userFromDB, expireTime);
+            AuthenticationToken authenticationToken = authenticationTokensRepository.findByUser_Id(userFromDB.getId());
+            if (authenticationToken == null) {
+                authenticationToken = new AuthenticationToken(token, userFromDB, expireTime);
                 authenticationTokensRepository.save(authenticationToken);
             } else if (currentTime
-                    .after(authenticationTokensRepository.findByUser_Id(userFromDB.getId()).getExpireDate())) {
+                    .after(authenticationToken.getExpireDate())) {
                 authenticationTokensRepository.updateUserToken(userFromDB.getId(), token, expireTime);
             } else {
+                replacedAuthTokensRepo.save(new ReplacedAuthTokens(userFromDB,
+                        authenticationToken.getToken(),
+                       authenticationToken.getExpireDate()));
+                authenticationTokensRepository.updateUserToken(userFromDB.getId(), token, expireTime);
                 cookie.setValue(authenticationTokensRepository.findByUser_Id(userFromDB.getId()).getToken());
             }
 
@@ -150,6 +152,7 @@ public class LoginController {
             cookieRecentlyViewed.setPath("/"); // Save the cookie for all pages of the site
 
             System.out.println("Successfully logged in the user.");
+
             Cookie accountLockCookie = new Cookie("account_lock", "");
             accountLockCookie.setMaxAge(0);
             accountLockCookie.setPath("/");
@@ -632,10 +635,9 @@ public class LoginController {
         }
     }
 
-    private String generateAuthToken(User user) {
+    private String generateAuthToken(User user){
         // Logic to generate a JWT token with user ID in the payload
         return Jwts.builder()
-                .setSubject(user.getUsername())
                 .claim("userId", user.getId()) //ID in the payload
                 .setExpiration(new Date(System.currentTimeMillis() + 3600 * 24 * 7 * 1000)) // 7 days
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
