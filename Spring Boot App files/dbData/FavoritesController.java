@@ -1,5 +1,8 @@
 package com.example.demo.dbData;
 
+import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,73 +26,110 @@ public class FavoritesController {
 
     private final  AuthenticationTokensRepository authenticationTokensRepository;
 
+    private final ReplacedAuthTokensRepo replacedAuthTokensRepo;
+
     @Autowired
     public FavoritesController(UserRepository userRepository,
                                FavoriteVehiclesRepository favoriteVehiclesRepository,
-                               AuthenticationTokensRepository authenticationTokensRepository) {
+                               AuthenticationTokensRepository authenticationTokensRepository,
+                               ReplacedAuthTokensRepo replacedAuthTokensRepo) {
         this.userRepository = userRepository;
         this.favoriteVehiclesRepository = favoriteVehiclesRepository;
         this.authenticationTokensRepository = authenticationTokensRepository;
+        this.replacedAuthTokensRepo = replacedAuthTokensRepo;
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addToFavorites(@RequestBody FavoriteRequest request) {
+    public ResponseEntity<String> addToFavorites(@RequestBody FavoriteRequest request,
+                                                 HttpServletResponse response) {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userRepository.findById(userId);
         AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
-            User user = userOptional.get();
-            // Add the vehicle ID to the user's favorites
-            FavoriteResponse vehicleData = new FavoriteResponse(request.getVehicleId(),
-                    request.getVehicleImg(),
-                    request.getVehicleName());
-
-            List<FavoriteVehiclesEntity> matchingEntities = favoriteVehiclesRepository.findByUser_Id(userId).stream()
-                    .filter(favoriteVehiclesEntity ->
-                            favoriteVehiclesEntity.getVehicleId().equals(request.getVehicleId()) &&
-                                    favoriteVehiclesEntity.getVehicleImg().equals(request.getVehicleImg()) &&
-                                    favoriteVehiclesEntity.getVehicleName().equals(request.getVehicleName()))
-                    .collect(Collectors.toList());
-
-            if (matchingEntities.isEmpty()) {
-                favoriteVehiclesRepository.save(new FavoriteVehiclesEntity(request.getVehicleId(),
-                        request.getVehicleImg(), request.getVehicleName(), user));
-                return ResponseEntity.ok("Vehicle added to favorites successfully.");
-            } else {
-                return ResponseEntity.ok("Vehicle already exists.");
-            }
+            return addVehicleToDb(request,userId,userOptional);
         } else {
+            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            if (userOptional.isPresent() && authenticationToken != null &&
+                    replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
+
+                Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
+                long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
+                cookie.setMaxAge((int) maxAgeInSeconds);
+                cookie.setPath("/"); // Save the cookie for all pages of the site
+                cookie.setSecure(true);
+                cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
+
+                response.addCookie(cookie);
+                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
+                return addVehicleToDb(request,userId,userOptional);
+            }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
     }
 
+    private ResponseEntity<String> addVehicleToDb(@RequestBody FavoriteRequest request, Long userId, Optional<User> userOptional) {
+        User user = userOptional.get();
+
+        List<FavoriteVehiclesEntity> matchingEntities = favoriteVehiclesRepository.findByUser_Id(userId).stream()
+                .filter(favoriteVehiclesEntity ->
+                        favoriteVehiclesEntity.getVehicleId().equals(request.getVehicleId()) &&
+                                favoriteVehiclesEntity.getVehicleImg().equals(request.getVehicleImg()) &&
+                                favoriteVehiclesEntity.getVehicleName().equals(request.getVehicleName()))
+                .collect(Collectors.toList());
+
+        if (matchingEntities.isEmpty()) {
+            favoriteVehiclesRepository.save(new FavoriteVehiclesEntity(request.getVehicleId(),
+                    request.getVehicleImg(), request.getVehicleName(), user));
+            return ResponseEntity.ok("Vehicle added to favorites successfully.");
+        } else {
+            return ResponseEntity.ok("Vehicle already exists.");
+        }
+    }
+
     @PostMapping("/remove")
-    public ResponseEntity<String> removeFromFavorites(@RequestBody FavoriteRequest request) {
+    public ResponseEntity<String> removeFromFavorites(@RequestBody FavoriteRequest request,
+                                                      HttpServletResponse response) {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userRepository.findById(userId);
         AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
-            User user = userOptional.get();
-            // Remove the vehicle ID from the user's favorites
-            List<FavoriteVehiclesEntity> favoriteVehicles = favoriteVehiclesRepository.findByUser_Id(userId);
-
-            // Modify the removal logic to check the vehicleId using equals
+            //removal logic
             if (favoriteVehiclesRepository.deleteByVehicleIdAndUserId(request.getVehicleId(), userId) > 0) {
                 return ResponseEntity.ok("Vehicle removed from favorites successfully.");
             } else {
                 return ResponseEntity.ok("Vehicle is not present in the list.");
             }
         } else {
+            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            if (userOptional.isPresent() && authenticationToken != null &&
+                    replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
+
+                Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
+                long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
+                cookie.setMaxAge((int) maxAgeInSeconds);
+                cookie.setPath("/"); // Save the cookie for all pages of the site
+                cookie.setSecure(true);
+                cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
+
+                response.addCookie(cookie);
+                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
+                if (favoriteVehiclesRepository.deleteByVehicleIdAndUserId(request.getVehicleId(), userId) > 0) {
+                    return ResponseEntity.ok("Vehicle removed from favorites successfully.");
+                } else {
+                    return ResponseEntity.ok("Vehicle is not present in the list.");
+                }
+            }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
     }
 
     @PostMapping("/get")
-    public ResponseEntity<List<FavoriteResponse>> getFavVehicles(@RequestBody FavoriteRequest request) {
+    public ResponseEntity<List<FavoriteResponse>> getFavVehicles(@RequestBody FavoriteRequest request,
+                                                                 HttpServletResponse response) {
         Long userId = Long.parseLong(request.getUserId());
 
         Optional<User> userOptional = userRepository.findById(userId);
@@ -108,6 +147,30 @@ public class FavoritesController {
 
             return ResponseEntity.ok(getAllVehicles);
         } else {
+            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            if (userOptional.isPresent() && authenticationToken != null &&
+                    replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
+
+                Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
+                long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
+                cookie.setMaxAge((int) maxAgeInSeconds);
+                cookie.setPath("/"); // Save the cookie for all pages of the site
+                cookie.setSecure(true);
+                cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
+
+                response.addCookie(cookie);
+                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
+                List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
+                        .findByUser_Id(userId)
+                        .stream()
+                        .map(favoriteVehicle -> new FavoriteResponse(
+                                favoriteVehicle.getVehicleId(),
+                                favoriteVehicle.getVehicleImg(),
+                                favoriteVehicle.getVehicleName()))
+                        .collect(Collectors.toList());
+
+                return ResponseEntity.ok(getAllVehicles);
+            }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
