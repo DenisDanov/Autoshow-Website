@@ -123,7 +123,6 @@ public class LoginController {
                         authenticationToken.getToken(),
                        authenticationToken.getExpireDate()));
                 authenticationTokensRepository.updateUserToken(userFromDB.getId(), token, expireTime);
-                cookie.setValue(authenticationTokensRepository.findByUser_Id(userFromDB.getId()).getToken());
             }
 
             RecentlyViewedToken recentlyViewedToken;

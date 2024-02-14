@@ -1,7 +1,10 @@
 package com.example.demo.dbData.recentlyViewedToken;
 
-import com.example.demo.dbData.*;
+import com.example.demo.dbData.AuthenticationToken;
+import com.example.demo.dbData.AuthenticationTokensRepository;
 import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
+import com.example.demo.dbData.User;
+import com.example.demo.dbData.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +39,8 @@ public class RecentlyViewedTokenController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addRecentlyViewedCar(@RequestParam String userId, String carId, String authToken,
-                                                       HttpServletResponse response) {
+    private ResponseEntity<String> addRecentlyViewedCar(@RequestParam String userId, String carId, String authToken,
+                                                        HttpServletResponse response) {
         AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(authToken);
         if (recentlyViewedRepository.findByUser_Id(Long.valueOf(userId)).isPresent() &&
                 authenticationToken != null &&
@@ -86,5 +89,62 @@ public class RecentlyViewedTokenController {
             }
             return ResponseEntity.ok("Invalid user");
         }
+    }
+
+    @GetMapping("/get")
+    private ResponseEntity<List<String>> getRecentlyViewedCars(@RequestParam String userId, String authToken,
+                                                               HttpServletResponse response) {
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(authToken);
+
+        if (userRepository.findById(Long.parseLong(userId)).isPresent() && authenticationToken != null &&
+                Objects.equals(authenticationToken.getUser().getId(), Long.valueOf(userId))) {
+
+            if (recentlyViewedRepository.findByUser_Id(Long.valueOf(userId)).isPresent()) {
+                RecentlyViewedToken recentlyViewedToken = recentlyViewedRepository.findByUser_Id(Long.valueOf(userId)).get();
+                if (recentlyViewedToken.getRecentlyViewedCars() != null &&
+                        !recentlyViewedToken.getRecentlyViewedCars().isEmpty()) {
+                    List<String> recentlyViewedCars = List.of(recentlyViewedToken.
+                            getRecentlyViewedCars().split(","));
+                    return ResponseEntity.ok(recentlyViewedCars);
+                } else {
+                    return ResponseEntity.ok(null);
+                }
+            } else {
+                return ResponseEntity.ok(null);
+            }
+
+        } else {
+            authenticationToken = authenticationTokensRepository.findByUser_Id(Long.valueOf(userId));
+            Optional<User> userOptional = userRepository.findById(Long.parseLong(userId));
+            if (userOptional.isPresent() && authenticationToken != null &&
+                    replacedAuthTokensRepo.findByReplacedToken(authToken) != null) {
+
+                Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
+                long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
+                cookie.setMaxAge((int) maxAgeInSeconds);
+                cookie.setPath("/"); // Save the cookie for all pages of the site
+                cookie.setSecure(true);
+                cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
+
+                response.addCookie(cookie);
+                replacedAuthTokensRepo.deleteByReplacedToken(authToken);
+                if (recentlyViewedRepository.findByUser_Id(Long.valueOf(userId)).isPresent()) {
+                    RecentlyViewedToken recentlyViewedToken = recentlyViewedRepository.findByUser_Id(Long.valueOf(userId)).get();
+                    if (recentlyViewedToken.getRecentlyViewedCars() != null &&
+                            !recentlyViewedToken.getRecentlyViewedCars().isEmpty()) {
+                        List<String> recentlyViewedCars = List.of(recentlyViewedToken.
+                                getRecentlyViewedCars().split(","));
+                        return ResponseEntity.ok(recentlyViewedCars);
+                    } else {
+                        return ResponseEntity.ok(null);
+                    }
+                } else {
+                    return ResponseEntity.ok(null);
+                }
+            }
+            return ResponseEntity.ok(null);
+        }
+
+
     }
 }

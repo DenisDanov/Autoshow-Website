@@ -86,16 +86,16 @@ if (authToken) {
                 reject(error);
             });
     });
-    
 
-    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/get?id=${userId}`)
-        .then(response => response.json())
-        .then(result => {
-            for (const carOrder of result) {
-                const container = document.createElement(`li`);
-                let carManufacturer = carOrder.carManufacturer;
-                carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
-                container.innerHTML = `
+    favoritesLoaded.then(result => {
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/get?id=${userId}`)
+            .then(response => response.json())
+            .then(result => {
+                for (const carOrder of result) {
+                    const container = document.createElement(`li`);
+                    let carManufacturer = carOrder.carManufacturer;
+                    carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
+                    container.innerHTML = `
                 <div class="car-orders-container">
                 <div class="car-order-details">
                     <div>
@@ -150,18 +150,19 @@ if (authToken) {
             </div>
             </div>
                 `
-                container.querySelector(`#change-order`).addEventListener(`click`, (e) => {
-                    modifyOrderFunc(e, carManufacturer, carOrder);
-                });
-                const imagePath = `images/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.png`;
-                const img = new Image();
-                img.src = imagePath;
-                orderStatusCheck(img, container, carManufacturer, carOrder);
-                container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
-                document.getElementById(`car-orders`).appendChild(container);
-            }
-        })
-        .catch(err => console.log(err));
+                    container.querySelector(`#change-order`).addEventListener(`click`, (e) => {
+                        modifyOrderFunc(e, carManufacturer, carOrder);
+                    });
+                    const imagePath = `images/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.png`;
+                    const img = new Image();
+                    img.src = imagePath;
+                    orderStatusCheck(img, container, carManufacturer, carOrder);
+                    container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
+                    document.getElementById(`car-orders`).appendChild(container);
+                }
+            })
+            .catch(err => console.log(err));
+    });
 }
 
 function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
