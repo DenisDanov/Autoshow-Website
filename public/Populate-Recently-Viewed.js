@@ -1,33 +1,52 @@
-function getCarParamsFromCookie() {
-    const savedParamsCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('recently_viewed='));
-    if (savedParamsCookie) {
-        let paramsString = decodeURIComponent(savedParamsCookie.split('=')[1]).replace(/%2F/g, '/');
-        paramsString = paramsString.replace(/\+/g, " ");
-        return paramsString ? paramsString.split(',') : [];
-    }
-    return [];
-}
-
-const carParams = getCarParamsFromCookie();
-var currentURL = window.location.href;
-const favVehiclesIdsHome = [];
-
 if (authToken) {
     var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
     var userId = decodedToken.userId;
 }
 
+function getCarParams() {
+    return new Promise((resolve, reject) => {
+        if (authToken) {
+            fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/recently-viewed/get?userId=${userId}&authToken=${authToken}`)
+                .then(response => response.json())
+                .then(result => {
+                    if (result == null) {
+                        resolve([]);
+                    } else {
+                        const arr = [];
+                        for (const car of result) {
+                            arr.push(car);
+                        }
+                        resolve(arr);
+                    }
+                })
+                .catch(err => reject(err));
+        } else {
+            const savedParamsCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('recently_viewed='));
+            if (savedParamsCookie) {
+                let paramsString = decodeURIComponent(savedParamsCookie.split('=')[1]).replace(/%2F/g, '/');
+                paramsString = paramsString.replace(/\+/g, " ");
+                resolve(paramsString ? paramsString.split(',') : []);
+            }
+            resolve([]);
+        }
+    })
+}
+
+var currentURL = window.location.href;
+const favVehiclesIdsHome = [];
+
 var recentlyViewedLoaded = new Promise((resolve, reject) => {
-    if (currentURL === "https://danov-autoshow-656625355b99.herokuapp.com/profile.html") {
-        favoritesLoaded.then(response => {
-            if (carParams.length !== 0) {
-                const container = document.querySelector(`.recently-viewed-cars`);
-                for (let index = carParams.length - 1; index >= 0; index--) {
-                    let entrie = carParams[index];
-                    const carCard = document.createElement(`div`);
-                    const modelName = entrie.split(`3D Models/`)[1];
-                    carCard.classList.add(`car-card`);
-                    carCard.innerHTML = `
+    getCarParams().then(carParams => {
+        if (currentURL === "https://danov-autoshow-656625355b99.herokuapp.com/profile.html") {
+            favoritesLoaded.then(response => {
+                if (carParams.length !== 0) {
+                    const container = document.querySelector(`.recently-viewed-cars`);
+                    for (let index = carParams.length - 1; index >= 0; index--) {
+                        let entrie = carParams[index];
+                        const carCard = document.createElement(`div`);
+                        const modelName = entrie.split(`3D Models/`)[1];
+                        carCard.classList.add(`car-card`);
+                        carCard.innerHTML = `
                             <div class="img-container">
                                             <img src="images/${modelName.split(`.`)[0]}.png" alt="Car 2">
                                         </div>
@@ -46,50 +65,50 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                         <a href="showroom.html?car=${entrie}" class="view-button">View in
                                             Showroom</a>        
                             `;
-                    if (favVehiclesIds.includes(carCard.querySelector(`a`).href)) {
-                        showroomAccess(carCard.querySelector(`a`).href);
-                        carCard.querySelector(`.add-fav input`).checked = true;
-                        carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
-                    }
-                    carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
-                    container.appendChild(carCard);
-                }
-                resolve("success");
-            } else {
-                document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
-                document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
-                document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
-            }
-        });
-    } else {
-        if (carParams.length !== 0) {
-            if (authToken) {
-                fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/get`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        userId: userId,
-                        authToken: authToken
-                    })
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        const favVehiclesArr = result.favVehicles
-                        if (favVehiclesArr !== null) {
-                            for (const vehicle of favVehiclesArr) {
-                                favVehiclesIdsHome.push(vehicle.vehicleId);
-                            }
+                        if (favVehiclesIds.includes(carCard.querySelector(`a`).href)) {
+                            showroomAccess(carCard.querySelector(`a`).href);
+                            carCard.querySelector(`.add-fav input`).checked = true;
+                            carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                         }
+                        carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
+                        container.appendChild(carCard);
+                    }
+                    resolve("success");
+                } else {
+                    document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
+                    document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
+                    document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+                }
+            });
+        } else {
+            if (carParams.length !== 0) {
+                if (authToken) {
+                    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/get`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            userId: userId,
+                            authToken: authToken
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(result => {
+                            const favVehiclesArr = result.favVehicles
+                            if (favVehiclesArr !== null) {
+                                for (const vehicle of favVehiclesArr) {
+                                    favVehiclesIdsHome.push(vehicle.vehicleId);
+                                }
+                            }
 
-                        const container = document.querySelector(`.recently-viewed-cars`);
-                        for (let index = carParams.length - 1; index >= 0; index--) {
-                            let entrie = carParams[index];
-                            const carCard = document.createElement(`div`);
-                            const modelName = entrie.split(`3D Models/`)[1];
-                            carCard.classList.add(`car-card`);
-                            carCard.innerHTML = `
+                            const container = document.querySelector(`.recently-viewed-cars`);
+                            for (let index = carParams.length - 1; index >= 0; index--) {
+                                let entrie = carParams[index];
+                                const carCard = document.createElement(`div`);
+                                const modelName = entrie.split(`3D Models/`)[1];
+                                carCard.classList.add(`car-card`);
+                                carCard.innerHTML = `
                                     <div class="img-container">
                                                     <img src="images/${modelName.split(`.`)[0]}.png" alt="Car 2">
                                                 </div>
@@ -109,26 +128,26 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                                     Showroom</a>        
                                     `;
 
-                            if (favVehiclesIdsHome.includes(carCard.querySelector(`a`).href)) {
-                                showroomAccess(carCard.querySelector(`a`).href);
-                                carCard.querySelector(`.add-fav input`).checked = true;
-                                carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
+                                if (favVehiclesIdsHome.includes(carCard.querySelector(`a`).href)) {
+                                    showroomAccess(carCard.querySelector(`a`).href);
+                                    carCard.querySelector(`.add-fav input`).checked = true;
+                                    carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
+                                }
+                                carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
+                                container.appendChild(carCard);
                             }
-                            carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
-                            container.appendChild(carCard);
-                        }
-                        resolve("success");
-                    }).catch(error => {
-                        reject(error);
-                    });
-            } else {
-                const container = document.querySelector(`.recently-viewed-cars`);
-                for (let index = carParams.length - 1; index >= 0; index--) {
-                    let entrie = carParams[index];
-                    const carCard = document.createElement(`div`);
-                    const modelName = entrie.split(`3D Models/`)[1];
-                    carCard.classList.add(`car-card`);
-                    carCard.innerHTML = `
+                            resolve("success");
+                        }).catch(error => {
+                            reject(error);
+                        });
+                } else {
+                    const container = document.querySelector(`.recently-viewed-cars`);
+                    for (let index = carParams.length - 1; index >= 0; index--) {
+                        let entrie = carParams[index];
+                        const carCard = document.createElement(`div`);
+                        const modelName = entrie.split(`3D Models/`)[1];
+                        carCard.classList.add(`car-card`);
+                        carCard.innerHTML = `
                             <div class="img-container">
                                             <img src="images/${modelName.split(`.`)[0]}.png" alt="Car 2">
                                         </div>
@@ -147,18 +166,18 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                         <a href="showroom.html?car=${entrie}" class="view-button">View in
                                             Showroom</a>        
                             `;
-                    carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
-                    container.appendChild(carCard);
+                        carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
+                        container.appendChild(carCard);
+                    }
+                    resolve("success");
                 }
-                resolve("success");
+            } else {
+                document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
+                document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
+                document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
             }
-        } else {
-            document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
-            document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
-            document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
         }
-    }
-
+    });
 });
 
 function checkFavVehicles(e) {
