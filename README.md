@@ -59,7 +59,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - ![Screenshot_29](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/d411375e-11e9-4e8a-a7a1-4c8d86cf1de5)
 
 #### Auto Show Page:
-![Screenshot_23](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/b7d9ac5b-e28e-4191-841a-422564d0faac)
+![Screenshot_30](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/5c0b4509-4f60-437b-b9d2-ed3daa6a0897)
 - The Autoshow page showcases a collection of 9 cars available for viewing.
 - Unregistered users can explore the featured cars and their specifications.
 - Registered users have the additional functionality of adding cars to their favorites directly from this page.
@@ -68,3 +68,46 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - Users can specify their preferences by selecting the manufacturer and year of the desired vehicle.
   - This feature streamlines the process of finding specific models tailored to the user's preferences.
   ![Screenshot_24](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/434cef67-d42b-4fab-abc5-6395654b9bc5)
+
+#### Showroom Page:
+![Screenshot_28](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/1b204bac-e320-40cc-95ff-2f5b3e56f36c)
+- The Showroom page offers detailed 3D models of vehicles for immersive exploration.
+- Users can inspect vehicles using two interactive functionalities:
+  - Third-person camera control: Users can rotate and zoom the camera using mouse movements or touch gestures on phones.
+  - First-person camera control: Users can navigate the scene using keyboard keys (W, A, S, D) and the mouse for direction and view control. On phones, navigation is facilitated through touch gestures.
+- Additionally, a button is provided to access detailed information about the vehicle.
+  - Clicking the "Vehicle Info" button redirects users to a page containing comprehensive specifications and equipment details for the selected vehicle.
+- The Showroom page features functionality to restrict access to 3D models not available in the Autoshow.
+  - If a user attempts to access a 3D model that is not featured in the Autoshow page, access is granted only if the model has been ordered or added to favorites.
+  - Users without the model ordered or added to favorites are denied access to the model, ensuring exclusive access to authorized content.
+  -  ![Screenshot_31](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/e46c5485-67d9-43e1-b37e-52fb6554dd5b)
+
+#### Profile page:
+- The Profile page is exclusively available for logged-in users, offering a range of functionalities for account management and vehicle tracking.
+- Users can easily modify their account information with three primary functionalities:
+  - Change Username: Users have the option to update their username to better suit their preferences or reflect changes.
+  - Change Email: Users can modify their email address for account communication and verification purposes.
+  - Change Password: Users can securely update their account password for enhanced security.
+  - ![Screenshot_34](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/4635f9da-1dd6-416b-986d-5815bd5eb27b)
+- Additionally, users have the option to request a password reset via email.
+  - Upon request, an email containing a unique link is sent to the user's registered email address.
+  - ![Screenshot_32](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/4c446afb-01a3-42ee-96d7-e1fc649c4d86)
+  - The link allows users to reset their password, ensuring a seamless and secure process.
+  - ![Screenshot_33](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/fa6e02c9-297a-4b84-8a33-347b58ed2179)
+  - Once 24 hours have elapsed or the password has been successfully changed, the link will expire, preventing further password changes.
+- The Profile page also features sections to track favorite and ordered vehicles:
+  - Favorites Vehicles: Users can view a list of vehicles they have marked as favorites for easy reference and future exploration.
+  - ![Screenshot_35](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/78c16999-689c-401d-86d6-144bc7e09b79)
+  - Ordered Vehicles: Users can access a comprehensive list of all vehicles they have ordered, providing transparency and tracking capabilities for past orders.
+    - ![Screenshot_36](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/ddec3051-db37-4acd-a71a-87e585aa0ebd)
+    - Orders on the platform have three statuses:
+    - Completed: Users can explore their ordered car once it's marked as completed.
+    - Pending: Indicates that there isn't an available model on the site for that specific order.
+    - Expired: Occurs after 7 days pass without an available model to fulfill the order.
+      - Additionally, the Profile page features three functionalities for managing orders:
+      - Cancel/Delete Order: Allows users to cancel and delete the order.
+      - Change Order: Users can change the model to another one based on their selection.
+        - ![Screenshot_37](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/e5fe5af1-fc7c-4610-8cfb-ac0d66ef9c79)
+      - Remake Order: Available for expired orders only, this functionality allows users to order the same model again, extending the order's validity by another 7 days, or choose a different model.
+        - ![Screenshot_38](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/a5d12b5b-8a56-4a99-99bc-5f824936f717)
+     - When users change their order, the update occurs immediately and is reflected live on the site.
