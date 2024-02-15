@@ -56,7 +56,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - The newsletter subscription functionality validates email addresses to ensure they are valid.
   - It also checks if the email is not already subscribed to the newsletter, preventing duplicate subscriptions.
   - ![Screenshot_26](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/506d73d5-686b-4ff6-8462-80f893c01c7a)
-  - ![Screenshot_27](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/b1f7869f-695e-4b7d-8f28-17cffd28f6a4)
+  - ![Screenshot_29](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/d411375e-11e9-4e8a-a7a1-4c8d86cf1de5)
 
 #### Auto Show Page:
 ![Screenshot_23](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/b7d9ac5b-e28e-4191-841a-422564d0faac)
