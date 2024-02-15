@@ -104,7 +104,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
     - Completed: Users can explore their ordered car once it's marked as completed.
     - Pending: Indicates that there isn't an available model on the site for that specific order.
     - Expired: Occurs after 7 days pass without an available model to fulfill the order.
-      - Additionally, the Profile page features three functionalities for managing orders:
+    - Additionally, the Profile page features three functionalities for managing orders:
       - Cancel/Delete Order: Allows users to cancel and delete the order.
       - Change Order: Users can change the model to another one based on their selection.
         - ![Screenshot_37](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/e5fe5af1-fc7c-4610-8cfb-ac0d66ef9c79)
