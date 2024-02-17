@@ -20,6 +20,8 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 
 - [Description](#description)
 - [Built With](#BuiltWith)
+- [Front-End](#front-end)
+- [Backend](#backend)
 - [License](#license)
 
 ## Built With
@@ -149,3 +151,27 @@ The login page provides a simple and secure gateway for users to access their ac
       - Remake Order: Available for expired orders only, this functionality allows users to order the same model again, extending the order's validity by another 7 days, or choose a different model.
         - ![Screenshot_38](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/a5d12b5b-8a56-4a99-99bc-5f824936f717)
      - When users change their order, the update occurs immediately and is reflected live on the site.
+
+## Backend
+- #### Token Cleanup Service:
+  - Responsible for removing expired password reset tokens from the database.
+  - Ensures data integrity and security.
+  - Scheduled to run periodically to clean up outdated tokens.
+- #### Newsletter Email Sender Service:
+  - Runs every day at midnight.
+  - Checks for newsletter emails needing to be sent, particularly those not receiving emails in the past two weeks.
+  - Sends emails to eligible subscribers for timely communication.
+- #### Expired Authentication Token Cleanup Service:
+  - Scheduled to run periodically.
+  - Cleans up expired authentication tokens from the database.
+  - Maintains system efficiency and prevents clutter in the database.
+- #### Single-Threaded Executor Service for Lock Removal:
+  - Scheduled to remove locks of users locked out due to too many failed login attempts.
+  - Executes periodically and once at application start to handle expired locks from previous instances or restarts.
+  - Ensures security and accessibility of user accounts by managing lockout mechanisms effectively.
+- #### Additional backend features:
+  - Automatic sending of emails for various events like password resets, newsletter emails, and after subscription to the newsletter.
+  - Implementation of a secured RESTful API for accessing data from the database to the client.
+  - For every request to the database that contains user data, a valid authentication token is needed along with the user ID.
+  - Additional authentication handling to ensure that the provided token is made for that specific user ID.
+  - In case of valid request this is the response ![Screenshot_44](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/0aedebf4-d542-407f-8067-97a4be5d1a16)
