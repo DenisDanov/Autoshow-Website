@@ -41,6 +41,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Custom Car Data API](#custom-car-data-api)
   - [Email Service](#email-service)
   - [Database](#database)
+  - [Proxy Implementation](#proxy-implementation)
 - [License](#license)
 
 ## Built With
@@ -237,5 +238,8 @@ The login page provides a simple and secure gateway for users to access their ac
   - Implemented robust database schema design to efficiently store and manage data for the application.
   - Below is the database diagram illustrating the structure and relationships of the database tables:
   - ![Screenshot_49](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/345dff10-07b6-42cb-a44a-32f50c354c84)
-
+### Proxy Implementation
+- Implemented a proxy to fix the CORS (Cross-Origin Resource Sharing) problem.
+- The proxy enables requests to third-party APIs, ensuring seamless integration with external services.
+- This solution enhances the functionality and flexibility of the application by enabling access to external resources securely.
 
