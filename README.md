@@ -67,8 +67,10 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   <li><img src="https://img.shields.io/badge/apache_maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white"></img></li>
 </ul>
 
-<details>
-<summary><h2>Front-End</h2></summary>
+
+## Front-End
+
+<details id="register-page">
 
 #### Register page:
 The registration process is straightforward and user-friendly, requiring users to provide essential information to create an account.
@@ -85,6 +87,8 @@ The registration process is straightforward and user-friendly, requiring users t
   - Passwords must be at least 8 characters in length to ensure security.
 
 Upon successful registration, users are automatically redirected to the login page, where they can access their newly created account using their credentials.
+
+</details>
 
 #### Login page:
 The login page provides a simple and secure gateway for users to access their accounts.
