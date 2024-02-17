@@ -174,4 +174,4 @@ The login page provides a simple and secure gateway for users to access their ac
   - Implementation of a secured RESTful API for accessing data from the database to the client.
   - For every request to the database that contains user data, a valid authentication token is needed along with the user ID.
   - Additional authentication handling to ensure that the provided token is made for that specific user ID.
-  - In case of valid request this is the response ![Screenshot_44](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/0aedebf4-d542-407f-8067-97a4be5d1a16)
+  - In case of valid request this is the response ![Screenshot_45](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/bc203b4a-9b23-40fa-96f5-e0f4df580e3b)
