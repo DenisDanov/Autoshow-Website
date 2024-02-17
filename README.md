@@ -21,14 +21,19 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 
 - [Description](#description)
 - [Built With](#BuiltWith)
-- [Front-End](#front-end)
+- <details>
+  <summary><b>Front-End</b></summary>
+
   - [Register page](#register-page)
   - [Login page](#login-page)
   - [Home Page](#home-page)
   - [Auto Show Page](#auto-show-page)
   - [Showroom Page](#showroom-page)
   - [Profile Page](#profile-page)
-- [Backend](#backend)
+</details>
+- <details>
+  <summary><b>Backend</b></summary>
+
   - [Login System](#login-system)
   - [User Account Management](#user-account-management)
   - [Password Reset Functionality](#password-reset-functionality)
@@ -37,11 +42,10 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Newsletter Email Sender Service](#newsletter-email-sender-service)
   - [Expired Authentication Token Cleanup Service](#expired-authentication-token-cleanup-service)
   - [Single-Threaded Executor Service for Lock Removal](#single-threaded-executor-service-for-lock-removal)
-  - [RESTful APIs](#restful-apis)
-  - [Custom Car Data API](#custom-car-data-api)
-  - [Email Service](#email-service)
+  - [Email service](#email-service)
   - [Database](#database)
   - [Proxy Implementation](#proxy-implementation)
+</details>
 - [License](#license)
 
 ## Built With
