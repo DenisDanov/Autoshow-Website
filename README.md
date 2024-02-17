@@ -1,4 +1,4 @@
-# Auto Show Website - RESTful Spring Web Application
+# Auto Show Website - REST Spring Web Application
 
 <div align="center">
   <img src="public/images/logo.png" alt="Image Description">
@@ -208,8 +208,8 @@ The login page provides a simple and secure gateway for users to access their ac
 - #### Exception Handling:
   - Implemented exception handling to manage and respond to errors that occur during system runtime.
   - Provides appropriate error messages for invalid credentials or requests, informing the user of the issue.
-- #### RESTful APIs:
-  - Implementation of a secured RESTful API for accessing data from the database to the client.
+- #### REST APIs:
+  - Implementation of a secured REST API for accessing data from the database to the client.
   - For every request to the database that contains user data, a valid authentication token is needed along with the user ID.
   - Additional authentication handling ensures that the provided token is made for that specific user ID.
   - Example of successful request made:
