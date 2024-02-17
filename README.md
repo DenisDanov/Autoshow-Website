@@ -40,6 +40,40 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 
 ## Front-End
 
+#### Register page:
+The registration process is straightforward and user-friendly, requiring users to provide essential information to create an account.
+![Screenshot_42](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/dde02812-b47f-44c3-a0c9-8fee3513f1a9)
+
+- Users are prompted to enter their desired username, valid email address, and password.
+- Error handling mechanisms ensure data integrity and security:
+  - Usernames must be unique; duplicate usernames are not permitted.
+  - Email addresses must be unique, and valid email formats are required; duplicate or invalid emails are rejected.
+  - Passwords must be at least 8 characters in length to ensure security.
+
+Upon successful registration, users are automatically redirected to the login page, where they can access their newly created account using their credentials.
+
+#### Login page:
+The login page provides a simple and secure gateway for users to access their accounts.
+
+
+![Screenshot_40](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/f65e4115-14d6-4caa-b000-086ac0b7476b)
+
+
+
+- Users are required to enter their username and password to log in.
+- For users who have forgotten their password, there is an option to reset it via email:
+  - If a valid email associated with an account is entered, an email containing a password reset link is automatically sent to that email address.
+  - ![Screenshot_41](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/6cd4545a-490c-4e6b-869f-1a6c273b4407)
+- The login page features anti-bot protection to prevent unauthorized access and maintain security:
+  - ![Screenshot_43](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/ba3b9723-de06-45db-96f2-9a4cacfa831a)
+  - After 10 failed login attempts due to invalid username or password, the user is temporarily locked out from logging into the site for 30 minutes.
+  - Continued failed login attempts result in an increased lockout duration; after 20 failed attempts, the lockout period is extended to 1 hour.
+  - Additionally, if a valid username is entered but an invalid password, the associated account is locked out from logging in:
+    - After 10 failed login attempts, the account is locked for 30 minutes.
+    - After 20 failed attempts, the account remains locked for 1 hour, and the user is notified via email to inform them of the lockout due to potential unauthorized access.
+- After successful login, users are redirected to the home page and successfully logged in to their accounts. Users will stay logged in for 7 days, after which their login session        expires, and they are automatically logged out.
+
+
 #### Home Page:
 ![Screenshot_22](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/f786cbf5-a383-44d6-b1f9-bb808f3272f3)
 - The home page serves as the entry point to the website.
