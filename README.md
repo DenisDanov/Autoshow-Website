@@ -42,7 +42,11 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 
 #### Register page:
 The registration process is straightforward and user-friendly, requiring users to provide essential information to create an account.
+
+
 ![Screenshot_42](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/dde02812-b47f-44c3-a0c9-8fee3513f1a9)
+
+
 
 - Users are prompted to enter their desired username, valid email address, and password.
 - Error handling mechanisms ensure data integrity and security:
