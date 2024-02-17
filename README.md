@@ -21,19 +21,14 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 
 - [Description](#description)
 - [Built With](#built-with)
-- <details>
-  <summary><b>Front-End</b></summary>
-
-  - [<a href="#front-end">Register Page</a>](#register-page)
+- [Front-End](#front-end)
+  - [Register Page](#register-page)
   - [Login page](#login-page)
   - [Home Page](#home-page)
   - [Auto Show Page](#auto-show-page)
   - [Showroom Page](#showroom-page)
   - [Profile Page](#profile-page)
-- </details>
-  <details>
-  <summary><b>Backend</b></summary>
-
+- [Backend](#backend)
   - [Login System](#login-system)
   - [User Account Management](#user-account-management)
   - [Password Reset Functionality](#password-reset-functionality)
@@ -45,8 +40,6 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Email service](#email-service)
   - [Database](#database)
   - [Proxy Implementation](#proxy-implementation)
-</details>
-
 - [License](#license)
 
 
