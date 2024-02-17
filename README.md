@@ -169,18 +169,22 @@ The login page provides a simple and secure gateway for users to access their ac
   - Scheduled to remove locks of users locked out due to too many failed login attempts.
   - Executes periodically and once at application start to handle expired locks from previous instances or restarts.
   - Ensures security and accessibility of user accounts by managing lockout mechanisms effectively.
-- #### Additional backend features:
-  - Automatic sending of emails for various events like password resets, newsletter emails, and after subscription to the newsletter.
+- #### RESTful APIs:
   - Implementation of a secured RESTful API for accessing data from the database to the client.
   - For every request to the database that contains user data, a valid authentication token is needed along with the user ID.
-  - Additional authentication handling to ensure that the provided token is made for that specific user ID.
-  - In case of valid request this is the response ![Screenshot_45](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/bc203b4a-9b23-40fa-96f5-e0f4df580e3b)
-  - Custom car data API:
-    - Implemented a custom car data API that returns over 500 different car manufacturers from a local JSON file.
-      - When no make or model are provided it returns every car make available for selection on the site
-        - ![Screenshot_46](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/3a8a50e1-ba28-4627-9041-72ada61cc3ad)
-    - Filters the correct models for the selected manufacturer.
-      - ![Screenshot_47](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/a3a8cd81-74da-4239-9ca7-1a66924bc7b9)
-    - Additionally filters the car years fitting the selected model.
-      - ![Screenshot_48](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/d11ca6b3-57a6-49f8-be62-73e9f1a97641)
-
+  - Additional authentication handling ensures that the provided token is made for that specific user ID.
+  - In the case of a valid request, this is the response:
+    ![Screenshot_45](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/bc203b4a-9b23-40fa-96f5-e0f4df580e3b)
+- Custom car data API:
+  - Implemented a custom car data API that returns over 500 different car manufacturers from a local JSON file.
+    - When no make or model is provided, it returns every car make available for selection on the site:
+      ![Screenshot_46](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/3a8a50e1-ba28-4627-9041-72ada61cc3ad)
+    - Filters the correct models for the selected manufacturer:
+      ![Screenshot_47](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/a3a8cd81-74da-4239-9ca7-1a66924bc7b9)
+    - Additionally filters the car years fitting the selected model:
+      ![Screenshot_48](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/d11ca6b3-57a6-49f8-be62-73e9f1a97641) 
+- #### Email service:
+  - Implemented an automatic email service that sends emails for various events:
+    - Password reset requests
+    - User subscription to the newsletter
+    - User account lockout due to too many failed login attempts
