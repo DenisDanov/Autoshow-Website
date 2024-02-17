@@ -24,9 +24,6 @@ public class UserController {
     private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
-    private HttpServletRequest request;
-
-    @Autowired
     public UserController(UserService userService,
                           UserRepository userRepository,
                           PasswordResetService passwordResetService,
@@ -55,24 +52,6 @@ public class UserController {
             }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The account with this email could not be found. Please try with different email.");
-        }
-    }
-
-    @GetMapping("/getUserId")
-    public String getUserId() {
-        // Retrieve the HttpSession
-        HttpSession httpSession = request.getSession(false); // Don't create a new session if it doesn't exist
-
-        // Check if HttpSession exists and retrieve userId attribute
-        if (httpSession != null) {
-            String userId = (String) httpSession.getAttribute("userId");
-            if (userId != null) {
-                return "User ID: " + userId;
-            } else {
-                return "User ID not found in session";
-            }
-        } else {
-            return "No session found";
         }
     }
 

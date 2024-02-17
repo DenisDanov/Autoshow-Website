@@ -21,7 +21,7 @@ public class SendNewsLetterEmailService {
         this.newsletterEmailsRepository = newsletterEmailsRepository;
     }
 
-    @Scheduled(cron = "0 */31 * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void sendWeeklyEmails() throws IOException {
         // Get the list of subscribed emails
         List<NewsletterEmails> subscribedEmails = newsletterEmailsRepository.findAll();

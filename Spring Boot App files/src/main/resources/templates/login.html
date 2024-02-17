@@ -1,0 +1,291 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="register.css">
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
+    <style>
+        .alert {
+            display: none;
+            color: #a73131;
+            padding-bottom: 0.3rem;
+        }
+
+        #countdown {
+            padding-bottom: 0.3rem;
+        }
+    </style>
+</head>
+
+<body>
+<header class="nav-header" id="header">
+    <a href="index.html" class="logo">
+        <img class="logo-img" src="images/logo.png" alt="Logo">
+    </a>
+    <div class="h1">
+        <h1>Where Luxury Meets Performance</h1>
+    </div>
+    <div class="container">
+        <button class="hamburger" id="hamburgerButton">
+            <i class="fas fa-bars"></i>
+            <span class="menuText">Menu</span>
+        </button>
+        <ul class="menu" id="menu">
+            <li><a class="menuItem" href="index.html" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-home"></i>
+                Home</a></li>
+            <li><a class="menuItem" href="auto-show.html" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-car"></i>
+                Auto
+                Show</a></li>
+            <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-sign-in-alt"></i> Log in</a></li>
+            <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-info-circle"></i> About</a></li>
+        </ul>
+    </div>
+    <nav class="navs">
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i></a></li>
+                <li><a href="auto-show.html"><i class="fas fa-car"></i></a></li>
+                <li><a href="#"><i class="fas fa-sign-in-alt"></i></a></li>
+                <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
+            </ul>
+        </nav>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li class="auto-show"><a href="auto-show.html">Auto Show</a></li>
+                <li><a href="#">Log in</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+    </nav>
+</header>
+<script src="mobile-menu.js"></script>
+<div class="register-container">
+    <h2>Login</h2>
+    <div th:if="${param.error}" class="alert alert-danger">
+        Invalid username or password. Please try again.
+    </div>
+    <div th:if="${param.errorTooManyFailedAttempts}" class="alert alert-danger">
+        Too many failed attempts please try again later.
+    </div>
+    <div id="countdown"></div>
+    <form action="/login" method="post" th:object="${loginUser}">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" th:field="*{username}" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" th:field="*{password}" required>
+
+        <button type="submit">Log in</button>
+        <button id="register" type="button">Register</button>
+        <a id="forgotten-password">Forgot your password ?</a>
+    </form>
+    <div id="overlay">
+        <div id="popup">
+            <label for="send-email">Please enter the email associated with your account.</label>
+            <p id="forgotten-password-result" style="display: none"></p>
+            <input type="text" id="send-email" required>
+            <button onclick="resetPassword()">Reset password</button>
+            <button onclick="noThanks()">Close</button>
+        </div>
+    </div>
+</div>
+<footer class="footer-section">
+    <h3>NEWSLETTER</h3>
+    <p>Subscribe to our Newsletter!</p>
+    <div class="subscribe-form">
+        <input type="email" placeholder="Your Email Address">
+        <button>Subscribe</button>
+    </div>
+    <div class="socials-section">
+        <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
+                class="fab fa-facebook"></i></a>
+        <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i
+                class="fab fa-linkedin"></i></a>
+    </div>
+    <div class="copyright-section">
+        <p>&copy; 2024 Danov's Auto Show.</p>
+    </div>
+</footer>
+<script>
+
+    var cookieValue = getCookie("account_lock");
+    var tokenObject;
+    var countdownInterval = setInterval(updateCountdown, 1000);
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    function stopInterval() {
+        clearInterval(countdownInterval);
+    }
+
+    if (cookieValue) {
+        tokenObject = JSON.parse(atob(cookieValue.split('.')[1]));
+    }
+
+    function updateCountdown() {
+        // Extract and parse the expiration date from the token
+        if (cookieValue) {
+            // Get expiration date and current time
+            var expirationDate = new Date(tokenObject.expirationDate);
+            var currentTime = new Date();
+
+            // Get the current UTC time in milliseconds
+            var currentUTCTime = Date.UTC(currentTime.getUTCFullYear(), currentTime.getUTCMonth(), currentTime.getUTCDate(),
+                currentTime.getUTCHours(), currentTime.getUTCMinutes(), currentTime.getUTCSeconds());
+
+            // Get Sofia time zone offset in milliseconds
+            var sofiaTimeZoneOffset = 2 * 60 * 60 * 1000; // Sofia is 2 hours ahead of UTC in standard time
+
+            // Adjust expirationDate and currentTime to Sofia time zone
+            expirationDate.setTime(expirationDate.getTime() + sofiaTimeZoneOffset - currentUTCTime);
+            currentTime.setTime(currentTime.getTime() + sofiaTimeZoneOffset - currentUTCTime);
+
+            // Calculate the time difference
+            var timeDifference = expirationDate.getTime() - currentTime.getTime();
+
+            // Calculate remaining minutes and seconds
+            var remainingMinutes = Math.floor(timeDifference / (1000 * 60));
+            var remainingSeconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            console.log(tokenObject.failed_logins_amount)
+            if (tokenObject.isUserLocked && tokenObject.id) {
+                if (remainingMinutes > 0 || remainingSeconds > 0) {
+                    // Display both remaining minutes and seconds
+                    if (urlParams.has("errorTooManyFailedAttempts")) {
+                        document.querySelector(".alert").innerHTML = "Too many failed attempts please try again in<br/>" + remainingMinutes + " minutes and " + remainingSeconds + " seconds";
+                    } else {
+                        document.getElementById("countdown").innerHTML = "You can try to log in again in<br/>" + remainingMinutes + " minutes and " + remainingSeconds + " seconds";
+                    }
+                } else {
+                    stopInterval();
+                    handleFetchRequest();
+                }
+            } else if (tokenObject.failed_logins_amount >= 10) {
+                if (remainingMinutes > 0 || remainingSeconds > 0) {
+                    // Display both remaining minutes and seconds
+                    if (urlParams.has("errorTooManyFailedAttempts")) {
+                        document.querySelector(".alert").innerHTML = "Too many failed attempts please try again in<br/>" + remainingMinutes + " minutes and " + remainingSeconds + " seconds";
+                    } else {
+                        document.getElementById("countdown").innerHTML = "You can try to log in again in<br/>" + remainingMinutes + " minutes and " + remainingSeconds + " seconds";
+                    }
+                } else {
+                    stopInterval();
+                    document.querySelector('.alert').style.display = 'none';
+                    document.getElementById("countdown").innerHTML = "Time has expired you can try to log in again.";
+                    document.cookie = "account_lock=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                }
+            }
+        }
+    }
+
+    updateCountdown();
+
+    // Function to get cookie value by name
+    function getCookie(cookieName) {
+        var name = cookieName + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var cookieArray = decodedCookie.split(';');
+
+        for (var i = 0; i < cookieArray.length; i++) {
+            var cookie = cookieArray[i].trim();
+            if (cookie.indexOf(name) == 0) {
+                // Return JWT token
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+
+        return null;
+    }
+
+    function handleFetchRequest() {
+        fetch('https://danov-autoshow-656625355b99.herokuapp.com/api/failed-login-attempts/remove', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: tokenObject.id
+            })
+        })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "Successfully removed entity") {
+                    document.getElementById("countdown").innerHTML = "Time has expired you can try to log in again.";
+                    document.querySelector('.alert').style.display = 'none';
+                    document.cookie = "account_lock=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+<script>
+    document.getElementById(`forgotten-password`).addEventListener(`click`, (e) => {
+        document.getElementById(`overlay`).style.display = `flex`;
+    });
+
+    function noThanks(params) {
+        document.getElementById(`overlay`).style.display = `none`;
+    }
+
+    function resetPassword() {
+        const unchangedEmail = document.getElementById(`send-email`).value;
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/v1/user/forgot-password?email=${unchangedEmail}`, {
+            method: `POST`
+        })
+            .then(response => response.text())
+            .then(result => {
+                if (result === `Password reset initiated. Check your email for further instructions.`) {
+                    document.getElementById(`forgotten-password-result`).textContent = result;
+                    document.getElementById(`forgotten-password-result`).style.display = `block`;
+                    document.getElementById(`forgotten-password-result`).style.backgroundColor = `green`;
+                    document.getElementById(`forgotten-password-result`).style.border = "3px solid green";
+                    setTimeout(function () {
+                        document.getElementById(`forgotten-password-result`).style.display = `none`;
+                    }, 3500);
+                } else {
+                    document.getElementById(`forgotten-password-result`).textContent = result;
+                    document.getElementById(`forgotten-password-result`).style.display = `block`;
+                    document.getElementById(`forgotten-password-result`).style.backgroundColor = `red`;
+                    document.getElementById(`forgotten-password-result`).style.border = "3px solid red";
+                    setTimeout(function () {
+                        document.getElementById(`forgotten-password-result`).style.display = `none`;
+                    }, 3500);
+                }
+            });
+    }
+</script>
+<script th:if="${param.error}">
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.alert').style.display = 'block';
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('#register').addEventListener(`click`, () => {
+            window.location.href = "register";
+        });
+    });
+</script>
+<script th:if="${param.errorTooManyFailedAttempts}">
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.alert').style.display = 'block';
+    });
+</script>
+</body>
+
+</html>

@@ -88,10 +88,10 @@ public class LoginController {
             cookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
             cookie.setPath("/"); // Save the cookie for all pages of the site
             response.addCookie(cookie);
-            return "redirect:/login?errorToManyFailedAttempts";
+            return "redirect:/login?errorTooManyFailedAttempts";
         } else if ((getFailedLoginsAmount(getAccountLockCookie(request.getCookies())) >= 20) ||
                 (failedLoginAttempts != null && failedLoginAttempts.getAmountFailedLogins() >= 20)) {
-            return "redirect:/login?errorToManyFailedAttempts";
+            return "redirect:/login?errorTooManyFailedAttempts";
         }
 
         if (userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword()) &&
@@ -121,7 +121,7 @@ public class LoginController {
             } else {
                 replacedAuthTokensRepo.save(new ReplacedAuthTokens(userFromDB,
                         authenticationToken.getToken(),
-                       authenticationToken.getExpireDate()));
+                        authenticationToken.getExpireDate()));
                 authenticationTokensRepository.updateUserToken(userFromDB.getId(), token, expireTime);
             }
 
@@ -166,7 +166,6 @@ public class LoginController {
                     if (!userFromDB.getPassword().equals(loginUser.getPassword())) {
                         failedLoginAttempts = setNewFailedLoginEntity(userFromDB);
                         failedLoginAttemptsRepository.save(failedLoginAttempts);
-                        System.out.println(failedLoginAttempts.getAccountLockExpireTime().getTime() - System.currentTimeMillis());
                         expiringEntityDeleter.cancelScheduledDeletion(failedLoginAttempts);
                         expiringEntityDeleter.scheduleDeletion(failedLoginAttempts);
                     }
@@ -231,7 +230,7 @@ public class LoginController {
                         expiringEntityDeleter.scheduleDeletion(failedLoginAttempts);
                         System.out.println(new Date(failedLoginAttempts.getAccountLockExpireTime().getTime()));
                         System.out.println(failedLoginAttempts.getAccountLockExpireTime().getTime() - System.currentTimeMillis());
-                        return "redirect:/login?errorToManyFailedAttempts";
+                        return "redirect:/login?errorTooManyFailedAttempts";
                     } else {
                         if (!userFromDB.getPassword().equals(loginUser.getPassword())) {
                             failedLoginAttempts.setAmountFailedLogins(failedLoginAttempts.getAmountFailedLogins() + 1);
@@ -298,7 +297,7 @@ public class LoginController {
                                     expireTime);
                         }
                         if (failedLoginAttempts.getAmountFailedLogins() >= 10) {
-                            return "redirect:/login?errorToManyFailedAttempts";
+                            return "redirect:/login?errorTooManyFailedAttempts";
                         }
                     }
                 }
@@ -324,7 +323,7 @@ public class LoginController {
                         asInt() + 1;
                 if (amountFailedLogins <= 21) {
                     if (lockUnregisteredUser(response, request)) {
-                        return "redirect:/login?errorToManyFailedAttempts";
+                        return "redirect:/login?errorTooManyFailedAttempts";
                     } else {
                         return "redirect:/login?error";
                     }
@@ -333,7 +332,7 @@ public class LoginController {
 
             if ((failedLoginAttempts != null && failedLoginAttempts.getAmountFailedLogins() >= 10) ||
                     (getFailedLoginsAmount(getAccountLockCookie(request.getCookies())) >= 10)) {
-                return "redirect:/login?errorToManyFailedAttempts";
+                return "redirect:/login?errorTooManyFailedAttempts";
             } else {
                 return "redirect:/login?error";
             }
@@ -356,7 +355,7 @@ public class LoginController {
                                  int amountFailedLogins,
                                  Date expireTime) {
         if (userFromDB.getPassword().equals(loginUser.getPassword()) &&
-                failedLoginAttempts.getAmountFailedLogins() < 20) {
+                failedLoginAttempts.getAmountFailedLogins() < 10) {
             amountFailedLogins -= 1;
         }
         if (existingCookie != null) {
@@ -365,12 +364,16 @@ public class LoginController {
                     failedLoginAttempts.getUser().getId(),
                     amountFailedLogins,
                     failedLoginAttempts));
-            existingCookie.setMaxAge((int) ((expireTime.getTime() - System.currentTimeMillis()) / 1000));
+            if (failedLoginAttempts.getAmountFailedLogins() < 10) {
+                existingCookie.setMaxAge(1800);
+            } else {
+                existingCookie.setMaxAge((int) ((expireTime.getTime() - System.currentTimeMillis()) / 1000));
+            }
             existingCookie.setPath("/");
             response.addCookie(existingCookie);
         } else {
             Cookie cookie;
-            Date expireDate = new Date(failedLoginAttempts.getAccountLockExpireTime().getTime());// Save the cookie for all pages of the site
+            Date expireDate = new Date(failedLoginAttempts.getAccountLockExpireTime().getTime());
             if (!failedLoginAttempts.isUserLocked()) {
                 cookie = new Cookie("account_lock", generateTokenFailedLogins(
                         null,
@@ -384,6 +387,7 @@ public class LoginController {
                         amountFailedLogins,
                         failedLoginAttempts));
             }
+
             cookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
             cookie.setPath("/"); // Save the cookie for all pages of the site
             response.addCookie(cookie);
@@ -511,7 +515,12 @@ public class LoginController {
             }
 
             Cookie newCookie = new Cookie("account_lock", generateTokenFailedLogins(expireDate, null, failedLoginsAmount, null));
-            newCookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
+
+            if (failedLoginsAmount < 10) {
+                newCookie.setMaxAge(1800); // setMaxAge expects seconds
+            } else {
+                newCookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
+            }
             newCookie.setPath("/"); // Save the cookie for all pages of the site
             response.addCookie(newCookie);
             return failedLoginsAmount >= 10;
@@ -531,7 +540,7 @@ public class LoginController {
             Cookie newCookie = new Cookie("account_lock", generateTokenFailedLogins(null, null, 1, null));
             newCookie.setMaxAge((int) maxAgeSeconds);
             newCookie.setPath("/");
-
+            System.out.println(newCookie.getMaxAge());
             // Add the cookie to the response
             response.addCookie(newCookie);
             return false;
@@ -634,7 +643,7 @@ public class LoginController {
         }
     }
 
-    private String generateAuthToken(User user){
+    private String generateAuthToken(User user) {
         // Logic to generate a JWT token with user ID in the payload
         return Jwts.builder()
                 .claim("userId", user.getId()) //ID in the payload
