@@ -42,6 +42,23 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Proxy Implementation](#proxy-implementation)
 - [License](#license)
 
+<script>
+function scrollToElement(elementId) {
+  var element = document.getElementById(elementId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if there's a hash in the URL
+  var hash = window.location.hash;
+  if (hash) {
+    // Scroll to the corresponding section
+    scrollToElement(hash.substring(1));
+  }
+});
+</script>
 
 ## Built With
 <ul dir="auto">
