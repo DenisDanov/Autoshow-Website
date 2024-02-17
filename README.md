@@ -66,7 +66,8 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   <li><img src="https://img.shields.io/badge/apache_maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white"></img></li>
 </ul>
 
-## Front-End
+<details>
+<summary><h2>Front-End</h2></summary>
 
 #### Register page:
 The registration process is straightforward and user-friendly, requiring users to provide essential information to create an account.
@@ -178,7 +179,11 @@ The login page provides a simple and secure gateway for users to access their ac
         - ![Screenshot_38](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/a5d12b5b-8a56-4a99-99bc-5f824936f717)
      - When users change their order, the update occurs immediately and is reflected live on the site.
 
-## Backend
+</details>
+
+<details>
+<summary><h2>Backend</h2></summary>
+
 - #### Login System:
   - Upon successful login, the system generates a unique JWT authentication token.
     - This token is stored in the user's cookies and expires after 7 days.
@@ -248,4 +253,4 @@ The login page provides a simple and secure gateway for users to access their ac
 - Implemented a proxy to fix the CORS (Cross-Origin Resource Sharing) problem.
 - The proxy enables requests to third-party APIs, ensuring seamless integration with external services.
 - This solution enhances the functionality and flexibility of the application by enabling access to external resources securely.
-
+</details>
