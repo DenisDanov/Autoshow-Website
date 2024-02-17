@@ -68,6 +68,11 @@ The login page provides a simple and secure gateway for users to access their ac
 - For users who have forgotten their password, there is an option to reset it via email:
   - If a valid email associated with an account is entered, an email containing a password reset link is automatically sent to that email address.
   - ![Screenshot_41](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/6cd4545a-490c-4e6b-869f-1a6c273b4407)
+  - Upon a valid request, an email containing a unique link is sent to the user's registered email address.
+  - ![Screenshot_32](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/4c446afb-01a3-42ee-96d7-e1fc649c4d86)
+  - The link allows users to reset their password, ensuring a seamless and secure process.
+  - ![Screenshot_33](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/fa6e02c9-297a-4b84-8a33-347b58ed2179)
+  - Once 24 hours have elapsed or the password has been successfully changed, the link will expire, preventing further password changes.
 - The login page features anti-bot protection to prevent unauthorized access and maintain security:
   - ![Screenshot_43](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/ba3b9723-de06-45db-96f2-9a4cacfa831a)
   - After 10 failed login attempts due to invalid username or password, the user is temporarily locked out from logging into the site for 30 minutes.
@@ -127,12 +132,7 @@ The login page provides a simple and secure gateway for users to access their ac
   - Change Email: Users can modify their email address for account communication and verification purposes.
   - Change Password: Users can securely update their account password for enhanced security.
   - ![Screenshot_34](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/4635f9da-1dd6-416b-986d-5815bd5eb27b)
-- Additionally, users have the option to request a password reset via email.
-  - Upon request, an email containing a unique link is sent to the user's registered email address.
-  - ![Screenshot_32](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/4c446afb-01a3-42ee-96d7-e1fc649c4d86)
-  - The link allows users to reset their password, ensuring a seamless and secure process.
-  - ![Screenshot_33](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/fa6e02c9-297a-4b84-8a33-347b58ed2179)
-  - Once 24 hours have elapsed or the password has been successfully changed, the link will expire, preventing further password changes.
+  - Additionally, users have the option to request a password reset via email.
 - The Profile page also features sections to track favorite and ordered vehicles:
   - Favorites Vehicles: Users can view a list of vehicles they have marked as favorites for easy reference and future exploration.
   - ![Screenshot_35](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/78c16999-689c-401d-86d6-144bc7e09b79)
