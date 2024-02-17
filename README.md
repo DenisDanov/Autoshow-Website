@@ -132,7 +132,7 @@ The login page provides a simple and secure gateway for users to access their ac
   - Change Email: Users can modify their email address for account communication and verification purposes.
   - Change Password: Users can securely update their account password for enhanced security.
   - ![Screenshot_34](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/4635f9da-1dd6-416b-986d-5815bd5eb27b)
-  - Additionally, users have the option to request a password reset via email.
+  - Additionally, users have the option to request a password reset via email, where a unique link will be sent valid for 24 hours, along with the option to reset their password.
 - The Profile page also features sections to track favorite and ordered vehicles:
   - Favorites Vehicles: Users can view a list of vehicles they have marked as favorites for easy reference and future exploration.
   - ![Screenshot_35](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/78c16999-689c-401d-86d6-144bc7e09b79)
