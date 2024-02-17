@@ -20,7 +20,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 ## Table of Contents
 
 - [Description](#description)
-- [Built With](#BuiltWith)
+- [Built With](#built-with)
 - <details>
   <summary><b>Front-End</b></summary>
 
@@ -30,8 +30,8 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Auto Show Page](#auto-show-page)
   - [Showroom Page](#showroom-page)
   - [Profile Page](#profile-page)
-</details>
-- <details>
+- </details>
+  <details>
   <summary><b>Backend</b></summary>
 
   - [Login System](#login-system)
@@ -46,7 +46,9 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Database](#database)
   - [Proxy Implementation](#proxy-implementation)
 </details>
+
 - [License](#license)
+
 
 ## Built With
 <ul dir="auto">
