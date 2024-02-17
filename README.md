@@ -22,7 +22,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 - [Description](#description)
 - [Built With](#built-with)
 - [Front-End](#front-end)
-  - [Register Page](#register-page)
+  - [Register Page](#front-end#register-page)
   - [Login page](#login-page)
   - [Home Page](#home-page)
   - [Auto Show Page](#auto-show-page)
@@ -41,24 +41,6 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Database](#database)
   - [Proxy Implementation](#proxy-implementation)
 - [License](#license)
-
-<script>
-function scrollToElement(elementId) {
-  var element = document.getElementById(elementId);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Check if there's a hash in the URL
-  var hash = window.location.hash;
-  if (hash) {
-    // Scroll to the corresponding section
-    scrollToElement(hash.substring(1));
-  }
-});
-</script>
 
 ## Built With
 <ul dir="auto">
