@@ -71,8 +71,8 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 ## Front-End
 
 <details id="register-page">
+<summary><h4>Register Page</h4></summary>
 
-#### Register page:
 The registration process is straightforward and user-friendly, requiring users to provide essential information to create an account.
 
 
@@ -90,7 +90,9 @@ Upon successful registration, users are automatically redirected to the login pa
 
 </details>
 
-#### Login page:
+<details id="login-page">
+<summary><h4>Login Page</h4></summary>
+
 The login page provides a simple and secure gateway for users to access their accounts.
 
 
@@ -116,8 +118,11 @@ The login page provides a simple and secure gateway for users to access their ac
     - After 20 failed attempts, the account remains locked for 1 hour, and the user is notified via email to inform them of the lockout due to potential unauthorized access.
 - After successful login, users are redirected to the home page and successfully logged in to their accounts. Users will stay logged in for 7 days, after which their login session        expires, and they are automatically logged out.
 
+</details>
 
-#### Home Page:
+<details id="home-page">
+<summary><h4>Home Page</h4></summary>
+
 ![Screenshot_22](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/f786cbf5-a383-44d6-b1f9-bb808f3272f3)
 - The home page serves as the entry point to the website.
 - It features a sticky header with navigation options to other pages of the site.
@@ -135,7 +140,11 @@ The login page provides a simple and secure gateway for users to access their ac
   - ![Screenshot_26](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/506d73d5-686b-4ff6-8462-80f893c01c7a)
   - ![Screenshot_29](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/d411375e-11e9-4e8a-a7a1-4c8d86cf1de5)
 
-#### Auto Show Page:
+</details>
+
+<details id="auto-show-page">
+<summary><h4>Auto Show Page</h4></summary>
+
 ![Screenshot_30](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/5c0b4509-4f60-437b-b9d2-ed3daa6a0897)
 - The Autoshow page showcases a collection of 9 cars available for viewing.
 - Unregistered users can explore the featured cars and their specifications.
@@ -146,7 +155,11 @@ The login page provides a simple and secure gateway for users to access their ac
   - This feature streamlines the process of finding specific models tailored to the user's preferences.
   ![Screenshot_24](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/434cef67-d42b-4fab-abc5-6395654b9bc5)
 
-#### Showroom Page:
+</details>
+
+<details id="showroom-page">
+<summary><h4>Showroom Page</h4></summary>
+
 ![Screenshot_28](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/1b204bac-e320-40cc-95ff-2f5b3e56f36c)
 - The Showroom page offers detailed 3D models of vehicles for immersive exploration.
 - Users can inspect vehicles using two interactive functionalities:
@@ -159,7 +172,11 @@ The login page provides a simple and secure gateway for users to access their ac
   - Users without the model ordered or added to favorites are denied access to the model, ensuring exclusive access to authorized content.
   -  ![Screenshot_31](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/e46c5485-67d9-43e1-b37e-52fb6554dd5b)
 
-#### Profile page:
+</details>
+
+<details id="profile-page">
+<summary><h4>Profile Page</h4></summary>
+
 - The Profile page is exclusively available for logged-in users, offering a range of functionalities for account management and vehicle tracking.
 - Users can easily modify their account information with three primary functionalities:
   - Change Username: Users have the option to update their username to better suit their preferences or reflect changes.
