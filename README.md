@@ -166,6 +166,9 @@ The login page provides a simple and secure gateway for users to access their ac
   - The reset link is valid for 24 hours.
   - After the expiration of 24 hours, the reset link becomes invalid.
   - Additionally, if the user changes their password, the reset link becomes invalid.
+- #### Exception Handling:
+  - Implemented exception handling to manage and respond to errors that occur during system runtime.
+  - Provides appropriate error messages for invalid credentials or requests, informing the user of the issue.
 - #### Token Cleanup Service:
   - Responsible for removing expired password reset tokens from the database.
   - Ensures data integrity and security.
