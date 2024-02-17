@@ -212,3 +212,11 @@ The login page provides a simple and secure gateway for users to access their ac
     - Password reset requests
     - User subscription to the newsletter
     - User account lockout due to too many failed login attempts
+- #### Database:
+  - Utilized MySQL database in conjunction with Hibernate for all database queries.
+  - Hibernate provides an efficient and streamlined approach to interacting with the database, ensuring optimal performance and security.
+  - Implemented robust database schema design to efficiently store and manage data for the application.
+  - Below is the database diagram illustrating the structure and relationships of the database tables:
+  - ![Screenshot_49](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/345dff10-07b6-42cb-a44a-32f50c354c84)
+
+
