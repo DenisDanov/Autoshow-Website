@@ -203,10 +203,9 @@ The login page provides a simple and secure gateway for users to access their ac
 
 </details>
 
-<details>
-<summary><h2>Backend</h2></summary>
+## Backend
 
-- #### Login System:
+- #### User Account Management:
   - Upon successful login, the system generates a unique JWT authentication token.
     - This token is stored in the user's cookies and expires after 7 days.
     - Additionally, the token is saved in the database for appropriate secured authentication.
@@ -214,6 +213,7 @@ The login page provides a simple and secure gateway for users to access their ac
     - It locks user sessions from further login attempts after a threshold is reached.
     - User accounts are locked if a valid username is provided but multiple failed login attempts occur.
     - Correctly handles lock timers and prevents any actions until the timer has expired.
+
 - #### User Account Management:
   - Implemented features for securely changing user username, email, or password:
     - Ensures the new username provided by the user is not already taken.
