@@ -153,6 +153,19 @@ The login page provides a simple and secure gateway for users to access their ac
      - When users change their order, the update occurs immediately and is reflected live on the site.
 
 ## Backend
+- #### User Account Management:
+  - Implemented features for securely changing user username, email, or password:
+    - Ensures the new username provided by the user is not already taken.
+    - Ensures the new email provided by the user is not already taken.
+    - For password changes, checks if the current password provided by the user is correct.
+    - Requires the new password to be at least 8 characters long.
+    - Changing of username, password, or email is possible only when provided with a valid and correct authentication token and user ID.
+- #### Password Reset Functionality:
+  - Users can request a password reset.
+  - A unique password reset token is generated and associated with a reset link.
+  - The reset link is valid for 24 hours.
+  - After the expiration of 24 hours, the reset link becomes invalid.
+  - Additionally, if the user changes their password, the reset link becomes invalid.
 - #### Token Cleanup Service:
   - Responsible for removing expired password reset tokens from the database.
   - Ensures data integrity and security.
