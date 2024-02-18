@@ -217,7 +217,7 @@ The login page provides a simple and secure gateway for users to access their ac
 - #### User Account Management:
   - Implemented features for securely changing user username, email, or password:
     - Ensures the new username provided by the user is not already taken.
-    - Ensures the new email provided by the user is not already taken.
+    - Ensures the new email provided by the user is valid and not already taken.
     - For password changes, checks if the current password provided by the user is correct.
     - Requires the new password to be at least 8 characters long.
     - Changing of username, password, or email is possible only when provided with a valid and correct authentication token and user ID.
@@ -228,6 +228,33 @@ The login page provides a simple and secure gateway for users to access their ac
   - The reset link is valid for 24 hours.
   - After the expiration of 24 hours, the reset link becomes invalid.
   - Additionally, if the user changes their password, the reset link becomes invalid.
+
+- #### Recently Viewed section
+The "Recently Viewed" section of the website is designed to showcase the cars that the user has recently viewed in the showroom. Here's how the logic works:
+
+1. **Tracking Views**: 
+    - Every time a user views a car in the showroom, a secure API call is made to the server.
+    - This API call adds the specific vehicle to the "Recently Viewed Cars" collection of that particular user.
+    - Before adding the car, the system checks if the car is already in the "Recently Viewed" list.
+    - If the car is already present, it moves the car to the first position in the list, ensuring that the most recently viewed cars are displayed first.
+
+2. **Database Storage**: 
+    - The recently viewed cars are stored in a specific database table.
+    - This table is connected to each user, ensuring that the recently viewed cars are associated with their respective accounts.
+    - Storing this information in the database allows users to access their recently viewed cars even if they log into their account from another session or device.
+    - The data stored in the database has an expiration period of one month.
+    - After one month, the viewed cars' data is automatically deleted from the database, ensuring that users have access to their recent views for a limited time only.
+
+3. **Session Storage**: 
+    - Additionally, the vehicles viewed by the user are saved to their session.
+    - Sessions are set to expire after one month, aligning with the expiration of the data stored in the database.
+
+4. **Resetting the Recently Viewed Section**: 
+    - After one month, both the session containing the recently viewed cars and the data in the database expire.
+    - This automatically resets the "Recently Viewed" section for the user, clearing out the previously viewed cars.
+
+This approach ensures that users have quick access to the cars they have recently viewed, allowing them to easily revisit their favorite models or continue exploring new ones.
+
 - #### Exception Handling:
   - Implemented exception handling to manage and respond to errors that occur during system runtime.
   - Provides appropriate error messages for invalid credentials or requests, informing the user of the issue.
