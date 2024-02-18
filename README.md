@@ -79,7 +79,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 The registration process is straightforward and user-friendly, requiring users to provide essential information to create an account.
 
 
-![Screenshot_42](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/dde02812-b47f-44c3-a0c9-8fee3513f1a9)
+![Screenshot_62](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/3de0e1c4-6bf2-412b-ad51-3b29012eaa5c)
 
 
 
@@ -173,7 +173,8 @@ The login page provides a simple and secure gateway for users to access their ac
 - The Showroom page features functionality to restrict access to 3D models not available in the Autoshow.
   - If a user attempts to access a 3D model that is not featured in the Autoshow page, access is granted only if the model has been ordered or added to favorites.
   - Users without the model ordered or added to favorites are denied access to the model, ensuring exclusive access to authorized content.
-  -  ![Screenshot_31](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/e46c5485-67d9-43e1-b37e-52fb6554dd5b)
+  -  ![Screenshot_63](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/57aa7937-4fd7-41b2-8db4-127669874bc3)
+
 
 </details>
 
