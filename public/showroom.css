@@ -40,6 +40,7 @@ body {
 #firstPersonBtn,
 #thirdPersonBtn,
 #info-page {
+    cursor: pointer;
     display: inline-block;
     background-color: #a59eb5;
     padding: 10px 20px;
@@ -51,9 +52,9 @@ body {
 }
 
 #firstPersonBtn:hover,
-#thirdPersonBtn:hover
+#thirdPersonBtn:hover,
 #info-page:hover {
-    background-color: #8c8292;
+    background-color: #8c8292 !important;
 }
 
 #info-page {
@@ -107,6 +108,7 @@ body {
 
 #unsubscribe-confirmation,
 #unsubscribe-confirmation-2 {
+    font-family: Arial, sans-serif !important;
     text-align: center;
     background-color: #646464;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -119,11 +121,37 @@ body {
 #unsubscribe-confirmation p,
 #unsubscribe-confirmation-2 p {
     color: #333333;
-    margin: 10px 0;
+    margin: 3px 0;
     font-size: 16px;
+}
+
+#unsubscribe-confirmation-2 p {
+    text-align: left;
 }
 
 #tick-icon {
     width: 50px;
     height: 50px;
+}
+
+#controlls-info {
+    margin: 0.5rem auto;
+    margin-bottom: 0;
+}
+
+#controlls-info ul {
+    list-style: none;
+}
+
+#info-icon {
+    width: 30px;
+    height: 30px;
+    margin: 1rem auto;
+    margin-bottom: 0;
+}
+
+#info-icon img {
+    cursor: pointer;
+    width: 100%;
+    height: auto;
 }

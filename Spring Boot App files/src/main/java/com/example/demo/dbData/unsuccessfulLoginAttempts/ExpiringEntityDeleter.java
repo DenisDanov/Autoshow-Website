@@ -29,7 +29,6 @@ public class ExpiringEntityDeleter {
 
     public void scheduleDeletion(FailedLoginAttempts failedLoginAttempts) {
         long delay = calculateDelay(failedLoginAttempts.getAccountLockExpireTime()) + 250;
-        System.out.println(failedLoginAttempts.getAccountLockExpireTime());
         // Schedule the deletion task and store the ScheduledFuture
         ScheduledFuture<?> future = scheduler.schedule(() -> deleteEntity(failedLoginAttempts), delay, TimeUnit.MILLISECONDS);
         scheduledTasks.put(failedLoginAttempts.getUser().getId(), future);

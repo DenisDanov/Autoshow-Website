@@ -227,6 +227,13 @@
     .car-card {
         min-width: 200px !important;
     }
+
+
+    #controlls-info {
+        margin-top: 0.5rem;
+        margin-left: 1rem !important;
+    }
+
 }
 
 .menuItem:hover {

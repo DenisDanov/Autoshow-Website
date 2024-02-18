@@ -138,27 +138,25 @@
     function updateCountdown() {
         // Extract and parse the expiration date from the token
         if (cookieValue) {
-            // Get expiration date and current time
             var expirationDate = new Date(tokenObject.expirationDate);
             var currentTime = new Date();
 
-            // Get the current UTC time in milliseconds
-            var currentUTCTime = Date.UTC(currentTime.getUTCFullYear(), currentTime.getUTCMonth(), currentTime.getUTCDate(),
-                currentTime.getUTCHours(), currentTime.getUTCMinutes(), currentTime.getUTCSeconds());
+            // Get the time zone offset in minutes
+            var timezoneOffset = currentTime.getTimezoneOffset();
 
-            // Get Sofia time zone offset in milliseconds
-            var sofiaTimeZoneOffset = 2 * 60 * 60 * 1000; // Sofia is 2 hours ahead of UTC in standard time
+            // Convert to milliseconds
+            var timezoneOffsetMilliseconds = timezoneOffset * 60 * 1000;
 
-            // Adjust expirationDate and currentTime to Sofia time zone
-            expirationDate.setTime(expirationDate.getTime() + sofiaTimeZoneOffset - currentUTCTime);
-            currentTime.setTime(currentTime.getTime() + sofiaTimeZoneOffset - currentUTCTime);
+            // Convert to Sofia time zone
+            var expirationDateSofia = new Date(expirationDate.getTime() + timezoneOffsetMilliseconds + (3 * 60 * 60 * 1000)); // Assuming Sofia is UTC+3
+            var currentTimeSofia = new Date(currentTime.getTime() + timezoneOffsetMilliseconds + (3 * 60 * 60 * 1000)); // Assuming Sofia is UTC+3
 
-            // Calculate the time difference
-            var timeDifference = expirationDate.getTime() - currentTime.getTime();
+            // Calculate the time difference in Sofia time zone
+            var timeDifferenceSofia = expirationDateSofia.getTime() - currentTimeSofia.getTime();
 
             // Calculate remaining minutes and seconds
-            var remainingMinutes = Math.floor(timeDifference / (1000 * 60));
-            var remainingSeconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+            var remainingMinutes = Math.floor(timeDifferenceSofia / (1000 * 60));
+            var remainingSeconds = Math.floor((timeDifferenceSofia % (1000 * 60)) / 1000);
 
             console.log(tokenObject.failed_logins_amount)
             if (tokenObject.isUserLocked && tokenObject.id) {

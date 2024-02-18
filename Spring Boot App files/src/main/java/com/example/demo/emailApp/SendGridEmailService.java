@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 @Service
 public class SendGridEmailService {
@@ -118,6 +119,31 @@ public class SendGridEmailService {
         Email from = new Email("danovautoshow@gmail.com");
         Email toEmail = new Email(email);
         Content content = new Content("text/html", fullHtmlContent);
+        Mail mail = new Mail(from, subject, toEmail, content);
+
+        SendGrid sg = new SendGrid(sendGridApiKey);
+        Request request = new Request();
+
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mail.build());
+
+        Response response = sg.api(request);
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+        System.out.println(response.getHeaders());
+    }
+
+    public void sendAccountLockEmail(String email, Timestamp expireDate) throws IOException {
+        String text = "Your account has been temporarily locked due to too many failed login attempts.<br>" +
+                "If this wasn't you, your account may be compromised.<br>" +
+                "You can request a password reset via email " +
+                "<a href=\"https://danov-autoshow-656625355b99.herokuapp.com/login\">here</a>.<br>" +
+                "Your account lock will be lifted on " + expireDate.toString() + ".";
+        String subject = "Account Lock";
+        Email from = new Email("danovautoshow@gmail.com");
+        Email toEmail = new Email(email);
+        Content content = new Content("text/html", text);
         Mail mail = new Mail(from, subject, toEmail, content);
 
         SendGrid sg = new SendGrid(sendGridApiKey);
