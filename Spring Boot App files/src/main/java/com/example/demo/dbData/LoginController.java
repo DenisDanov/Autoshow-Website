@@ -7,6 +7,7 @@ import com.example.demo.dbData.recentlyViewedToken.RecentlyViewedToken;
 import com.example.demo.dbData.unsuccessfulLoginAttempts.ExpiringEntityDeleter;
 import com.example.demo.dbData.unsuccessfulLoginAttempts.FailedLoginAttempts;
 import com.example.demo.dbData.unsuccessfulLoginAttempts.FailedLoginAttemptsRepository;
+import com.example.demo.emailApp.SendGridEmailService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
@@ -43,19 +45,23 @@ public class LoginController {
 
     private final ReplacedAuthTokensRepo replacedAuthTokensRepo;
 
+    private final SendGridEmailService sendGridEmailService;
+
     @Autowired
     public LoginController(UserRepository userRepository,
                            RecentlyViewedRepository recentlyViewedRepository,
                            AuthenticationTokensRepository authenticationTokensRepository,
                            FailedLoginAttemptsRepository failedLoginAttemptsRepository,
                            ExpiringEntityDeleter expiringEntityDeleter,
-                           ReplacedAuthTokensRepo replacedAuthTokensRepo) {
+                           ReplacedAuthTokensRepo replacedAuthTokensRepo,
+                           SendGridEmailService sendGridEmailService) {
         this.userRepository = userRepository;
         this.recentlyViewedRepository = recentlyViewedRepository;
         this.authenticationTokensRepository = authenticationTokensRepository;
         this.failedLoginAttemptsRepository = failedLoginAttemptsRepository;
         this.expiringEntityDeleter = expiringEntityDeleter;
         this.replacedAuthTokensRepo = replacedAuthTokensRepo;
+        this.sendGridEmailService = sendGridEmailService;
     }
 
     @GetMapping("/login")
@@ -67,7 +73,7 @@ public class LoginController {
     @PostMapping("/login")
     public String processLogin(@ModelAttribute("loginUser") User loginUser,
                                HttpServletResponse response,
-                               HttpServletRequest request) {
+                               HttpServletRequest request) throws IOException {
 
         // Retrieve the user from the database based on the entered username
         User userFromDB = userRepository.findByUsername(loginUser.getUsername());
@@ -410,10 +416,10 @@ public class LoginController {
         return failedLoginAttempts;
     }
 
-    private static FailedLoginAttempts lockUserAccount(FailedLoginAttempts failedLoginAttempts,
+    private FailedLoginAttempts lockUserAccount(FailedLoginAttempts failedLoginAttempts,
                                                        HttpServletResponse response,
                                                        HttpServletRequest request,
-                                                       Long userId) {
+                                                       Long userId) throws IOException {
         int amount = failedLoginAttempts.getAmountFailedLogins() + 1;
         TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
         Calendar calendar = Calendar.getInstance(sofiaTimeZone);
@@ -424,6 +430,7 @@ public class LoginController {
         } else {
             // Add 60 minutes
             calendar.add(Calendar.MINUTE, 60);
+            sendGridEmailService.sendAccountLockEmail(failedLoginAttempts.getUser().getEmail(),new Timestamp(calendar.getTime().getTime()));
         }
         failedLoginAttempts.setAmountFailedLogins(amount);
 

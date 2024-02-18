@@ -67,7 +67,7 @@
 </header>
 <script src="mobile-menu.js"></script>
 <div class="register-container">
-    <h2>User Registration</h2>
+    <h2>Registration</h2>
     <div th:if="${param.error}" class="alert alert-danger">
         Unable to register. This username is already taken.
     </div>
@@ -81,13 +81,13 @@
         Unable to register. Account with this email already exists.
     </div>
     <form action="/register" method="post" th:object="${user}">
-        <label for="username">Username:</label>
+        <label for="username">Username</label>
         <input type="text" id="username" name="username" th:field="*{username}" required>
 
-        <label for="email">Email:</label>
+        <label for="email">Email</label>
         <input type="text" id="email" name="email" th:field="*{email}" required>
 
-        <label for="password">Password:</label>
+        <label for="password">Password</label>
         <input type="password" id="password" name="password" th:field="*{password}" required>
 
         <button type="submit">Register</button>

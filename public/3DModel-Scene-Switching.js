@@ -11,8 +11,9 @@ const urlParams = new URLSearchParams(window.location.search);
 const carParam = urlParams.get('car');
 let timeOut;
 
-async function initThirdPersonScript() {
+function initThirdPersonScript() {
     showLoadingOverlay();
+    showControllsInfo("third-person");
     const container = document.getElementById('model-container');
     const containerRect = container.getBoundingClientRect();
     scene = new THREE.Scene();
@@ -466,6 +467,7 @@ function disposeThirdPersonScript() {
 // First Person Script
 function initFirstPersonScript() {
     showLoadingOverlay();
+    showControllsInfo("first-person");
     const container = document.getElementById('model-container');
     const containerRect = container.getBoundingClientRect();
     scene = new THREE.Scene();
@@ -1130,3 +1132,33 @@ function hideLoadingOverlay() {
 }
 
 document.getElementById('thirdPersonBtn').click();
+
+function showControllsInfo(scriptName) {
+    if (scriptName === "first-person") {
+        document.getElementById("controlls-info").innerHTML = `
+        <h3>3D Camera Controls:</h3>
+        <p><strong>PC Controls:</strong></p>
+        <ul>
+            <li><strong>Rotate Camera:</strong> Hold down the left mouse button and drag to rotate the camera.</li>
+            <li><strong>Move camera:</strong> Move by holding W A S D keys on your keyboard.</li>
+        </ul>
+        <p><strong>Mobile Controls:</strong></p>
+        <ul>
+            <li><strong>Rotate/Zoom/Move Camera:</strong> By touching and dragging on the screen.</li>
+        </ul>
+        `
+    } else {
+        document.getElementById("controlls-info").innerHTML = `
+        <h3>3D Camera Controls:</h3>
+        <p><strong>PC Controls:</strong></p>
+        <ul>
+            <li><strong>Rotate/Move Camera:</strong> Hold down the left/right mouse button and drag to rotate the camera.</li>
+            <li><strong>Zoom In/Out:</strong> Use the scroll wheel to zoom the camera in or out.</li>
+        </ul>
+        <p><strong>Mobile Controls:</strong></p>
+        <ul>
+            <li><strong>Rotate/Zoom/Move Camera:</strong> By touching and dragging on the screen.</li>
+        </ul>
+        `
+    }
+}
