@@ -37,6 +37,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Login System](#login-system)
   - [User Account Management](#user-account-management)
   - [Password Reset Functionality](#password-reset-functionality)
+  - [Car Order Management](#car-order-management)
   - [Recently Viewed section](#recently-viewed-section)
   - [Exception Handling](#exception-handling)
   - [REST APIs](#rest-apis)
@@ -223,6 +224,13 @@ The login page provides a simple and secure gateway for users to access their ac
     - Requires the new password to be at least 8 characters long.
     - Changing of username, password, or email is possible only when provided with a valid and correct authentication token and user ID.
 
+- #### Password Reset Functionality:
+  - Users can request a password reset.
+  - A unique password reset token is generated and associated with a reset link.
+  - The reset link is valid for 24 hours.
+  - After the expiration of 24 hours, the reset link becomes invalid.
+  - Additionally, if the user changes their password, the reset link becomes invalid.
+
 - #### Car Order Management:
 
   - The backend implements a secure API for handling car order requests, including GET, ADD, REMOVE, or MODIFY operations. Each request requires a valid authentication token associated with the user.
@@ -238,13 +246,6 @@ The login page provides a simple and secure gateway for users to access their ac
   - Users have additional options when modifying their current order:
     - They can make the same order if their current order has expired. This action increases the order's expiration date, making it valid for an extended period.
     - They can modify their current order to a new one, providing flexibility in managing their car orders.
-
-- #### Password Reset Functionality:
-  - Users can request a password reset.
-  - A unique password reset token is generated and associated with a reset link.
-  - The reset link is valid for 24 hours.
-  - After the expiration of 24 hours, the reset link becomes invalid.
-  - Additionally, if the user changes their password, the reset link becomes invalid.
 
 - #### Recently Viewed section
 The "Recently Viewed" section of the website is designed to showcase the cars that the user has recently viewed in the showroom. Here's how the logic works:
