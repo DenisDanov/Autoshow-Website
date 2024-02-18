@@ -37,6 +37,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Login System](#login-system)
   - [User Account Management](#user-account-management)
   - [Password Reset Functionality](#password-reset-functionality)
+  - [Recently Viewed section](#recently-viewed-section)
   - [Exception Handling](#exception-handling)
   - [REST APIs](#rest-apis)
   - [Token Cleanup Service](#token-cleanup-service)
