@@ -267,7 +267,7 @@ The login page provides a simple and secure gateway for users to access their ac
   - When the client makes a GET request to retrieve all favorite vehicles, the backend returns a list of all favorite vehicles associated with the user. Each vehicle is accompanied by its ID, image, and name, facilitating the update of the website to correctly display the favorited vehicles.
 
 - #### Recently Viewed section
-The "Recently Viewed" section of the website is designed to showcase the cars that the user has recently viewed in the showroom. Here's how the logic works:
+  The "Recently Viewed" section of the website is designed to showcase the cars that the user has recently viewed in the showroom. Here's how the logic works:
 
 1. **Tracking Views**: 
     - Every time a user views a car in the showroom, a secure API call is made to the server.
@@ -290,7 +290,7 @@ The "Recently Viewed" section of the website is designed to showcase the cars th
     - After one month, both the session containing the recently viewed cars and the data in the database expire.
     - This automatically resets the "Recently Viewed" section for the user, clearing out the previously viewed cars.
 
-This approach ensures that users have quick access to the cars they have recently viewed, allowing them to easily revisit their favorite models or continue exploring new ones.
+   This approach ensures that users have quick access to the cars they have recently viewed, allowing them to easily revisit their favorite models or continue exploring new ones.
 
 - #### Exception Handling:
   - Implemented exception handling to manage and respond to errors that occur during system runtime.
