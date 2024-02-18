@@ -275,6 +275,7 @@ This approach ensures that users have quick access to the cars they have recentl
       ![Screenshot_48](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/d11ca6b3-57a6-49f8-be62-73e9f1a97641) 
 - #### Token Cleanup Service:
   - Responsible for removing expired password reset tokens from the database.
+  - Removes expired recently viewed cars tokens.
   - Ensures data integrity and security.
   - Scheduled to run periodically to clean up outdated tokens.
 - #### Newsletter Email Sender Service:
