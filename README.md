@@ -205,7 +205,7 @@ The login page provides a simple and secure gateway for users to access their ac
 
 ## Backend
 
-- #### User Account Management:
+- #### Login System:
   - Upon successful login, the system generates a unique JWT authentication token.
     - This token is stored in the user's cookies and expires after 7 days.
     - Additionally, the token is saved in the database for appropriate secured authentication.
@@ -221,6 +221,7 @@ The login page provides a simple and secure gateway for users to access their ac
     - For password changes, checks if the current password provided by the user is correct.
     - Requires the new password to be at least 8 characters long.
     - Changing of username, password, or email is possible only when provided with a valid and correct authentication token and user ID.
+
 - #### Password Reset Functionality:
   - Users can request a password reset.
   - A unique password reset token is generated and associated with a reset link.
