@@ -330,9 +330,10 @@ The login page provides a simple and secure gateway for users to access their ac
   - Ensures security and accessibility of user accounts by managing lockout mechanisms effectively.
 - #### Email service:
   - Implemented an automatic email service that sends emails for various events:
-    - Password reset requests
-    - User subscription to the newsletter
-    - User account lockout due to too many failed login attempts
+    - Password reset requests.
+    - User subscription to the newsletter.
+    - Newsletter emails.
+    - User account lockout due to too many failed login attempts.
 - #### Database:
   - Utilized MySQL database in conjunction with Hibernate for all database queries.
   - Hibernate provides an efficient and streamlined approach to interacting with the database, ensuring optimal performance and security.
