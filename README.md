@@ -334,6 +334,8 @@ The login page provides a simple and secure gateway for users to access their ac
     - User subscription to the newsletter.
     - Newsletter emails.
     - User account lockout due to too many failed login attempts.
+      - ![Screenshot_64](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/e3919d11-b8e2-461d-8f09-eba7a4fc0b51)
+
 - #### Database:
   - Utilized MySQL database in conjunction with Hibernate for all database queries.
   - Hibernate provides an efficient and streamlined approach to interacting with the database, ensuring optimal performance and security.
