@@ -212,6 +212,14 @@ The login page provides a simple and secure gateway for users to access their ac
   - Upon successful login, the system generates a unique JWT authentication token.
     - This token is stored in the user's cookies and expires after 7 days.
     - Additionally, the token is saved in the database for appropriate secured authentication.
+ - The system provides multi-session login:
+    - Users can log in from multiple devices simultaneously.
+    - When a user logs in on one device and then logs in on another, the authentication token is provided to both devices and sessions.
+    - This is possible via recycling of authentication tokens:
+        - If an authentication token already exists for the user, it is replaced with a new one.
+        - The replaced token is saved to another table in the database.
+        - When the user accesses the site with a valid, non-expired replaced token, it is automatically updated with the new authentication token.
+        - Expired replaced tokens are automatically removed from the database, similar to the original authentication tokens.
   - Anti-bot handling protection is implemented to handle too many failed login attempts:
     - It locks user sessions from further login attempts after a threshold is reached.
     - User accounts are locked if a valid username is provided but multiple failed login attempts occur.
