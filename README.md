@@ -38,7 +38,8 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [User Account Management](#user-account-management)
   - [Password Reset Functionality](#password-reset-functionality)
   - [Car Order Management](#car-order-management)
-  - [Recently Viewed section](#recently-viewed-section)
+  - [Recently Viewed Section](#recently-viewed-section)
+  - [Vehicle Favoriting System](#vehicle-favoriting-system)
   - [Exception Handling](#exception-handling)
   - [REST APIs](#rest-apis)
   - [Token Cleanup Service](#token-cleanup-service)
@@ -246,6 +247,16 @@ The login page provides a simple and secure gateway for users to access their ac
   - Users have additional options when modifying their current order:
     - They can make the same order if their current order has expired. This action increases the order's expiration date, making it valid for an extended period.
     - They can modify their current order to a new one, providing flexibility in managing their car orders.
+
+- #### Vehicle Favoriting System:
+
+  - The backend implements a secure API for handling requests related to favoriting vehicles, including adding vehicles to favorites, removing them, or retrieving all favorite vehicles. Each request requires a valid authentication token associated with the user.
+
+  - When a user attempts to add a vehicle to their favorites, the system checks if the vehicle is already in the favorites collection. If the vehicle exists, an appropriate error message is returned, indicating that the vehicle already exists in the favorites collection. If the vehicle doesn't exist, it is correctly added to the favorites table in the database, associated with the user who made the request. This ensures that all added favorite vehicles are specific to the user.
+
+  - Removing a favorite vehicle also involves error handling. The system verifies that the vehicle exists in the user's favorites collection. If the vehicle exists, it is removed from the collection, and a success message is returned to inform the user of the successful removal. If the vehicle doesn't exist, an appropriate error message is returned.
+
+  - When the client makes a GET request to retrieve all favorite vehicles, the backend returns a list of all favorite vehicles associated with the user. Each vehicle is accompanied by its ID, image, and name, facilitating the update of the website to correctly display the favorited vehicles.
 
 - #### Recently Viewed section
 The "Recently Viewed" section of the website is designed to showcase the cars that the user has recently viewed in the showroom. Here's how the logic works:
