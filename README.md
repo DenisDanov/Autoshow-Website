@@ -223,6 +223,22 @@ The login page provides a simple and secure gateway for users to access their ac
     - Requires the new password to be at least 8 characters long.
     - Changing of username, password, or email is possible only when provided with a valid and correct authentication token and user ID.
 
+- #### Car Order Management:
+
+  - The backend implements a secure API for handling car order requests, including GET, ADD, REMOVE, or MODIFY operations. Each request requires a valid authentication token associated with the user.
+
+  - When a user attempts to make a car order, the system checks if the order already exists. If the order exists, an appropriate message is sent to notify the user, indicating that the order already exists.
+
+  - If the order does not exist, it is added to the car orders table in the database and associated with the user who placed the order.
+
+  - For removing a car order, exception handling ensures that the car order exists before proceeding with the removal process.
+
+  - When modifying a car order, extensive error handling is implemented. The system ensures that the car order exists and that the new modified order does not match any existing orders. If the modifications are valid, the order is updated accordingly.
+
+  - Users have additional options when modifying their current order:
+    - They can make the same order if their current order has expired. This action increases the order's expiration date, making it valid for an extended period.
+    - They can modify their current order to a new one, providing flexibility in managing their car orders.
+
 - #### Password Reset Functionality:
   - Users can request a password reset.
   - A unique password reset token is generated and associated with a reset link.
