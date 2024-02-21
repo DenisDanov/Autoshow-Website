@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,13 +36,13 @@ public class ProfileDataController {
         this.replacedAuthTokensRepo = replacedAuthTokensRepo;
     }
 
-    @PostMapping("/get")
-    public ResponseEntity<ProfileResponse> getProfileData(@RequestBody ProfileRequest request,
+    @GetMapping("/get")
+    public ResponseEntity<ProfileResponse> getProfileData(@RequestParam String id, String authToken,
                                                           HttpServletResponse response) {
         // Find the user by ID
-        Long userId = Long.parseLong(request.getUserId());
+        Long userId = Long.parseLong(id);
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(authToken);
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             User user = userOptional.get();
@@ -63,7 +60,7 @@ public class ProfileDataController {
         } else {
             authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
             if (userOptional.isPresent() && authenticationToken != null &&
-            replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
+            replacedAuthTokensRepo.findByReplacedToken(authToken) != null) {
                 User user = userOptional.get();
                 List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
                         .findByUser_Id(userId)
@@ -82,7 +79,7 @@ public class ProfileDataController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
+                replacedAuthTokensRepo.deleteByReplacedToken(authToken);
                 return ResponseEntity.ok(new ProfileResponse(user.getUsername(),
                         user.getEmail(),
                         getAllVehicles));
