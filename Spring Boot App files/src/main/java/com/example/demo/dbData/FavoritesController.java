@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -88,7 +85,7 @@ public class FavoritesController {
         }
     }
 
-    @PostMapping("/remove")
+    @DeleteMapping("/remove")
     public ResponseEntity<String> removeFromFavorites(@RequestBody FavoriteRequest request,
                                                       HttpServletResponse response) {
         // Find the user by ID
@@ -127,13 +124,13 @@ public class FavoritesController {
         }
     }
 
-    @PostMapping("/get")
-    public ResponseEntity<List<FavoriteResponse>> getFavVehicles(@RequestBody FavoriteRequest request,
+    @GetMapping("/get")
+    public ResponseEntity<List<FavoriteResponse>> getFavVehicles(@RequestParam String id, String authToken,
                                                                  HttpServletResponse response) {
-        Long userId = Long.parseLong(request.getUserId());
+        Long userId = Long.parseLong(id);
 
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(authToken);
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
@@ -149,7 +146,7 @@ public class FavoritesController {
         } else {
             authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
             if (userOptional.isPresent() && authenticationToken != null &&
-                    replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
+                    replacedAuthTokensRepo.findByReplacedToken(authToken) != null) {
 
                 Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
                 long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
@@ -159,7 +156,7 @@ public class FavoritesController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
+                replacedAuthTokensRepo.deleteByReplacedToken(authToken);
                 List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
                         .findByUser_Id(userId)
                         .stream()
