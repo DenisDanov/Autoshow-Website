@@ -39,6 +39,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Password Reset Functionality](#password-reset-functionality)
   - [Car Order Management](#car-order-management)
   - [Vehicle Favoriting System](#vehicle-favoriting-system)
+  - [Restricted Access to Showroom Page](#restricted-access-to-showroom-page)
   - [Recently Viewed Section](#recently-viewed-section)
   - [Exception Handling](#exception-handling)
   - [REST APIs](#rest-apis)
@@ -266,6 +267,16 @@ The login page provides a simple and secure gateway for users to access their ac
   - Removing a favorite vehicle also involves error handling. The system verifies that the vehicle exists in the user's favorites collection. If the vehicle exists, it is removed from the collection, and a success message is returned to inform the user of the successful removal. If the vehicle doesn't exist, an appropriate error message is returned.
 
   - When the client makes a GET request to retrieve all favorite vehicles, the backend returns a list of all favorite vehicles associated with the user. Each vehicle is accompanied by its ID, image, and name, facilitating the update of the website to correctly display the favorited vehicles.
+
+- #### Restricted Access to Showroom Page:
+  - The showroom page showcases a selection of 9 vehicles that are accessible to all users.
+  - However, access to the complete inventory of vehicles is restricted.
+  - Users must either:
+    - Have ordered the vehicle through the car order management system.
+    - Have added the vehicle to their favorites using the vehicle favoriting system.
+    - This restriction ensures that only users who have expressed specific interest in a vehicle can view its details beyond the initial selection on the showroom page.
+    - Users who attempt to access restricted vehicles without meeting the criteria are prompted to either place an order for the vehicle or add it to their favorites for access.
+    - This approach enhances user engagement by encouraging interaction with the platform and ensures that showroom visitors are genuinely interested in exploring additional vehicle           options.
 
 - #### Recently Viewed section
   The "Recently Viewed" section of the website is designed to showcase the cars that the user has recently viewed in the showroom. Here's how the logic works:
