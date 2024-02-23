@@ -27,16 +27,7 @@ if (authToken) {
     var userId = decodedToken.userId;
 
     var favoritesLoaded = new Promise((resolve, reject) => {
-        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/get`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userId: userId,
-                authToken: authToken
-            })
-        })
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/get?id=${userId}&authToken=${authToken}`)
             .then(response => response.json())
             .then(result => {
                 const username = result.username;
@@ -73,7 +64,6 @@ if (authToken) {
                     Showroom</a>
             </div>
                 `
-                        showroomAccess(vehicle.vehicleId);
                         document.getElementById(`favorite-vehicles`).appendChild(favVehiclesContainer);
                         favVehiclesContainer.children[0].children[2].children[1].children[0].checked = true;
                         favVehiclesContainer.children[0].children[2].children[1].children[0].addEventListener(`change`, removeFavVehicle);
@@ -500,9 +490,7 @@ function addCarOrderToFavs(e) {
         Showroom</a>
 </div>
     `
-        showroomAccess(carId);
         favVehiclesIds.push(carId);
-        favVehiclesContainer.children[0].children[favVehiclesContainer.children.length - 1].addEventListener(`click`, showroomAccess);
         document.getElementById(`favorite-vehicles`).appendChild(favVehiclesContainer);
         favVehiclesContainer.children[0].children[2].children[1].children[0].checked = true;
         favVehiclesContainer.children[0].children[2].children[1].children[0].addEventListener(`change`, removeFavVehicle);
@@ -529,11 +517,12 @@ function addCarOrderToFavs(e) {
         for (const vehicle of favVehicles) {
             if (vehicle.href === carId) {
                 vehicle.parentNode.parentNode.remove();
+                break;
             }
         }
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/remove`, {
-            method: "POST",
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -560,7 +549,6 @@ function addCarOrderToFavs(e) {
                     }
                 });
                 favVehiclesIds.splice(favVehiclesIds.indexOf(carId), 1);
-                removeCarFromCookie(carId);
             })
             .catch(err => console.log(err));
     }
@@ -572,8 +560,6 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
         container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
         container.children[0].children[1].children[0].children[1].textContent = `Completed`;
         container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
-        showroomAccess(container.children[0].querySelector(`.car-order-model`)
-            .children[1].querySelector(`a`).href);
         carOrdersIds.push(container.children[0].querySelector(`.car-order-model`)
             .children[1].querySelector(`a`).href);
         favVehiclesIds.forEach(vehicleId => {
@@ -704,9 +690,7 @@ function removeCarOrder(e) {
     let carManufacturer = e.currentTarget.parentNode.parentNode.children[0].children[0].children[1].textContent;
     const carModel = e.currentTarget.parentNode.parentNode.children[0].children[1].children[1].textContent;
     const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
-    if (!favVehiclesIds.includes(`https://danov-autoshow-656625355b99.herokuapp.com/showroom.html?car=3D%20Models/${carManufacturer}-${carModel}-${carYear}.glb`)) {
-        removeCarFromCookie(`https://danov-autoshow-656625355b99.herokuapp.com/showroom.html?car=3D%20Models/${carManufacturer}-${carModel}-${carYear}.glb`);
-    }
+
     carOrdersIds.splice(carOrdersIds.indexOf(`https://danov-autoshow-656625355b99.herokuapp.com/showroom.html?car=3D%20Models/${carManufacturer}-${carModel}-${carYear}.glb`), 1);
     e.currentTarget.parentNode.parentNode.parentNode.remove();
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/carOrders/remove`, {
@@ -731,9 +715,7 @@ function removeCarOrder(e) {
 // Function to handle "Remove car" button click
 function removeTheCar(e) {
     const carId = document.querySelector(`.car-id-remove`).href;
-    if (!carOrdersIds.includes(carId)) {
-        removeCarFromCookie(carId);
-    }
+
     document.querySelector(`.remove-car`).remove();
     document.querySelectorAll(`.car-orders-container .car-order-model .car-card a`).forEach(entrie => {
         if (entrie.href === carId) {
@@ -750,7 +732,7 @@ function removeTheCar(e) {
         }
     });
     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/remove`, {
-        method: "POST",
+        method: "DELETE",
         headers: {
             "Content-Type": "application/json"
         },
