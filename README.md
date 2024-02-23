@@ -173,7 +173,7 @@ The login page provides a simple and secure gateway for users to access their ac
 - The Showroom page features functionality to restrict access to 3D models not available in the Autoshow.
   - If a user attempts to access a 3D model that is not featured in the Autoshow page, access is granted only if the model has been ordered or added to favorites.
   - Users without the model ordered or added to favorites are denied access to the model, ensuring exclusive access to authorized content.
-  -  ![Screenshot_63](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/57aa7937-4fd7-41b2-8db4-127669874bc3)
+  - ![Screenshot_74](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/ced1632d-9fba-49f4-971f-ed0722592061)
 
 
 </details>
