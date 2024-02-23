@@ -1,7 +1,7 @@
 package com.example.demo.dbData.changeUserDetails;
 
 import com.example.demo.dbData.AuthenticationToken;
-import com.example.demo.dbData.AuthenticationTokensRepository;
+import com.example.demo.dbData.AuthenticationTokenRepository;
 import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
 import com.example.demo.dbData.User;
 import com.example.demo.dbData.UserRepository;
@@ -24,16 +24,16 @@ public class ChangeUserDetailsController {
 
     private UserRepository userRepository;
 
-    private AuthenticationTokensRepository authenticationTokensRepository;
+    private AuthenticationTokenRepository authenticationTokenRepository;
 
     private ReplacedAuthTokensRepo replacedAuthTokensRepo;
 
     @Autowired
     public ChangeUserDetailsController(UserRepository userRepository,
-                                       AuthenticationTokensRepository authenticationTokensRepository,
+                                       AuthenticationTokenRepository authenticationTokenRepository,
                                        ReplacedAuthTokensRepo replacedAuthTokensRepo) {
         this.userRepository = userRepository;
-        this.authenticationTokensRepository = authenticationTokensRepository;
+        this.authenticationTokenRepository = authenticationTokenRepository;
         this.replacedAuthTokensRepo = replacedAuthTokensRepo;
     }
 
@@ -49,7 +49,7 @@ public class ChangeUserDetailsController {
             // Find the user by ID
             Long userId = Long.parseLong(request.getUserId());
             Optional<User> userOptional = userRepository.findById(userId);
-            AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+            AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(request.getAuthToken());
             if (userOptional.isPresent() && authenticationToken != null &&
                     Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
                 User user = userOptional.get();
@@ -65,7 +65,7 @@ public class ChangeUserDetailsController {
                     return ResponseEntity.ok(new UsernameResponse("Incorrect password."));
                 }
             } else {
-                authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+                authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
                 if (userOptional.isPresent() && authenticationToken != null &&
                         replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
 
@@ -112,7 +112,7 @@ public class ChangeUserDetailsController {
             // Find the user by ID
             Long userId = Long.parseLong(request.getId());
             Optional<User> userOptional = userRepository.findById(userId);
-            AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+            AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(request.getAuthToken());
             if (userOptional.isPresent() && authenticationToken != null &&
                     Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
                 if (request.getEmail().matches(emailRegex)) {
@@ -128,7 +128,7 @@ public class ChangeUserDetailsController {
                     return ResponseEntity.ok(new UsernameResponse("Please use a valid email."));
                 }
             } else {
-                authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+                authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
                 if (userOptional.isPresent() && authenticationToken != null &&
                         replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
 
@@ -175,7 +175,7 @@ public class ChangeUserDetailsController {
             // Find the user by ID
             Long userId = Long.parseLong(request.getId());
             Optional<User> userOptional = userRepository.findById(userId);
-            AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+            AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(request.getAuthToken());
             if (userOptional.isPresent() && authenticationToken != null &&
                     Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
                 User user = userOptional.get();
@@ -191,7 +191,7 @@ public class ChangeUserDetailsController {
                     return ResponseEntity.ok(new UsernameResponse("Wrong password."));
                 }
             } else {
-                authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+                authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
                 if (userOptional.isPresent() && authenticationToken != null &&
                         replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
 

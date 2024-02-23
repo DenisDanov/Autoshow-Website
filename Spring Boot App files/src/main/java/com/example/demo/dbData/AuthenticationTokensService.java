@@ -2,7 +2,6 @@ package com.example.demo.dbData;
 
 import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokens;
 import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
-import com.example.demo.emailApp.PasswordResetToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 public class AuthenticationTokensService {
 
     @Autowired
-    private AuthenticationTokensRepository authenticationTokensRepository;
+    private AuthenticationTokenRepository authenticationTokenRepository;
 
     @Autowired
     private ReplacedAuthTokensRepo replacedAuthTokensRepo;
@@ -24,7 +23,7 @@ public class AuthenticationTokensService {
     public void cleanUpExpiredTokens() {
         Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 
-        List<AuthenticationToken> expiredTokens = authenticationTokensRepository.findAll()
+        List<AuthenticationToken> expiredTokens = authenticationTokenRepository.findAll()
                 .stream()
                 .filter(token -> currentTimestamp.after(token.getExpireDate()))
                 .collect(Collectors.toList());
@@ -33,6 +32,6 @@ public class AuthenticationTokensService {
                 .filter(token -> currentTimestamp.after(token.getExpireDate()))
                 .collect(Collectors.toList());
         replacedAuthTokensRepo.deleteAll(expiredReplacedTokens);
-        authenticationTokensRepository.deleteAll(expiredTokens);
+        authenticationTokenRepository.deleteAll(expiredTokens);
     }
 }

@@ -21,18 +21,18 @@ public class ProfileDataController {
 
     private final FavoriteVehiclesRepository favoriteVehiclesRepository;
 
-    private final  AuthenticationTokensRepository authenticationTokensRepository;
+    private final AuthenticationTokenRepository authenticationTokenRepository;
 
     private final ReplacedAuthTokensRepo replacedAuthTokensRepo;
 
     @Autowired
     public ProfileDataController(UserRepository userRepository,
                                  FavoriteVehiclesRepository favoriteVehiclesRepository,
-                                 AuthenticationTokensRepository authenticationTokensRepository,
+                                 AuthenticationTokenRepository authenticationTokenRepository,
                                  ReplacedAuthTokensRepo replacedAuthTokensRepo) {
         this.userRepository = userRepository;
         this.favoriteVehiclesRepository = favoriteVehiclesRepository;
-        this.authenticationTokensRepository = authenticationTokensRepository;
+        this.authenticationTokenRepository = authenticationTokenRepository;
         this.replacedAuthTokensRepo = replacedAuthTokensRepo;
     }
 
@@ -42,7 +42,7 @@ public class ProfileDataController {
         // Find the user by ID
         Long userId = Long.parseLong(id);
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(authToken);
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(authToken);
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             User user = userOptional.get();
@@ -58,7 +58,7 @@ public class ProfileDataController {
                     user.getEmail(),
                     getAllVehicles));
         } else {
-            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
             if (userOptional.isPresent() && authenticationToken != null &&
             replacedAuthTokensRepo.findByReplacedToken(authToken) != null) {
                 User user = userOptional.get();

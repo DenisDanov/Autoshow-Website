@@ -1,7 +1,7 @@
 package com.example.demo.dbData.recentlyViewedToken;
 
 import com.example.demo.dbData.AuthenticationToken;
-import com.example.demo.dbData.AuthenticationTokensRepository;
+import com.example.demo.dbData.AuthenticationTokenRepository;
 import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
 import com.example.demo.dbData.User;
 import com.example.demo.dbData.UserRepository;
@@ -23,25 +23,25 @@ public class RecentlyViewedTokenController {
 
     private final UserRepository userRepository;
 
-    private final AuthenticationTokensRepository authenticationTokensRepository;
+    private final AuthenticationTokenRepository authenticationTokenRepository;
 
     private final ReplacedAuthTokensRepo replacedAuthTokensRepo;
 
     @Autowired
     public RecentlyViewedTokenController(RecentlyViewedRepository recentlyViewedRepository,
                                          UserRepository userRepository,
-                                         AuthenticationTokensRepository authenticationTokensRepository,
+                                         AuthenticationTokenRepository authenticationTokenRepository,
                                          ReplacedAuthTokensRepo replacedAuthTokensRepo) {
         this.recentlyViewedRepository = recentlyViewedRepository;
         this.userRepository = userRepository;
-        this.authenticationTokensRepository = authenticationTokensRepository;
+        this.authenticationTokenRepository = authenticationTokenRepository;
         this.replacedAuthTokensRepo = replacedAuthTokensRepo;
     }
 
     @PostMapping("/add")
     private ResponseEntity<String> addRecentlyViewedCar(@RequestParam String userId, String carId, String authToken,
                                                         HttpServletResponse response) {
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(authToken);
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(authToken);
         if (recentlyViewedRepository.findByUser_Id(Long.valueOf(userId)).isPresent() &&
                 authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), Long.valueOf(userId))) {
@@ -59,7 +59,7 @@ public class RecentlyViewedTokenController {
             recentlyViewedRepository.save(recentlyViewedToken);
             return ResponseEntity.ok("Successfully added the car." + recentlyViewedToken.getExpireDate());
         } else {
-            authenticationToken = authenticationTokensRepository.findByUser_Id(Long.valueOf(userId));
+            authenticationToken = authenticationTokenRepository.findByUser_Id(Long.valueOf(userId));
             Optional<User> userOptional = userRepository.findById(Long.parseLong(userId));
             if (userOptional.isPresent() && authenticationToken != null &&
                     replacedAuthTokensRepo.findByReplacedToken(authToken) != null) {
@@ -94,7 +94,7 @@ public class RecentlyViewedTokenController {
     @GetMapping("/get")
     private ResponseEntity<List<String>> getRecentlyViewedCars(@RequestParam String userId, String authToken,
                                                                HttpServletResponse response) {
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(authToken);
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(authToken);
 
         if (userRepository.findById(Long.parseLong(userId)).isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), Long.valueOf(userId))) {
@@ -114,7 +114,7 @@ public class RecentlyViewedTokenController {
             }
 
         } else {
-            authenticationToken = authenticationTokensRepository.findByUser_Id(Long.valueOf(userId));
+            authenticationToken = authenticationTokenRepository.findByUser_Id(Long.valueOf(userId));
             Optional<User> userOptional = userRepository.findById(Long.parseLong(userId));
             if (userOptional.isPresent() && authenticationToken != null &&
                     replacedAuthTokensRepo.findByReplacedToken(authToken) != null) {
