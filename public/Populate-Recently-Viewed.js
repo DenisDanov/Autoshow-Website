@@ -66,11 +66,10 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                             Showroom</a>        
                             `;
                         if (favVehiclesIds.includes(carCard.querySelector(`a`).href)) {
-                            showroomAccess(carCard.querySelector(`a`).href);
                             carCard.querySelector(`.add-fav input`).checked = true;
                             carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                         }
-                        carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
+                        carCard.querySelector(`.add-fav input`).addEventListener(`change`, addCarOrderToFavs);
                         container.appendChild(carCard);
                     }
                     resolve("success");
@@ -83,16 +82,7 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
         } else {
             if (carParams.length !== 0) {
                 if (authToken) {
-                    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/get`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            userId: userId,
-                            authToken: authToken
-                        })
-                    })
+                    fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/profile/get?id=${userId}&authToken=${authToken}`)
                         .then(response => response.json())
                         .then(result => {
                             const favVehiclesArr = result.favVehicles
@@ -129,7 +119,6 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                     `;
 
                                 if (favVehiclesIdsHome.includes(carCard.querySelector(`a`).href)) {
-                                    showroomAccess(carCard.querySelector(`a`).href);
                                     carCard.querySelector(`.add-fav input`).checked = true;
                                     carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                                 }
@@ -189,7 +178,6 @@ function checkFavVehicles(e) {
         const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].
             children[0].textContent;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Remove from Favorites`;
-        showroomAccess(carId);
         favVehiclesIdsHome.push(carId);
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/add`, {
             method: "POST",
@@ -204,14 +192,16 @@ function checkFavVehicles(e) {
                 authToken: authToken
             })
         })
-            .then(response => console.log(response))
+            .then(response => {
+                console.log(response)
+            })
             .catch(err => console.log(err));
     } else if (authToken) {
         const carId = e.currentTarget.parentNode.parentNode.parentNode.
             children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
         fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/remove`, {
-            method: "POST",
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -224,6 +214,12 @@ function checkFavVehicles(e) {
             .then(response => {
                 console.log(response);
                 removeCarFromCookie(carId);
+                for (const vehicle of document.getElementById("favorite-vehicles").children) {
+                    if (vehicle.querySelector("a").href === carId) {
+                        vehicle.remove();
+                        break;
+                    }
+                }
                 favVehiclesIdsHome.splice(favVehiclesIdsHome.indexOf(carId), 1);
             })
             .catch(err => console.log(err));

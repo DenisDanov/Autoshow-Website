@@ -17,6 +17,6 @@ public interface FavoriteVehiclesRepository extends JpaRepository<FavoriteVehicl
     @Query("DELETE FROM FavoriteVehiclesEntity fv WHERE fv.vehicleId = :vehicleId AND fv.user.id = :userId")
     int deleteByVehicleIdAndUserId(String vehicleId, Long userId);
 
-    FavoriteVehiclesEntity findByVehicleId(String vehicleId);
+    FavoriteVehiclesEntity findByVehicleIdAndUser(String vehicleId,User user);
 
 }

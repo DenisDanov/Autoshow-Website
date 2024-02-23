@@ -34,16 +34,7 @@ function checkLoginStatus() {
         var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
         var userId = decodedToken.userId;
 
-        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/get`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userId: userId,
-                authToken: authToken
-            })
-        })
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/get?id=${userId}&authToken=${authToken}`) 
             .then(response => response.json())
             .then(result => {
                 for (let vehicle of result) {
@@ -90,7 +81,7 @@ function checkLoginStatus() {
                     const carId = e.currentTarget.parentNode.parentNode.parentNode.
                         children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
                     fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/favorites/remove`, {
-                        method: "POST",
+                        method: "DELETE",
                         headers: {
                             "Content-Type": "application/json"
                         },

@@ -87,7 +87,7 @@ function initThirdPersonScript() {
                     case carParam.includes('Tesla-Model-3-2020.glb'):
                         camera.position.z += cameraDistance - 100500;
                         break;
-                    case carParam.includes('BMW-X5.glb'):
+                    case carParam.includes('BMW-X5-2022.glb'):
                         camera.position.z += cameraDistance - 550;
                         break;
                     case carParam.includes('Bugatti-Chiron-2005.glb'):
@@ -155,7 +155,7 @@ function initThirdPersonScript() {
                     case carParam.includes('Bugatti-Chiron-2005.glb'):
                         camera.position.z += cameraDistance - 145;
                         break;
-                    case carParam.includes('BMW-X5.glb'):
+                    case carParam.includes('BMW-X5-2022.glb'):
                         camera.position.z += cameraDistance - 250;
                         break;
                     case carParam.includes('Ford-F-150-2022.glb'):
@@ -212,7 +212,7 @@ function initThirdPersonScript() {
             scene.add(cameraLight.target);
 
             if (carParam.includes(`BMW-M4-2022.glb`) ||
-                carParam.includes(`BMW-X5.glb`)) {
+                carParam.includes(`BMW-X5-2022.glb`)) {
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
                 directionalLight.position.set(camera.position).normalize();
                 scene.add(directionalLight);
@@ -288,7 +288,7 @@ function initThirdPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`BMW-X5.glb`)) {
+            } else if (carParam.includes(`BMW-X5-2022.glb`)) {
                 model.scale.set(40, 40, 40);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
@@ -703,7 +703,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`BMW-X5.glb`) || carParam.includes(`BMW-M4-2022.glb`) ||
+            } else if (carParam.includes(`BMW-X5-2022.glb`) || carParam.includes(`BMW-M4-2022.glb`) ||
                 carParam.includes(`Bugatti-Chiron-2005.glb`) || carParam.includes(`Ford-F-150-2022.glb`) ||
                 carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`) ||
                 carParam.includes(`Nissan-GT-R-2017.glb`)) {
@@ -837,9 +837,9 @@ function initFirstPersonScript() {
                 directionalLight.position.set(0, 15, -500).normalize();
             } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
                 directionalLight.position.set(0, 15, -800).normalize();
-            } else if (carParam.includes(`BMW-X5.glb`) && containerRect.width > 430) {
+            } else if (carParam.includes(`BMW-X5-2022.glb`) && containerRect.width > 430) {
                 directionalLight.position.set(10, 25, 200).normalize();
-            } else if (carParam.includes(`BMW-X5.glb`) && containerRect.width < 430) {
+            } else if (carParam.includes(`BMW-X5-2022.glb`) && containerRect.width < 430) {
                 directionalLight.position.set(0, 15, -800).normalize();
             } else if (carParam.includes(`BMW-M4-2022.glb`)
                 && containerRect.width > 430) {
@@ -923,7 +923,7 @@ function initFirstPersonScript() {
             moveSpeed = 0.8;
         } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
             moveSpeed = 0.8;
-        } else if (carParam.includes(`BMW-X5.glb`) ||
+        } else if (carParam.includes(`BMW-X5-2022.glb`) ||
             carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`) ||
             carParam.includes(`Nissan-GT-R-2017.glb`)) {
             moveSpeed = 0.5;
@@ -1002,7 +1002,7 @@ function initFirstPersonScript() {
                 if (carParam.includes(`Porsche-Carrera-2015.glb`)) {
                     moveSpeed = 0.08;
                 } else if (carParam.includes(`Lamborghini-Aventador-2020.glb`) ||
-                    carParam.includes(`Tesla-Model-3-2020.glb`) || carParam.includes(`BMW-X5.glb`) ||
+                    carParam.includes(`Tesla-Model-3-2020.glb`) || carParam.includes(`BMW-X5-2022.glb`) ||
                     carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
                     moveSpeed = 0.35;
                 } else {

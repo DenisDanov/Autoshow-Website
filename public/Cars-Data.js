@@ -15,7 +15,7 @@ if (carParam.includes(`Urus`)) {
     vin = `WZ1DB4C04LW026201`;
 } else if (carParam.includes(`Porshe-911-2016.FBX`)) {
     vin = `WP0AD2A97FS166983`;
-} else if (carParam.includes(`BMW-X5.glb`)) {
+} else if (carParam.includes(`BMW-X5-2022.glb`)) {
     vin = `5YMJU0C06N9J16964`;
 } else if (carParam.includes(`Mclaren-P1-2015.glb`)) {
     vin = `SBM12ABA4FW000283`;
