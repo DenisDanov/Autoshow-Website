@@ -2,9 +2,6 @@ package com.example.demo.emailApp;
 
 import com.example.demo.dbData.User;
 import com.example.demo.dbData.UserRepository;
-import com.example.demo.dbData.recentlyViewedToken.RecentlyViewedRepository;
-import com.example.demo.emailApp.PasswordResetToken;
-import com.example.demo.emailApp.PasswordResetTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +27,7 @@ public class PasswordResetService {
         this.tokenRepository = tokenRepository;
         this.sendGridEmailService = sendGridEmailService;
         this.userRepository = userRepository;
-     }
+    }
 
     public void initiatePasswordReset(User user) throws IOException {
         String resetToken = generateResetToken(user);

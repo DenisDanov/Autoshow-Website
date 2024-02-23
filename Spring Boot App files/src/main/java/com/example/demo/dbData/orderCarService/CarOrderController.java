@@ -1,7 +1,7 @@
 package com.example.demo.dbData.orderCarService;
 
 import com.example.demo.dbData.AuthenticationToken;
-import com.example.demo.dbData.AuthenticationTokensRepository;
+import com.example.demo.dbData.AuthenticationTokenRepository;
 import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
 import com.example.demo.dbData.User;
 import com.example.demo.dbData.UserRepository;
@@ -26,18 +26,18 @@ public class CarOrderController {
 
     private final CarOrdersRepository carOrdersRepository;
 
-    private final AuthenticationTokensRepository authenticationTokensRepository;
+    private final AuthenticationTokenRepository authenticationTokenRepository;
 
     private final ReplacedAuthTokensRepo replacedAuthTokensRepo;
 
     @Autowired
     public CarOrderController(UserRepository userRepository,
                               CarOrdersRepository carOrdersRepository,
-                              AuthenticationTokensRepository authenticationTokensRepository,
+                              AuthenticationTokenRepository authenticationTokenRepository,
                               ReplacedAuthTokensRepo replacedAuthTokensRepo) {
         this.userRepository = userRepository;
         this.carOrdersRepository = carOrdersRepository;
-        this.authenticationTokensRepository = authenticationTokensRepository;
+        this.authenticationTokenRepository = authenticationTokenRepository;
         this.replacedAuthTokensRepo = replacedAuthTokensRepo;
     }
 
@@ -47,7 +47,7 @@ public class CarOrderController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(request.getAuthToken());
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             User user = userOptional.get();
@@ -77,7 +77,7 @@ public class CarOrderController {
                 return ResponseEntity.ok("Order sent successfully.");
             }
         } else {
-            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
             if (userOptional.isPresent() && authenticationToken != null &&
                     replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
 
@@ -127,7 +127,7 @@ public class CarOrderController {
                                                     HttpServletResponse response) {
         // Find the user by ID
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             List<CarOrder> getAllOrders = carOrdersRepository
@@ -152,7 +152,7 @@ public class CarOrderController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(request.getAuthToken());
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             if (carOrdersRepository.deleteCarOrder(request.getCarManufacturer(),
@@ -164,7 +164,7 @@ public class CarOrderController {
                 return ResponseEntity.ok("Car order doesn't exist.");
             }
         } else {
-            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
             if (userOptional.isPresent() && authenticationToken != null &&
                     replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
 
@@ -195,7 +195,7 @@ public class CarOrderController {
                                                                  HttpServletResponse response) {
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(request.getAuthToken());
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             if (carOrdersRepository.findByUser_IdAndCarManufacturerAndCarModelAndCarYear(userId,
@@ -256,7 +256,7 @@ public class CarOrderController {
                         ""));
             }
         } else {
-            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
             if (userOptional.isPresent() && authenticationToken != null &&
                     replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
 

@@ -21,18 +21,18 @@ public class FavoritesController {
 
     private final FavoriteVehiclesRepository favoriteVehiclesRepository;
 
-    private final  AuthenticationTokensRepository authenticationTokensRepository;
+    private final AuthenticationTokenRepository authenticationTokenRepository;
 
     private final ReplacedAuthTokensRepo replacedAuthTokensRepo;
 
     @Autowired
     public FavoritesController(UserRepository userRepository,
                                FavoriteVehiclesRepository favoriteVehiclesRepository,
-                               AuthenticationTokensRepository authenticationTokensRepository,
+                               AuthenticationTokenRepository authenticationTokenRepository,
                                ReplacedAuthTokensRepo replacedAuthTokensRepo) {
         this.userRepository = userRepository;
         this.favoriteVehiclesRepository = favoriteVehiclesRepository;
-        this.authenticationTokensRepository = authenticationTokensRepository;
+        this.authenticationTokenRepository = authenticationTokenRepository;
         this.replacedAuthTokensRepo = replacedAuthTokensRepo;
     }
 
@@ -42,12 +42,12 @@ public class FavoritesController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(request.getAuthToken());
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             return addVehicleToDb(request,userId,userOptional);
         } else {
-            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
             if (userOptional.isPresent() && authenticationToken != null &&
                     replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
 
@@ -91,7 +91,7 @@ public class FavoritesController {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(request.getAuthToken());
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(request.getAuthToken());
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             //removal logic
@@ -101,7 +101,7 @@ public class FavoritesController {
                 return ResponseEntity.ok("Vehicle is not present in the list.");
             }
         } else {
-            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
             if (userOptional.isPresent() && authenticationToken != null &&
                     replacedAuthTokensRepo.findByReplacedToken(request.getAuthToken()) != null) {
 
@@ -130,7 +130,7 @@ public class FavoritesController {
         Long userId = Long.parseLong(id);
 
         Optional<User> userOptional = userRepository.findById(userId);
-        AuthenticationToken authenticationToken = authenticationTokensRepository.findByToken(authToken);
+        AuthenticationToken authenticationToken = authenticationTokenRepository.findByToken(authToken);
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
@@ -144,7 +144,7 @@ public class FavoritesController {
 
             return ResponseEntity.ok(getAllVehicles);
         } else {
-            authenticationToken = authenticationTokensRepository.findByUser_Id(userId);
+            authenticationToken = authenticationTokenRepository.findByUser_Id(userId);
             if (userOptional.isPresent() && authenticationToken != null &&
                     replacedAuthTokensRepo.findByReplacedToken(authToken) != null) {
 

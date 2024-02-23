@@ -37,7 +37,7 @@ public class LoginController {
 
     private final RecentlyViewedRepository recentlyViewedRepository;
 
-    private final AuthenticationTokensRepository authenticationTokensRepository;
+    private final AuthenticationTokenRepository authenticationTokenRepository;
 
     private final FailedLoginAttemptsRepository failedLoginAttemptsRepository;
 
@@ -50,14 +50,14 @@ public class LoginController {
     @Autowired
     public LoginController(UserRepository userRepository,
                            RecentlyViewedRepository recentlyViewedRepository,
-                           AuthenticationTokensRepository authenticationTokensRepository,
+                           AuthenticationTokenRepository authenticationTokenRepository,
                            FailedLoginAttemptsRepository failedLoginAttemptsRepository,
                            ExpiringEntityDeleter expiringEntityDeleter,
                            ReplacedAuthTokensRepo replacedAuthTokensRepo,
                            SendGridEmailService sendGridEmailService) {
         this.userRepository = userRepository;
         this.recentlyViewedRepository = recentlyViewedRepository;
-        this.authenticationTokensRepository = authenticationTokensRepository;
+        this.authenticationTokenRepository = authenticationTokenRepository;
         this.failedLoginAttemptsRepository = failedLoginAttemptsRepository;
         this.expiringEntityDeleter = expiringEntityDeleter;
         this.replacedAuthTokensRepo = replacedAuthTokensRepo;
@@ -117,18 +117,18 @@ public class LoginController {
             cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            AuthenticationToken authenticationToken = authenticationTokensRepository.findByUser_Id(userFromDB.getId());
+            AuthenticationToken authenticationToken = authenticationTokenRepository.findByUser_Id(userFromDB.getId());
             if (authenticationToken == null) {
                 authenticationToken = new AuthenticationToken(token, userFromDB, expireTime);
-                authenticationTokensRepository.save(authenticationToken);
+                authenticationTokenRepository.save(authenticationToken);
             } else if (currentTime
                     .after(authenticationToken.getExpireDate())) {
-                authenticationTokensRepository.updateUserToken(userFromDB.getId(), token, expireTime);
+                authenticationTokenRepository.updateUserToken(userFromDB.getId(), token, expireTime);
             } else {
                 replacedAuthTokensRepo.save(new ReplacedAuthTokens(userFromDB,
                         authenticationToken.getToken(),
                         authenticationToken.getExpireDate()));
-                authenticationTokensRepository.updateUserToken(userFromDB.getId(), token, expireTime);
+                authenticationTokenRepository.updateUserToken(userFromDB.getId(), token, expireTime);
             }
 
             RecentlyViewedToken recentlyViewedToken;
