@@ -120,6 +120,7 @@ public class LoginController {
             AuthenticationToken authenticationToken = authenticationTokenRepository.findByUser_Id(userFromDB.getId());
             if (authenticationToken == null) {
                 authenticationToken = new AuthenticationToken(token, userFromDB, expireTime);
+                replacedAuthTokensRepo.save(new ReplacedAuthTokens(userFromDB,authenticationToken.getToken(),authenticationToken.getExpireDate()));
                 authenticationTokenRepository.save(authenticationToken);
             } else if (currentTime
                     .after(authenticationToken.getExpireDate())) {
@@ -135,6 +136,7 @@ public class LoginController {
             String encodedModelPaths = "";
             if (recentlyViewedRepository.findByUser_Id(userFromDB.getId()).isEmpty()) {
                 recentlyViewedToken = new RecentlyViewedToken();
+                recentlyViewedToken.setRecentlyViewedCars("");
                 recentlyViewedToken.setUser(userFromDB);
                 recentlyViewedToken.setExpireDate();
                 recentlyViewedRepository.save(recentlyViewedToken);
