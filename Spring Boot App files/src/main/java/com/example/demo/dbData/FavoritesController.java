@@ -59,7 +59,6 @@ public class FavoritesController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
                 return addVehicleToDb(request,userId,userOptional);
             }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
@@ -113,7 +112,6 @@ public class FavoritesController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
                 if (favoriteVehiclesRepository.deleteByVehicleIdAndUserId(request.getVehicleId(), userId) > 0) {
                     return ResponseEntity.ok("Vehicle removed from favorites successfully.");
                 } else {
@@ -156,7 +154,6 @@ public class FavoritesController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(authToken);
                 List<FavoriteResponse> getAllVehicles = favoriteVehiclesRepository
                         .findByUser_Id(userId)
                         .stream()

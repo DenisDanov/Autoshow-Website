@@ -1,5 +1,6 @@
 package com.example.demo.dbData;
 
+import com.example.demo.dbData.ReplacedTokens.ReplacedAuthToken;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -13,11 +14,12 @@ public class AuthenticationToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String token;
-
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
+
+    @Column(nullable = false, unique = true)
+    private String token;
 
     private Timestamp expireDate;
 

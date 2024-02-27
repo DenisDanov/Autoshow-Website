@@ -89,7 +89,6 @@ public class CarOrderController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
                 User user = userOptional.get();
 
                 CarOrder carOrder = new CarOrder(request.getCarManufacturer(),
@@ -176,7 +175,6 @@ public class CarOrderController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
                 if (carOrdersRepository.deleteCarOrder(request.getCarManufacturer(),
                         userId,
                         request.getCarModel(),
@@ -268,7 +266,6 @@ public class CarOrderController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
                 if (carOrdersRepository.findByUser_IdAndCarManufacturerAndCarModelAndCarYear(userId,
                         request.getCurrentManufacturer(),
                         request.getCurrentModel(),

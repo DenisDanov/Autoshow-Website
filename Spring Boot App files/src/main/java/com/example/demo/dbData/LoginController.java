@@ -1,6 +1,6 @@
 package com.example.demo.dbData;
 
-import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokens;
+import com.example.demo.dbData.ReplacedTokens.ReplacedAuthToken;
 import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
 import com.example.demo.dbData.recentlyViewedToken.RecentlyViewedRepository;
 import com.example.demo.dbData.recentlyViewedToken.RecentlyViewedToken;
@@ -120,14 +120,14 @@ public class LoginController {
             AuthenticationToken authenticationToken = authenticationTokenRepository.findByUser_Id(userFromDB.getId());
             if (authenticationToken == null) {
                 authenticationToken = new AuthenticationToken(token, userFromDB, expireTime);
-                replacedAuthTokensRepo.save(new ReplacedAuthTokens(userFromDB,authenticationToken.getToken(),authenticationToken.getExpireDate()));
                 authenticationTokenRepository.save(authenticationToken);
             } else if (currentTime
                     .after(authenticationToken.getExpireDate())) {
+                replacedAuthTokensRepo.save(new ReplacedAuthToken(userFromDB,authenticationToken,authenticationToken.getExpireDate()));
                 authenticationTokenRepository.updateUserToken(userFromDB.getId(), token, expireTime);
             } else {
-                replacedAuthTokensRepo.save(new ReplacedAuthTokens(userFromDB,
-                        authenticationToken.getToken(),
+                replacedAuthTokensRepo.save(new ReplacedAuthToken(userFromDB,
+                        authenticationToken,
                         authenticationToken.getExpireDate()));
                 authenticationTokenRepository.updateUserToken(userFromDB.getId(), token, expireTime);
             }

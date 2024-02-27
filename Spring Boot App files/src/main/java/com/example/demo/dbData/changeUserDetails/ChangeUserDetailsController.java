@@ -77,7 +77,6 @@ public class ChangeUserDetailsController {
                     cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                     response.addCookie(cookie);
-                    replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
                     User user = userOptional.get();
                     if (user.getPassword().equals(request.getPassword())) {
                         if (userRepository.findByUsername(request.getUsername()) == null) {
@@ -140,7 +139,6 @@ public class ChangeUserDetailsController {
                     cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                     response.addCookie(cookie);
-                    replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
                     if (request.getEmail().matches(emailRegex)) {
                         User user = userOptional.get();
                         if (userRepository.findByEmail(request.getEmail()) == null) {
@@ -203,7 +201,6 @@ public class ChangeUserDetailsController {
                     cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                     response.addCookie(cookie);
-                    replacedAuthTokensRepo.deleteByReplacedToken(request.getAuthToken());
                     User user = userOptional.get();
                     if (user.getPassword().equals(request.getCurrentPassword())) {
                         if (request.getNewPassword().length() >= 8) {
