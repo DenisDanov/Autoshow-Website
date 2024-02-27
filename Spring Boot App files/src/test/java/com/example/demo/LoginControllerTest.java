@@ -42,20 +42,11 @@ public class LoginControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
-    private UserRepository userRepository;
-
     @Autowired
     private FailedLoginAttemptsRepository failedLoginAttemptsRepository;
 
-    @InjectMocks
-    private LoginController loginController;
-
     @Autowired
     private WebApplicationContext webApplicationContext;
-
-    @Autowired
-    private TransactionTemplate transactionTemplate;
 
     @BeforeEach
     public void setUp() {
@@ -112,7 +103,7 @@ public class LoginControllerTest {
 
         mockMvc.perform(post("/login")
                         .param("username", "denko")
-                        .param("password", "denko1234"))
+                        .param("password", "denko"))
                 .andExpect(redirectedUrl("/login?errorTooManyFailedAttempts"));
         failedLoginAttemptsRepository.deleteByUser_Id(15L);
     }

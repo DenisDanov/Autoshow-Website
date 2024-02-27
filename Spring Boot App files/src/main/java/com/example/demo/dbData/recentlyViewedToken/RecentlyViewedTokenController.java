@@ -2,6 +2,7 @@ package com.example.demo.dbData.recentlyViewedToken;
 
 import com.example.demo.dbData.AuthenticationToken;
 import com.example.demo.dbData.AuthenticationTokenRepository;
+import com.example.demo.dbData.ReplacedTokens.DeleteReplacedTokensService;
 import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
 import com.example.demo.dbData.User;
 import com.example.demo.dbData.UserRepository;
@@ -27,15 +28,19 @@ public class RecentlyViewedTokenController {
 
     private final ReplacedAuthTokensRepo replacedAuthTokensRepo;
 
+    private final DeleteReplacedTokensService deletionService;
+
     @Autowired
     public RecentlyViewedTokenController(RecentlyViewedRepository recentlyViewedRepository,
                                          UserRepository userRepository,
                                          AuthenticationTokenRepository authenticationTokenRepository,
-                                         ReplacedAuthTokensRepo replacedAuthTokensRepo) {
+                                         ReplacedAuthTokensRepo replacedAuthTokensRepo,
+                                         DeleteReplacedTokensService deletionService) {
         this.recentlyViewedRepository = recentlyViewedRepository;
         this.userRepository = userRepository;
         this.authenticationTokenRepository = authenticationTokenRepository;
         this.replacedAuthTokensRepo = replacedAuthTokensRepo;
+        this.deletionService = deletionService;
     }
 
     @PostMapping("/add")
@@ -72,7 +77,8 @@ public class RecentlyViewedTokenController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(authToken);
+                deletionService.scheduleDeletion(replacedAuthTokensRepo,authToken);
+
                 RecentlyViewedToken recentlyViewedToken = recentlyViewedRepository.findByUser_Id(Long.valueOf(userId)).get();
                 String recentlyViewedCars = recentlyViewedToken.getRecentlyViewedCars();
                 if (recentlyViewedCars == null || recentlyViewedCars.isEmpty()) {
@@ -107,10 +113,10 @@ public class RecentlyViewedTokenController {
                             getRecentlyViewedCars().split(","));
                     return ResponseEntity.ok(recentlyViewedCars);
                 } else {
-                    return ResponseEntity.ok(null);
+                    return ResponseEntity.ok(new ArrayList<>());
                 }
             } else {
-                return ResponseEntity.ok(null);
+                return ResponseEntity.ok(new ArrayList<>());
             }
 
         } else {
@@ -127,7 +133,7 @@ public class RecentlyViewedTokenController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(authToken);
+
                 if (recentlyViewedRepository.findByUser_Id(Long.valueOf(userId)).isPresent()) {
                     RecentlyViewedToken recentlyViewedToken = recentlyViewedRepository.findByUser_Id(Long.valueOf(userId)).get();
                     if (recentlyViewedToken.getRecentlyViewedCars() != null &&
@@ -136,13 +142,13 @@ public class RecentlyViewedTokenController {
                                 getRecentlyViewedCars().split(","));
                         return ResponseEntity.ok(recentlyViewedCars);
                     } else {
-                        return ResponseEntity.ok(null);
+                        return ResponseEntity.ok(new ArrayList<>());
                     }
                 } else {
-                    return ResponseEntity.ok(null);
+                    return ResponseEntity.ok(new ArrayList<>());
                 }
             }
-            return ResponseEntity.ok(null);
+            return ResponseEntity.ok(new ArrayList<>());
         }
 
 

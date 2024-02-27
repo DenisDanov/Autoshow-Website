@@ -11,15 +11,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReplacedAuthTokensRepo extends JpaRepository<ReplacedAuthTokens, Long> {
+public interface ReplacedAuthTokensRepo extends JpaRepository<ReplacedAuthToken, Long> {
 
-    List<ReplacedAuthTokens> findByUser(User user);
+    List<ReplacedAuthToken> findByUser(User user);
 
-    @Query("SELECT token FROM ReplacedAuthTokens token WHERE token.replaced_token = :replacedToken")
-    ReplacedAuthTokens findByReplacedToken(String replacedToken);
+    @Query("SELECT token FROM ReplacedAuthToken token WHERE token.replaced_token = :replacedToken")
+    ReplacedAuthToken findByReplacedToken(String replacedToken);
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM ReplacedAuthTokens au WHERE au.replacedToken = :token")
+    @Query("DELETE FROM ReplacedAuthToken au WHERE au.replacedToken = :token")
     void deleteByReplacedToken(@Param("token") String token);
 }

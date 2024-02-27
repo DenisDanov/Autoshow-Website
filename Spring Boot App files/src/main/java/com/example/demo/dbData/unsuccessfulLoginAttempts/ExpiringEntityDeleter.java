@@ -1,5 +1,6 @@
 package com.example.demo.dbData.unsuccessfulLoginAttempts;
 
+import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

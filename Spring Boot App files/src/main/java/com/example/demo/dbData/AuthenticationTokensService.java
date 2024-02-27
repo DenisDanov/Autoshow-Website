@@ -1,6 +1,6 @@
 package com.example.demo.dbData;
 
-import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokens;
+import com.example.demo.dbData.ReplacedTokens.ReplacedAuthToken;
 import com.example.demo.dbData.ReplacedTokens.ReplacedAuthTokensRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,7 +27,7 @@ public class AuthenticationTokensService {
                 .stream()
                 .filter(token -> currentTimestamp.after(token.getExpireDate()))
                 .collect(Collectors.toList());
-        List<ReplacedAuthTokens> expiredReplacedTokens = replacedAuthTokensRepo.findAll()
+        List<ReplacedAuthToken> expiredReplacedTokens = replacedAuthTokensRepo.findAll()
                 .stream()
                 .filter(token -> currentTimestamp.after(token.getExpireDate()))
                 .collect(Collectors.toList());

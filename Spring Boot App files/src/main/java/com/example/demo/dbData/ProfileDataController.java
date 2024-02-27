@@ -79,7 +79,6 @@ public class ProfileDataController {
                 cookie.setDomain("danov-autoshow-656625355b99.herokuapp.com");
 
                 response.addCookie(cookie);
-                replacedAuthTokensRepo.deleteByReplacedToken(authToken);
                 return ResponseEntity.ok(new ProfileResponse(user.getUsername(),
                         user.getEmail(),
                         getAllVehicles));
