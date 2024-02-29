@@ -1,11 +1,11 @@
 # Auto Show Website - REST Spring Web Application
 
 <div align="center">
-  <img src="src/main/resources/public/images/logo.png" alt="Image Description" target="_blank">
+  <img src="src/main/resources/public/images/logo.png" alt="Image Description">
 </div>
 
 <div align="center">
-  <span>Deployed: <a href="https://danov-autoshow.azurewebsites.net">HERE</a></span>
+  <span>Deployed: <a href="https://danov-autoshow.azurewebsites.net" target="_blank">HERE</a></span>
 </div>
 
 ## Description
