@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="pages-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.pkgd.min.js" async></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/2.2.2/flickity.min.css">
+    <link rel="preload" as="image" href="images/porshe.webp">
+    <link rel="preload" as="image" href="images/gtr-35.webp">
+    <link rel="preload" as="image" href="images/R8.webp">
+    <link rel="preload" as="image" href="images/lamborghini-huracan.webp">
+    <link rel="preload" as="image" href="images/mercedes-gt.webp">
+    <link rel="preload" as="image" href="images/BMW-M8.webp">
+    <meta property="og:image" content="images/logo.png">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="User Authentication.js"></script>
+    <link rel="icon" href="images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <script src="Sticky-Header.js"></script>
+</head>
+
+<body>
+    <header class="nav-header" id="header">
+        <a href="index.html" class="logo">
+            <img class="logo-img" src="images/logo.png" alt="Logo">
+        </a>
+        <div class="h1">
+            <h1>Where Luxury Meets Performance</h1>
+        </div>
+        <div class="container">
+            <button class="hamburger" id="hamburgerButton">
+                <i class="fas fa-bars"></i>
+                <span class="menuText">Menu</span>
+            </button>
+            <ul class="menu" id="menu">
+                <li><a class="menuItem" href="index.html" onclick="setHamburgerRelative(event)"><i
+                            class="fas fa-home"></i>
+                        Home</a></li>
+                <li style="display: none;" id="profile"><a class="menuItem"
+                        href="https://danov-autoshow.azurewebsites.net/profile.html"
+                        onclick="setHamburgerRelative(event)"><i class="fas fa-user"></i>Profile</a></li>
+                <li><a class="menuItem" href="auto-show.html" onclick="setHamburgerRelative(event)"><i
+                            class="fas fa-car"></i>
+                        Auto
+                        Show</a></li>
+                <li id="log-in-text"><a class="menuItem" href="https://danov-autoshow.azurewebsites.net/login"
+                        onclick="setHamburgerRelative(event)"><i class="fas fa-sign-in-alt"></i>Log in</a></li>
+                <li style="display: none;" id="log-out-text"><a class="menuItem" href="#"
+                        onclick="setHamburgerRelative(event)"><i class="fas fa-sign-in-alt"></i>Log out</a></li>
+                <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                            class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+        </div>
+        <nav class="navs">
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i></a></li>
+                    <li style="display: none;" id="profile"><a
+                            href="https://danov-autoshow.azurewebsites.net/profile.html"><i
+                                class="fas fa-user"></i></a></li>
+                    <li><a href="auto-show.html"><i class="fas fa-car"></i></a></li>
+                    <li id="log-in-icon"><a href="https://danov-autoshow.azurewebsites.net/login"><i
+                                class="fas fa-sign-in-alt"></i></a></li>
+                    <li style="display: none;" id="log-out-icon"><a href="#"><i class="fas fa-sign-out-alt"></i></a>
+                    </li>
+                    <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
+                </ul>
+            </nav>
+            <nav>
+                <ul id="nav-text">
+                    <li><a href="index.html">Home</a></li>
+                    <li style="display: none;" id="profile"><a
+                            href="https://danov-autoshow.azurewebsites.net/profile.html">Profile</a></li>
+                    <li class="auto-show"><a href="auto-show.html">Auto Show</a></li>
+                    <li id="log-in-text"><a href="https://danov-autoshow.azurewebsites.net/login">Log in</a>
+                    </li>
+                    <li style="display: none;" id="log-out-text"><a href="#">Log out</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </nav>
+    </header>
+    <script defer src="mobile-menu.js"></script>
+    <div class="site-banner">
+        <div class="site-banner-inner">
+            <div class="banner-img">
+                <img src="images/porshe.webp" alt="">
+            </div>
+            <div class="banner-img">
+                <img src="images/gtr-35.webp" alt="">
+            </div>
+            <div class="banner-img">
+                <img src="images/lamborghini-huracan.webp" alt="">
+            </div>
+            <div class="banner-img R8">
+                <img src="images/R8.webp" alt="">
+            </div>
+            <div class="banner-img">
+                <img src="images/BMW-M8.webp" alt="">
+            </div>
+            <div class="banner-img">
+                <img src="images/mercedes-gt.webp" alt="">
+            </div>
+        </div>
+    </div>
+    <script src="banner-animation.js" async></script>
+    <div class="info-section">
+        <h1>Danov's Auto Show</h1>
+        <div class="paragraphs">
+            <p><i class="fas fa-check-circle"></i> Discover the ultimate fusion of luxury and performance at Danov's
+                auto show.</p>
+            <p><i class="fas fa-check-circle"></i> Experience the thrill of witnessing the finest luxury vehicles on
+                display.</p>
+            <p><i class="fas fa-check-circle"></i> Immerse yourself in the world of top-tier sports automobiles and
+                supercars.</p>
+            <p><i class="fas fa-check-circle"></i> Explore an exquisite showcase of the most sought-after automotive
+                craftsmanship.</p>
+            <p><i class="fas fa-check-circle"></i> Indulge in the elegance and power of the best luxury and sports
+                cars
+                in the industry.</p>
+
+            <a href="auto-show.html" class="cta-button">Check Now</a>
+        </div>
+    </div>
+    <div class="cars-container">
+        <h1>Small Preview of the Auto Show</h1>
+    </div>
+    <div class="cars-container" id="last">
+        <div class="car-card">
+            <div class="img-container" data-flickity='{ "lazyLoad": true }'>
+                <img data-flickity-lazyload="images/g65.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic2.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic3.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic4.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic1.webp" alt="">
+                <img data-flickity-lazyload="images/g65-pic5.webp" alt="">
+            </div>
+            <div class="car-info">
+                <h2>2023 MERCEDES-AMG G63 BRABUS 800</h2>
+                <p><i class="fas fa-tools"></i> Engine: 4.0-litre twin-turbo V8</p>
+                <p><i class="fas fa-cog"></i> Transmission: 9-Speed Automatic</p>
+                <p><i class="fas fa-bolt"></i> Power: 588 kW / 800 hp</p>
+                <p><i class="fas fa-cogs"></i> Torque: 1000 Nm</p>
+                <p><i class="fas fa-tachometer-alt"></i> 0-100 km/h(80 mph): 4.1 s</p>
+                <p><i class="fas fa-gas-pump"></i> Fuel Economy Combined: 13.1 l/100km</p>
+                <p><i class="fas fa-tachometer-alt"></i> Max speed (Limited): 240 km/h (150 mph)</p>
+            </div>
+        </div>
+        <div class="car-card">
+            <div class="img-container" data-flickity='{ "lazyLoad": true }'>
+                <img data-flickity-lazyload="images/x6-4.webp" alt="">
+                <img data-flickity-lazyload="images/X6.webp" alt="">
+                <img data-flickity-lazyload="images/x6-1.webp" alt="">
+                <img data-flickity-lazyload="images/x6-3.webp" alt="">
+                <img data-flickity-lazyload="images/x6-5.webp" alt="">
+                <img data-flickity-lazyload="images/x6-2.webp" alt="">
+            </div>
+            <div class="car-info">
+                <h2>2022 BMW X6 M MANHART EDITION</h2>
+                <p><i class="fas fa-tools"></i> Engine: 4.4-litre biturbo V8</p>
+                <p><i class="fas fa-cog"></i> Transmission: 8-Speed Automatic</p>
+                <p><i class="fas fa-bolt"></i> Power: 536 kW / 730 hp</p>
+                <p><i class="fas fa-cogs"></i> Torque: 900 Nm</p>
+                <p><i class="fas fa-tachometer-alt"></i> 0-100 km/h(80 mph): 3.8 s</p>
+                <p><i class="fas fa-gas-pump"></i> Fuel Economy Combined: 12.1 l/100km</p>
+                <p><i class="fas fa-tachometer-alt"></i> Max speed: 290 km/h (180 mph)</p>
+            </div>
+        </div>
+        <div class="car-card">
+            <div class="img-container" data-flickity='{ "lazyLoad": true }'>
+                <img data-flickity-lazyload="images/Screenshot (1514).webp" alt="">
+                <img data-flickity-lazyload="images/urus.webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1509).webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1510).webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1512).webp" alt="">
+                <img data-flickity-lazyload="images/Screenshot (1511).webp" alt="">
+            </div>
+            <div class="car-info">
+                <h2>2022 LAMBORGHINI URUS MANSORY</h2>
+                <p><i class="fas fa-tools"></i> Engine: 4.0-litre twin-turbo V8</p>
+                <p><i class="fas fa-cog"></i> Transmission: 8-Speed Automatic</p>
+                <p><i class="fas fa-bolt"></i> Power: 625 kW / 850 hp</p>
+                <p><i class="fas fa-cogs"></i> Torque: 1000 Nm</p>
+                <p><i class="fas fa-tachometer-alt"></i> 0-100 km/h(80 mph): 3.3 s</p>
+                <p><i class="fas fa-gas-pump"></i> Fuel Economy Combined: 14.5 l/100km</p>
+                <p><i class="fas fa-tachometer-alt"></i> Max speed: 320 km/h (200 mph)</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('.img-container img');
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const imgSrc = entry.target.getAttribute('data-flickity-lazyload');
+                        const imgLoaded = localStorage.getItem(imgSrc) === 'loaded';
+
+                        if (!imgLoaded) {
+                            const img = new Image();
+                            img.onload = function () {
+                                localStorage.setItem(imgSrc, 'loaded');
+                                entry.target.setAttribute('src', imgSrc);
+                                observer.unobserve(entry.target);
+                            };
+                            img.src = imgSrc;
+                        } else {
+                            entry.target.setAttribute('src', imgSrc);
+                            observer.unobserve(entry.target);
+                        }
+                    }
+                });
+            });
+
+            images.forEach(image => {
+                observer.observe(image);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const carCards = document.querySelectorAll('#last .car-card');
+            carCards.forEach(function (card) {
+                const flickity = new Flickity(card.querySelector('#last .car-card .img-container'), {
+                    cellAlign: 'left',
+                    contain: true,
+                    prevNextButtons: true,
+                    lazyLoad: true,
+                });
+            });
+        });
+    </script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <h1 style="text-align: center;">Recently viewed cars</h1>
+    <div class="slider-container">
+        <div class="recently-viewed-cars" style="display: flex; justify-content: center; flex-wrap: wrap;"
+            bis_skin_checked="1">
+        </div>
+    </div>
+    <div id="overlay" style="display: none;">
+        <div id="popup">
+            <span id="close" onclick="closePopup()">&times;</span>
+            <p>To have access to this feature, please log in.</p>
+            <button onclick="takeMeToLogin()">Take me to log in</button>
+            <button onclick="noThanks()">No thanks</button>
+        </div>
+    </div>
+    <script>
+        function takeMeToLogin() {
+            window.location = "https://danov-autoshow-656625355b99.herokuapp.com/login";
+        }
+        function noThanks() {
+            document.getElementById(`overlay`).style.display = `none`;
+        }
+    </script>
+    <footer class="footer-section">
+        <h3>NEWSLETTER</h3>
+        <p>Subscribe to our Newsletter!</p>
+        <div class="subscribe-form">
+            <input type="email" placeholder="Your Email Address">
+            <button>Subscribe</button>
+        </div>
+        <p id="sub-result" style="margin-top: 0.5rem; display: none;">Subscibed successfully!</p>
+        <div class="socials-section">
+            <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
+                    class="fab fa-facebook"></i></a>
+            <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i
+                    class="fab fa-linkedin"></i></a>
+        </div>
+        <div class="copyright-section">
+            <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="Subsribe-To-Newsletter.js"></script>
+    <script src="Populate-Recently-Viewed.js" defer></script>
+    <script src="Recently-Viewed-Slider.js" defer></script>
+</body>
+
+</html>
