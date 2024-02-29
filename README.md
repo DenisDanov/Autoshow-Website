@@ -1,4 +1,3 @@
-@ -1,370 +0,0 @@
 # Auto Show Website - REST Spring Web Application
 
 <div align="center">
