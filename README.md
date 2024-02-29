@@ -1,7 +1,7 @@
 # Auto Show Website - REST Spring Web Application
 
 <div align="center">
-  <img src="src/main/resources/public/images/logo.png" alt="Image Description">
+  <img src="src/main/resources/public/images/logo.png" alt="Image Description" target="_blank">
 </div>
 
 <div align="center">
