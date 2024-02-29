@@ -5,7 +5,7 @@
 </div>
 
 <div align="center">
-  <span>Deployed: <a href="https://danov-autoshow.azurewebsites.net" target="_blank">HERE</a></span>
+  <span>Deployed: <a href="https://danov-autoshow.azurewebsites.net">HERE</a></span>
 </div>
 
 ## Description
