@@ -32,12 +32,17 @@ public class AccessController {
         this.carOrdersRepository = carOrdersRepository;
     }
 
-    @GetMapping("/showroom.html")
-    public ModelAndView showroomPage(@RequestParam String car, HttpServletRequest request) {
+    @GetMapping("profile")
+    public String home() {
+        return "profile";
+    }
+
+    @GetMapping("/pages/showroom.html")
+    public ModelAndView showroomPage2(@RequestParam String car, HttpServletRequest request) {
         return checkAccess("showroom", car, request);
     }
 
-    @GetMapping("/cars-info.html")
+    @GetMapping("/pages/cars-info.html")
     public ModelAndView carInfoPage(@RequestParam String car, HttpServletRequest request) {
         return checkAccess("cars-info", car, request);
     }
@@ -45,8 +50,8 @@ public class AccessController {
     private ModelAndView checkAccess(String pageUrl, String car, HttpServletRequest request) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
         long userId = 0;
-        car = "danov-autoshow.azurewebsites.net/showroom.html?car=" + car;
         String carValues = car.split("3D Models/")[1];
+        car = "danov-autoshow.azurewebsites.net/showroom.html?car=" + car;
         car = car.replaceAll(" ", "%20");
         Optional<User> user = Optional.empty();
 
