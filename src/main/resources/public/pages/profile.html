@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="../css/pages-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta property="og:image" content="images/logo.png">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/auto-show.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+    <script src="../js%20scripts/Sticky-Header.js"></script>
+</head>
+
+<body>
+<header class="nav-header" id="header">
+    <a href="../pages/index.html" class="logo">
+        <img class="logo-img" src="../images/logo.png" alt="Logo">
+    </a>
+    <div class="h1">
+        <h1>Where Luxury Meets Performance</h1>
+    </div>
+    <div class="container">
+        <button class="hamburger" id="hamburgerButton">
+            <i class="fas fa-bars"></i>
+            <span class="menuText">Menu</span>
+        </button>
+        <ul class="menu" id="menu">
+            <li><a class="menuItem" href="../pages/index.html" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-home"></i>
+                Home</a></li>
+            <li style="display: none;" id="profile"><a class="menuItem"
+                                                       href="/profile"
+                                                       onclick="setHamburgerRelative(event)"><i class="fas fa-user"></i>Profile</a>
+            </li>
+            <li><a class="menuItem" href="../pages/auto-show.html" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-car"></i>
+                Auto
+                Show</a></li>
+            <li id="log-in-text"><a class="menuItem" href="/login"
+                                    onclick="setHamburgerRelative(event)"><i class="fas fa-sign-in-alt"></i>Log in</a>
+            </li>
+            <li style="display: none;" id="log-out-text"><a class="menuItem" href="#"
+                                                            onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-sign-in-alt"></i>Log out</a></li>
+            <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-info-circle"></i> About</a></li>
+        </ul>
+    </div>
+    <nav class="navs">
+        <nav>
+            <ul>
+                <li><a href="../pages/index.html"><i class="fas fa-home"></i></a></li>
+                <li style="display: none;" id="profile"><a
+                        href="/profile"><i
+                        class="fas fa-user"></i></a></li>
+                <li><a href="../pages/auto-show.html"><i class="fas fa-car"></i></a></li>
+                <li id="log-in-icon"><a href="/login"><i
+                        class="fas fa-sign-in-alt"></i></a></li>
+                <li style="display: none;" id="log-out-icon"><a href="#"><i class="fas fa-sign-out-alt"></i></a>
+                </li>
+                <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
+            </ul>
+        </nav>
+        <nav>
+            <ul id="nav-text">
+                <li><a href="../pages/index.html">Home</a></li>
+                <li style="display: none;" id="profile"><a
+                        href="/profile">Profile</a></li>
+                <li class="auto-show"><a href="../pages/auto-show.html">Auto Show</a></li>
+                <li id="log-in-text"><a href="/login">Log in</a>
+                </li>
+                <li style="display: none;" id="log-out-text"><a href="#">Log out</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+    </nav>
+</header>
+<script src="../js%20scripts/mobile-menu.js"></script>
+<section class="profile-section">
+    <div id="overlay">
+        <div id="popup">
+            <span id="close" onclick="closePopup()">&times;</span>
+            <p>Are you sure you want to remove this vehicle ?</p>
+            <button id="remove-btn">Remove it</button>
+            <button onclick="noThanks()">No thanks</button>
+        </div>
+    </div>
+    <div id="overlay-changeUsername">
+        <div id="popup-changeUsername">
+            <p id="warning-fields-username"></p>
+            <p>Please enter your password</p>
+            <input type="password" id="password-overlay" autocomplete="new-password">
+            <span><i class="toggle-password fas fa-eye" onclick="togglePasswordVisibilityOverlayPass()"
+                     id="password-eye-overlay"></i></span>
+            <button id="remove-btn-changeUsername">Change Username</button>
+            <button id="close-changeUsername" onclick="closePopupChangeUsername()">Cancel</button>
+        </div>
+    </div>
+    <div class="container-profile">
+        <h2>Profile</h2>
+        <br>
+        <div class="profile-info">
+            <label for="username">Username</label>
+            <div id="username-container">
+                <input type="text" id="username" value="" autocomplete="new-username">
+                <button type="submit" id="change-username" style="display: none;">Save</button>
+                <button type="submit" id="cancel" style="display: none;">Cancel</button>
+            </div>
+            <label for="email">Email</label>
+            <div id="email-container">
+                <input type="email" id="email" value="" autocomplete="new-email">
+                <button type="submit" id="change-email" style="display: none;">Save</button>
+                <button type="submit" id="cancel-email" style="display: none;">Cancel</button>
+            </div>
+            <span id="changed-email"></span>
+            <div class="profile-password">
+                <div>
+                    <label for="password">Change Password</label>
+                    <input type="password" id="password" value="" placeholder="enter current password"
+                           autocomplete="new-password">
+                    <input type="password" id="new-password" placeholder="enter a new password"
+                           autocomplete="new-password">
+                    <input type="password" id="repeat-new-password" placeholder="enter the new password again"
+                           autocomplete="new-password">
+                </div>
+                <span><i class="toggle-password fas fa-eye" onclick="togglePasswordVisibility()"
+                         id="password-eye"></i></span>
+                <span><i class="toggle-password fas fa-eye" id="new-password-eye"
+                         onclick="togglePasswordVisibilityNewPass()"></i></span>
+                <span><i class="toggle-password fas fa-eye" id="new-password-repeat-eye"
+                         onclick="togglePasswordVisibilityNewPassRepeat()"></i></span>
+            </div>
+            <button type="submit" id="change-password">Change password</button>
+            <button type="submit" id="forgotten-password">Reset password</button>
+            <p id="forgotten-password-result" style="display: none; border-radius: 3px;"></p>
+            <p id="warning-fields" style="display: none;"></p>
+            <label for="favorite-vehicles">Favorite Vehicles</label>
+            <ul id="favorite-vehicles"></ul>
+            <label for="car-orders">Ordered Vehicles</label>
+            <ul id="car-orders"></ul>
+            <div id="order-car-menu">
+                <div id="popup-order-car">
+                    <i class="fas fa-window-close" id="cancel-order-icon" style="cursor: pointer;"></i>
+                    <p id="order-car-menu-header">Reorder the same car, or choose a different one.</p>
+                    <label for="car-manufacturer">Select car manufacturer</label>
+                    <select id="car-manufacturer" required>
+                    </select>
+                    <label for="car-model">Select car model</label>
+                    <select id="car-model" required>
+                    </select>
+                    <label for="car-year">Select manufacture year</label>
+                    <select id="car-year" required>
+                    </select>
+                    <span id="response-result" style="display: none;"></span>
+                    <div>
+                        <button id="reorder-car">Order car</button>
+                        <button id="cancel-orderbtn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<h1 style="text-align: center;">Recently viewed cars</h1>
+<div class="slider-container">
+    <div class="recently-viewed-cars" style="display: flex; justify-content: center; flex-wrap: wrap;"
+         bis_skin_checked="1">
+    </div>
+</div>
+<footer class="footer-section">
+    <h3>NEWSLETTER</h3>
+    <p>Subscribe to our Newsletter!</p>
+    <div class="subscribe-form">
+        <input type="email" placeholder="Your Email Address">
+        <button>Subscribe</button>
+    </div>
+    <p id="sub-result" style="margin-top: 0.5rem; display: none;">Subscibed successfully!</p>
+    <div class="socials-section">
+        <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
+                class="fab fa-facebook"></i></a>
+        <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i
+                class="fab fa-linkedin"></i></a>
+    </div>
+    <div class="copyright-section">
+        <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
+    </div>
+</footer>
+<script src="../js%20scripts/Get-Profile-Data.js" defer></script>
+<script src="../js%20scripts/Password-Changing.js" defer></script>
+<script src="../js%20scripts/Password-Eye-Visibility.js" defer></script>
+<script src="../js%20scripts/Change-User-Details.js" defer></script>
+<script src="../js%20scripts/Change-User-Password.js" defer></script>
+<script src="../js%20scripts/Populate-CarsMenu.js" defer></script>
+<script defer>
+    setTimeout(function () {
+        document.querySelectorAll(`.add-fav .icon-heart`).forEach(entrie => {
+            entrie.addEventListener(`mouseover`, (e) => {
+                if (e.currentTarget.parentNode.children[0].checked) {
+                    e.currentTarget.style.color = `#333`;
+                }
+            });
+            entrie.addEventListener(`mouseout`, (e) => {
+                if (e.currentTarget.parentNode.children[0].checked) {
+                    e.currentTarget.style.color = `orange`;
+                }
+            });
+        });
+    }, 1700);
+</script>
+<script src="../js%20scripts/Subsribe-To-Newsletter.js" defer></script>
+<script src="../js%20scripts/Populate-Recently-Viewed.js" defer></script>
+<script src="../js%20scripts/Recently-Viewed-Slider.js" defer></script>
+</body>
+
+</html>

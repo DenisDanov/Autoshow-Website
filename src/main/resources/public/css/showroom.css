@@ -1,0 +1,157 @@
+#model-container {
+    width: 85vw;
+    height: 35vw;
+    margin: 1.5rem auto;
+}
+
+#model-container canvas {
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.view-buttons {
+    margin: 0 auto;
+    display: flex;
+    gap: 0.3rem;
+}
+
+@media (max-width: 601px) {
+    .view-buttons {
+        flex-direction: column;
+    }
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
+}
+
+@media (max-width: 567px) {
+    body #model-container {
+        height: 55vh;
+    }
+}
+
+#firstPersonBtn,
+#thirdPersonBtn,
+#info-page {
+    cursor: pointer;
+    display: inline-block;
+    background-color: #a59eb5;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 0.3rem;
+    transition: background-color 0.3s;
+    border: 2px solid black;
+}
+
+#firstPersonBtn:hover,
+#thirdPersonBtn:hover,
+#info-page:hover {
+    background-color: #8c8292 !important;
+}
+
+#info-page {
+    width: max-content;
+    margin: 1rem auto;
+    color: black;
+}
+
+#loading-overlay-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+#loading-overlay {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+}
+
+.lds-ring {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+}
+
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 51px;
+    height: 51px;
+    margin: 6px;
+    border: 6px solid #3498db;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #3498db transparent transparent transparent;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#unsubscribe-confirmation,
+#unsubscribe-confirmation-2 {
+    font-family: Arial, sans-serif !important;
+    text-align: center;
+    background-color: #646464;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    margin: 70px auto;
+}
+
+#unsubscribe-confirmation p,
+#unsubscribe-confirmation-2 p {
+    color: #333333;
+    margin: 3px 0;
+    font-size: 16px;
+}
+
+#unsubscribe-confirmation-2 p {
+    text-align: left;
+}
+
+#tick-icon {
+    width: 50px;
+    height: 50px;
+}
+
+#controlls-info {
+    margin: 0.5rem auto;
+    margin-bottom: 0;
+}
+
+#controlls-info ul {
+    list-style: none;
+}
+
+#info-icon {
+    width: 30px;
+    height: 30px;
+    margin: 1rem auto;
+    margin-bottom: 0;
+}
+
+#info-icon img {
+    cursor: pointer;
+    width: 100%;
+    height: auto;
+}

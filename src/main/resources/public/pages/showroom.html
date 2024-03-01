@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showroom</title>
+    <link rel="stylesheet" href="../css/pages-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../css/showroom.css">
+    <meta property="og:image" content="images/logo.png">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.152.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.152.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+    <script src="../js%20scripts/Sticky-Header.js"></script>
+</head>
+
+<body>
+<header class="nav-header" id="header">
+    <a href="../pages/index.html" class="logo">
+        <img class="logo-img" src="../images/logo.png" alt="Logo">
+    </a>
+    <div class="h1">
+        <h1>Where Luxury Meets Performance</h1>
+    </div>
+    <div class="container">
+        <button class="hamburger" id="hamburgerButton">
+            <i class="fas fa-bars"></i>
+            <span class="menuText">Menu</span>
+        </button>
+        <ul class="menu" id="menu">
+            <li><a class="menuItem" href="../pages/index.html" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-home"></i>
+                Home</a></li>
+            <li style="display: none;" id="profile"><a class="menuItem"
+                                                       href="/profile"
+                                                       onclick="setHamburgerRelative(event)"><i class="fas fa-user"></i>Profile</a>
+            </li>
+            <li><a class="menuItem" href="../pages/auto-show.html" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-car"></i>
+                Auto
+                Show</a></li>
+            <li id="log-in-text"><a class="menuItem" href="/login"
+                                    onclick="setHamburgerRelative(event)"><i class="fas fa-sign-in-alt"></i>Log in</a>
+            </li>
+            <li style="display: none;" id="log-out-text"><a class="menuItem" href="#"
+                                                            onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-sign-in-alt"></i>Log out</a></li>
+            <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-info-circle"></i> About</a></li>
+        </ul>
+    </div>
+    <nav class="navs">
+        <nav>
+            <ul>
+                <li><a href="../pages/index.html"><i class="fas fa-home"></i></a></li>
+                <li style="display: none;" id="profile"><a
+                        href="/profile"><i
+                        class="fas fa-user"></i></a></li>
+                <li><a href="../pages/auto-show.html"><i class="fas fa-car"></i></a></li>
+                <li id="log-in-icon"><a href="/login"><i
+                        class="fas fa-sign-in-alt"></i></a></li>
+                <li style="display: none;" id="log-out-icon"><a href="#"><i class="fas fa-sign-out-alt"></i></a>
+                </li>
+                <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
+            </ul>
+        </nav>
+        <nav>
+            <ul id="nav-text">
+                <li><a href="../pages/index.html">Home</a></li>
+                <li style="display: none;" id="profile"><a
+                        href="/profile">Profile</a></li>
+                <li class="auto-show"><a href="../pages/auto-show.html">Auto Show</a></li>
+                <li id="log-in-text"><a href="/login">Log in</a>
+                </li>
+                <li style="display: none;" id="log-out-text"><a href="#">Log out</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+    </nav>
+</header>
+<div id="info-icon" onclick="toggleControlsInfo()">
+    <img src="../images/Information-icon.svg.png" alt="Information">
+</div>
+<script src="../js%20scripts/mobile-menu.js"></script>
+<div id="controlls-info" style="display: none;"></div>
+<div id="loader"></div>
+<div id="model-container"></div>
+<div class="view-buttons">
+    <button id="firstPersonBtn" style="flex-direction: column; align-items: center;">First Person View</button>
+    <button id="thirdPersonBtn">Third Person View</button>
+</div>
+<a href="#" id="info-page">Check Vehicle Info</a>
+<div th:if="${access == 'no-access'}">
+    <script>
+        document.getElementById(`info-icon`).style.display = "none";
+        document.getElementById(`loader`).style.display = `none`;
+        document.getElementById(`model-container`).style.display = `none`;
+        document.querySelector(`.view-buttons`).style.display = `none`;
+        document.getElementById(`info-page`).style.display = `none`;
+    </script>
+    <div id="unsubscribe-confirmation-2">
+        <p style="color: #a02828; font-size: 18px; font-weight: bold; text-align: center;">You don't have access to this
+            model.</p>
+        <img src="../images/Red_X.svg.png" alt="Green Tick Icon" width="50" height="50">
+        <div style="display: flex; flex-direction: column;">
+            <p style="color: #333333;">Please order the vehicle, or add it to favorites.</p>
+        </div>
+    </div>
+</div>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const carParam = urlParams.get('car');
+    document.getElementById(`info-page`).href = `cars-info.html?car=${carParam}`;
+</script>
+<footer class="footer-section">
+    <h3>NEWSLETTER</h3>
+    <p>Subscribe to our Newsletter!</p>
+    <div class="subscribe-form">
+        <input type="email" placeholder="Your Email Address">
+        <button>Subscribe</button>
+    </div>
+    <p id="sub-result" style="margin-top: 0.5rem; display: none;">Subscibed successfully!</p>
+    <div class="socials-section">
+        <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
+                class="fab fa-facebook"></i></a>
+        <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i
+                class="fab fa-linkedin"></i></a>
+    </div>
+    <div class="copyright-section">
+        <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
+    </div>
+</footer>
+<script src="../js%20scripts/Info-Icon.js"></script>
+<div th:if="${access == 'granted-access'}">
+    <script type="module" src="../js%20scripts/3DModel-Scene-Switching.js"></script>
+</div>
+<script src="../js%20scripts/User%20Authentication.js"></script>
+<script src="../js%20scripts/Subsribe-To-Newsletter.js"></script>
+<script src="../js%20scripts/Recently-Viewed-Cars.js"></script>
+</body>
+
+</html>

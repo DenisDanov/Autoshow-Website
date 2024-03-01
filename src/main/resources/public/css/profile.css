@@ -1,0 +1,398 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
+}
+
+.container-profile {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.profile-section {
+    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.profile-info {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+.profile-info label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.profile-info input,
+#favorite-vehicles,
+#car-orders {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid rgb(80, 78, 75);
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+}
+
+#favorite-vehicles,
+#car-orders {
+    background: linear-gradient(90deg, rgb(61 56 56) 9%, rgb(65 63 71) 42%, rgb(139 132 157) 100%);
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    justify-content: center;
+}
+
+#favorite-vehicles li,
+#car-orders li {
+    margin-bottom: 5px;
+}
+
+@media (min-width: 601px) {
+    #car-orders li {
+        min-width: 500px;
+    }
+}
+
+/* Style for the footer, adjust as needed */
+.footer-section {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-section a {
+    color: white;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+    .profile-info {
+        padding: 0 10px;
+    }
+}
+
+.profile-password {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-password div {
+    width: 600px;
+}
+
+.profile-info .toggle-password {
+    display: none;
+    cursor: pointer;
+    color: #888;
+    margin-top: 35px;
+    position: absolute;
+    right: 0.5rem;
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-reveal {
+    display: none !important;
+}
+
+#new-password-eye {
+    margin-top: 90px;
+}
+
+#new-password-repeat-eye {
+    margin-top: 145px;
+}
+
+#favorite-vehicles li .car-card,
+.car-order-model .car-card {
+    width: fit-content;
+    max-width: 264px;
+}
+
+#favorite-vehicles {
+    padding: 0.3rem;
+}
+
+#username-container,
+#email-container {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+#change-username,
+#cancel,
+#change-email,
+#cancel-email,
+#change-password,
+#forgotten-password {
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #3b3838;
+    border-radius: 5px;
+    background-color: #3b3838;
+    color: #ddd;
+    font-size: 16px;
+}
+
+@media (max-width: 928px) {
+
+    #username-container,
+    #email-container {
+        flex-wrap: wrap;
+        width: 100% !important;
+        justify-content: center;
+        gap: 0;
+    }
+
+    #cancel,
+    #cancel-email {
+        margin-left: 0.5rem;
+    }
+}
+
+#warning-fields,
+#warning-fields-username {
+    color: white;
+    /* Red text color for warning */
+    border: 3px solid red;
+    background-color: red;
+    font-size: 18px;
+    width: max-content;
+    text-align: center;
+    margin: 1rem auto;
+    border-radius: 5px;
+}
+
+#warning-fields-username {
+    border: 0px solid red;
+}
+
+#popup-changeUsername #password {
+    padding: 0.5rem;
+}
+
+.container-profile input {
+    background-color: #333;
+    color: #aca6a6;
+}
+
+#changed-email {
+    margin: 0 auto;
+    width: max-content;
+    margin-bottom: 1rem;
+    color: white;
+    border-radius: 5px;
+}
+
+.container-profile button:hover {
+    background-color: #333 !important;
+    cursor: pointer;
+}
+
+.car-orders-container,
+.car-order-details,
+.car-order-status,
+.car-order-model {
+    justify-content: center;
+    display: flex;
+    gap: 0.8rem;
+}
+
+.car-order-model {
+    flex-direction: column;
+    align-items: center;
+}
+
+#car-orders {
+    padding: 0.3rem;
+}
+
+.car-orders-container {
+    color: #a3a3a3;
+    flex-direction: column;
+    background: linear-gradient(90deg, rgb(26 21 21) 9%, rgb(65 63 71) 42%, rgb(118 116 121) 100%);
+    border: 2px solid #211c1c;
+    border-radius: 5px;
+}
+
+.car-order-details {
+    border-bottom: 3px solid #434343;
+    padding-bottom: 0.7rem;
+    padding-top: 0.7rem;
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
+}
+
+.car-order-details p,
+.car-order-status p {
+    margin-top: 0.3rem;
+}
+
+.car-order-details div span,
+.car-order-status div span {
+    font-weight: bold;
+}
+
+.order-status[status="Pending"] {
+    color: #000;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: rgb(156, 156, 89);
+    font-weight: 599;
+    position: relative;
+}
+
+.order-status[status="Completed"] {
+    color: black;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    background-color: rgb(83, 126, 87);
+    font-weight: 599;
+    position: relative;
+}
+
+.order-status[status="Expired"] {
+    color: #000;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    background-color: rgb(255, 0, 0);
+    font-weight: 599;
+    position: relative;
+}
+
+.order-status[status="Pending"]:after {
+    content: '.';
+    display: inline-block;
+    position: absolute;
+    animation: pendingAnimation 1.5s infinite steps(3);
+}
+
+@keyframes pendingAnimation {
+
+    0%,
+    25% {
+        opacity: 1;
+        content: '.';
+    }
+
+    26%,
+    50% {
+        opacity: 1;
+        content: '..';
+    }
+
+    51%,
+    75% {
+        opacity: 1;
+        content: '...';
+    }
+
+    76%,
+    100% {
+        opacity: 0;
+        content: '';
+    }
+}
+
+#cancel-order {
+    display: inline-block;
+    background-color: #571a1a;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 0.3rem;
+    width: max-content;
+    transition: background-color 0.3s;
+    border: 2px solid black;
+}
+
+#change-order {
+    background-color: #c1934d;
+    padding: 10px 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#change-order:hover {
+    background-color: #ddb505 !important;
+}
+
+#cancel-order:hover {
+    background-color: #882727 !important;
+}
+
+#modify-order {
+    cursor: pointer;
+    display: inline-block;
+    background-color: #6d8f47;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 0.3rem;
+    width: max-content;
+    transition: background-color 0.3s;
+    border: 2px solid black;
+}
+
+#modify-order:hover {
+    background-color: #79aa40 !important;
+}
+
+.slider-container {
+    max-width: 100%;
+    position: relative;
+}
+
+.recently-viewed-cars {
+    padding: 0 2rem;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slick-prev {
+    font-size: 30px !important;
+    left: 55px !important;
+    z-index: 1;
+}
+
+.slick-next {
+    right: 55px !important;
+    z-index: 1;
+}
+
+@media (min-width: 601px) {
+
+    .slick-list,
+    .draggable {
+        min-width: 380px !important;
+    }
+
+    .slick-track {
+        min-width: 380px !important;
+    }
+
+}
+
+.car-card[max-width="true"] {
+    max-width: 400px !important;
+}
+
+.car-card {
+    background: linear-gradient(90deg, rgb(61 56 56) 9%, rgb(65 63 71) 42%, rgb(139 132 157) 100%) !important;
+    color: #000000 !important;
+}

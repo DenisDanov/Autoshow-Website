@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubsubscribe</title>
+    <link rel="stylesheet" href="../css/pages-style.css">
+    <link rel="stylesheet" href="../css/newsletter-unsubscribe.css">
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/v1/user/newsletter-emails/unsubscribe?email=${email}`, {
+            method: "DELETE"
+        })
+        .then(response => response.text())
+        .then(result => {
+            if (result === `You have been unsubscribed successfully.`) {
+                document.getElementById(`unsubscribe-confirmation`).style.display = `block`;
+            } else {
+                document.getElementById(`unsubscribe-confirmation-2`).style.display = `block`;
+            }
+        })
+    </script>
+    <link rel="icon" href="../images/logo.png" type="image/x-icon">
+    <script src="../js%20scripts/Sticky-Header.js"></script>
+</head>
+
+<body>
+<header class="nav-header" id="header">
+    <a href="../pages/index.html" class="logo">
+        <img class="logo-img" src="../images/logo.png" alt="Logo">
+    </a>
+    <div class="h1">
+        <h1>Where Luxury Meets Performance</h1>
+    </div>
+    <div class="container">
+        <button class="hamburger" id="hamburgerButton">
+            <i class="fas fa-bars"></i>
+            <span class="menuText">Menu</span>
+        </button>
+        <ul class="menu" id="menu">
+            <li><a class="menuItem" href="../pages/index.html" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-home"></i>
+                Home</a></li>
+            <li style="display: none;" id="profile"><a class="menuItem"
+                                                       href="/profile"
+                                                       onclick="setHamburgerRelative(event)"><i class="fas fa-user"></i>Profile</a>
+            </li>
+            <li><a class="menuItem" href="../pages/auto-show.html" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-car"></i>
+                Auto
+                Show</a></li>
+            <li id="log-in-text"><a class="menuItem" href="/login"
+                                    onclick="setHamburgerRelative(event)"><i class="fas fa-sign-in-alt"></i>Log in</a>
+            </li>
+            <li style="display: none;" id="log-out-text"><a class="menuItem" href="#"
+                                                            onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-sign-in-alt"></i>Log out</a></li>
+            <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
+                    class="fas fa-info-circle"></i> About</a></li>
+        </ul>
+    </div>
+    <nav class="navs">
+        <nav>
+            <ul>
+                <li><a href="../pages/index.html"><i class="fas fa-home"></i></a></li>
+                <li style="display: none;" id="profile"><a
+                        href="/profile"><i
+                        class="fas fa-user"></i></a></li>
+                <li><a href="../pages/auto-show.html"><i class="fas fa-car"></i></a></li>
+                <li id="log-in-icon"><a href="/login"><i
+                        class="fas fa-sign-in-alt"></i></a></li>
+                <li style="display: none;" id="log-out-icon"><a href="#"><i class="fas fa-sign-out-alt"></i></a>
+                </li>
+                <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
+            </ul>
+        </nav>
+        <nav>
+            <ul id="nav-text">
+                <li><a href="../pages/index.html">Home</a></li>
+                <li style="display: none;" id="profile"><a
+                        href="/profile">Profile</a></li>
+                <li class="auto-show"><a href="../pages/auto-show.html">Auto Show</a></li>
+                <li id="log-in-text"><a href="/login">Log in</a>
+                </li>
+                <li style="display: none;" id="log-out-text"><a href="#">Log out</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+    </nav>
+</header>
+    <div id="unsubscribe-confirmation" style="display: none;">
+        <p style="color: #28a745; font-size: 18px; font-weight: bold;">Unsubscribe Successful</p>
+        <img src="../images/green-tick-icon.png" alt="Green Tick Icon" width="50" height="50">
+        <p style="color: #333333;">You have been successfully unsubscribed from our newsletter. We're sorry to see you
+            go!</p>
+    </div>
+    <div id="unsubscribe-confirmation-2" style="display: none;">
+        <p style="color: #a02828; font-size: 18px; font-weight: bold;">Unsubscribe Unsuccessful</p>
+        <img src="../images/Red_X.svg.png" alt="Green Tick Icon" width="50" height="50">
+        <p style="color: #333333;">The provided email is not subscribed to our Newsletter.</p>
+    </div>
+    <footer class="footer-section">
+        <h3>NEWSLETTER</h3>
+        <p>Subscribe to our Newsletter!</p>
+        <div class="subscribe-form">
+            <input type="email" placeholder="Your Email Address">
+            <button>Subscribe</button>
+        </div>
+        <p id="sub-result" style="margin-top: 0.5rem; display: none;">Subscibed successfully!</p>
+        <div class="socials-section">
+            <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
+                    class="fab fa-facebook"></i></a>
+            <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i
+                    class="fab fa-linkedin"></i></a>
+        </div>
+        <div class="copyright-section">
+            <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="../js%20scripts/Subsribe-To-Newsletter.js"></script>
+</body>
+
+</html>
