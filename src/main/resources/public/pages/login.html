@@ -24,7 +24,7 @@
 
 <body>
 <header class="nav-header" id="header">
-    <a href="../pages/index.html" class="logo">
+    <a href="/index" class="logo">
         <img class="logo-img" src="../images/logo.png" alt="Logo">
     </a>
     <div class="h1">
@@ -36,14 +36,14 @@
             <span class="menuText">Menu</span>
         </button>
         <ul class="menu" id="menu">
-            <li><a class="menuItem" href="../pages/index.html" onclick="setHamburgerRelative(event)"><i
+            <li><a class="menuItem" href="/index" onclick="setHamburgerRelative(event)"><i
                     class="fas fa-home"></i>
                 Home</a></li>
             <li style="display: none;" id="profile"><a class="menuItem"
                                                        href="/profile"
                                                        onclick="setHamburgerRelative(event)"><i class="fas fa-user"></i>Profile</a>
             </li>
-            <li><a class="menuItem" href="../pages/auto-show.html" onclick="setHamburgerRelative(event)"><i
+            <li><a class="menuItem" href="/auto-show" onclick="setHamburgerRelative(event)"><i
                     class="fas fa-car"></i>
                 Auto
                 Show</a></li>
@@ -60,11 +60,11 @@
     <nav class="navs">
         <nav>
             <ul>
-                <li><a href="../pages/index.html"><i class="fas fa-home"></i></a></li>
+                <li><a href="/index"><i class="fas fa-home"></i></a></li>
                 <li style="display: none;" id="profile"><a
                         href="/profile"><i
                         class="fas fa-user"></i></a></li>
-                <li><a href="../pages/auto-show.html"><i class="fas fa-car"></i></a></li>
+                <li><a href="/auto-show"><i class="fas fa-car"></i></a></li>
                 <li id="log-in-icon"><a href="/login"><i
                         class="fas fa-sign-in-alt"></i></a></li>
                 <li style="display: none;" id="log-out-icon"><a href="#"><i class="fas fa-sign-out-alt"></i></a>
@@ -74,10 +74,10 @@
         </nav>
         <nav>
             <ul id="nav-text">
-                <li><a href="../pages/index.html">Home</a></li>
+                <li><a href="/index">Home</a></li>
                 <li style="display: none;" id="profile"><a
                         href="/profile">Profile</a></li>
-                <li class="auto-show"><a href="../pages/auto-show.html">Auto Show</a></li>
+                <li class="auto-show"><a href="/auto-show">Auto Show</a></li>
                 <li id="log-in-text"><a href="/login">Log in</a>
                 </li>
                 <li style="display: none;" id="log-out-text"><a href="#">Log out</a></li>
@@ -227,7 +227,7 @@
     }
 
     function handleFetchRequest() {
-        fetch('https://danov-autoshow-656625355b99.herokuapp.com/api/failed-login-attempts/remove', {
+        fetch('https://danov-autoshow.azurewebsites.net/api/failed-login-attempts/remove', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -260,7 +260,7 @@
 
     function resetPassword() {
         const unchangedEmail = document.getElementById(`send-email`).value;
-        fetch(`https://danov-autoshow-656625355b99.herokuapp.com/api/v1/user/forgot-password?email=${unchangedEmail}`, {
+        fetch(`https://danov-autoshow.azurewebsites.net/api/v1/user/forgot-password?email=${unchangedEmail}`, {
             method: `POST`
         })
             .then(response => response.text())
