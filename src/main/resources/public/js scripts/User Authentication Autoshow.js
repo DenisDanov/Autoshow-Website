@@ -39,7 +39,7 @@ function checkLoginStatus() {
             .then(result => {
                 for (let vehicle of result) {
                     document.querySelectorAll(`.car-card a`).forEach(entrie => {
-                        if (entrie.href === vehicle.vehicleId) {
+                        if (entrie.href.includes(vehicle.vehicleId)) {
                             entrie.parentNode.children[2].children[0].textContent = `Remove from Favorites`;
                             entrie.parentNode.children[2].children[1].children[0].checked = true;
                             entrie.parentNode.children[2].children[1].children[0].classList.add(`checked`);
@@ -60,7 +60,7 @@ function checkLoginStatus() {
                     const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].
                         children[0].textContent;
                     e.currentTarget.parentNode.parentNode.children[0].textContent = `Remove from Favorites`;
-                    fetch(`danov-autoshow.azurewebsites.net/api/favorites/add`, {
+                    fetch(`https://danov-autoshow.azurewebsites.net/api/favorites/add`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"

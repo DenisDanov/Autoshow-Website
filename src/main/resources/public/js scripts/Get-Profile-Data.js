@@ -1,6 +1,5 @@
 var authToken = getCookie("authToken");
 const favVehiclesIds = [];
-const carOrdersIds = [];
 var carOrderBtnEvent = false;
 let funcReference;
 
@@ -60,7 +59,7 @@ if (authToken) {
                         </i>
                     </label>
                 </div>
-                <a href="${vehicle.vehicleId}" class="view-button">View in
+                <a href="showroom.html?car=${vehicle.vehicleId}" class="view-button">View in
                     Showroom</a>
             </div>
                 `
@@ -72,9 +71,9 @@ if (authToken) {
                 }
                 resolve();
             }).catch(error => {
-                // Reject the promise if there is an error
-                reject(error);
-            });
+            // Reject the promise if there is an error
+            reject(error);
+        });
     });
 
     favoritesLoaded.then(result => {
@@ -261,10 +260,9 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 </div>
                         `
                             modifyReference = document.querySelector('[modify-reference="true"]');
-                            modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).
-                                addEventListener(`click`, (e) => {
-                                    modifyOrderFunc(e, carManufacturer, result);
-                                });
+                            modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).addEventListener(`click`, (e) => {
+                                modifyOrderFunc(e, carManufacturer, result);
+                            });
                             const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                             const img = new Image();
                             img.src = imagePath;
@@ -407,10 +405,9 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
             </div>
                     `
                             modifyReference = document.querySelector('[modify-reference="true"]');
-                            modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).
-                                addEventListener(`click`, (e) => {
-                                    modifyOrderFunc(e, carManufacturer, result);
-                                });
+                            modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).addEventListener(`click`, (e) => {
+                                modifyOrderFunc(e, carManufacturer, result);
+                            });
                             const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                             const img = new Image();
                             img.src = imagePath;
@@ -447,22 +444,22 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
 
 function addCarOrderToFavs(e) {
     if (e.currentTarget.checked) {
-        const carId = e.currentTarget.parentNode.parentNode.parentNode.
-            children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+        let carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+        carId = carId.substring(carId.lastIndexOf(`car=`),carId.length).
+        replaceAll(`%20`,` `).split(`car=`)[1];
         const carImg = e.currentTarget.parentNode.parentNode.parentNode.children[0]
             .children[0].getAttribute("src");
-        const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].
-            children[0].textContent;
+        const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].children[0].textContent;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Remove from Favorites`;
         document.querySelectorAll(`#car-orders .car-card a`).forEach(entrie => {
-            if (entrie.href === carId) {
+            if (entrie.href.replaceAll(`%20`,` `).includes(carId)) {
                 entrie.parentNode.querySelector(`.favorites .add-fav input`).checked = true;
                 entrie.parentNode.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                 entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "orange";
             }
         });
         document.querySelectorAll(`.recently-viewed-cars .car-card a`).forEach(entrie => {
-            if (entrie.href === carId) {
+            if (entrie.href.replaceAll(`%20`,` `).includes(carId)) {
                 entrie.parentNode.querySelector(`.favorites .add-fav input`).checked = true;
                 entrie.parentNode.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                 entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "orange";
@@ -486,7 +483,7 @@ function addCarOrderToFavs(e) {
             </i>
         </label>
     </div>
-    <a href="${carId}" class="view-button">View in
+    <a href="showroom.html?car=${carId}" class="view-button">View in
         Showroom</a>
 </div>
     `
@@ -511,11 +508,10 @@ function addCarOrderToFavs(e) {
             .then(response => console.log(response))
             .catch(err => console.log(err));
     } else {
-        const carId = e.currentTarget.parentNode.parentNode.parentNode.
-            children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+        let carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
         const favVehicles = document.getElementById(`favorite-vehicles`).querySelectorAll(`li .car-card a`);
         for (const vehicle of favVehicles) {
-            if (vehicle.href === carId) {
+            if (vehicle.href.includes(carId)) {
                 vehicle.parentNode.parentNode.remove();
                 break;
             }
@@ -548,6 +544,8 @@ function addCarOrderToFavs(e) {
                         entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "#666";
                     }
                 });
+                carId = carId.substring(carId.lastIndexOf(`car=`),carId.length).
+                replaceAll(`%20`,` `).split(`car=`)[1];
                 favVehiclesIds.splice(favVehiclesIds.indexOf(carId), 1);
             })
             .catch(err => console.log(err));
@@ -560,11 +558,12 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
         container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
         container.children[0].children[1].children[0].children[1].textContent = `Completed`;
         container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
-        carOrdersIds.push(container.children[0].querySelector(`.car-order-model`)
-            .children[1].querySelector(`a`).href);
+
         favVehiclesIds.forEach(vehicleId => {
-            if (vehicleId === container.children[0].querySelector(`.car-order-model`)
-                .children[1].querySelector(`a`).href) {
+            vehicleId = `showroom.html?car=${vehicleId}`;
+            if (container.children[0].querySelector(`.car-order-model`)
+                .children[1].querySelector(`a`).href.replaceAll(`%20`,` `).
+            includes(vehicleId)) {
                 container.children[0].querySelector(`.car-order-model`).children[1].children[2]
                     .children[1].children[0].checked = true;
                 container.children[0].querySelector(`.car-order-model`).children[1].children[2]
@@ -691,7 +690,6 @@ function removeCarOrder(e) {
     const carModel = e.currentTarget.parentNode.parentNode.children[0].children[1].children[1].textContent;
     const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
 
-    carOrdersIds.splice(carOrdersIds.indexOf(`https://danov-autoshow.azurewebsites.net/showroom.html?car=3D%20Models/${carManufacturer}-${carModel}-${carYear}.glb`), 1);
     e.currentTarget.parentNode.parentNode.parentNode.remove();
     fetch(`https://danov-autoshow.azurewebsites.net/api/carOrders/remove`, {
         method: "DELETE",

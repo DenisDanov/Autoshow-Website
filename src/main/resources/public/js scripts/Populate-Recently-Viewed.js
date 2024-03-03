@@ -65,7 +65,7 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                         <a href="showroom.html?car=${entrie}" class="view-button">View in
                                             Showroom</a>        
                             `;
-                        if (favVehiclesIds.includes(carCard.querySelector(`a`).href)) {
+                        if (favVehiclesIds.includes(entrie)) {
                             carCard.querySelector(`.add-fav input`).checked = true;
                             carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                         }
@@ -118,7 +118,7 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                                     Showroom</a>        
                                     `;
 
-                                if (favVehiclesIdsHome.includes(carCard.querySelector(`a`).href)) {
+                                if (favVehiclesIdsHome.includes(entrie)) {
                                     carCard.querySelector(`.add-fav input`).checked = true;
                                     carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                                 }
@@ -127,8 +127,8 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                             }
                             resolve("success");
                         }).catch(error => {
-                            reject(error);
-                        });
+                        reject(error);
+                    });
                 } else {
                     const container = document.querySelector(`.recently-viewed-cars`);
                     for (let index = carParams.length - 1; index >= 0; index--) {
@@ -171,12 +171,10 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
 
 function checkFavVehicles(e) {
     if (e.currentTarget.checked && authToken) {
-        const carId = e.currentTarget.parentNode.parentNode.parentNode.
-            children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+        const carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
         const carImg = e.currentTarget.parentNode.parentNode.parentNode.children[0]
             .children[0].getAttribute("src");
-        const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].
-            children[0].textContent;
+        const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].children[0].textContent;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Remove from Favorites`;
         favVehiclesIdsHome.push(carId);
         fetch(`https://danov-autoshow.azurewebsites.net/api/favorites/add`, {
@@ -197,8 +195,7 @@ function checkFavVehicles(e) {
             })
             .catch(err => console.log(err));
     } else if (authToken) {
-        const carId = e.currentTarget.parentNode.parentNode.parentNode.
-            children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+        const carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
         fetch(`https://danov-autoshow.azurewebsites.net/api/favorites/remove`, {
             method: "DELETE",

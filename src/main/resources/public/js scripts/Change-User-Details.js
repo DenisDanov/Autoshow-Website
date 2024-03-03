@@ -162,9 +162,7 @@ function getCookie(name) {
 }
 
 function requestResetPass(e) {
-    fetch(`https://danov-autoshow.azurewebsites.net/api/v1/user/forgot-password?email=${unchangedEmail}`, {
-        method: `POST`
-    })
+    fetch(`https://danov-autoshow.azurewebsites.net/api/v1/user/forgot-password?email=${unchangedEmail}`)
         .then(response => response.text())
         .then(result => {
             if (result === `Password reset initiated. Check your email for further instructions.`) {
