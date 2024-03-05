@@ -227,7 +227,7 @@
     }
 
     function handleFetchRequest() {
-        fetch('https://danov-autoshow.azurewebsites.net/api/failed-login-attempts/remove', {
+        fetch(`${window.location.origin}/api/failed-login-attempts/remove`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -260,7 +260,7 @@
 
     function resetPassword() {
         const unchangedEmail = document.getElementById(`send-email`).value;
-        fetch(`https://danov-autoshow.azurewebsites.net/api/v1/user/forgot-password?email=${unchangedEmail}`, {
+        fetch(`${window.location.origin}/api/v1/user/forgot-password?email=${unchangedEmail}`, {
             method: `POST`
         })
             .then(response => response.text())

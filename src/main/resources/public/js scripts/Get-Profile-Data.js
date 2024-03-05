@@ -26,7 +26,7 @@ if (authToken) {
     var userId = decodedToken.userId;
 
     var favoritesLoaded = new Promise((resolve, reject) => {
-        fetch(`https://danov-autoshow.azurewebsites.net/api/profile/get?id=${userId}&authToken=${authToken}`)
+        fetch(`${window.location.origin}/api/profile/get?id=${userId}&authToken=${authToken}`)
             .then(response => response.json())
             .then(result => {
                 const username = result.username;
@@ -77,7 +77,7 @@ if (authToken) {
     });
 
     favoritesLoaded.then(result => {
-        fetch(`https://danov-autoshow.azurewebsites.net/api/carOrders/get?id=${userId}`)
+        fetch(`${window.location.origin}/api/carOrders/get?id=${userId}`)
             .then(response => response.json())
             .then(result => {
                 for (const carOrder of result) {
@@ -175,7 +175,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 }
             }
             if (!checkForSameOrder && newManufacturer !== "loading" && newModel !== "loading" && newYear !== "loading") {
-                fetch(`https://danov-autoshow.azurewebsites.net/api/carOrders/modify`, {
+                fetch(`${window.location.origin}/api/carOrders/modify`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"
@@ -319,7 +319,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     document.getElementById(`response-result`).style.display = `none`;
                 }, 2200);
             } else {
-                fetch(`https://danov-autoshow.azurewebsites.net/api/carOrders/modify`, {
+                fetch(`${window.location.origin}/api/carOrders/modify`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json"
@@ -445,21 +445,20 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
 function addCarOrderToFavs(e) {
     if (e.currentTarget.checked) {
         let carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
-        carId = carId.substring(carId.lastIndexOf(`car=`),carId.length).
-        replaceAll(`%20`,` `).split(`car=`)[1];
+        carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
         const carImg = e.currentTarget.parentNode.parentNode.parentNode.children[0]
             .children[0].getAttribute("src");
         const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].children[0].textContent;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Remove from Favorites`;
         document.querySelectorAll(`#car-orders .car-card a`).forEach(entrie => {
-            if (entrie.href.replaceAll(`%20`,` `).includes(carId)) {
+            if (entrie.href.replaceAll(`%20`, ` `).includes(carId)) {
                 entrie.parentNode.querySelector(`.favorites .add-fav input`).checked = true;
                 entrie.parentNode.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                 entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "orange";
             }
         });
         document.querySelectorAll(`.recently-viewed-cars .car-card a`).forEach(entrie => {
-            if (entrie.href.replaceAll(`%20`,` `).includes(carId)) {
+            if (entrie.href.replaceAll(`%20`, ` `).includes(carId)) {
                 entrie.parentNode.querySelector(`.favorites .add-fav input`).checked = true;
                 entrie.parentNode.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                 entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "orange";
@@ -492,7 +491,7 @@ function addCarOrderToFavs(e) {
         favVehiclesContainer.children[0].children[2].children[1].children[0].checked = true;
         favVehiclesContainer.children[0].children[2].children[1].children[0].addEventListener(`change`, removeFavVehicle);
         document.getElementById(`remove-btn`).addEventListener(`click`, removeTheCar);
-        fetch(`https://danov-autoshow.azurewebsites.net/api/favorites/add`, {
+        fetch(`${window.location.origin}/api/favorites/add`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -517,7 +516,7 @@ function addCarOrderToFavs(e) {
             }
         }
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
-        fetch(`https://danov-autoshow.azurewebsites.net/api/favorites/remove`, {
+        fetch(`${window.location.origin}/api/favorites/remove`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
@@ -544,8 +543,7 @@ function addCarOrderToFavs(e) {
                         entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "#666";
                     }
                 });
-                carId = carId.substring(carId.lastIndexOf(`car=`),carId.length).
-                replaceAll(`%20`,` `).split(`car=`)[1];
+                carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
                 favVehiclesIds.splice(favVehiclesIds.indexOf(carId), 1);
             })
             .catch(err => console.log(err));
@@ -562,8 +560,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
         favVehiclesIds.forEach(vehicleId => {
             vehicleId = `showroom.html?car=${vehicleId}`;
             if (container.children[0].querySelector(`.car-order-model`)
-                .children[1].querySelector(`a`).href.replaceAll(`%20`,` `).
-            includes(vehicleId)) {
+                .children[1].querySelector(`a`).href.replaceAll(`%20`, ` `).includes(vehicleId)) {
                 container.children[0].querySelector(`.car-order-model`).children[1].children[2]
                     .children[1].children[0].checked = true;
                 container.children[0].querySelector(`.car-order-model`).children[1].children[2]
@@ -691,7 +688,7 @@ function removeCarOrder(e) {
     const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
 
     e.currentTarget.parentNode.parentNode.parentNode.remove();
-    fetch(`https://danov-autoshow.azurewebsites.net/api/carOrders/remove`, {
+    fetch(`${window.location.origin}/api/carOrders/remove`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -729,7 +726,7 @@ function removeTheCar(e) {
             entrie.parentNode.children[2].children[1].children[1].style.color = `#666`;
         }
     });
-    fetch(`https://danov-autoshow.azurewebsites.net/api/favorites/remove`, {
+    fetch(`${window.location.origin}/api/favorites/remove`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -783,7 +780,7 @@ function logOutUser() {
     document.querySelectorAll(`#log-out-icon`).forEach(entrie => {
         entrie.addEventListener(`click`, () => {
             // Set expiry to a past date, and include path and domain
-            document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow.azurewebsites.net; secure";
+            document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "recently_viewed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; ";
 
             // Reload the page
@@ -793,7 +790,7 @@ function logOutUser() {
     document.querySelectorAll(`#log-out-text`).forEach(entrie => {
         entrie.addEventListener(`click`, () => {
             // Set expiry to a past date, and include path and domain
-            document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow.azurewebsites.net; secure";
+            document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "recently_viewed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; ";
 
             // Reload the page

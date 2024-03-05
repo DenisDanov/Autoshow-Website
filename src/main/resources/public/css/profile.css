@@ -48,8 +48,9 @@ body {
     background: linear-gradient(90deg, rgb(61 56 56) 9%, rgb(65 63 71) 42%, rgb(139 132 157) 100%);
     flex-wrap: wrap;
     list-style: none;
-    padding: 0;
+    padding: 1rem;
     justify-content: center;
+    position: relative;
 }
 
 #favorite-vehicles li,
@@ -117,11 +118,7 @@ input[type="password"]::-webkit-reveal {
 #favorite-vehicles li .car-card,
 .car-order-model .car-card {
     width: fit-content;
-    max-width: 264px;
-}
-
-#favorite-vehicles {
-    padding: 0.3rem;
+    max-width: 253px;
 }
 
 #username-container,
@@ -215,10 +212,6 @@ input[type="password"]::-webkit-reveal {
 .car-order-model {
     flex-direction: column;
     align-items: center;
-}
-
-#car-orders {
-    padding: 0.3rem;
 }
 
 .car-orders-container {
@@ -356,9 +349,11 @@ input[type="password"]::-webkit-reveal {
 .slider-container {
     max-width: 100%;
     position: relative;
+    padding: 1.1rem;
 }
 
 .recently-viewed-cars {
+    position: relative;
     padding: 0 2rem;
     display: flex;
     transition: transform 0.5s ease-in-out;
@@ -395,4 +390,68 @@ input[type="password"]::-webkit-reveal {
 .car-card {
     background: linear-gradient(90deg, rgb(61 56 56) 9%, rgb(65 63 71) 42%, rgb(139 132 157) 100%) !important;
     color: #000000 !important;
+}
+
+.lds-ring {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#username-spinner,
+#email-spinner {
+    left: 52%;
+}
+
+#favorites-spinner,
+#car-orders-spinner {
+    left: 47%;
+}
+
+#recently-viewed-spinner {
+    left: 49%;
+}
+
+#username-spinner,
+#email-spinner {
+    margin-left: -32px; /* Half of the width of the spinner */
+}
+
+#username-spinner div,
+#email-spinner div {
+    border-color: #3498db transparent transparent transparent;
+}
+
+input[type="text"],
+input[type="email"] {
+    position: relative;
+}
+
+#username-container,
+#email-container {
+    position: relative;
+}
+
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    margin: 0px;
+    border: 4px solid #3498db;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #3498db transparent transparent transparent;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

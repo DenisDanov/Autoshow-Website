@@ -68,8 +68,6 @@ public class RecentlyViewedTokenControllerServiceImpl implements RecentlyViewedT
                 long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
                 cookie.setMaxAge((int) maxAgeInSeconds);
                 cookie.setPath("/"); // Save the cookie for all pages of the site
-                cookie.setSecure(true);
-                cookie.setDomain("danov-autoshow.azurewebsites.net");
 
                 response.addCookie(cookie);
                 deletionService.scheduleDeletion(authToken);
@@ -123,8 +121,6 @@ public class RecentlyViewedTokenControllerServiceImpl implements RecentlyViewedT
                 long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
                 cookie.setMaxAge((int) maxAgeInSeconds);
                 cookie.setPath("/"); // Save the cookie for all pages of the site
-                cookie.setSecure(true);
-                cookie.setDomain("danov-autoshow.azurewebsites.net");
 
                 response.addCookie(cookie);
 

@@ -34,7 +34,7 @@ function closePopup() {
 
 // Function to handle "Take me to log in" button click
 function takeMeToLogin() {
-    location.href = `https://danov-autoshow.azurewebsites.net/login`;
+    location.href = `/login`;
     closePopup();
 }
 
@@ -56,7 +56,7 @@ function orderCar(e) {
         carManufacturer.options[carManufacturer.selectedIndex].textContent !== "loading" &&
         carModel.value !== '' && carModel.value !== "loading" &&
         carYear.value !== '' && carYear.value !== 'loading') {
-        fetch(`https://danov-autoshow.azurewebsites.net/api/carOrders/add`, {
+        fetch(`${window.location.origin}/api/carOrders/add`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

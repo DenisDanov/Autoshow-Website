@@ -8,7 +8,7 @@ let scene;
 let renderer;
 let model;
 const urlParams = new URLSearchParams(window.location.search);
-const carParam = "../" + urlParams.get('car');
+const carParam = urlParams.get('car');
 let timeOut;
 
 function initThirdPersonScript() {
@@ -69,6 +69,51 @@ function initThirdPersonScript() {
                     case carParam.includes('Lamborghini-Aventador-2020.glb'):
                         camera.position.z += cameraDistance - 1910;
                         break;
+                    case carParam.includes('Mercedes-Benz-G-Class-2022.glb'):
+                        camera.position.z += cameraDistance - 510;
+                        break;
+                    case carParam.includes('Jeep-Compass-2020.glb'):
+                        camera.position.z += cameraDistance - 480;
+                        break;
+                    case carParam.includes('Mclaren-Senna-2020.glb'):
+                        camera.position.z += cameraDistance - 520;
+                        break;
+                    case carParam.includes('Porsche-GT3 RS-2023.glb'):
+                        camera.position.z += cameraDistance - 510;
+                        break;
+                    case carParam.includes('Subaru-Impreza-1998.glb'):
+                        camera.position.z += cameraDistance - 480;
+                        break;
+                    case carParam.includes('Mercedes-Benz-Maybach GLS 600-2023.glb'):
+                        camera.position.z += cameraDistance - 280;
+                        break;
+                    case carParam.includes('Mercedes-Benz-S63 Brabus 800-2022.glb'):
+                        camera.position.z += cameraDistance - 540;
+                        break;
+                    case carParam.includes('Ferrari-F40-1992.glb'):
+                        camera.position.z += cameraDistance - 500;
+                        break;
+                    case carParam.includes('Mclaren-F1 GTR-1995.glb'):
+                        camera.position.z += cameraDistance - 470;
+                        break;
+                    case carParam.includes('BMW-M5-1999.glb'):
+                        camera.position.z += cameraDistance - 500;
+                        break;
+                    case carParam.includes('Rolls-Royce-Ghost.glb'):
+                        camera.position.z += cameraDistance - 580;
+                        break;
+                    case carParam.includes('Lamborghini-Aventador-2020.glb'):
+                        camera.position.z += cameraDistance - 1910;
+                        break;
+                    case carParam.includes(`Mercedes-Benz-S-Class-2022.glb`):
+                        camera.position.z += cameraDistance - 570;
+                        break;
+                    case carParam.includes(`Mercedes-Benz-SL-Class-2022.glb`):
+                        camera.position.z += cameraDistance - 490;
+                        break;
+                    case carParam.includes(`Porsche-918 Spyder-2015.glb`):
+                        camera.position.z += cameraDistance - 1870;
+                        break;
                     case carParam.includes('Lamborghini-Urus-2020.glb'):
                         camera.position.z += cameraDistance - 285;
                         break;
@@ -76,7 +121,7 @@ function initThirdPersonScript() {
                         camera.position.z += cameraDistance - 490;
                         break;
                     case carParam.includes('BMW-M4-2022.glb'):
-                        camera.position.z += cameraDistance - 720;
+                        camera.position.z += cameraDistance - 480;
                         break;
                     case carParam.includes('Toyota-Gr-Supra-2020.glb'):
                         camera.position.z += cameraDistance - 570;
@@ -112,8 +157,10 @@ function initThirdPersonScript() {
                         camera.position.z += cameraDistance - 620;
                         break;
                     case carParam.includes('Mercedes-Benz-E-Class-2014.glb'):
-                    case carParam.includes('Mercedes-Benz-G-Class-2022.glb'):
                         camera.position.z += cameraDistance - 520;
+                        break;
+                    case carParam.includes('Mercedes-Benz-G-Class-2023.glb'):
+                        camera.position.z += cameraDistance - 450;
                         break;
                     case carParam.includes('Mercedes-Benz-SLS AMG GT Final Edition-2020.glb'):
                         camera.position.z += cameraDistance - 1920;
@@ -130,6 +177,45 @@ function initThirdPersonScript() {
                 }
             } else {
                 switch (true) {
+                    case carParam.includes('Mclaren-Senna-2020.glb'):
+                        camera.position.z += cameraDistance - 280;
+                        break;
+                    case carParam.includes('Mercedes-Benz-G-Class-2022.glb'):
+                        camera.position.z += cameraDistance - 260;
+                        break;
+                    case carParam.includes('Jeep-Compass-2020.glb'):
+                        camera.position.z += cameraDistance - 250;
+                        break;
+                    case carParam.includes('Porsche-GT3 RS-2023.glb'):
+                        camera.position.z += cameraDistance - 250;
+                        break;
+                    case carParam.includes('Subaru-Impreza-1998.glb'):
+                        camera.position.z += cameraDistance - 250;
+                        break;
+                    case carParam.includes('Mercedes-Benz-Maybach GLS 600-2023.glb'):
+                        camera.position.z += cameraDistance - 120;
+                        break;
+                    case carParam.includes(`Mercedes-Benz-SL-Class-2022.glb`):
+                        camera.position.z += cameraDistance - 240;
+                        break;
+                    case carParam.includes('Mercedes-Benz-S63 Brabus 800-2022.glb'):
+                        camera.position.z += cameraDistance - 260;
+                        break;
+                    case carParam.includes('Ferrari-F40-1992.glb'):
+                        camera.position.z += cameraDistance - 230;
+                        break;
+                    case carParam.includes('Rolls-Royce-Ghost.glb'):
+                        camera.position.z += cameraDistance - 300;
+                        break;
+                    case carParam.includes('Mclaren-F1 GTR-1995.glb'):
+                        camera.position.z += cameraDistance - 250;
+                        break;
+                    case carParam.includes(`Porsche-918 Spyder-2015.glb`):
+                        camera.position.z += cameraDistance - 770;
+                        break;
+                    case carParam.includes('BMW-M5-1999.glb'):
+                        camera.position.z += cameraDistance - 270;
+                        break;
                     case carParam.includes('Lamborghini-Aventador-2020.glb'):
                         camera.position.z += cameraDistance - 920;
                         break;
@@ -142,8 +228,11 @@ function initThirdPersonScript() {
                     case carParam.includes('Toyota-Gr-Supra-2020.glb'):
                         camera.position.z += cameraDistance - 250;
                         break;
+                    case carParam.includes(`Mercedes-Benz-S-Class-2022.glb`):
+                        camera.position.z += cameraDistance - 280;
+                        break;
                     case carParam.includes('BMW-M4-2022.glb'):
-                        camera.position.z += cameraDistance - 360;
+                        camera.position.z += cameraDistance - 260;
                         break;
                     case carParam.includes('Mclaren-P1-2015.glb'):
                         camera.position.z += cameraDistance - 250;
@@ -177,7 +266,7 @@ function initThirdPersonScript() {
                         camera.position.z += cameraDistance - 280;
                         break;
                     case carParam.includes('Mercedes-Benz-E-Class-2014.glb'):
-                    case carParam.includes('Mercedes-Benz-G-Class-2022.glb'):
+                    case carParam.includes('Mercedes-Benz-G-Class-2023.glb'):
                         camera.position.z += cameraDistance - 280;
                         break;
                     case carParam.includes('Mercedes-Benz-SLS AMG GT Final Edition-2020.glb'):
@@ -211,30 +300,30 @@ function initThirdPersonScript() {
             scene.add(cameraLight);
             scene.add(cameraLight.target);
 
-            if (carParam.includes(`BMW-M4-2022.glb`) ||
-                carParam.includes(`BMW-X5-2022.glb`)) {
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
-                directionalLight.position.set(camera.position).normalize();
-                scene.add(directionalLight);
-            } else {
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-                directionalLight.position.set(camera.position).normalize();
-                scene.add(directionalLight);
-            }
+            let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(0, 1, 0).normalize();
+            scene.add(directionalLight);
 
-            if (carParam.includes(`BMW-M4-2022.glb`)) {
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-                scene.add(ambientLight);
-            } else {
-                const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-                scene.add(ambientLight);
-            }
+            // Directional light from the right side
+            let directionalLightRight = new THREE.DirectionalLight(0xffffff, 1); // Soft white light, intensity 0.5
+            directionalLightRight.position.set(1, 0, 0); // Adjust position to the right side of the scene
+            scene.add(directionalLightRight);
+
+            // Directional light from the left side
+            let directionalLightLeft = new THREE.DirectionalLight(0xffffff, 1); // Soft white light, intensity 0.5
+            directionalLightLeft.position.set(-1, 0, 0); // Adjust position to the left side of the scene
+            scene.add(directionalLightLeft);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+
+            scene.add(ambientLight);
+
         }
     }
 
     let loader;
 
-    // Check if the model is an FBX, OBJ or GLB 
+    // Check if the model is an FBX, OBJ or GLB
     if (carParam.includes('.glb') || carParam.includes('.gltf')) {
         loader = new GLTFLoader();
         loader.load(carParam, (gltf) => {
@@ -258,20 +347,8 @@ function initThirdPersonScript() {
                         }
                     }
                 });
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 3.5);
-                directionalLight.position.set(5, 5, 5).normalize();
-                scene.add(directionalLight);
-
-                const ambientLight = new THREE.AmbientLight(0xffffff, 3);
-                scene.add(ambientLight);
             } else if (carParam.includes`Lamborghini-Aventador-2020.glb`) {
                 model.scale.set(170, 170, 170);
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
-                directionalLight.position.set(5, 5, 5).normalize();
-                scene.add(directionalLight);
-
-                const ambientLight = new THREE.AmbientLight(0xffffff, 5);
-                scene.add(ambientLight);
             } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
                 model.scale.set(20, 20, 20);
                 model.traverse(child => {
@@ -280,7 +357,135 @@ function initThirdPersonScript() {
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
                             child.material.metalness = 0.4; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
-                            child.material.roughness = 0.1; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                            child.material.roughness = 0.5; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mclaren-Senna-2020.glb`)) {
+                model.scale.set(40, 40, 40);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
+                model.scale.set(40, 40, 40);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Jeep-Compass-2020.glb`)) {
+                model.scale.set(40, 40, 40);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mercedes-Benz-SL-Class-2022.glb`)) {
+                model.scale.set(40, 40, 40);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.7; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Porsche-GT3 RS-2023.glb`)) {
+                model.scale.set(40, 40, 40);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Subaru-Impreza-1998.glb`)) {
+                model.scale.set(40, 40, 40);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mercedes-Benz-Maybach GLS 600-2023.glb`)) {
+                model.scale.set(20, 20, 20);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.3; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`BMW-M5-1999.glb`)) {
+                model.scale.set(20, 20, 20);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
                             child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
@@ -312,7 +517,7 @@ function initThirdPersonScript() {
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
                             child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
-                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
                             child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
@@ -326,8 +531,8 @@ function initThirdPersonScript() {
                     if (child.isMesh) {
                         // Check if the material is already a MeshStandardMaterial
                         if (child.material.isMeshStandardMaterial) {
-                            // Adjust material properties
-                            child.material.metalness = 0.7; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            // Adjust material properties;
+                            child.material.metalness = 0.7 // Adjust metalness (0 for non-metallic, 1 for fully metallic)
                             child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
@@ -352,6 +557,118 @@ function initThirdPersonScript() {
                         }
                     }
                 });
+            } else if (carParam.includes(`Mercedes-Benz-S-Class-2022.glb`)) {
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.5; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Rolls-Royce-Ghost.glb`)) {
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mclaren-P1-2015.glb`)) {
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Nissan-GT-R-1998.glb`)) {
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Ferrari-F40-1992.glb`)) {
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mercedes-Benz-S63 Brabus 800-2022.glb`)) {
+                model.scale.set(40, 40, 40);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
             } else {
                 model.scale.set(40, 40, 40);
                 gltf.scene.traverse((child) => {
@@ -359,8 +676,8 @@ function initThirdPersonScript() {
                         // Check if the material is already a MeshStandardMaterial
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
-                            child.material.metalness = 0.4; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
-                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                            child.material.metalness = 0.5; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.3; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
                             child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
@@ -369,14 +686,12 @@ function initThirdPersonScript() {
                     }
                 });
             }
-
             setCameraPosition(); // Set the camera position after loading the model
             hideLoadingOverlay();
         }, undefined, (error) => {
             console.error('Error loading GLB model:', error);
             hideLoadingOverlay();
         });
-
     } else if (carParam.includes('.fbx') || carParam.includes('.FBX')) {
         loader = new FBXLoader();
         loader.load(
@@ -473,24 +788,12 @@ function initFirstPersonScript() {
     scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(75, containerRect.width / containerRect.height, 0.1, 15000);
-    const lightDistance = 40;
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(containerRect.width, containerRect.height);
     container.appendChild(renderer.domElement);
-
-    const spotLight = new THREE.SpotLight(0xffffff, 1);
-    spotLight.castShadow = false;
-    spotLight.shadow.mapSize.width = 1024;
-    spotLight.shadow.mapSize.height = 1024;
-    renderer.shadowMap.enabled = true;
-    camera.add(spotLight);
     scene.add(camera);
 
     // Set up the spotlight position and properties
-    function updateSpotlight() {
-        spotLight.position.copy(camera.position);
-        spotLight.position.add(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(lightDistance));
-    }
 
     const nearClip = 1;
     const farClip = 5000;
@@ -535,7 +838,6 @@ function initFirstPersonScript() {
             prevMouseX = event.clientX;
             prevMouseY = event.clientY;
 
-            updateSpotlight();
         }
     });
 
@@ -554,37 +856,59 @@ function initFirstPersonScript() {
     const onKeyDown = (event) => {
         switch (event.key) {
             case 'w':
+            case `W`:
+            case `Ш`:
+            case `ш`:
                 moveForward = true;
                 break;
             case 's':
+            case `S`:
+            case `С`:
+            case `с`:
                 moveBackward = true;
                 break;
             case 'a':
+            case `A`:
+            case `А`:
+            case `а`:
                 moveLeft = true;
                 break;
             case 'd':
+            case `D`:
+            case `Д`:
+            case `д`:
                 moveRight = true;
                 break;
         }
-        updateSpotlight();
     };
 
     const onKeyUp = (event) => {
         switch (event.key) {
             case 'w':
+            case `W`:
+            case `Ш`:
+            case `ш`:
                 moveForward = false;
                 break;
             case 's':
+            case `S`:
+            case `с`:
+            case `С`:
                 moveBackward = false;
                 break;
             case 'a':
+            case `A`:
+            case `А`:
+            case `а`:
                 moveLeft = false;
                 break;
             case 'd':
+            case `D`:
+            case `Д`:
+            case `д`:
                 moveRight = false;
                 break;
         }
-        updateSpotlight();
     };
 
     document.addEventListener('keydown', onKeyDown);
@@ -616,6 +940,153 @@ function initFirstPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
                 scene.add(ambientLight);
+            } else if (carParam.includes(`Mercedes-Benz-SL-Class-2022.glb`)) {
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 20, 135);
+                } else {
+                    camera.position.set(0, 20, 175);
+                }
+                model.scale.set(30, 30, 30);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.7; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
+                model.scale.set(20, 20, 20);
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 20, 105);
+                } else {
+                    camera.position.set(0, 20, 125);
+                }
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Jeep-Compass-2020.glb`)) {
+                model.scale.set(30, 30, 30);
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 30, 155);
+                } else {
+                    camera.position.set(0, 30, 185);
+                }
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Porsche-GT3 RS-2023.glb`)) {
+                model.scale.set(30, 30, 30);
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 20, 135);
+                } else {
+                    camera.position.set(0, 10, 125);
+                }
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mclaren-F1 GTR-1995.glb`)) {
+                model.scale.set(20, 20, 20);
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 10, 85);
+                } else {
+                    camera.position.set(0, 10, 125);
+                }
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Subaru-Impreza-1998.glb`)) {
+                model.scale.set(30, 30, 30);
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 25, 145);
+                } else {
+                    camera.position.set(0, 25, 165);
+                }
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mercedes-Benz-S63 Brabus 800-2022.glb`)) {
+                model.scale.set(20, 20, 20);
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 15, 95);
+                } else {
+                    camera.position.set(0, 15, 115);
+                }
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
             } else if (carParam.includes`Lamborghini-Aventador-2020.glb`) {
                 model.scale.set(160, 160, 160);
                 camera.position.set(0, 100, 850);
@@ -634,7 +1105,41 @@ function initFirstPersonScript() {
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
                             child.material.metalness = 0.4; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
-                            child.material.roughness = 0.1; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                            child.material.roughness = 0.5; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mercedes-Benz-S-Class-2022.glb`)) {
+                camera.position.set(0, 20, 105)
+                model.scale.set(20, 20, 20);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.4; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Mercedes-Benz-Maybach GLS 600-2023.glb`)) {
+                camera.position.set(0, 20, 125)
+                model.scale.set(20, 20, 20);
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.7; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
                             child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
@@ -703,8 +1208,9 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`BMW-X5-2022.glb`) || carParam.includes(`BMW-M4-2022.glb`) ||
-                carParam.includes(`Bugatti-Chiron-2005.glb`) || carParam.includes(`Ford-F-150-2022.glb`) ||
+            } else if (carParam.includes(`BMW-X5-2022.glb`) ||
+                carParam.includes(`Bugatti-Chiron-2005.glb`) ||
+                carParam.includes(`Ford-F-150-2022.glb`) ||
                 carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`) ||
                 carParam.includes(`Nissan-GT-R-2017.glb`)) {
                 if (containerRect.width > 430) {
@@ -720,8 +1226,7 @@ function initFirstPersonScript() {
                     camera.position.set(5, 10, 650);
                 }
                 model.scale.set(40, 40, 40);
-                if (carParam.includes(`BMW-M4-2022.glb`) ||
-                    carParam.includes(`Ford-F-150-2022.glb`)) {
+                if (carParam.includes(`Ford-F-150-2022.glb`)) {
                     model.scale.set(30, 30, 30);
                 }
                 gltf.scene.traverse((child) => {
@@ -760,6 +1265,27 @@ function initFirstPersonScript() {
                         }
                     }
                 });
+            } else if (carParam.includes(`BMW-M4-2022.glb`)) {
+                model.scale.set(75, 75, 75);
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 65, 360);
+                } else {
+                    camera.position.set(0, 60, 420);
+                }
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
             } else if (carParam.includes(`Lamborghini-Murcielago-2010.glb`) ||
                 carParam.includes(`Volkswagen-Golf-2021.glb`)) {
                 if (containerRect.width > 430 && carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
@@ -770,9 +1296,9 @@ function initFirstPersonScript() {
                     camera.position.set(-85, 12, 50);
                 }
                 model.scale.set(5, 5, 5);
-                // Rotate the camera a bit to the right (adjust the angle as needed)
+                // Rotate the camera a bit to the right
                 if (carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
-                    camera.rotation.y -= Math.PI / 2; // Rotate by 15 degrees, for example
+                    camera.rotation.y -= Math.PI / 2; // Rotate by 15 degrees
                 }
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
@@ -790,8 +1316,7 @@ function initFirstPersonScript() {
                 });
             } else if (carParam.includes(`Porsche-Boxster-2016.glb`) ||
                 carParam.includes(`McLaren-P1-2019.glb`) ||
-                carParam.includes(`Mercedes-Benz-E-Class-2014.glb`) ||
-                carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
+                carParam.includes(`Mercedes-Benz-E-Class-2014.glb`)) {
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
@@ -812,6 +1337,27 @@ function initFirstPersonScript() {
                 } else {
                     camera.position.set(0, 11.5, 90);
                 }
+            } else if (carParam.includes(`Mercedes-Benz-G-Class-2023.glb`)) {
+                model.scale.set(15, 15, 15);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.7; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.3; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+                if (containerRect.width > 430) {
+                    camera.position.set(0, 15.5, 80);
+                } else {
+                    camera.position.set(0, 11.5, 105);
+                }
             } else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`)) {
                 model.scale.set(15, 15, 15);
                 camera.position.set(2400, 50.5, 2300);
@@ -829,36 +1375,117 @@ function initFirstPersonScript() {
                         }
                     }
                 });
+            } else if (carParam.includes(`Rolls-Royce-Ghost.glb`)) {
+                model.scale.set(15, 15, 15);
+                camera.position.set(0, 13.5, 73);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.3; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 100; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`BMW-M5-1999.glb`)) {
+                model.scale.set(15, 15, 15);
+                camera.position.set(0, 13.5, 103);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.9; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 150; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Ferrari-F40-1992.glb`)) {
+                model.scale.set(25, 25, 25);
+                camera.position.set(0, 22.5, 135);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else if (carParam.includes(`Porsche-918 Spyder-2015.glb`)) {
+                model.scale.set(2, 2, 2);
+                camera.position.set(13.45264919107109, 7.725602238274919, 119.24133757757258);
+                // Rotate the camera 180 degrees around its Y-axis
+                camera.rotation.y -= (Math.PI - 20);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 200; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
+            } else {
+                model.scale.set(55, 55, 55);
+                camera.position.set(0, 10, 10);
+                gltf.scene.traverse((child) => {
+                    if (child.isMesh) {
+                        // Check if the material is already a MeshStandardMaterial
+                        if (child.material.isMeshStandardMaterial) {
+                            // Adjust material properties
+                            child.material.metalness = 0.6; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.4; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                        } else if (child.material.isMeshPhongMaterial) {
+                            // For MeshPhongMaterial
+                            child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
+                            child.material.shininess = 150; // Adjust shininess (higher values for shinier)
+                        }
+                    }
+                });
             }
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-            directionalLight.position.set(0, 20, 125).normalize();
-            if (carParam.includes(`Tesla-Model-3-2020.glb`) && containerRect.width > 430) {
-                directionalLight.position.set(0, 15, -500).normalize();
-            } else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
-                directionalLight.position.set(0, 15, -800).normalize();
-            } else if (carParam.includes(`BMW-X5-2022.glb`) && containerRect.width > 430) {
-                directionalLight.position.set(10, 25, 200).normalize();
-            } else if (carParam.includes(`BMW-X5-2022.glb`) && containerRect.width < 430) {
-                directionalLight.position.set(0, 15, -800).normalize();
-            } else if (carParam.includes(`BMW-M4-2022.glb`)
-                && containerRect.width > 430) {
-                directionalLight.position.set(10, 25, 200).normalize();
-            } else if (carParam.includes(`Bugatti-Chiron-2005.glb`)
-                && containerRect.width > 430) {
-                directionalLight.position.set(5, 20, 120).normalize();
-            } else if (carParam.includes(`Mercedes-Benz-E-Class-2014.glb`) && containerRect.width > 430) {
-                directionalLight.position.set(0, 11.5, 70).normalize();
-            } else if (carParam.includes(`Mercedes-Benz-E-Class-2014.glb`) && containerRect.width < 430) {
-                directionalLight.position.set(0, 11.5, 90).normalize();
-            } else if (carParam.includes(`Volkswagen-Golf-2021.glb`)) {
-                directionalLight.position.set(-85, 12, 50).normalize();
-            }
-
+            let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
             scene.add(directionalLight);
+            // Directional light from the right side
+            let directionalLightRight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLightRight.position.set(1, 0, 0); // Adjust position to the right side of the scene
+            scene.add(directionalLightRight);
 
+            // Directional light from the left side
+            let directionalLightLeft = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLightLeft.position.set(-1, 0, 0); // Adjust position to the left side of the scene
+            scene.add(directionalLightLeft);
+
+            directionalLight.position.set(0, 1, 0).normalize();
             const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+
             scene.add(ambientLight);
+
+            if (carParam.includes(`Mercedes-Benz-G-Class-2023.glb`)) {
+                directionalLight.intensity = 1;
+                directionalLightLeft.intensity = 1;
+                directionalLightRight = 1;
+            }
 
             hideLoadingOverlay();
             animate();
@@ -905,7 +1532,6 @@ function initFirstPersonScript() {
             cameraLight.target.position.copy(camera.position);
         }
 
-        updateSpotlight();
 
         // Move the camera based on the keyboard input
         let moveSpeed = 0.2;
@@ -927,6 +1553,8 @@ function initFirstPersonScript() {
             carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`) ||
             carParam.includes(`Nissan-GT-R-2017.glb`)) {
             moveSpeed = 0.5;
+        } else if (carParam.includes(`Porsche-918 Spyder-2015.glb`)) {
+            moveSpeed = 0.1;
         }
 
         // Calculate the movement vectors in the cameras local coordinate system

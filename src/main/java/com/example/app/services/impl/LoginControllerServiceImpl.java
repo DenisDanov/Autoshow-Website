@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -131,7 +133,9 @@ public class LoginControllerServiceImpl implements LoginControllerService {
             Cookie cookieRecentlyViewed = new Cookie("recently_viewed", encodedModelPaths);
 
             // Set the cookie's expiration date based on the token's expireDate
-            expireTime = new Timestamp(recentlyViewedToken.getExpireDate().getTime());
+            Instant expireInstant = recentlyViewedToken.getExpireDate().
+                    atZone(ZoneId.systemDefault()).toInstant();
+            expireTime = Timestamp.from(expireInstant);
             maxAgeInSeconds = (expireTime.getTime() - System.currentTimeMillis()) / 1000;
             cookieRecentlyViewed.setMaxAge((int) maxAgeInSeconds);
             cookieRecentlyViewed.setPath("/"); // Save the cookie for all pages of the site

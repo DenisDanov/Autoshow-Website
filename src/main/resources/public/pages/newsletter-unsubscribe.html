@@ -10,7 +10,7 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const email = urlParams.get('email');
-        fetch(`https://danov-autoshow.azurewebsites.net/api/v1/user/newsletter-emails/unsubscribe?email=${email}`, {
+        fetch(`${window.location.origin}/api/v1/user/newsletter-emails/unsubscribe?email=${email}`, {
             method: "DELETE"
         })
         .then(response => response.text())

@@ -3,13 +3,15 @@ package com.example.app.data.entities;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 
 @Entity
 @Table(name = "recently_viewed_tokens")
 public class RecentlyViewedToken {
 
-    private Date expireDate;
+    private LocalDateTime expireDate;
 
     @Column(columnDefinition = "TEXT")
     private String recentlyViewedCars;
@@ -29,22 +31,21 @@ public class RecentlyViewedToken {
         return recentlyViewedCars;
     }
 
-    public Date getExpireDate() {
+    public LocalDateTime getExpireDate() {
         return this.expireDate;
     }
 
     public void setExpireDate() {
-        java.util.Date currentDate = new java.util.Date();
+        LocalDateTime currentDate = LocalDateTime.now();
 
-        // Convert java.util.Date to java.sql.Date
-        Date sqlDate = new Date(currentDate.getTime());
+        // Add one month to the current date
+        LocalDateTime expireDate = currentDate.plusMonths(1);
 
-        // Set the date to one month from now
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(sqlDate);
-        calendar.add(Calendar.MONTH, 1);
-        sqlDate = new Date(calendar.getTimeInMillis());
-        this.expireDate = sqlDate;
+        // Set expireDate to the end of the month
+        expireDate = expireDate.with(TemporalAdjusters.lastDayOfMonth());
+
+        // Set the calculated expireDate
+        this.expireDate = expireDate;
     }
 
     public void setRecentlyViewedCars(String recentlyViewedCars) {

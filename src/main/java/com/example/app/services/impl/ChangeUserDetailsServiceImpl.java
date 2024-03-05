@@ -71,8 +71,6 @@ public class ChangeUserDetailsServiceImpl implements ChangeUserDetailService {
                     long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
                     cookie.setMaxAge((int) maxAgeInSeconds);
                     cookie.setPath("/"); // Save the cookie for all pages of the site
-                    cookie.setSecure(true);
-                    cookie.setDomain("danov-autoshow.azurewebsites.net");
 
                     response.addCookie(cookie);
                     User user = userOptional.get();
@@ -98,7 +96,7 @@ public class ChangeUserDetailsServiceImpl implements ChangeUserDetailService {
 
     @Override
     public ResponseEntity<UsernameResponse> changeEmail(EmailRequest request, HttpServletResponse response) {
-        String emailRegex = "[A-Za-z0-9]+[@][A-Za-z]{2,}[.][a-zA-Z]{2,}";
+        String emailRegex = "^[A-Za-z0-9]+[-._A-Za-z0-9]{0,}[A-Za-z0-9.-_]{0,}[@]{1}[A-Za-z-_]+[.]{1}[A-Za-z-_.]+[A-Za-z.-_]{0,}$";
         try {
             // Validate the request
             if (request.getId() == null) {
@@ -132,8 +130,6 @@ public class ChangeUserDetailsServiceImpl implements ChangeUserDetailService {
                     long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
                     cookie.setMaxAge((int) maxAgeInSeconds);
                     cookie.setPath("/"); // Save the cookie for all pages of the site
-                    cookie.setSecure(true);
-                    cookie.setDomain("danov-autoshow.azurewebsites.net");
 
                     response.addCookie(cookie);
                     if (request.getEmail().matches(emailRegex)) {
@@ -193,8 +189,6 @@ public class ChangeUserDetailsServiceImpl implements ChangeUserDetailService {
                     long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
                     cookie.setMaxAge((int) maxAgeInSeconds);
                     cookie.setPath("/"); // Save the cookie for all pages of the site
-                    cookie.setSecure(true);
-                    cookie.setDomain("danov-autoshow.azurewebsites.net");
 
                     response.addCookie(cookie);
                     User user = userOptional.get();

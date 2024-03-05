@@ -38,7 +38,7 @@ document.getElementById(`change-password`).addEventListener(`click`, (e) => {
             document.getElementById(`warning-fields`).style.display = 'none';
         }, 5000);
     } else {
-        fetch(`https://danov-autoshow.azurewebsites.net/api/profile/changePassword`, {
+        fetch(`${window.location.origin}/api/profile/changePassword`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
