@@ -6,7 +6,7 @@ if (authToken) {
 function getCarParams() {
     return new Promise((resolve, reject) => {
         if (authToken) {
-            fetch(`https://danov-autoshow.azurewebsites.net/api/recently-viewed/get?userId=${userId}&authToken=${authToken}`)
+            fetch(`${window.location.origin}/api/recently-viewed/get?userId=${userId}&authToken=${authToken}`)
                 .then(response => response.json())
                 .then(result => {
                     if (result == null) {
@@ -37,7 +37,7 @@ const favVehiclesIdsHome = [];
 
 var recentlyViewedLoaded = new Promise((resolve, reject) => {
     getCarParams().then(carParams => {
-        if (currentURL === "https://danov-autoshow.azurewebsites.net/profile") {
+        if (currentURL === `${window.location.origin}/profile`) {
             favoritesLoaded.then(response => {
                 if (carParams.length !== 0) {
                     const container = document.querySelector(`.recently-viewed-cars`);
@@ -82,7 +82,7 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
         } else {
             if (carParams.length !== 0) {
                 if (authToken) {
-                    fetch(`https://danov-autoshow.azurewebsites.net/api/profile/get?id=${userId}&authToken=${authToken}`)
+                    fetch(`${window.location.origin}/api/profile/get?id=${userId}&authToken=${authToken}`)
                         .then(response => response.json())
                         .then(result => {
                             const favVehiclesArr = result.favVehicles
@@ -120,9 +120,14 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
 
                                 if (favVehiclesIdsHome.includes(entrie)) {
                                     carCard.querySelector(`.add-fav input`).checked = true;
+                                    carCard.querySelector(`.add-fav input`).classList.add("checked");
                                     carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
                                 }
-                                carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
+                                if (currentURL.includes(`auto-show`)) {
+                                    carCard.querySelector(`.add-fav input`).addEventListener(`change`, trackFavoriteStatus);
+                                } else {
+                                    carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
+                                }
                                 container.appendChild(carCard);
                             }
                             resolve("success");
@@ -169,6 +174,10 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
     });
 });
 
+recentlyViewedLoaded.then(result => {
+    document.getElementById(`recently-viewed-spinner`).style.display = `none`;
+});
+
 function checkFavVehicles(e) {
     if (e.currentTarget.checked && authToken) {
         const carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
@@ -177,7 +186,7 @@ function checkFavVehicles(e) {
         const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].children[0].textContent;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Remove from Favorites`;
         favVehiclesIdsHome.push(carId);
-        fetch(`https://danov-autoshow.azurewebsites.net/api/favorites/add`, {
+        fetch(`${window.location.origin}/api/favorites/add`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -197,7 +206,7 @@ function checkFavVehicles(e) {
     } else if (authToken) {
         const carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
-        fetch(`https://danov-autoshow.azurewebsites.net/api/favorites/remove`, {
+        fetch(`${window.location.origin}/api/favorites/remove`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
@@ -210,12 +219,6 @@ function checkFavVehicles(e) {
         })
             .then(response => {
                 console.log(response);
-                for (const vehicle of document.getElementById("favorite-vehicles").children) {
-                    if (vehicle.querySelector("a").href === carId) {
-                        vehicle.remove();
-                        break;
-                    }
-                }
                 favVehiclesIdsHome.splice(favVehiclesIdsHome.indexOf(carId), 1);
             })
             .catch(err => console.log(err));

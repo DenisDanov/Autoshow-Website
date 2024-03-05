@@ -44,7 +44,7 @@ function changeUserName(e) {
 }
 
 function requestChangeUsername(e) {
-    fetch(`https://danov-autoshow.azurewebsites.net/api/profile/changeUsername`, {
+    fetch(`${window.location.origin}/api/profile/changeUsername`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -106,7 +106,7 @@ document.getElementById(`email`).addEventListener(`input`, (e) => {
 });
 
 function changeEmail(e) {
-    fetch(`https://danov-autoshow.azurewebsites.net/api/profile/changeEmail`, {
+    fetch(`${window.location.origin}/api/profile/changeEmail`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -162,7 +162,7 @@ function getCookie(name) {
 }
 
 function requestResetPass(e) {
-    fetch(`https://danov-autoshow.azurewebsites.net/api/v1/user/forgot-password?email=${unchangedEmail}`)
+    fetch(`${window.location.origin}/api/v1/user/forgot-password?email=${unchangedEmail}`)
         .then(response => response.text())
         .then(result => {
             if (result === `Password reset initiated. Check your email for further instructions.`) {

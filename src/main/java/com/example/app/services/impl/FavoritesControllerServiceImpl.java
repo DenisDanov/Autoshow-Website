@@ -57,8 +57,6 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
                 long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
                 cookie.setMaxAge((int) maxAgeInSeconds);
                 cookie.setPath("/"); // Save the cookie for all pages of the site
-                cookie.setSecure(true);
-                cookie.setDomain("danov-autoshow.azurewebsites.net");
 
                 response.addCookie(cookie);
                 return addVehicleToDb(request, userId, userOptional);
@@ -93,8 +91,6 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
                 long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
                 cookie.setMaxAge((int) maxAgeInSeconds);
                 cookie.setPath("/"); // Save the cookie for all pages of the site
-                cookie.setSecure(true);
-                cookie.setDomain("danov-autoshow.azurewebsites.net");
 
                 response.addCookie(cookie);
                 if (favoriteVehiclesService.deleteByVehicleIdAndUserId(request.getVehicleId(), userId) > 0) {
@@ -134,8 +130,6 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
                 long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
                 cookie.setMaxAge((int) maxAgeInSeconds);
                 cookie.setPath("/"); // Save the cookie for all pages of the site
-                cookie.setSecure(true);
-                cookie.setDomain("danov-autoshow.azurewebsites.net");
 
                 response.addCookie(cookie);
                 List<FavoriteResponse> getAllVehicles = favoriteVehiclesService

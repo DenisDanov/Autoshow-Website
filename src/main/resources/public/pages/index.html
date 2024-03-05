@@ -245,6 +245,12 @@
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <h1 style="text-align: center;">Recently viewed cars</h1>
 <div class="slider-container">
+    <div class="lds-ring" id="recently-viewed-spinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
     <div class="recently-viewed-cars" style="display: flex; justify-content: center; flex-wrap: wrap;"
          bis_skin_checked="1">
     </div>
@@ -259,7 +265,7 @@
 </div>
 <script>
     function takeMeToLogin() {
-        window.location = "https://danov-autoshow.azurewebsites.net/login";
+        window.location = "/login";
     }
 
     function noThanks() {

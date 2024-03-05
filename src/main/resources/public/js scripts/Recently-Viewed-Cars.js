@@ -27,7 +27,7 @@ function saveCarParam(newCarParam) {
         } else {
             savedParams.push(newCarParam);
         }
-        fetch(`https://danov-autoshow.azurewebsites.net/api/recently-viewed/add?userId=${userId}&carId=${newCarParam}&authToken=${authToken}`, {
+        fetch(`${window.location.origin}/api/recently-viewed/add?userId=${userId}&carId=${newCarParam}&authToken=${authToken}`, {
             method: "POST"
         })
             .then(response => response.text())

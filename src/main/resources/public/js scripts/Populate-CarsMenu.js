@@ -1,4 +1,4 @@
-let apiUrl = 'https://danov-autoshow.azurewebsites.net/api/proxy-carMenu/carquery-api?make=&model=';
+let apiUrl = `${window.location.origin}/api/proxy-carMenu/carquery-api?make=&model=`;
 
 const loadingElement = document.createElement(`option`);
 loadingElement.value = `loading`;
@@ -47,7 +47,7 @@ function populateDataYears() {
     return new Promise((resolve, reject) => {
         document.getElementById(`car-year`).innerHTML = ``;
         document.getElementById(`car-year`).appendChild(loadingElement3);
-        apiUrl = `https://danov-autoshow.azurewebsites.net/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
+        apiUrl = `${window.location.origin}/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
         fetch(apiUrl)
             .then(parseJSONP)
             .then(data => {
@@ -77,7 +77,7 @@ function populateModels(params) {
         document.getElementById(`car-year`).appendChild(loadingElement3);
         document.getElementById(`car-model`).innerHTML = ``;
         document.getElementById(`car-model`).appendChild(loadingElement2);
-        apiUrl = `https://danov-autoshow.azurewebsites.net/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
+        apiUrl = `${window.location.origin}/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
         fetch(apiUrl)
             .then(parseJSONP)
             .then(data => {
@@ -92,7 +92,7 @@ function populateModels(params) {
                     }
                     break;
                 }
-                apiUrl = `https://danov-autoshow.azurewebsites.net/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
+                apiUrl = `${window.location.origin}/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
                 fetch(apiUrl)
                     .then(parseJSONP)
                     .then(data => {
@@ -137,7 +137,7 @@ function populateData() {
                 option.textContent = value.make_display;
                 document.getElementById(`car-manufacturer`).appendChild(option);
             }
-            apiUrl = `https://danov-autoshow.azurewebsites.net/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
+            apiUrl = `${window.location.origin}/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=`;
             fetch(apiUrl)
                 .then(parseJSONP)
                 .then(data => {
@@ -152,7 +152,7 @@ function populateData() {
                         }
                         break;
                     }
-                    apiUrl = `https://danov-autoshow.azurewebsites.net/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
+                    apiUrl = `${window.location.origin}/api/proxy-carMenu/carquery-api?make=${document.getElementById(`car-manufacturer`).value}&model=${document.getElementById(`car-model`).value}`;
                     fetch(apiUrl)
                         .then(parseJSONP)
                         .then(data => {

@@ -112,12 +112,14 @@
             <label for="username">Username</label>
             <div id="username-container">
                 <input type="text" id="username" value="" autocomplete="new-username">
+                <div class="lds-ring" id="username-spinner"><div></div><div></div><div></div><div></div></div>
                 <button type="submit" id="change-username" style="display: none;">Save</button>
                 <button type="submit" id="cancel" style="display: none;">Cancel</button>
             </div>
             <label for="email">Email</label>
             <div id="email-container">
                 <input type="email" id="email" value="" autocomplete="new-email">
+                <div class="lds-ring" id="email-spinner"><div></div><div></div><div></div><div></div></div>
                 <button type="submit" id="change-email" style="display: none;">Save</button>
                 <button type="submit" id="cancel-email" style="display: none;">Cancel</button>
             </div>
@@ -144,9 +146,13 @@
             <p id="forgotten-password-result" style="display: none; border-radius: 3px;"></p>
             <p id="warning-fields" style="display: none;"></p>
             <label for="favorite-vehicles">Favorite Vehicles</label>
-            <ul id="favorite-vehicles"></ul>
+            <ul id="favorite-vehicles">
+                <li><div class="lds-ring" id="favorites-spinner"><div></div><div></div><div></div><div></div></div></li>
+            </ul>
             <label for="car-orders">Ordered Vehicles</label>
-            <ul id="car-orders"></ul>
+            <ul id="car-orders">
+                <li><div class="lds-ring" id="car-orders-spinner"><div></div><div></div><div></div><div></div></div></li>
+            </ul>
             <div id="order-car-menu">
                 <div id="popup-order-car">
                     <i class="fas fa-window-close" id="cancel-order-icon" style="cursor: pointer;"></i>
@@ -172,6 +178,7 @@
 </section>
 <h1 style="text-align: center;">Recently viewed cars</h1>
 <div class="slider-container">
+    <div class="lds-ring" id="recently-viewed-spinner"><div></div><div></div><div></div><div></div></div>
     <div class="recently-viewed-cars" style="display: flex; justify-content: center; flex-wrap: wrap;"
          bis_skin_checked="1">
     </div>
@@ -197,6 +204,7 @@
     </div>
 </footer>
 <script src="../js%20scripts/Get-Profile-Data.js" defer></script>
+<script src="../js%20scripts/Loading-Animations.js" defer></script>
 <script src="../js%20scripts/Password-Changing.js" defer></script>
 <script src="../js%20scripts/Password-Eye-Visibility.js" defer></script>
 <script src="../js%20scripts/Change-User-Details.js" defer></script>

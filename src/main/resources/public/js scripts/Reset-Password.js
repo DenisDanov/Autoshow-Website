@@ -11,12 +11,12 @@ function resetPassword() {
         alert("Please use password with at least 8 characters.")
         return;
     } else {
-        fetch(`https://danov-autoshow.azurewebsites.net/api/reset-password?token=${token}&newPassword=${password}`)
+        fetch(`${window.location.origin}/api/reset-password?token=${token}&newPassword=${password}`)
             .then(response => response.text())
             .then(result => {
                 if (result === `Password reset successful!`) {
-                    document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow.azurewebsites.net; secure";
-                    document.cookie = "recently_viewed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=danov-autoshow.azurewebsites.net; secure";
+                    document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "recently_viewed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                     document.getElementById(`result-msg`).textContent = result + " Redirecting you to the log in page...";
                     document.getElementById(`result-msg`).style.display = `block`;
                     document.getElementById(`result-msg`).style.backgroundColor = `green`;
@@ -24,7 +24,7 @@ function resetPassword() {
                     setTimeout(function () {
                         document.getElementById(`result-msg`).style.display = `none`;
                         // Redirect the user to log back in
-                        location = `https://danov-autoshow.azurewebsites.net/login`;
+                        location = `${window.location.origin}/login`;
                     }, 1500);
                 } else {
                     document.getElementById(`result-msg`).textContent = result;

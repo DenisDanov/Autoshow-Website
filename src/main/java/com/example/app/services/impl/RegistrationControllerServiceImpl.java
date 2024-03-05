@@ -17,7 +17,7 @@ public class RegistrationControllerServiceImpl implements RegistrationController
     @Override
     public String processRegistration(User user) {
         User userFromDB = userService.findByUsername(user.getUsername());
-        String emailRegex = "[A-Za-z0-9]+[@][A-Za-z]{2,}[.][a-zA-Z]{2,}";
+        String emailRegex = "^[A-Za-z0-9]+[-._A-Za-z0-9]{0,}[A-Za-z0-9.-_]{0,}[@]{1}[A-Za-z-_]+[.]{1}[A-Za-z-_.]+[A-Za-z.-_]{0,}$";
 
         if (userFromDB == null && userService.findByEmail(user.getEmail()) == null) {
             if (user.getPassword().length() < 8) {

@@ -53,7 +53,7 @@ if (carParam.includes(`Urus`)) {
     vin = `ZPBUA1ZL4NLA19618`;
 }
 
-const url = `https://danov-autoshow.azurewebsites.net/api/proxy/car-specs?vin=${vin}`;
+const url = `${window.location.origin}/api/proxy/car-specs?vin=${vin}`;
 // Make a GET request
 fetch(url, {
     method: 'GET',

@@ -35,6 +35,7 @@ public class ViewController {
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
+        model.addAttribute("loginUser", new User());
         return "login";
     }
 

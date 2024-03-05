@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,8 +33,9 @@ public class TokenCleanupServiceImpl implements TokenCleanupService {
         List<RecentlyViewedToken> expiredTokens = recentlyViewedTokenService.findAll()
                 .stream()
                 .filter(token -> {
-                    // Convert java.util.Date to java.time.Instant
-                    Instant expireInstant = token.getExpireDate().toInstant();
+                    // Convert LocalDateTime to Instant
+                    Instant expireInstant = token.getExpireDate().atZone
+                            (ZoneId.systemDefault()).toInstant();
                     return expireInstant.isBefore(now);
                 })
                 .collect(Collectors.toList());

@@ -3,7 +3,7 @@ document.querySelector(`.subscribe-form button`).addEventListener(`click`, (e) =
     const email = document.querySelector(`.subscribe-form input[type="email"]`).value;
     const resultField = document.getElementById(`sub-result`);
     if (email !== "") {
-        fetch(`https://danov-autoshow.azurewebsites.net/api/v1/user/newsletter-emails/add?email=${email}`, {
+        fetch(`${window.location.origin}/api/v1/user/newsletter-emails/add?email=${email}`, {
             method: "POST"
         })
             .then(response => response.text())
