@@ -72,8 +72,10 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                         carCard.querySelector(`.add-fav input`).addEventListener(`change`, addCarOrderToFavs);
                         container.appendChild(carCard);
                     }
+                    document.getElementById(`recently-viewed-spinner`).style.display = `none`;
                     resolve("success");
                 } else {
+                    document.getElementById(`recently-viewed-spinner`).style.display = `none`;
                     document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
                     document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
                     document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
@@ -130,6 +132,7 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                 }
                                 container.appendChild(carCard);
                             }
+                            document.getElementById(`recently-viewed-spinner`).style.display = `none`;
                             resolve("success");
                         }).catch(error => {
                         reject(error);
@@ -163,19 +166,17 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                         carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
                         container.appendChild(carCard);
                     }
+                    document.getElementById(`recently-viewed-spinner`).style.display = `none`;
                     resolve("success");
                 }
             } else {
+                document.getElementById(`recently-viewed-spinner`).style.display = `none`;
                 document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
                 document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
                 document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
             }
         }
     });
-});
-
-recentlyViewedLoaded.then(result => {
-    document.getElementById(`recently-viewed-spinner`).style.display = `none`;
 });
 
 function checkFavVehicles(e) {
