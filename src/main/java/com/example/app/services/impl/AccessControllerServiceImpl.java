@@ -35,8 +35,6 @@ public class AccessControllerServiceImpl implements AccessControllerService {
         String authToken = CookieUtils.getAuthTokenCookie(request);
         long userId = 0;
         String carValues = car.split("3D Models/")[1];
-        car = "danov-autoshow.azurewebsites.net/showroom.html?car=" + car;
-        car = car.replaceAll(" ", "%20");
         Optional<User> user = Optional.empty();
 
         if (authToken != null) {

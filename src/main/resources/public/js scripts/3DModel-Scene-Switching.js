@@ -75,7 +75,7 @@ function initThirdPersonScript() {
                     case carParam.includes('Jeep-Compass-2020.glb'):
                         camera.position.z += cameraDistance - 480;
                         break;
-                    case carParam.includes('Mclaren-Senna-2020.glb'):
+                    case carParam.includes('McLaren-Senna-2020.glb'):
                         camera.position.z += cameraDistance - 520;
                         break;
                     case carParam.includes('Porsche-GT3 RS-2023.glb'):
@@ -87,7 +87,7 @@ function initThirdPersonScript() {
                     case carParam.includes('Mercedes-Benz-Maybach GLS 600-2023.glb'):
                         camera.position.z += cameraDistance - 280;
                         break;
-                    case carParam.includes('Mercedes-Benz-S63 Brabus 800-2022.glb'):
+                    case carParam.includes('Mercedes-Benz-Brabus 800 S63-2022.glb'):
                         camera.position.z += cameraDistance - 540;
                         break;
                     case carParam.includes('Ferrari-F40-1992.glb'):
@@ -159,7 +159,7 @@ function initThirdPersonScript() {
                     case carParam.includes('Mercedes-Benz-E-Class-2014.glb'):
                         camera.position.z += cameraDistance - 520;
                         break;
-                    case carParam.includes('Mercedes-Benz-G-Class-2023.glb'):
+                    case carParam.includes('Mercedes-Benz-Brabus G900-2023.glb'):
                         camera.position.z += cameraDistance - 450;
                         break;
                     case carParam.includes('Mercedes-Benz-SLS AMG GT Final Edition-2020.glb'):
@@ -177,7 +177,7 @@ function initThirdPersonScript() {
                 }
             } else {
                 switch (true) {
-                    case carParam.includes('Mclaren-Senna-2020.glb'):
+                    case carParam.includes('McLaren-Senna-2020.glb'):
                         camera.position.z += cameraDistance - 280;
                         break;
                     case carParam.includes('Mercedes-Benz-G-Class-2022.glb'):
@@ -198,7 +198,7 @@ function initThirdPersonScript() {
                     case carParam.includes(`Mercedes-Benz-SL-Class-2022.glb`):
                         camera.position.z += cameraDistance - 240;
                         break;
-                    case carParam.includes('Mercedes-Benz-S63 Brabus 800-2022.glb'):
+                    case carParam.includes('Mercedes-Benz-Brabus 800 S63-2022.glb'):
                         camera.position.z += cameraDistance - 260;
                         break;
                     case carParam.includes('Ferrari-F40-1992.glb'):
@@ -266,7 +266,7 @@ function initThirdPersonScript() {
                         camera.position.z += cameraDistance - 280;
                         break;
                     case carParam.includes('Mercedes-Benz-E-Class-2014.glb'):
-                    case carParam.includes('Mercedes-Benz-G-Class-2023.glb'):
+                    case carParam.includes('Mercedes-Benz-Brabus G900-2023.glb'):
                         camera.position.z += cameraDistance - 280;
                         break;
                     case carParam.includes('Mercedes-Benz-SLS AMG GT Final Edition-2020.glb'):
@@ -356,7 +356,7 @@ function initThirdPersonScript() {
                         // Check if the material is already a MeshStandardMaterial
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
-                            child.material.metalness = 0.4; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
                             child.material.roughness = 0.5; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
@@ -564,8 +564,8 @@ function initThirdPersonScript() {
                         // Check if the material is already a MeshStandardMaterial
                         if (child.material.isMeshStandardMaterial) {
                             // Adjust material properties
-                            child.material.metalness = 0.5; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
-                            child.material.roughness = 0.2; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                            child.material.metalness = 0.8; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                            child.material.roughness = 0.5; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
                         } else if (child.material.isMeshPhongMaterial) {
                             // For MeshPhongMaterial
                             child.material.specular = new THREE.Color(0x555555); // Adjust specular color for shininess
