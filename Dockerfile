@@ -20,9 +20,6 @@ WORKDIR /app
 # Copy the packaged Spring Boot application JAR file into the container
 COPY --from=builder /app/target/Spring-Boot-App.jar /app/Spring-Boot-App.jar
 
-# Copy the static files (HTML, CSS, JS) into the container
-COPY --from=builder /app/src/main/resources/public /app/public
-
 # Expose the port that the Spring Boot application will run on
 EXPOSE 8080
 
