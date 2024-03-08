@@ -99,7 +99,7 @@ function initThirdPersonScript() {
                     case carParam.includes('BMW-M5-1999.glb'):
                         camera.position.z += cameraDistance - 500;
                         break;
-                    case carParam.includes('Rolls-Royce-Ghost.glb'):
+                    case carParam.includes('Rolls-Royce-Ghost-2022.glb'):
                         camera.position.z += cameraDistance - 580;
                         break;
                     case carParam.includes('Lamborghini-Aventador-2020.glb'):
@@ -204,7 +204,7 @@ function initThirdPersonScript() {
                     case carParam.includes('Ferrari-F40-1992.glb'):
                         camera.position.z += cameraDistance - 230;
                         break;
-                    case carParam.includes('Rolls-Royce-Ghost.glb'):
+                    case carParam.includes('Rolls-Royce-Ghost-2022.glb'):
                         camera.position.z += cameraDistance - 300;
                         break;
                     case carParam.includes('Mclaren-F1 GTR-1995.glb'):
@@ -573,7 +573,7 @@ function initThirdPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Rolls-Royce-Ghost.glb`)) {
+            } else if (carParam.includes(`Rolls-Royce-Ghost-2022.glb`)) {
                 model.scale.set(40, 40, 40);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
@@ -653,7 +653,7 @@ function initThirdPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Mercedes-Benz-S63 Brabus 800-2022.glb`)) {
+            } else if (carParam.includes(`Mercedes-Benz-Brabus 800 S63-2022.glb`)) {
                 model.scale.set(40, 40, 40);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
@@ -1066,7 +1066,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Mercedes-Benz-S63 Brabus 800-2022.glb`)) {
+            } else if (carParam.includes(`Mercedes-Benz-Brabus 800 S63-2022.glb`)) {
                 model.scale.set(20, 20, 20);
                 if (containerRect.width > 430) {
                     camera.position.set(0, 15, 95);
@@ -1337,7 +1337,7 @@ function initFirstPersonScript() {
                 } else {
                     camera.position.set(0, 11.5, 90);
                 }
-            } else if (carParam.includes(`Mercedes-Benz-G-Class-2023.glb`)) {
+            } else if (carParam.includes(`Mercedes-Benz-Brabus G900-2023.glb`)) {
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {
                     if (child.isMesh) {
@@ -1375,7 +1375,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Rolls-Royce-Ghost.glb`)) {
+            } else if (carParam.includes(`Rolls-Royce-Ghost-2022.glb`)) {
                 model.scale.set(15, 15, 15);
                 camera.position.set(0, 13.5, 73);
                 gltf.scene.traverse((child) => {
@@ -1481,7 +1481,7 @@ function initFirstPersonScript() {
 
             scene.add(ambientLight);
 
-            if (carParam.includes(`Mercedes-Benz-G-Class-2023.glb`)) {
+            if (carParam.includes(`Mercedes-Benz-Brabus G900-2023.glb`)) {
                 directionalLight.intensity = 1;
                 directionalLightLeft.intensity = 1;
                 directionalLightRight = 1;
