@@ -32,7 +32,7 @@ function showPopup() {
 
     // Check if the cookie exists and if it has been more than 3 days
     if (!getCookiePopUpMsg('popupShown') || (new Date() - new Date(getCookiePopUpMsg('popupShown'))) > (3 * 24 * 60 * 60 * 1000)) {
-        setCookie('popupShown', new Date().toUTCString(), 3); // Set the cookie to remember the pop-up display time
+        setCookie('popupShown', new Date().toUTCString(), 14); // Set the cookie to remember the pop-up display time
         popupContainer.style.display = 'block';
     } else {
         if (authToken && popup !== null) {

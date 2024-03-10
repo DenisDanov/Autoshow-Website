@@ -33,7 +33,6 @@ function getCarParams() {
 }
 
 var currentURL = window.location.href;
-const favVehiclesIdsHome = [];
 
 var recentlyViewedLoaded = new Promise((resolve, reject) => {
     getCarParams().then(carParams => {
@@ -84,23 +83,13 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
         } else {
             if (carParams.length !== 0) {
                 if (authToken) {
-                    fetch(`${window.location.origin}/api/profile/get?id=${userId}&authToken=${authToken}`)
-                        .then(response => response.json())
-                        .then(result => {
-                            const favVehiclesArr = result.favVehicles
-                            if (favVehiclesArr !== null) {
-                                for (const vehicle of favVehiclesArr) {
-                                    favVehiclesIdsHome.push(vehicle.vehicleId);
-                                }
-                            }
-
-                            const container = document.querySelector(`.recently-viewed-cars`);
-                            for (let index = carParams.length - 1; index >= 0; index--) {
-                                let entrie = carParams[index];
-                                const carCard = document.createElement(`div`);
-                                const modelName = entrie.split(`3D Models/`)[1];
-                                carCard.classList.add(`car-card`);
-                                carCard.innerHTML = `
+                    const container = document.querySelector(`.recently-viewed-cars`);
+                    for (let index = carParams.length - 1; index >= 0; index--) {
+                        let entrie = carParams[index];
+                        const carCard = document.createElement(`div`);
+                        const modelName = entrie.split(`3D Models/`)[1];
+                        carCard.classList.add(`car-card`);
+                        carCard.innerHTML = `
                                     <div class="img-container">
                                                     <img src="../images/${modelName.split(`.`)[0]}.png" alt="Car 2">
                                                 </div>
@@ -119,24 +108,20 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                                 <a href="showroom.html?car=${entrie}" class="view-button">View in
                                                     Showroom</a>        
                                     `;
-
-                                if (favVehiclesIdsHome.includes(entrie)) {
-                                    carCard.querySelector(`.add-fav input`).checked = true;
-                                    carCard.querySelector(`.add-fav input`).classList.add("checked");
-                                    carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
-                                }
-                                if (currentURL.includes(`auto-show`)) {
-                                    carCard.querySelector(`.add-fav input`).addEventListener(`change`, trackFavoriteStatus);
-                                } else {
-                                    carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
-                                }
-                                container.appendChild(carCard);
-                            }
-                            document.getElementById(`recently-viewed-spinner`).style.display = `none`;
-                            resolve("success");
-                        }).catch(error => {
-                        reject(error);
-                    });
+                        if (favoriteVehicles.includes(entrie)) {
+                            carCard.querySelector(`.add-fav input`).checked = true;
+                            carCard.querySelector(`.add-fav input`).classList.add("checked");
+                            carCard.querySelector(`.favorites h3`).textContent = `Remove from Favorites`;
+                        }
+                        if (currentURL.includes(`auto-show`)) {
+                            carCard.querySelector(`.add-fav input`).addEventListener(`change`, trackFavoriteStatus);
+                        } else {
+                            carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
+                        }
+                        container.appendChild(carCard);
+                    }
+                    document.getElementById(`recently-viewed-spinner`).style.display = `none`;
+                    resolve("success");
                 } else {
                     const container = document.querySelector(`.recently-viewed-cars`);
                     for (let index = carParams.length - 1; index >= 0; index--) {
@@ -186,7 +171,7 @@ function checkFavVehicles(e) {
             .children[0].getAttribute("src");
         const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].children[0].textContent;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Remove from Favorites`;
-        favVehiclesIdsHome.push(carId);
+        favoriteVehicles.push(carId);
         fetch(`${window.location.origin}/api/favorites/add`, {
             method: "POST",
             headers: {
@@ -220,7 +205,7 @@ function checkFavVehicles(e) {
         })
             .then(response => {
                 console.log(response);
-                favVehiclesIdsHome.splice(favVehiclesIdsHome.indexOf(carId), 1);
+                favoriteVehicles.splice(favoriteVehicles.indexOf(carId), 1);
             })
             .catch(err => console.log(err));
     } else {

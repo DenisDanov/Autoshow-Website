@@ -1,6 +1,5 @@
-var unchangedUsername;
-var unchangedEmail;
-
+var unchangedUsername = document.getElementById("username").value;
+var unchangedEmail = document.getElementById("email").value;
 document.getElementById(`forgotten-password`).addEventListener(`click`, requestResetPass);
 
 var authToken = getCookie("authToken");
@@ -162,9 +161,11 @@ function getCookie(name) {
 }
 
 function requestResetPass(e) {
+    document.getElementById("loading-animation-password-reset").style.display = "block";
     fetch(`${window.location.origin}/api/v1/user/forgot-password?email=${unchangedEmail}`)
         .then(response => response.text())
         .then(result => {
+            document.getElementById("loading-animation-password-reset").style.display = "none";
             if (result === `Password reset initiated. Check your email for further instructions.`) {
                 document.getElementById(`forgotten-password-result`).textContent = result;
                 document.getElementById(`forgotten-password-result`).style.display = `block`;

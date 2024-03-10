@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URISyntaxException;
+
 @Controller
 public class AccessController {
 
@@ -19,6 +21,11 @@ public class AccessController {
     @GetMapping("showroom.html")
     public ModelAndView showroomPage(@RequestParam String car, HttpServletRequest request) {
         return accessControllerService.checkAccess("showroom", car, request);
+    }
+
+    @GetMapping("profile")
+    public ModelAndView showroomPage(HttpServletRequest request) throws URISyntaxException {
+        return accessControllerService.checkAccess("profile", request);
     }
 
     @GetMapping("cars-info.html")

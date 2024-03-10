@@ -25,7 +25,7 @@ public class NewsletterEmailsControllerServiceImpl implements NewsletterEmailsCo
     @Override
     public ResponseEntity<String> addEmail(String email) throws IOException {
         NewsletterEmails newsletterEmail = newsletterEmailsService.findByEmail(String.valueOf(email));
-        String emailRegex = "[A-Za-z0-9]+[@][A-Za-z]{2,}[.][a-zA-Z]{2,}";
+        String emailRegex = "^[A-Za-z0-9]+[-._A-Za-z0-9]{0,}[A-Za-z0-9.-_]{0,}[@]{1}[A-Za-z-_]+[.]{1}[A-Za-z-_.]+[A-Za-z.-_]{0,}$";
         if (newsletterEmail == null) {
             if (String.valueOf(email).matches(emailRegex)) {
                 newsletterEmail = new NewsletterEmails(String.valueOf(email));
