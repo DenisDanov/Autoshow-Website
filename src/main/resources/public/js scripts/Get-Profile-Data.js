@@ -26,131 +26,30 @@ if (authToken) {
     var userId = decodedToken.userId;
 
     var favoritesLoaded = new Promise((resolve, reject) => {
-        fetch(`${window.location.origin}/api/profile/get?id=${userId}&authToken=${authToken}`)
-            .then(response => response.json())
-            .then(result => {
-                const username = result.username;
-                const email = result.email;
-                const favVehiclesArr = result.favVehicles
-
-                unchangedUsername = username
-                unchangedEmail = email
-                document.getElementById("username").value = username;
-                document.getElementById("email").value = email;
-
-                if (favVehiclesArr !== null) {
-                    for (const vehicle of favVehiclesArr) {
-                        const favVehiclesContainer = document.createElement(`li`);
-                        favVehiclesIds.push(vehicle.vehicleId);
-                        favVehiclesContainer.innerHTML = `
-                <div class="car-card">
-                <div class="img-container">
-                    <img src="${vehicle.vehicleImg}" alt="Car 2">
-                </div>
-                <div class="car-info">
-                    <h3>${vehicle.vehicleName}</h3>
-                </div>
-                <div class="favorites">
-                    <h3>Remove from Favorites</h3>
-                    <label class="add-fav">
-                        <input type="checkbox" />
-                        <i class="icon-heart fas fa-heart">
-                            <i class="icon-plus-sign fa-solid fa-plus"></i>
-                        </i>
-                    </label>
-                </div>
-                <a href="showroom.html?car=${vehicle.vehicleId}" class="view-button">View in
-                    Showroom</a>
-            </div>
-                `
-                        document.getElementById(`favorite-vehicles`).appendChild(favVehiclesContainer);
-                        favVehiclesContainer.children[0].children[2].children[1].children[0].checked = true;
-                        favVehiclesContainer.children[0].children[2].children[1].children[0].addEventListener(`change`, removeFavVehicle);
-                        document.getElementById(`remove-btn`).addEventListener(`click`, removeTheCar);
-                    }
-                }
-                resolve();
-            }).catch(error => {
-            // Reject the promise if there is an error
-            reject(error);
-        });
+        const favVehiclesArr = document.querySelectorAll("#favorite-vehicles .car-card");
+        if (favVehiclesArr !== null) {
+            for (const vehicle of favVehiclesArr) {
+                favVehiclesIds.push(vehicle.querySelector
+                ("a").href.split(`car=`)[1].replaceAll(`%20`, ` `));
+                vehicle.querySelector(".favorites .add-fav input").addEventListener(`change`, removeFavVehicle);
+            }
+            document.getElementById(`remove-btn`).addEventListener(`click`, removeTheCar);
+        }
+        resolve();
     });
 
     favoritesLoaded.then(result => {
-        fetch(`${window.location.origin}/api/carOrders/get?id=${userId}`)
-            .then(response => response.json())
-            .then(result => {
-                for (const carOrder of result) {
-                    const container = document.createElement(`li`);
-                    let carManufacturer = carOrder.carManufacturer;
-                    carManufacturer = carManufacturer.charAt(0).toUpperCase() + carManufacturer.substring(1);
-                    container.innerHTML = `
-                <div class="car-orders-container">
-                <div class="car-order-details">
-                    <div>
-                        <span>Car manufacturer</span>
-                        <p>${carManufacturer}</p>
-                    </div>
-                    <div>
-                        <span>Car model</span>
-                        <p>${carOrder.carModel}</p>
-                    </div>
-                    <div>
-                        <span>Manufacture year</span>
-                        <p>${carOrder.carYear}</p>
-                    </div>
-                </div>
-                <div class="car-order-status">
-                    <div>
-                        <span>Order status</span>
-                        <p class="order-status" status="${carOrder.orderStatus}">${carOrder.orderStatus}</p>
-                    </div>
-                    <div>
-                        <span>Order date</span>
-                        <p>${carOrder.dateOfOrder}</p>
-                    </div>
-                </div>
-                <div class="car-order-model" style="display: none;">
-                    <h1>Ordered car</h1>
-                    <div class="car-card">
-                        <div class="img-container">
-                            <img src="images/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.png" alt="Car 2">
-                        </div>
-                        <div class="car-info">
-                            <h3>${carOrder.carYear} ${carManufacturer.toUpperCase()} ${carOrder.carModel.toUpperCase()}</h3>
-                        </div>
-                        <div class="favorites">
-                            <h3>Add to Favorites</h3>
-                            <label class="add-fav">
-                                <input type="checkbox" />
-                                <i class="icon-heart fas fa-heart">
-                                    <i class="icon-plus-sign fa-solid fa-plus"></i>
-                                </i>
-                            </label>
-                        </div>
-                        <a href="showroom.html?car=3D Models/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.glb"
-                            class="view-button">View in
-                            Showroom</a>
-                    </div>
-                </div>
-                <div id="cancel-order-container">
-                <button id="change-order">Change Order</button>
-                <button id="cancel-order">Cancel Order</button>
-            </div>
-            </div>
-                `
-                    container.querySelector(`#change-order`).addEventListener(`click`, (e) => {
-                        modifyOrderFunc(e, carManufacturer, carOrder);
-                    });
-                    const imagePath = `images/${carManufacturer}-${carOrder.carModel}-${carOrder.carYear}.png`;
-                    const img = new Image();
-                    img.src = imagePath;
-                    orderStatusCheck(img, container, carManufacturer, carOrder);
-                    container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
-                    document.getElementById(`car-orders`).appendChild(container);
-                }
-            })
-            .catch(err => console.log(err));
+        for (const container of document.querySelectorAll(`#car-orders li`)) {
+            container.querySelector(`#change-order`).addEventListener(`click`, (e) => {
+                modifyOrderFunc(e, container.querySelector(`.car-manufacturer`).textContent,
+                    container.querySelector(`.car-model`).textContent,
+                    container.querySelector(`.car-year`).textContent);
+            });
+            if (container.querySelector(`.order-status`).textContent === `Completed`) {
+                container.querySelector(`.car-order-model .car-card .favorites input`).addEventListener(`change`,addCarOrderToFavs);
+            }
+            container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
+        }
     });
 }
 
@@ -261,7 +160,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         `
                             modifyReference = document.querySelector('[modify-reference="true"]');
                             modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).addEventListener(`click`, (e) => {
-                                modifyOrderFunc(e, carManufacturer, result);
+                                modifyOrderFunc(e, carManufacturer, result.carModel,result.carYear);
                             });
                             const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                             const img = new Image();
@@ -406,7 +305,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     `
                             modifyReference = document.querySelector('[modify-reference="true"]');
                             modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).addEventListener(`click`, (e) => {
-                                modifyOrderFunc(e, carManufacturer, result);
+                                modifyOrderFunc(e, carManufacturer, result.carModel,result.carYear);
                             });
                             const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
                             const img = new Image();
@@ -600,7 +499,7 @@ function orderStatusCheck(img, container, carManufacturer, carOrder) {
     };
 }
 
-function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
+function modifyOrderFunc(modifyReference, carManufacturer, carModel,carYear) {
     document.querySelectorAll(`[modify-reference="true"]`).forEach(entrie => {
         entrie.removeAttribute(`modify-reference`);
     });
@@ -620,13 +519,13 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
         optionToSelect.selected = true;
         populateModels().then(result => {
             const optionToSelectModel = Array.from(carModelEle.children).find(
-                ele => ele.textContent.toLowerCase() === carOrder.carModel.toLowerCase()
+                ele => ele.textContent.toLowerCase() === carModel.toLowerCase()
             );
             if (optionToSelectModel) {
                 optionToSelectModel.selected = true;
                 populateDataYears().then(result => {
                     const optionToSelectYear = Array.from(carYearEle.children).find(
-                        ele => ele.textContent === carOrder.carYear
+                        ele => ele.textContent === carYear
                     );
                     if (optionToSelectYear) {
                         optionToSelectYear.selected = true;
@@ -642,7 +541,7 @@ function modifyOrderFunc(modifyReference, carManufacturer, carOrder) {
     document.getElementById('reorder-car').addEventListener('click', function reorderCar(e) {
         funcReference = reorderCar;
         if (!carOrderBtnEvent) {
-            reorderCarClickListener(reorderCar, e, carManufacturer, carOrder.carModel, carOrder.carYear);
+            reorderCarClickListener(reorderCar, e, carManufacturer, carModel, carYear);
         } else {
             carOrderBtnEvent = false;
         }

@@ -22,10 +22,12 @@ function logOutUser() {
     });
 }
 
+var favoriteVehicles = [];
+
 // Function to check the login status
+var authToken = getCookie("authToken");
 function checkLoginStatus() {
     // Retrieve the auth token from cookies
-    var authToken = getCookie("authToken");
 
     if (authToken) {
         // User is logged in
@@ -38,6 +40,7 @@ function checkLoginStatus() {
                 for (let vehicle of result) {
                     document.querySelectorAll(`.car-card a`).forEach(entrie => {
                         if (entrie.href.replaceAll(`%20`, ` `).includes(vehicle.vehicleId)) {
+                            favoriteVehicles.push(vehicle.vehicleId);
                             entrie.parentNode.children[2].children[0].textContent = `Remove from Favorites`;
                             entrie.parentNode.children[2].children[1].children[0].checked = true;
                             entrie.parentNode.children[2].children[1].children[0].classList.add(`checked`);
@@ -179,4 +182,20 @@ function checkCarsContainerFavoriteStatus(vehicleId, checked) {
             }
         });
     }
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Check if the cookie name matches
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }

@@ -111,15 +111,13 @@
         <div class="profile-info">
             <label for="username">Username</label>
             <div id="username-container">
-                <input type="text" id="username" value="" autocomplete="new-username">
-                <div class="lds-ring" id="username-spinner"><div></div><div></div><div></div><div></div></div>
+                <input type="text" id="username" th:value="${username}" autocomplete="new-username">
                 <button type="submit" id="change-username" style="display: none;">Save</button>
                 <button type="submit" id="cancel" style="display: none;">Cancel</button>
             </div>
             <label for="email">Email</label>
             <div id="email-container">
-                <input type="email" id="email" value="" autocomplete="new-email">
-                <div class="lds-ring" id="email-spinner"><div></div><div></div><div></div><div></div></div>
+                <input type="email" id="email" th:value="${email}" autocomplete="new-email">
                 <button type="submit" id="change-email" style="display: none;">Save</button>
                 <button type="submit" id="cancel-email" style="display: none;">Cancel</button>
             </div>
@@ -143,15 +141,22 @@
             </div>
             <button type="submit" id="change-password">Change password</button>
             <button type="submit" id="forgotten-password">Reset password</button>
+            <p style="display: none;" id="loading-animation-password-reset" status="Pending">Initiating password reset, please wait</p>
             <p id="forgotten-password-result" style="display: none; border-radius: 3px;"></p>
             <p id="warning-fields" style="display: none;"></p>
             <label for="favorite-vehicles">Favorite Vehicles</label>
             <ul id="favorite-vehicles">
-                <li><div class="lds-ring" id="favorites-spinner"><div></div><div></div><div></div><div></div></div></li>
+                <li th:each="favVehicleContent : ${favVehicleContents}">
+                    <!-- Render the HTML content using th:utext -->
+                    <div th:utext="${favVehicleContent}"></div>
+                </li>
             </ul>
             <label for="car-orders">Ordered Vehicles</label>
             <ul id="car-orders">
-                <li><div class="lds-ring" id="car-orders-spinner"><div></div><div></div><div></div><div></div></div></li>
+                <li th:each="carOrderContent : ${carOrderContents}">
+                    <!-- Render the HTML content using th:utext -->
+                    <div th:utext="${carOrderContent}"></div>
+                </li>
             </ul>
             <div id="order-car-menu">
                 <div id="popup-order-car">
@@ -190,6 +195,7 @@
         <input type="email" placeholder="Your Email Address">
         <button>Subscribe</button>
     </div>
+    <p style="display: none" id="loading-animation-newsletter" status="Pending">Please wait until we verify your email</p>
     <p id="sub-result" style="margin-top: 0.5rem; display: none;">Subscibed successfully!</p>
     <div class="socials-section">
         <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
@@ -204,7 +210,6 @@
     </div>
 </footer>
 <script src="../js%20scripts/Get-Profile-Data.js" defer></script>
-<script src="../js%20scripts/Loading-Animations.js" defer></script>
 <script src="../js%20scripts/Password-Changing.js" defer></script>
 <script src="../js%20scripts/Password-Eye-Visibility.js" defer></script>
 <script src="../js%20scripts/Change-User-Details.js" defer></script>

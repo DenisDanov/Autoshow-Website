@@ -3,11 +3,13 @@ document.querySelector(`.subscribe-form button`).addEventListener(`click`, (e) =
     const email = document.querySelector(`.subscribe-form input[type="email"]`).value;
     const resultField = document.getElementById(`sub-result`);
     if (email !== "") {
+        document.getElementById("loading-animation-newsletter").style.display = `block`;
         fetch(`${window.location.origin}/api/v1/user/newsletter-emails/add?email=${email}`, {
             method: "POST"
         })
             .then(response => response.text())
             .then(result => {
+                document.getElementById("loading-animation-newsletter").style.display = `none`;
                 if (result === `Thank you for subscribing to our Newsletter!`) {
                     resultField.textContent = result;
                     resultField.style.display = 'block';

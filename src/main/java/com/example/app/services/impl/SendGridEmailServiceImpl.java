@@ -52,13 +52,13 @@ public class SendGridEmailServiceImpl implements SendGridEmailService {
                 "        <p class=\"motd-text\">" +
                 "            🎉 Exciting news! New exotic cars added to our collection 🌟" +
                 "            <br><br>" +
-                "            <strong>Bugatti Chiron 2020</strong> - Unleash unparalleled power." +
+                "            <strong>Porsche GT3 RS 2023</strong> - Unleash unparalleled power." +
                 "            <br><br>" +
                 "            <strong>Lamborghini Murcielago 2010</strong> - Embrace the roar of the bull." +
                 "            <br><br>" +
-                "            <strong>Mercedes Benz AMG GT 2020</strong> - Performance and sophistication in every curve." +
+                "            <strong>Mercedes Benz S63 Brabus 800</strong> - Performance and sophistication in every curve." +
                 "            <br><br>" +
-                "            <strong>Nissan GTR 2017</strong> - Precision engineering meets pure adrenaline." +
+                "            <strong>Mercedes Benz G-Class Brabus G900</strong> - Precision engineering meets pure adrenaline." +
                 "            <br><br>" +
                 "             Order these or explore more through the Order menu." +
                 "        </p>" +

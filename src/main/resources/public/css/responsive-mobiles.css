@@ -228,12 +228,20 @@
         min-width: 200px !important;
     }
 
-
     #controlls-info {
         margin-top: 0.5rem;
         margin-left: 1rem !important;
     }
 
+    #loading-animation-password-reset[status="Pending"] {
+        width: 200px !important;
+    }
+    #loading-animation-newsletter[status="Pending"] {
+        width: 200px !important;
+    }
+    #sub-result {
+        width: 230px !important;
+    }
 }
 
 .menuItem:hover {

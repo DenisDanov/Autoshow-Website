@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ViewController {
 
-    @GetMapping("profile")
-    public String profile() {
-        return "profile";
-    }
-
     @GetMapping("index")
     public String home() {
         return "index";

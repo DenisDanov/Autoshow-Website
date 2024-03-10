@@ -93,7 +93,7 @@ function initThirdPersonScript() {
                     case carParam.includes('Ferrari-F40-1992.glb'):
                         camera.position.z += cameraDistance - 500;
                         break;
-                    case carParam.includes('Mclaren-F1 GTR-1995.glb'):
+                    case carParam.includes('McLaren-F1 GTR-1995.glb'):
                         camera.position.z += cameraDistance - 470;
                         break;
                     case carParam.includes('BMW-M5-1999.glb'):
@@ -207,7 +207,7 @@ function initThirdPersonScript() {
                     case carParam.includes('Rolls-Royce-Ghost-2022.glb'):
                         camera.position.z += cameraDistance - 300;
                         break;
-                    case carParam.includes('Mclaren-F1 GTR-1995.glb'):
+                    case carParam.includes('McLaren-F1 GTR-1995.glb'):
                         camera.position.z += cameraDistance - 250;
                         break;
                     case carParam.includes(`Porsche-918 Spyder-2015.glb`):
@@ -1024,7 +1024,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Mclaren-F1 GTR-1995.glb`)) {
+            } else if (carParam.includes(`McLaren-F1 GTR-1995.glb`)) {
                 model.scale.set(20, 20, 20);
                 if (containerRect.width > 430) {
                     camera.position.set(0, 10, 85);
@@ -1586,8 +1586,14 @@ function initFirstPersonScript() {
         let pinchStartDistance = 0;
         let fingerCount = 0;
         let lockTime = 0;
+        let interactedWithCanvas = false; // Flag to track canvas interaction
 
         function handleTouchStart(event) {
+            if (event.target.tagName.toLowerCase() === 'canvas') {
+                interactedWithCanvas = true; // Set the flag to true when interacting with the canvas
+            } else {
+                return;
+            }
             fingerCount = event.touches.length;
 
             if (fingerCount === 1) {
@@ -1601,6 +1607,11 @@ function initFirstPersonScript() {
         }
 
         function handleTouchMove(event) {
+            if (interactedWithCanvas) {
+                event.preventDefault(); // Prevent default scrolling if interacting with the canvas
+            } else {
+                return;
+            }
             if (fingerCount === 1) {
                 const touchX = event.touches[0].clientX;
                 const touchY = event.touches[0].clientY;
@@ -1618,7 +1629,6 @@ function initFirstPersonScript() {
                 touchStartX = touchX;
                 touchStartY = touchY;
 
-                event.preventDefault();
             } else if (fingerCount === 2) {
                 const touch1 = event.touches[0];
                 const touch2 = event.touches[1];
@@ -1646,12 +1656,15 @@ function initFirstPersonScript() {
                 camera.position.addScaledVector(frontVector, moveDistance * moveSpeed);
 
                 pinchStartDistance = pinchDistance;
-
-                event.preventDefault();
             }
         }
 
         function handleTouchEnd(event) {
+            if (interactedWithCanvas) {
+                event.preventDefault(); // Prevent default scrolling if interacting with the canvas
+            } else {
+                return;
+            }
             if (fingerCount === 2) {
                 // Lock camera movement for a short duration after lifting both fingers
                 lockTime = Date.now() + 500; // 500 milliseconds lock time
@@ -1673,6 +1686,11 @@ function initFirstPersonScript() {
         document.addEventListener('touchmove', handleTouchMove, { passive: false });
         document.addEventListener('touchend', handleTouchEnd, { passive: false });
 
+        document.addEventListener('touchstart', function(event) {
+            if (event.target.tagName.toLowerCase() !== 'canvas') {
+                interactedWithCanvas = false;
+            }
+        });
         animate();
     }
 
