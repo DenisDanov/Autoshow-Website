@@ -46,12 +46,19 @@ if (authToken) {
                     container.querySelector(`.car-year`).textContent);
             });
             if (container.querySelector(`.order-status`).textContent === `Completed`) {
-                container.querySelector(`.car-order-model .car-card .favorites input`).addEventListener(`change`,addCarOrderToFavs);
+                container.querySelector(`.car-order-model .car-card .favorites input`).addEventListener(`change`, addCarOrderToFavs);
             }
+            container.querySelector(`#modify-order`).addEventListener(`click`, (e) => {
+                modifyOrderFunc(e, container.querySelector(`.car-manufacturer`).textContent,
+                    container.querySelector(`.car-model`).textContent,
+                    container.querySelector(`.car-year`).textContent);
+            });
             container.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
         }
     });
 }
+
+let timeOutMsgs;
 
 function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
     if (!carOrderBtnEvent) {
@@ -128,7 +135,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                             <p>${result.dateOfOrder}</p>
                         </div>
                     </div>
-                    <div class="car-order-model" style="display: none;">
+                    <div class="car-order-model" style="display: none">
                         <h1>Ordered car</h1>
                         <div class="car-card">
                             <div class="img-container">
@@ -159,19 +166,29 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 </div>
                         `
                             modifyReference = document.querySelector('[modify-reference="true"]');
-                            modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).addEventListener(`click`, (e) => {
-                                modifyOrderFunc(e, carManufacturer, result.carModel,result.carYear);
-                            });
-                            const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
-                            const img = new Image();
-                            img.src = imagePath;
-                            orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
-                                carManufacturer, result);
+                            if (result.orderStatus === `Completed`) {
+                                modifyReference.parentNode.parentNode.parentNode.
+                                querySelector(`.car-order-model  .car-card .favorites .add-fav input`).addEventListener(`change`,addCarOrderToFavs);
+                                if (favVehiclesIds.includes(modifyReference.parentNode.parentNode.parentNode.
+                                querySelector(`.car-order-model  .car-card a`).href.split(`car=`)[1].replaceAll(`%20`,` `))) {
+                                    modifyReference.parentNode.parentNode.parentNode.
+                                    querySelector(`.car-order-model  .car-card .favorites .add-fav input`).checked = `true`;
+                                    modifyReference.parentNode.parentNode.parentNode.
+                                    querySelector(`.car-order-model  .car-card .favorites h3`).textContent = `Remove from Favorites`;
+                                }
+                                modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model`).style.display = `flex`;
+                                modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).style.display = `none`;
+                            } else {
+                                modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).addEventListener(`click`, (e) => {
+                                    modifyOrderFunc(e, carManufacturer, result.carModel, result.carYear);
+                                });
+                            }
                             modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
                             modifyReference.parentNode.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
                             modifyReference.removeAttribute(`modify-reference`);
+                            modifyReference.style.display = `none`;
                             removeReorderCarClickListener(reorderCar);
-                            setTimeout(function () {
+                            timeOutMsgs = setTimeout(function () {
                                 document.getElementById(`response-result`).style.display = `none`;
                                 document.getElementById('order-car-menu').style.display = `none`;
                                 document.getElementById(`reorder-car`).disabled = false;
@@ -184,7 +201,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                             resultHtmlEle.style.border = `5px solid red`;
                             resultHtmlEle.style.borderRadius = `5px`;
                             document.getElementById(`reorder-car`).disabled = true;
-                            setTimeout(function () {
+                            timeOutMsgs = setTimeout(function () {
                                 document.getElementById(`response-result`).style.display = `none`;
                                 document.getElementById(`reorder-car`).disabled = false;
                             }, 2200);
@@ -202,7 +219,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 resultHtmlEle.style.color = `white`;
                 resultHtmlEle.style.border = `5px solid red`;
                 resultHtmlEle.style.borderRadius = `5px`;
-                setTimeout(function () {
+                timeOutMsgs = setTimeout(function () {
                     document.getElementById(`response-result`).style.display = `none`;
                 }, 3000);
             }
@@ -214,7 +231,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 resultHtmlEle.style.color = `white`;
                 resultHtmlEle.style.border = `5px solid red`;
                 resultHtmlEle.style.borderRadius = `5px`;
-                setTimeout(function () {
+                timeOutMsgs = setTimeout(function () {
                     document.getElementById(`response-result`).style.display = `none`;
                 }, 2200);
             } else {
@@ -304,19 +321,29 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
             </div>
                     `
                             modifyReference = document.querySelector('[modify-reference="true"]');
-                            modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).addEventListener(`click`, (e) => {
-                                modifyOrderFunc(e, carManufacturer, result.carModel,result.carYear);
-                            });
-                            const imagePath = `images/${carManufacturer}-${result.carModel}-${result.carYear}.png`;
-                            const img = new Image();
-                            img.src = imagePath;
-                            orderStatusCheck(img, modifyReference.parentNode.parentNode.parentNode,
-                                carManufacturer, result);
+                            if (result.orderStatus === `Completed`) {
+                                modifyReference.parentNode.parentNode.parentNode.
+                                querySelector(`.car-order-model  .car-card .favorites .add-fav input`).addEventListener(`change`,addCarOrderToFavs);
+                                if (favVehiclesIds.includes(modifyReference.parentNode.parentNode.parentNode.
+                                querySelector(`.car-order-model  .car-card a`).href.split(`car=`)[1].replaceAll(`%20`,` `))) {
+                                    modifyReference.parentNode.parentNode.parentNode.
+                                    querySelector(`.car-order-model  .car-card .favorites .add-fav input`).checked = `true`;
+                                    modifyReference.parentNode.parentNode.parentNode.
+                                    querySelector(`.car-order-model  .car-card .favorites h3`).textContent = `Remove from Favorites`;
+                                }
+                                modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model`).style.display = `flex`;
+                                modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).style.display = `none`;
+                            } else {
+                                modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).addEventListener(`click`, (e) => {
+                                    modifyOrderFunc(e, carManufacturer, result.carModel, result.carYear);
+                                });
+                            }
                             modifyReference.parentNode.parentNode.parentNode.querySelector(`#cancel-order`).addEventListener(`click`, removeCarOrder);
                             modifyReference.parentNode.parentNode.parentNode.querySelector('[modify-reference="true"]').remove();
                             modifyReference.removeAttribute(`modify-reference`);
+                            modifyReference.style.display = `none`;
                             removeReorderCarClickListener(reorderCar);
-                            setTimeout(function () {
+                            timeOutMsgs = setTimeout(function () {
                                 document.getElementById(`response-result`).style.display = `none`;
                                 document.getElementById('order-car-menu').style.display = `none`;
                                 document.getElementById(`reorder-car`).disabled = false;
@@ -328,7 +355,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                             resultHtmlEle.style.color = `white`;
                             resultHtmlEle.style.border = `5px solid red`;
                             resultHtmlEle.style.borderRadius = `5px`;
-                            setTimeout(function () {
+                            timeOutMsgs = setTimeout(function () {
                                 document.getElementById(`response-result`).style.display = `none`;
                             }, 2200);
                         }
@@ -449,57 +476,7 @@ function addCarOrderToFavs(e) {
     }
 }
 
-function orderStatusCheck(img, container, carManufacturer, carOrder) {
-    img.onload = function () {
-        container.children[0].querySelector(`#change-order`).remove();
-        container.children[0].querySelector(`.car-order-model`).style.display = `flex`;
-        container.children[0].children[1].children[0].children[1].textContent = `Completed`;
-        container.children[0].children[1].children[0].children[1].setAttribute("status", "Completed");
-
-        favVehiclesIds.forEach(vehicleId => {
-            vehicleId = `showroom.html?car=${vehicleId}`;
-            if (container.children[0].querySelector(`.car-order-model`)
-                .children[1].querySelector(`a`).href.replaceAll(`%20`, ` `).includes(vehicleId)) {
-                container.children[0].querySelector(`.car-order-model`).children[1].children[2]
-                    .children[1].children[0].checked = true;
-                container.children[0].querySelector(`.car-order-model`).children[1].children[2]
-                    .children[0].textContent = `Remove from Favorites`;
-            }
-        });
-        container.children[0].querySelector(`.car-order-model`).children[1].children[2]
-            .children[1].children[0].addEventListener(`change`, addCarOrderToFavs);
-    };
-    img.onerror = function () {
-        container.children[0].querySelector(`.car-order-model`).remove();
-        var dateOfOrder = new Date(carOrder.dateOfOrder);
-
-        // Get the current date
-        var currentDate = new Date();
-
-        // Calculate the time difference in milliseconds
-        var timeDifference = currentDate - dateOfOrder;
-
-        // Convert milliseconds to days
-        var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-        if (daysDifference >= 7) {
-            // 7 days have passed, so the order has expired
-            container.children[0].querySelector(`#change-order`).remove();
-            container.children[0].children[1].children[0].children[1].textContent = `Expired`;
-            container.children[0].children[1].children[0].children[1].setAttribute("status", "Expired");
-            const modifyOrder = document.createElement(`button`);
-            modifyOrder.id = `modify-order`;
-            modifyOrder.textContent = `Remake order`;
-            modifyOrder.setAttribute(`modify-reference`, "false");
-            modifyOrder.addEventListener(`click`, (e) => {
-                modifyOrderFunc(e, carManufacturer, carOrder);
-            });
-            container.children[0].querySelector(`#cancel-order-container`).appendChild(modifyOrder);
-        }
-    };
-}
-
-function modifyOrderFunc(modifyReference, carManufacturer, carModel,carYear) {
+function modifyOrderFunc(modifyReference, carManufacturer, carModel, carYear) {
     document.querySelectorAll(`[modify-reference="true"]`).forEach(entrie => {
         entrie.removeAttribute(`modify-reference`);
     });
@@ -562,6 +539,9 @@ function modifyOrderFunc(modifyReference, carManufacturer, carModel,carYear) {
 }
 
 function cancelRemakeOrder(eventListener, e) {
+    clearTimeout(timeOutMsgs);
+    document.getElementById(`reorder-car`).disabled = false;
+    document.getElementById(`response-result`).style.display = `none`;
     document.getElementById('order-car-menu').style.display = `none`;
     removeReorderCarClickListener(eventListener, e);
 }

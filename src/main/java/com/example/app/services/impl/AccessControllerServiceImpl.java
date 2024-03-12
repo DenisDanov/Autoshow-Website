@@ -14,9 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.app.controllers.utils.CarOrderStatusCheckUtil.checkOrderStatus;
 
 @Service
 public class AccessControllerServiceImpl implements AccessControllerService {
@@ -121,15 +126,26 @@ public class AccessControllerServiceImpl implements AccessControllerService {
                 favVehicleContents.add(htmlContent);
             }
             for (CarOrdersEntity carOrdersEntity : carOrdersService.findByUser_Id(userId)) {
-                checkOrderStatus(carOrdersEntity);
+                if (carOrdersEntity.getOrderStatus().equals("Pending")) {
+                    checkOrderStatus(carOrdersService,carOrdersEntity);
+                }
                 String hideChangeOrderBtn;
                 String hideCarCardContent;
+                String hideChangeBtnAndShowExpired;
+                String modifyReference = "";
                 if (carOrdersEntity.getOrderStatus().equals("Completed")) {
                     hideChangeOrderBtn = "none";
                     hideCarCardContent = "flex";
+                    hideChangeBtnAndShowExpired = "none";
+                } else if (carOrdersEntity.getOrderStatus().equals("Expired")){
+                    hideCarCardContent = "none";
+                    hideChangeOrderBtn = "none";
+                    hideChangeBtnAndShowExpired = "";
+                    modifyReference = "false";
                 } else {
                     hideCarCardContent = "none";
                     hideChangeOrderBtn = "";
+                    hideChangeBtnAndShowExpired = "none";
                 }
                 String[] favsResult = isOrderAddedToFavs(favoriteVehiclesService.findByUser_Id(userId), carOrdersEntity);
                 String htmlContent = """
@@ -183,15 +199,17 @@ public class AccessControllerServiceImpl implements AccessControllerService {
                             </div>
                             <div id="cancel-order-container">
                             <button id="change-order" style="display: %s">Change Order</button>
+                            <button id="modify-order" style="display: %s" modify-reference="%s">Modify Order</button>
                             <button id="cancel-order">Cancel Order</button>
                         </div>
                         </div>
                                     """.formatted(carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(),
                         carOrdersEntity.getCarYear(), carOrdersEntity.getOrderStatus(), carOrdersEntity.getOrderStatus(),
-                        carOrdersEntity.getDateOfOrder(), hideCarCardContent, carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(),
-                        carOrdersEntity.getCarYear(), carOrdersEntity.getCarYear(), carOrdersEntity.getCarManufacturer(),
-                        carOrdersEntity.getCarModel(), favsResult[0], favsResult[1], carOrdersEntity.getCarManufacturer(),
-                        carOrdersEntity.getCarModel(), carOrdersEntity.getCarYear(), hideChangeOrderBtn);
+                        carOrdersEntity.getDateOfOrder(), hideCarCardContent, carOrdersEntity.getCarManufacturer(),
+                        carOrdersEntity.getCarModel(), carOrdersEntity.getCarYear(), carOrdersEntity.getCarYear(),
+                        carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(), favsResult[0], favsResult[1],
+                        carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(), carOrdersEntity.getCarYear(),
+                        hideChangeOrderBtn,hideChangeBtnAndShowExpired, modifyReference);
                 carOrderContents.add(htmlContent);
             }
             modelAndView.addObject("carOrderContents", carOrderContents);
@@ -199,32 +217,6 @@ public class AccessControllerServiceImpl implements AccessControllerService {
             return modelAndView;
         }
         return new ModelAndView("index");
-    }
-
-    private void checkOrderStatus(CarOrdersEntity carOrdersEntity) throws URISyntaxException {
-        String directoryPattern = "classpath:public/3D Models/*";
-
-        // Create a resource resolver
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-
-        try {
-            // Resolve resources matching the pattern
-            Resource[] resources = resolver.getResources(directoryPattern);
-
-            // Iterate over the resolved resources
-            for (Resource resource : resources) {
-                // Get the file name
-                String fileName = resource.getFilename();
-                if (fileName.contains(carOrdersEntity.getCarManufacturer()) &&
-                        fileName.contains(carOrdersEntity.getCarModel()) &&
-                        fileName.contains(String.valueOf(carOrdersEntity.getCarYear()))) {
-                    carOrdersEntity.setOrderStatus("Completed");
-                    carOrdersService.save(carOrdersEntity);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private String[] isOrderAddedToFavs(List<FavoriteVehiclesEntity> favoriteVehiclesEntities, CarOrdersEntity
