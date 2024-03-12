@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.example.app.controllers.utils.CarOrderStatusCheckUtil.checkOrderStatus;
+
 @Service
 public class CarOrderControllerServiceImpl implements CarOrderControllerService {
 
@@ -216,6 +218,7 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
                         carOrder.setCarManufacturer(request.getNewManufacturer());
                         carOrder.setCarYear(Integer.parseInt(request.getNewYear()));
                         carOrder.setDateOfOrder(Date.valueOf(String.valueOf(LocalDate.now())));
+                        checkOrderStatus(carOrdersService,carOrder);
                         carOrdersService.save(carOrder);
 
                         return ResponseEntity.ok(new ModifyCarOrderResponse("New order is made and the period is extended.",
