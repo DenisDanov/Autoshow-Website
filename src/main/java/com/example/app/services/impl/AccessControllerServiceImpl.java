@@ -89,7 +89,7 @@ public class AccessControllerServiceImpl implements AccessControllerService {
             ModelAndView pageWithContentLoaded = getModelAndViewProfilePage(authToken, pageUrl);
             if (pageWithContentLoaded != null) return pageWithContentLoaded;
         }
-        return new ModelAndView("index");
+        return new ModelAndView("redirect:/index");
     }
 
     private ModelAndView getModelAndViewProfilePage(String authToken, String pageUrl) throws URISyntaxException {
@@ -100,55 +100,48 @@ public class AccessControllerServiceImpl implements AccessControllerService {
             ModelAndView modelAndView = new ModelAndView(pageUrl)
                     .addObject("username", user.getUsername())
                     .addObject("email", user.getEmail());
-            List<String> favVehicleContents = new ArrayList<>();
-            List<String> carOrderContents = new ArrayList<>();
-            for (FavoriteVehiclesEntity vehicle : favoriteVehiclesService.findByUser_Id(userId)) {
-                String htmlContent = """
-                        <div class="car-card">
-                            <div class="img-container">
-                                <img src="%s" alt="Car 2">
-                            </div>
-                            <div class="car-info">
-                                <h3>%s</h3>
-                            </div>
-                            <div class="favorites">
-                                <h3>Remove from Favorites</h3>
-                                <label class="add-fav">
-                                    <input checked="true" type="checkbox" />
-                                    <i class="icon-heart fas fa-heart">
-                                        <i class="icon-plus-sign fa-solid fa-plus"></i>
-                                    </i>
-                                </label>
-                            </div>
-                            <a href="showroom.html?car=%s" class="view-button">View in Showroom</a>
-                        </div>
-                        """.formatted(vehicle.getVehicleImg(), vehicle.getVehicleName(), vehicle.getVehicleId());
-                favVehicleContents.add(htmlContent);
-            }
-            for (CarOrdersEntity carOrdersEntity : carOrdersService.findByUser_Id(userId)) {
-                if (carOrdersEntity.getOrderStatus().equals("Pending")) {
-                    checkOrderStatus(carOrdersService,carOrdersEntity);
-                }
-                String hideChangeOrderBtn;
-                String hideCarCardContent;
-                String hideChangeBtnAndShowExpired;
-                String modifyReference = "";
-                if (carOrdersEntity.getOrderStatus().equals("Completed")) {
-                    hideChangeOrderBtn = "none";
-                    hideCarCardContent = "flex";
-                    hideChangeBtnAndShowExpired = "none";
-                } else if (carOrdersEntity.getOrderStatus().equals("Expired")){
-                    hideCarCardContent = "none";
-                    hideChangeOrderBtn = "none";
-                    hideChangeBtnAndShowExpired = "";
-                    modifyReference = "false";
-                } else {
-                    hideCarCardContent = "none";
-                    hideChangeOrderBtn = "";
-                    hideChangeBtnAndShowExpired = "none";
-                }
-                String[] favsResult = isOrderAddedToFavs(favoriteVehiclesService.findByUser_Id(userId), carOrdersEntity);
-                String htmlContent = """
+            List<String> favVehicleContents = generateFavVehicleHtml(favoriteVehiclesService.findByUser_Id(userId));
+            List<String> carOrderContents = generateCarOrderHtml(carOrdersService.findByUser_Id(userId),userId);
+            modelAndView.addObject("carOrderContents", carOrderContents);
+            modelAndView.addObject("favVehicleContents", favVehicleContents);
+            return modelAndView;
+        }
+        return new ModelAndView("redirect:/index");
+    }
+
+    private List<String> generateCarOrderHtml(List<CarOrdersEntity> carOrders,Long userId) {
+        List<String> carOrderContents = new ArrayList<>();
+        for (CarOrdersEntity carOrdersEntity : carOrders) {
+            String htmlContent = generateCarOrderHtmlContent(carOrdersEntity,userId);
+            carOrderContents.add(htmlContent);
+        }
+        return carOrderContents;
+    }
+
+    private String generateCarOrderHtmlContent(CarOrdersEntity carOrdersEntity,Long userId) {
+        if (carOrdersEntity.getOrderStatus().equals("Pending")) {
+            checkOrderStatus(carOrdersService,carOrdersEntity);
+        }
+        String hideChangeOrderBtn;
+        String hideCarCardContent;
+        String hideChangeBtnAndShowExpired;
+        String modifyReference = "";
+        if (carOrdersEntity.getOrderStatus().equals("Completed")) {
+            hideChangeOrderBtn = "none";
+            hideCarCardContent = "flex";
+            hideChangeBtnAndShowExpired = "none";
+        } else if (carOrdersEntity.getOrderStatus().equals("Expired")){
+            hideCarCardContent = "none";
+            hideChangeOrderBtn = "none";
+            hideChangeBtnAndShowExpired = "";
+            modifyReference = "false";
+        } else {
+            hideCarCardContent = "none";
+            hideChangeOrderBtn = "";
+            hideChangeBtnAndShowExpired = "none";
+        }
+        String[] favsResult = isOrderAddedToFavs(favoriteVehiclesService.findByUser_Id(userId), carOrdersEntity);
+        return  """
                                     <div class="car-orders-container">
                             <div class="car-order-details">
                                 <div>
@@ -204,19 +197,42 @@ public class AccessControllerServiceImpl implements AccessControllerService {
                         </div>
                         </div>
                                     """.formatted(carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(),
-                        carOrdersEntity.getCarYear(), carOrdersEntity.getOrderStatus(), carOrdersEntity.getOrderStatus(),
-                        carOrdersEntity.getDateOfOrder(), hideCarCardContent, carOrdersEntity.getCarManufacturer(),
-                        carOrdersEntity.getCarModel(), carOrdersEntity.getCarYear(), carOrdersEntity.getCarYear(),
-                        carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(), favsResult[0], favsResult[1],
-                        carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(), carOrdersEntity.getCarYear(),
-                        hideChangeOrderBtn,hideChangeBtnAndShowExpired, modifyReference);
-                carOrderContents.add(htmlContent);
-            }
-            modelAndView.addObject("carOrderContents", carOrderContents);
-            modelAndView.addObject("favVehicleContents", favVehicleContents);
-            return modelAndView;
+                carOrdersEntity.getCarYear(), carOrdersEntity.getOrderStatus(), carOrdersEntity.getOrderStatus(),
+                carOrdersEntity.getDateOfOrder(), hideCarCardContent, carOrdersEntity.getCarManufacturer(),
+                carOrdersEntity.getCarModel(), carOrdersEntity.getCarYear(), carOrdersEntity.getCarYear(),
+                carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(), favsResult[0], favsResult[1],
+                carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(), carOrdersEntity.getCarYear(),
+                hideChangeOrderBtn,hideChangeBtnAndShowExpired, modifyReference);
+    }
+
+    private List<String> generateFavVehicleHtml(List<FavoriteVehiclesEntity> favoriteVehicles) {
+        List<String> favVehicleContents = new ArrayList<>();
+        for (FavoriteVehiclesEntity vehicle : favoriteVehicles) {
+            String htmlContent = generateFavVehicleHtmlContent(vehicle);
+            favVehicleContents.add(htmlContent);
         }
-        return new ModelAndView("index");
+        return favVehicleContents;
+    }
+
+    private String generateFavVehicleHtmlContent(FavoriteVehiclesEntity vehicle) {
+        return "<div class=\"car-card\">" +
+                "<div class=\"img-container\">" +
+                "<img src=\"" + vehicle.getVehicleImg() + "\" alt=\"Car 2\">" +
+                "</div>" +
+                "<div class=\"car-info\">" +
+                "<h3>" + vehicle.getVehicleName() + "</h3>" +
+                "</div>" +
+                "<div class=\"favorites\">" +
+                "<h3>Remove from Favorites</h3>" +
+                "<label class=\"add-fav\">" +
+                "<input checked=\"true\" type=\"checkbox\" />" +
+                "<i class=\"icon-heart fas fa-heart\">" +
+                "<i class=\"icon-plus-sign fa-solid fa-plus\"></i>" +
+                "</i>" +
+                "</label>" +
+                "</div>" +
+                "<a href=\"showroom.html?car=" + vehicle.getVehicleId() + "\" class=\"view-button\">View in Showroom</a>" +
+                "</div>";
     }
 
     private String[] isOrderAddedToFavs(List<FavoriteVehiclesEntity> favoriteVehiclesEntities, CarOrdersEntity

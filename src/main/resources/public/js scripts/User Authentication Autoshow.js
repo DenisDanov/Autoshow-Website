@@ -73,9 +73,11 @@ function checkLoginStatus() {
     } else {
         // User is not logged in
         console.log('User is not logged in.');
-        document.getElementById('order-car-container').addEventListener(`click`, () => {
-            document.getElementById('overlay').style.display = 'flex';
-        });
+        if (window.location.origin.includes(`auto-show`)) {
+            document.getElementById('order-car-container').addEventListener(`click`, () => {
+                document.getElementById('overlay').style.display = 'flex';
+            });
+        }
         document.querySelectorAll(`input[type="checkbox"]`).forEach(entrie => {
             entrie.addEventListener(`click`, () => {
                 entrie.checked = false;
