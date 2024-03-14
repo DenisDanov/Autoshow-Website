@@ -16,12 +16,6 @@ body {
     text-align: center;
 }
 
-.profile-info {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-
 .profile-info label {
     font-weight: bold;
     display: block;
@@ -48,9 +42,12 @@ body {
     background: linear-gradient(90deg, rgb(61 56 56) 9%, rgb(65 63 71) 42%, rgb(139 132 157) 100%);
     flex-wrap: wrap;
     list-style: none;
-    padding: 1rem;
     justify-content: center;
     position: relative;
+}
+
+#car-orders {
+    gap: 0.8rem;
 }
 
 #favorite-vehicles li,
@@ -86,7 +83,7 @@ body {
 .profile-password {
     position: relative;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .profile-password div {
@@ -145,6 +142,28 @@ input[type="password"]::-webkit-reveal {
     font-size: 16px;
 }
 
+#cancel,
+#cancel-email {
+    margin-left: 0.5rem;
+    margin-right: -10rem !important;
+}
+
+@media (min-width: 353px) {
+    .car-orders-container {
+        min-width: 275px;
+    }
+}
+
+@media (min-width: 601px) {
+    .recently-viewed-cars .car-card {
+        min-height: 495px;
+    }
+
+    #favorite-vehicles li .car-card, .car-order-model .car-card {
+        min-height: 390px;
+    }
+}
+
 @media (max-width: 928px) {
 
     #username-container,
@@ -158,6 +177,7 @@ input[type="password"]::-webkit-reveal {
     #cancel,
     #cancel-email {
         margin-left: 0.5rem;
+        margin-right: 0 !important;
     }
 }
 
@@ -215,7 +235,6 @@ input[type="password"]::-webkit-reveal {
 }
 
 .car-orders-container {
-    min-width: 275px;
     color: #a3a3a3;
     flex-direction: column;
     background: linear-gradient(90deg, rgb(26 21 21) 9%, rgb(65 63 71) 42%, rgb(118 116 121) 100%);
@@ -450,6 +469,8 @@ input[type="email"] {
 #username-container,
 #email-container {
     position: relative;
+    margin: 0 auto;
+    max-width: 600px;
 }
 
 .lds-ring div {

@@ -8,7 +8,15 @@ var userId = decodedToken.userId;
 
 document.getElementById(`username`).addEventListener(`input`, (e) => {
     document.getElementById(`change-username`).style.display = "block";
+    document.getElementById(`change-username`).style.marginRight = `0rem`;
     document.getElementById(`cancel`).style.display = "block";
+    if (window.screen.width > 932) {
+        document.getElementById(`cancel`).style.marginRight = `-10rem`;
+        document.getElementById(`cancel-email`).style.marginRight = `-10rem`;
+    } else {
+        document.getElementById(`cancel`).style.marginRight = `0rem`;
+        document.getElementById(`cancel-email`).style.marginRight = `0rem`;
+    }
     document.getElementById(`username-container`).style.width = "125%";
 
     document.getElementById(`change-username`).addEventListener(`click`, changeUserName);

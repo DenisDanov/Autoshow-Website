@@ -566,7 +566,7 @@ function removeCarOrder(e) {
     const carModel = e.currentTarget.parentNode.parentNode.children[0].children[1].children[1].textContent;
     const carYear = e.currentTarget.parentNode.parentNode.children[0].children[2].children[1].textContent;
 
-    e.currentTarget.parentNode.parentNode.parentNode.remove();
+    e.currentTarget.parentNode.parentNode.parentNode.parentNode.remove();
     fetch(`${window.location.origin}/api/carOrders/remove`, {
         method: "DELETE",
         headers: {

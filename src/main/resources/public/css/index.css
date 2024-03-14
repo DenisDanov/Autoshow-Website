@@ -5,7 +5,7 @@ body {
 .slider-container {
     max-width: 100%;
     position: relative;
-    padding: 2rem;
+    padding: 1rem;
 }
 
 #recently-viewed-spinner {
@@ -101,7 +101,7 @@ body {
         position: absolute;
         opacity: 0;
 
-        &:checked+.icon-heart {
+        &:checked + .icon-heart {
             color: orange;
 
             .icon-plus-sign {
@@ -142,6 +142,10 @@ body {
     text-align: center;
 }
 
+.car-info p {
+    text-align: left;
+}
+
 #overlay,
 #overlay-changeUsername,
 #order-car-menu {
@@ -156,6 +160,13 @@ body {
     align-items: center;
     z-index: 1;
 }
+
+@media (min-width: 601px) {
+    .recently-viewed-cars .car-card {
+        min-height: 495px !important;
+    }
+}
+
 
 /* Style for the pop-up box */
 #popup,
@@ -191,7 +202,7 @@ body {
     color: whitesmoke;
     background-color: #444242;
 }
- 
+
 #popup button:hover,
 #popup-changeUsername button:hover {
     background-color: #535353;
