@@ -5,8 +5,11 @@ import com.example.app.data.entities.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface RecentlyViewedTokenService {
+
+    Optional<RecentlyViewedToken> findByUser_Id(long id);
 
     Optional<RecentlyViewedToken> findByUser(User user);
 

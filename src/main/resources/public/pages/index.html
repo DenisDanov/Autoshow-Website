@@ -29,69 +29,7 @@
 </head>
 
 <body>
-<header class="nav-header" id="header">
-    <a href="/index" class="logo">
-        <img class="logo-img" src="../images/logo.png" alt="Logo">
-    </a>
-    <div class="h1">
-        <h1>Where Luxury Meets Performance</h1>
-    </div>
-    <div class="container">
-        <button class="hamburger" id="hamburgerButton">
-            <i class="fas fa-bars"></i>
-            <span class="menuText">Menu</span>
-        </button>
-        <ul class="menu" id="menu">
-            <li><a class="menuItem" href="/index" onclick="setHamburgerRelative(event)"><i
-                    class="fas fa-home"></i>
-                Home</a></li>
-            <li style="display: none;" id="profile"><a class="menuItem"
-                                                       href="/profile"
-                                                       onclick="setHamburgerRelative(event)"><i class="fas fa-user"></i>Profile</a>
-            </li>
-            <li><a class="menuItem" href="/auto-show" onclick="setHamburgerRelative(event)"><i
-                    class="fas fa-car"></i>
-                Auto
-                Show</a></li>
-            <li id="log-in-text"><a class="menuItem" href="/login"
-                                    onclick="setHamburgerRelative(event)"><i class="fas fa-sign-in-alt"></i>Log in</a>
-            </li>
-            <li style="display: none;" id="log-out-text"><a class="menuItem" href="#"
-                                                            onclick="setHamburgerRelative(event)"><i
-                    class="fas fa-sign-in-alt"></i>Log out</a></li>
-            <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
-                    class="fas fa-info-circle"></i> About</a></li>
-        </ul>
-    </div>
-    <nav class="navs">
-        <nav>
-            <ul>
-                <li><a href="/index"><i class="fas fa-home"></i></a></li>
-                <li style="display: none;" id="profile"><a
-                        href="/profile"><i
-                        class="fas fa-user"></i></a></li>
-                <li><a href="/auto-show"><i class="fas fa-car"></i></a></li>
-                <li id="log-in-icon"><a href="/login"><i
-                        class="fas fa-sign-in-alt"></i></a></li>
-                <li style="display: none;" id="log-out-icon"><a href="#"><i class="fas fa-sign-out-alt"></i></a>
-                </li>
-                <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
-            </ul>
-        </nav>
-        <nav>
-            <ul id="nav-text">
-                <li><a href="/index">Home</a></li>
-                <li style="display: none;" id="profile"><a
-                        href="/profile">Profile</a></li>
-                <li class="auto-show"><a href="/auto-show">Auto Show</a></li>
-                <li id="log-in-text"><a href="/login">Log in</a>
-                </li>
-                <li style="display: none;" id="log-out-text"><a href="#">Log out</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-        </nav>
-    </nav>
-</header>
+<div th:utext="${nav}"></div>
 <script defer src="../js%20scripts/mobile-menu.js"></script>
 <div class="site-banner">
     <div class="site-banner-inner">
@@ -242,7 +180,6 @@
         });
     });
 </script>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <h1 style="text-align: center;">Recently viewed cars</h1>
 <div class="slider-container">
     <div class="lds-ring" id="recently-viewed-spinner">
@@ -251,10 +188,12 @@
         <div></div>
         <div></div>
     </div>
-    <div class="recently-viewed-cars" style="display: flex; justify-content: center; flex-wrap: wrap;"
-         bis_skin_checked="1">
+    <div th:utext="${recentlyViewed}" class="recently-viewed-cars" id="viewed-cars"
+         style="display: none; justify-content: center; flex-wrap: wrap;" bis_skin_checked="1">
     </div>
 </div>
+<script src="../js%20scripts/Populate-Recently-Viewed.js"></script>
+<script src="../js%20scripts/Recently-Viewed-Slider.js"></script>
 <div id="overlay" style="display: none;">
     <div id="popup">
         <span id="close" onclick="closePopup()">&times;</span>
@@ -279,7 +218,8 @@
         <input type="email" placeholder="Your Email Address">
         <button>Subscribe</button>
     </div>
-    <p style="display: none" id="loading-animation-newsletter" status="Pending">Please wait until we verify your email</p>
+    <p style="display: none" id="loading-animation-newsletter" status="Pending">Please wait until we verify your
+        email</p>
     <p id="sub-result" style="margin-top: 0.5rem; display: none;">Subscibed successfully!</p>
     <div class="socials-section">
         <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
@@ -294,8 +234,6 @@
     </div>
 </footer>
 <script src="../js%20scripts/Subsribe-To-Newsletter.js"></script>
-<script src="../js%20scripts/Populate-Recently-Viewed.js" defer></script>
-<script src="../js%20scripts/Recently-Viewed-Slider.js" defer></script>
 </body>
 
 </html>

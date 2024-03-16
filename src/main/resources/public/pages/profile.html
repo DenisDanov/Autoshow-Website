@@ -21,69 +21,7 @@
 </head>
 
 <body>
-<header class="nav-header" id="header">
-    <a href="/index" class="logo">
-        <img class="logo-img" src="../images/logo.png" alt="Logo">
-    </a>
-    <div class="h1">
-        <h1>Where Luxury Meets Performance</h1>
-    </div>
-    <div class="container">
-        <button class="hamburger" id="hamburgerButton">
-            <i class="fas fa-bars"></i>
-            <span class="menuText">Menu</span>
-        </button>
-        <ul class="menu" id="menu">
-            <li><a class="menuItem" href="/index" onclick="setHamburgerRelative(event)"><i
-                    class="fas fa-home"></i>
-                Home</a></li>
-            <li style="display: none;" id="profile"><a class="menuItem"
-                                                       href="/profile"
-                                                       onclick="setHamburgerRelative(event)"><i class="fas fa-user"></i>Profile</a>
-            </li>
-            <li><a class="menuItem" href="/auto-show" onclick="setHamburgerRelative(event)"><i
-                    class="fas fa-car"></i>
-                Auto
-                Show</a></li>
-            <li id="log-in-text"><a class="menuItem" href="/login"
-                                    onclick="setHamburgerRelative(event)"><i class="fas fa-sign-in-alt"></i>Log in</a>
-            </li>
-            <li style="display: none;" id="log-out-text"><a class="menuItem" href="#"
-                                                            onclick="setHamburgerRelative(event)"><i
-                    class="fas fa-sign-in-alt"></i>Log out</a></li>
-            <li><a class="menuItem" href="#" onclick="setHamburgerRelative(event)"><i
-                    class="fas fa-info-circle"></i> About</a></li>
-        </ul>
-    </div>
-    <nav class="navs">
-        <nav>
-            <ul>
-                <li><a href="/index"><i class="fas fa-home"></i></a></li>
-                <li style="display: none;" id="profile"><a
-                        href="/profile"><i
-                        class="fas fa-user"></i></a></li>
-                <li><a href="/auto-show"><i class="fas fa-car"></i></a></li>
-                <li id="log-in-icon"><a href="/login"><i
-                        class="fas fa-sign-in-alt"></i></a></li>
-                <li style="display: none;" id="log-out-icon"><a href="#"><i class="fas fa-sign-out-alt"></i></a>
-                </li>
-                <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
-            </ul>
-        </nav>
-        <nav>
-            <ul id="nav-text">
-                <li><a href="/index">Home</a></li>
-                <li style="display: none;" id="profile"><a
-                        href="/profile">Profile</a></li>
-                <li class="auto-show"><a href="/auto-show">Auto Show</a></li>
-                <li id="log-in-text"><a href="/login">Log in</a>
-                </li>
-                <li style="display: none;" id="log-out-text"><a href="#">Log out</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-        </nav>
-    </nav>
-</header>
+<div th:utext="${nav}"></div>
 <script src="../js%20scripts/mobile-menu.js"></script>
 <section class="profile-section">
     <div id="overlay">
@@ -127,17 +65,17 @@
                     <label for="password">Change Password</label>
                     <input type="password" id="password" value="" placeholder="enter current password"
                            autocomplete="new-password">
+                    <span><i class="toggle-password fas fa-eye" onclick="togglePasswordVisibility()"
+                             id="password-eye"></i></span>
                     <input type="password" id="new-password" placeholder="enter a new password"
                            autocomplete="new-password">
+                    <span><i class="toggle-password fas fa-eye" id="new-password-eye"
+                             onclick="togglePasswordVisibilityNewPass()"></i></span>
                     <input type="password" id="repeat-new-password" placeholder="enter the new password again"
                            autocomplete="new-password">
+                    <span><i class="toggle-password fas fa-eye" id="new-password-repeat-eye"
+                             onclick="togglePasswordVisibilityNewPassRepeat()"></i></span>
                 </div>
-                <span><i class="toggle-password fas fa-eye" onclick="togglePasswordVisibility()"
-                         id="password-eye"></i></span>
-                <span><i class="toggle-password fas fa-eye" id="new-password-eye"
-                         onclick="togglePasswordVisibilityNewPass()"></i></span>
-                <span><i class="toggle-password fas fa-eye" id="new-password-repeat-eye"
-                         onclick="togglePasswordVisibilityNewPassRepeat()"></i></span>
             </div>
             <button type="submit" id="change-password">Change password</button>
             <button type="submit" id="forgotten-password">Reset password</button>
@@ -184,8 +122,8 @@
 <h1 style="text-align: center;">Recently viewed cars</h1>
 <div class="slider-container">
     <div class="lds-ring" id="recently-viewed-spinner"><div></div><div></div><div></div><div></div></div>
-    <div class="recently-viewed-cars" style="display: flex; justify-content: center; flex-wrap: wrap;"
-         bis_skin_checked="1">
+    <div th:utext="${recentlyViewed}" class="recently-viewed-cars" style="display: none; justify-content: center; flex-wrap: wrap;" bis_skin_checked="1">
+
     </div>
 </div>
 <footer class="footer-section">
@@ -210,11 +148,13 @@
     </div>
 </footer>
 <script src="../js%20scripts/Get-Profile-Data.js" defer></script>
-<script src="../js%20scripts/Password-Changing.js" defer></script>
-<script src="../js%20scripts/Password-Eye-Visibility.js" defer></script>
-<script src="../js%20scripts/Change-User-Details.js" defer></script>
-<script src="../js%20scripts/Change-User-Password.js" defer></script>
-<script src="../js%20scripts/Populate-CarsMenu.js" defer></script>
+<script src="../js%20scripts/Populate-Recently-Viewed.js" defer></script>
+<script src="../js%20scripts/Recently-Viewed-Slider.js" defer></script>
+<script src="../js%20scripts/Password-Changing.js"></script>
+<script src="../js%20scripts/Password-Eye-Visibility.js"></script>
+<script src="../js%20scripts/Change-User-Details.js"></script>
+<script src="../js%20scripts/Change-User-Password.js"></script>
+<script src="../js%20scripts/Populate-CarsMenu.js"></script>
 <script defer>
     setTimeout(function () {
         document.querySelectorAll(`.add-fav .icon-heart`).forEach(entrie => {
@@ -231,9 +171,7 @@
         });
     }, 1700);
 </script>
-<script src="../js%20scripts/Subsribe-To-Newsletter.js" defer></script>
-<script src="../js%20scripts/Populate-Recently-Viewed.js" defer></script>
-<script src="../js%20scripts/Recently-Viewed-Slider.js" defer></script>
+<script src="../js%20scripts/Subsribe-To-Newsletter.js"></script>
 </body>
 
 </html>

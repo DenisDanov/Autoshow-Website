@@ -19,6 +19,11 @@ public class RecentlyViewedTokenServiceImpl implements RecentlyViewedTokenServic
     }
 
     @Override
+    public Optional<RecentlyViewedToken> findByUser_Id(long id) {
+        return this.recentlyViewedRepository.findByUser_Id(id);
+    }
+
+    @Override
     public Optional<RecentlyViewedToken> findByUser(User user) {
         return this.recentlyViewedRepository.findByUser(user);
     }

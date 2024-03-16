@@ -94,9 +94,9 @@ body {
     display: none;
     cursor: pointer;
     color: #888;
-    margin-top: 35px;
+    margin-top: -43px;
     position: absolute;
-    right: 0.5rem;
+    right: 10px;
 }
 
 input[type="password"]::-ms-reveal,
@@ -104,12 +104,16 @@ input[type="password"]::-webkit-reveal {
     display: none !important;
 }
 
+.profile-password div {
+    position: relative;
+}
+
 #new-password-eye {
-    margin-top: 90px;
+    margin-top: -43px;
 }
 
 #new-password-repeat-eye {
-    margin-top: 145px;
+    margin-top: -43px;
 }
 
 #favorite-vehicles li .car-card,

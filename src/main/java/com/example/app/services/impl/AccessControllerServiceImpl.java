@@ -1,22 +1,16 @@
 package com.example.app.services.impl;
 
+import com.example.app.controllers.ViewController;
 import com.example.app.controllers.utils.CookieUtils;
 import com.example.app.data.entities.CarOrdersEntity;
 import com.example.app.data.entities.FavoriteVehiclesEntity;
 import com.example.app.data.entities.User;
 import com.example.app.services.*;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +22,8 @@ public class AccessControllerServiceImpl implements AccessControllerService {
 
     private final FavoriteVehiclesService favoriteVehiclesService;
 
+    private final RecentlyViewedTokenService recentlyViewedTokenService;
+
     private final CarOrdersService carOrdersService;
 
     private final AuthenticationTokenService authenticationTokenService;
@@ -37,9 +33,10 @@ public class AccessControllerServiceImpl implements AccessControllerService {
     private final UserService userService;
 
     public AccessControllerServiceImpl(FavoriteVehiclesService favoriteVehiclesService,
-                                       CarOrdersService carOrdersService,
+                                       RecentlyViewedTokenService recentlyViewedTokenService, CarOrdersService carOrdersService,
                                        AuthenticationTokenService authenticationTokenService, ReplacedAuthTokensService replacedAuthTokensService, UserService userService) {
         this.favoriteVehiclesService = favoriteVehiclesService;
+        this.recentlyViewedTokenService = recentlyViewedTokenService;
         this.carOrdersService = carOrdersService;
         this.authenticationTokenService = authenticationTokenService;
         this.replacedAuthTokensService = replacedAuthTokensService;
@@ -62,14 +59,17 @@ public class AccessControllerServiceImpl implements AccessControllerService {
                 isVehicleOrdered(user.get(), carValues))) {
             // User is authorized to view this vehicle
             return new ModelAndView(pageUrl)
-                    .addObject("access", "granted-access");
+                    .addObject("access", "granted-access")
+                    .addObject("nav", ViewController.getNavigationHtml(authToken));
         } else if (isVehicleWhitelisted(carValues)) {
             return new ModelAndView(pageUrl)
-                    .addObject("access", "granted-access");
+                    .addObject("access", "granted-access")
+                    .addObject("nav", ViewController.getNavigationHtml(authToken));
         } else {
             // User is not authorized to view this vehicle
             return new ModelAndView(pageUrl)
-                    .addObject("access", "no-access");
+                    .addObject("access", "no-access")
+                    .addObject("nav", ViewController.getNavigationHtml(authToken));
         }
     }
 
@@ -103,6 +103,9 @@ public class AccessControllerServiceImpl implements AccessControllerService {
             List<String> favVehicleContents = generateFavVehicleHtml(favoriteVehiclesService.findByUser_Id(userId));
             List<String> carOrderContents = generateCarOrderHtml(carOrdersService.findByUser_Id(userId),userId);
             modelAndView.addObject("carOrderContents", carOrderContents);
+            modelAndView.addObject("nav",ViewController.getNavigationHtml(authToken));
+            modelAndView.addObject("recentlyViewed",ViewController.getRecentlyViewedHtml(authToken
+            ,recentlyViewedTokenService,favoriteVehiclesService));
             modelAndView.addObject("favVehicleContents", favVehicleContents);
             return modelAndView;
         }

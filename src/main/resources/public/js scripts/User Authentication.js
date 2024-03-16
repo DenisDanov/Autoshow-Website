@@ -28,37 +28,10 @@ function checkLoginStatus() {
     if (authToken) {
         // User is logged in
         console.log('User is logged in.');
-        document.querySelectorAll(`#log-in-icon`).forEach(entrie => {
-            entrie.style.display = `none`;
-        });
-        document.querySelectorAll(`#log-in-text`).forEach(entrie => {
-            entrie.style.display = `none`;
-        });
-        document.querySelectorAll(`#log-out-icon`).forEach(entrie => {
-            entrie.style.display = `inline`;
-        });
-        document.querySelectorAll(`#log-out-text`).forEach(entrie => {
-            entrie.style.display = `inline`;
-        });
-        document.querySelectorAll(`#profile`).forEach(entrie => {
-            entrie.style.display = `inline`;
-        });
         logOutUser();
     } else {
         // User is not logged in
         console.log('User is not logged in.');
-        document.querySelectorAll(`#log-in-icon`).forEach(entrie => {
-            entrie.style.display = `inline`;
-        });
-        document.querySelectorAll(`#log-in-text`).forEach(entrie => {
-            entrie.style.display = `inline`;
-        });
-        document.querySelectorAll(`#log-out-icon`).forEach(entrie => {
-            entrie.style.display = `none`;
-        });
-        document.querySelectorAll(`#log-out-text`).forEach(entrie => {
-            entrie.style.display = `none`;
-        });
     }
 }
 
