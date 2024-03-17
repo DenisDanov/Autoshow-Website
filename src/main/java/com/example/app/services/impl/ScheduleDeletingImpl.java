@@ -1,6 +1,7 @@
 package com.example.app.services.impl;
 
 import com.example.app.data.entities.FailedLoginAttempts;
+import com.example.app.services.CarOrderSpecDataService;
 import com.example.app.services.ExpiringEntityDeleterService;
 import com.example.app.services.FailedLoginAttemptsService;
 import com.example.app.services.ScheduleDeletingService;
@@ -17,10 +18,13 @@ public class ScheduleDeletingImpl implements CommandLineRunner, ScheduleDeleting
 
     private final ExpiringEntityDeleterService expiringEntityDeleter;
 
+    private final CarOrderSpecDataService carOrderSpecDataService;
+
     @Autowired
-    public ScheduleDeletingImpl(FailedLoginAttemptsService failedLoginAttemptsService) {
+    public ScheduleDeletingImpl(FailedLoginAttemptsService failedLoginAttemptsService, CarOrderSpecDataService carOrderSpecDataService) {
         this.failedLoginAttemptsService = failedLoginAttemptsService;
         this.expiringEntityDeleter = new ExpiringEntityDeleterImpl(failedLoginAttemptsService);
+        this.carOrderSpecDataService = carOrderSpecDataService;
     }
 
     @Override
@@ -33,5 +37,6 @@ public class ScheduleDeletingImpl implements CommandLineRunner, ScheduleDeleting
     @Override
     public void run(String... args) throws Exception {
         this.scheduleDeletingOfEntities();
+        this.carOrderSpecDataService.seedDatabase();
     }
 }

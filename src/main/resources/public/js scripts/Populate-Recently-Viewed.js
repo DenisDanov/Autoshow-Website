@@ -3,83 +3,66 @@ if (authToken) {
     var userId = decodedToken.userId;
 }
 
-function getCarParams() {
-    return new Promise((resolve, reject) => {
-        if (authToken) {
-            fetch(`${window.location.origin}/api/recently-viewed/get?userId=${userId}&authToken=${authToken}`)
-                .then(response => response.json())
-                .then(result => {
-                    if (result == null) {
-                        resolve([]);
-                    } else {
-                        const arr = [];
-                        for (const car of result) {
-                            arr.push(car);
-                        }
-                        resolve(arr);
-                    }
-                })
-                .catch(err => reject(err));
-        } else {
-            const savedParamsCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('recently_viewed='));
-            if (savedParamsCookie) {
-                let paramsString = decodeURIComponent(savedParamsCookie.split('=')[1]).replace(/%2F/g, '/');
-                paramsString = paramsString.replace(/\+/g, " ");
-                resolve(paramsString ? paramsString.split(',') : []);
-            }
-            resolve([]);
+function getCarParamsCookie() {
+    if (!authToken) {
+        const savedParamsCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('recently_viewed='));
+        if (savedParamsCookie) {
+            let paramsString = decodeURIComponent(savedParamsCookie.split('=')[1]).replace(/%2F/g, '/');
+            paramsString = paramsString.replace(/\+/g, " ");
+            return (paramsString ? paramsString.split(',') : []);
         }
-    })
+        return ([]);
+    }
 }
 
 var currentURL = window.location.href;
 
 var recentlyViewedLoaded = new Promise((resolve, reject) => {
-    getCarParams().then(carParams => {
-        if (currentURL === `${window.location.origin}/profile`) {
-            favoritesLoaded.then(response => {
-                const container = document.querySelectorAll(`.recently-viewed-cars .car-card input[type="checkbox"]`);
-                if (container.length !== 0) {
-                    for (const inputs of container) {
-                        inputs.addEventListener(`change`, addCarOrderToFavs);
-                    }
-                } else {
-                    document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
-                    document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
-                    document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+    if (currentURL === `${window.location.origin}/profile`) {
+        favoritesLoaded.then(response => {
+            const container = document.querySelectorAll(`.recently-viewed-cars .car-card input[type="checkbox"]`);
+            if (container.length !== 0) {
+                for (const inputs of container) {
+                    inputs.addEventListener(`change`, addCarOrderToFavs);
                 }
-                document.getElementById(`recently-viewed-spinner`).style.display = `none`;
-                document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
-                resolve("success");
-            });
-        } else {
-            if (carParams.length !== 0) {
-                if (authToken) {
-                    const container = document.querySelectorAll(`.recently-viewed-cars .car-card input[type="checkbox"]`);
-                    if (container.length !== 0) {
-                        for (const inputs of container) {
-                            if (currentURL.includes(`auto-show`)) {
-                                inputs.addEventListener(`change`, trackFavoriteStatus);
-                            } else {
-                                inputs.addEventListener(`change`, checkFavVehicles);
-                            }
-                        }
+            } else {
+                document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
+                document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
+                document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+            }
+            document.getElementById(`recently-viewed-spinner`).style.display = `none`;
+            document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
+            resolve("success");
+        });
+    } else {
+        if (authToken) {
+            const container = document.querySelectorAll(`.recently-viewed-cars .car-card input[type="checkbox"]`);
+            if (container.length !== 0) {
+                for (const inputs of container) {
+                    if (currentURL.includes(`auto-show`)) {
+                        inputs.addEventListener(`change`, trackFavoriteStatus);
                     } else {
-                        document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
-                        document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
-                        document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+                        inputs.addEventListener(`change`, checkFavVehicles);
                     }
-                    document.getElementById(`recently-viewed-spinner`).style.display = `none`;
-                    document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
-                    resolve("success");
-                } else {
-                    const container = document.querySelector(`.recently-viewed-cars`);
-                    for (let index = carParams.length - 1; index >= 0; index--) {
-                        let entrie = carParams[index];
-                        const carCard = document.createElement(`div`);
-                        const modelName = entrie.split(`3D Models/`)[1];
-                        carCard.classList.add(`car-card`);
-                        carCard.innerHTML = `
+                }
+            } else {
+                document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
+                document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
+                document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+            }
+            document.getElementById(`recently-viewed-spinner`).style.display = `none`;
+            document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
+            resolve("success");
+        } else {
+            let carParams = getCarParamsCookie();
+            if (carParams.length !== 0){
+                const container = document.querySelector(`.recently-viewed-cars`);
+                for (let index = carParams.length - 1; index >= 0; index--) {
+                    let entrie = carParams[index];
+                    const carCard = document.createElement(`div`);
+                    const modelName = entrie.split(`3D Models/`)[1];
+                    carCard.classList.add(`car-card`);
+                    carCard.innerHTML = `
                             <div class="img-container">
                                             <img src="../images/${modelName.split(`.`)[0]}.png" alt="Car 2">
                                         </div>
@@ -98,13 +81,12 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                                         <a href="showroom.html?car=${entrie}" class="view-button">View in
                                             Showroom</a>        
                             `;
-                        carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
-                        container.appendChild(carCard);
-                    }
-                    document.getElementById(`recently-viewed-spinner`).style.display = `none`;
-                    document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
-                    resolve("success");
+                    carCard.querySelector(`.add-fav input`).addEventListener(`change`, checkFavVehicles);
+                    container.appendChild(carCard);
                 }
+                document.getElementById(`recently-viewed-spinner`).style.display = `none`;
+                document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
+                resolve("success");
             } else {
                 document.getElementById(`recently-viewed-spinner`).style.display = `none`;
                 document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
@@ -113,7 +95,7 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                 document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
             }
         }
-    });
+    }
 });
 
 function checkFavVehicles(e) {
