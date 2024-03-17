@@ -12,8 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ViewController {
@@ -98,7 +97,9 @@ public class ViewController {
         long id = CookieUtils.getUserIdFromAuthToken(authToken);
         RecentlyViewedToken recentlyViewedToken = recentlyViewedTokenService.findByUser_Id(id).get();
         StringBuilder fullContainer = new StringBuilder();
-        for (String car : recentlyViewedToken.getRecentlyViewedCars().split(",")) {
+        List<String> cars = new ArrayList<>(List.of(recentlyViewedToken.getRecentlyViewedCars().split(",")));
+        Collections.reverse(cars);
+        for (String car : cars) {
             List<String> isVehicleFav = isVehicleInFavs(car,id,favoriteVehiclesService);
             fullContainer.append("""
                     <div class="car-card">

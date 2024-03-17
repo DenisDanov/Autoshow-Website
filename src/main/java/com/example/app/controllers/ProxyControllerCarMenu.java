@@ -1,26 +1,19 @@
 package com.example.app.controllers;
 
 import com.example.app.services.ProxyControllerCarMenuService;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/proxy-carMenu")
 public class ProxyControllerCarMenu {
 
+    @Autowired
     private final ProxyControllerCarMenuService proxyControllerCarMenuService;
 
     public ProxyControllerCarMenu(ProxyControllerCarMenuService proxyControllerCarMenuService) {
@@ -30,5 +23,10 @@ public class ProxyControllerCarMenu {
     @GetMapping("/carquery-api")
     public ResponseEntity<String> proxyCarSpecs(@RequestParam String make, @RequestParam String model) {
        return this.proxyControllerCarMenuService.proxyCarSpecs(make,model);
+    }
+
+    @GetMapping("/carquery-trims")
+    public JSONObject proxyCarSpecs(@RequestParam String make, @RequestParam String model, @RequestParam int year) {
+        return proxyControllerCarMenuService.proxyCarTrims(make,model,year);
     }
 }

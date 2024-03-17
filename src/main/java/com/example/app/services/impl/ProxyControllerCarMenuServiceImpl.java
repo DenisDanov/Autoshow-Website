@@ -1,8 +1,12 @@
 package com.example.app.services.impl;
 
+import com.example.app.data.DTOs.CarOrderSpecDataDTO;
+import com.example.app.data.entities.CarOrderSpecData;
+import com.example.app.data.repositories.CarOrderSpecDataRepository;
 import com.example.app.services.ProxyControllerCarMenuService;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -24,8 +28,14 @@ public class ProxyControllerCarMenuServiceImpl implements ProxyControllerCarMenu
 
     private final RestTemplate restTemplate;
 
-    public ProxyControllerCarMenuServiceImpl(RestTemplate restTemplate) {
+    private final CarOrderSpecDataRepository carOrderSpecDataRepository;
+
+    private final ModelMapper modelMapper;
+
+    public ProxyControllerCarMenuServiceImpl(RestTemplate restTemplate, CarOrderSpecDataRepository carOrderSpecDataRepository, ModelMapper modelMapper) {
         this.restTemplate = restTemplate;
+        this.carOrderSpecDataRepository = carOrderSpecDataRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -64,35 +74,84 @@ public class ProxyControllerCarMenuServiceImpl implements ProxyControllerCarMenu
             if (model.isEmpty()) {
                 return addNewMercedesModels(responseEntity);
             } else if (model.equals("Maybach GLS 600") ||
-            model.equals("Brabus G900") || model.equals("Brabus 800 S63")){
+                    model.equals("Brabus G900") || model.equals("Brabus 800 S63")) {
                 return addNewMercedesModelsYears(responseEntity, model);
             }
         } else if (make.equals("mclaren")) {
             if (model.isEmpty()) {
                 return addNewMclarenModels(responseEntity);
-            } else if (model.equals("Senna")){
+            } else if (model.equals("Senna")) {
                 return addNewMclarenModelsYears(responseEntity, model);
             }
         } else if (make.equals("porsche")) {
             if (model.isEmpty()) {
                 return addNewPorscheModels(responseEntity);
-            } else if (model.equals("GT3 RS")){
+            } else if (model.equals("GT3 RS")) {
                 return addNewPorscheModelsYears(responseEntity, model);
             }
         } else if (make.equals("rolls-royce")) {
             if (!model.isEmpty()) {
                 return addNewRollsRoyceModelsYears(responseEntity, model);
             }
-        }else if (make.equals("nissan")) {
+        } else if (make.equals("nissan")) {
             if (model.isEmpty()) {
                 return addNewNissanModels(responseEntity);
-            } else if (model.equals("GT-R R33") || model.equals("Silvia-180SX")){
+            } else if (model.equals("GT-R R33") || model.equals("Silvia-180SX")) {
                 return addNewNissanModelsYears(responseEntity, model);
             }
         }
         return ResponseEntity.status(responseEntity.getStatusCode())
                 .headers(responseEntity.getHeaders())
                 .body(responseEntity.getBody());
+    }
+
+    @Override
+    public JSONObject proxyCarTrims(String make, String model, int year) {
+        make = (Character.toUpperCase(make.charAt(0)) + make.substring(1));
+        String apiUrl = "https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&make=" +
+                make + "&model=" + model;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("User-Agent", "danovs-autoshow");
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.GET, entity, String.class);
+
+        return getDesiredModel(year,responseEntity.getBody());
+    }
+
+    private JSONObject getDesiredModel(int year, String jsonString) {
+        jsonString = jsonString.substring(2, jsonString.length() - 1);
+
+        // Parse JSON string to JSONObject
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        // Get the "Trims" array
+        JSONArray trimsArray = jsonObject.getJSONArray("Trims");
+
+        // Find the object with matching model year
+        for (int i = 0; i < trimsArray.length(); i++) {
+            JSONObject trim = trimsArray.getJSONObject(i);
+            if (trim.getString("model_year").equals(String.valueOf(year))) {
+                return trim;
+            }
+        }
+        return null;
+    }
+
+    private ResponseEntity<CarOrderSpecDataDTO> updateObjectWithData(ResponseEntity<String> responseEntity, String carInfo,JSONObject trim) {
+        CarOrderSpecDataDTO carOrderSpecDataDTO = null;
+        switch (carInfo) {
+            case "Lamborghini Aventador 2019":
+                CarOrderSpecData carOrderSpecData = carOrderSpecDataRepository.
+                        findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear
+                                ("Lamborghini","Aventador",2019).get();
+                carOrderSpecDataDTO = modelMapper.map(carOrderSpecData,CarOrderSpecDataDTO.class);
+                break;
+        }
+        return ResponseEntity.status(responseEntity.getStatusCode())
+                .headers(responseEntity.getHeaders())
+                .body(carOrderSpecDataDTO);
     }
 
     private ResponseEntity<String> addNewNissanModelsYears(ResponseEntity<String> responseEntity, String model) {
@@ -130,7 +189,7 @@ public class ProxyControllerCarMenuServiceImpl implements ProxyControllerCarMenu
         List<String> modelsFromAPI = extractModelsYearsFromResponse(responseEntity.getBody());
         // Add your custom model
         if (model.equals("Ghost")) {
-            modelsFromAPI.add(0,"2022");
+            modelsFromAPI.add(0, "2022");
         }
 
         // Prepare the modified response
@@ -172,7 +231,7 @@ public class ProxyControllerCarMenuServiceImpl implements ProxyControllerCarMenu
         List<String> modelsFromAPI = new ArrayList<>();
         // Add your custom model
         if (model.equals("Senna")) {
-            modelsFromAPI.add("2022");
+            modelsFromAPI.add("2020");
         }
 
         // Prepare the modified response
