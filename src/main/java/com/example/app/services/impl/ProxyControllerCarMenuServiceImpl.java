@@ -117,7 +117,7 @@ public class ProxyControllerCarMenuServiceImpl implements ProxyControllerCarMenu
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.GET, entity, String.class);
 
-        return getDesiredModel(year,responseEntity.getBody());
+        return getDesiredModel(year, responseEntity.getBody());
     }
 
     private JSONObject getDesiredModel(int year, String jsonString) {
@@ -139,16 +139,21 @@ public class ProxyControllerCarMenuServiceImpl implements ProxyControllerCarMenu
         return null;
     }
 
-    private ResponseEntity<CarOrderSpecDataDTO> updateObjectWithData(ResponseEntity<String> responseEntity, String carInfo,JSONObject trim) {
-        CarOrderSpecDataDTO carOrderSpecDataDTO = null;
-        switch (carInfo) {
-            case "Lamborghini Aventador 2019":
-                CarOrderSpecData carOrderSpecData = carOrderSpecDataRepository.
-                        findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear
-                                ("Lamborghini","Aventador",2019).get();
-                carOrderSpecDataDTO = modelMapper.map(carOrderSpecData,CarOrderSpecDataDTO.class);
-                break;
-        }
+    @Override
+    public ResponseEntity<CarOrderSpecDataDTO> proxyCarData(String make, String model, int year) {
+        CarOrderSpecData carOrderSpecData = carOrderSpecDataRepository.
+                findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear
+                        (make, model, year).get();
+        CarOrderSpecDataDTO carOrderSpecDataDTO = modelMapper.map(carOrderSpecData, CarOrderSpecDataDTO.class);
+        // Create HttpHeaders
+        HttpHeaders headers = new HttpHeaders();
+
+        // Set content type as JSON
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Create ResponseEntity with JSON data and headers
+        ResponseEntity<CarOrderSpecDataDTO> responseEntity = new ResponseEntity<>(carOrderSpecDataDTO,
+                headers, HttpStatus.OK);
         return ResponseEntity.status(responseEntity.getStatusCode())
                 .headers(responseEntity.getHeaders())
                 .body(carOrderSpecDataDTO);
