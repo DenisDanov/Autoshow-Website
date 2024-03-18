@@ -1,5 +1,6 @@
 package com.example.app.controllers;
 
+import com.example.app.data.DTOs.CarOrderSpecDataDTO;
 import com.example.app.services.ProxyControllerCarMenuService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,10 @@ public class ProxyControllerCarMenu {
     @GetMapping("/carquery-trims")
     public JSONObject proxyCarSpecs(@RequestParam String make, @RequestParam String model, @RequestParam int year) {
         return proxyControllerCarMenuService.proxyCarTrims(make,model,year);
+    }
+
+    @GetMapping("/carquery-car-data")
+    public ResponseEntity<CarOrderSpecDataDTO> proxyCardData(@RequestParam String make, @RequestParam String model, @RequestParam int year) {
+        return proxyControllerCarMenuService.proxyCarData(make,model,year);
     }
 }

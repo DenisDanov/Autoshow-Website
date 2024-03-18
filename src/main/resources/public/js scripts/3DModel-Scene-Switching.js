@@ -153,9 +153,6 @@ function initThirdPersonScript() {
                     case carParam.includes('Porsche-Boxster-2016.glb'):
                         camera.position.z += cameraDistance - 600;
                         break;
-                    case carParam.includes('McLaren-P1-2019.glb'):
-                        camera.position.z += cameraDistance - 620;
-                        break;
                     case carParam.includes('Mercedes-Benz-E-Class-2014.glb'):
                         camera.position.z += cameraDistance - 520;
                         break;
@@ -260,9 +257,6 @@ function initThirdPersonScript() {
                         camera.position.z += cameraDistance - 900;
                         break;
                     case carParam.includes('Porsche-Boxster-2016.glb'):
-                        camera.position.z += cameraDistance - 280;
-                        break;
-                    case carParam.includes('McLaren-P1-2019.glb'):
                         camera.position.z += cameraDistance - 280;
                         break;
                     case carParam.includes('Mercedes-Benz-E-Class-2014.glb'):
