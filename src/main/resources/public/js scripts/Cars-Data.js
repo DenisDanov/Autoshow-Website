@@ -1,59 +1,9 @@
 showLoadingOverlay();
 const urlParams = new URLSearchParams(window.location.search);
-const carParam = urlParams.get('car');
+const carParam = urlParams.get('car').split(`3D%20Models/`)[1];
+const carMake = carParam.split(`[-]`)
 
-let vin = '';
-if (carParam.includes(`Urus`)) {
-    vin = `ZPBUA1ZL4NLA19618`;
-} else if (carParam.includes(`Porsche-Carrera-2015.glb`)) {
-    vin = `WP0AA2A90FS106665`;
-} else if (carParam.includes(`Lamborghini-Gallardo-2007.glb`)) {
-    vin = `ZHWGU12T87LA05336`;
-} else if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
-    vin = `ZHWUM6ZD7KLA08087`;
-} else if (carParam.includes(`Toyota-Gr-Supra-2020.glb`)) {
-    vin = `WZ1DB4C04LW026201`;
-} else if (carParam.includes(`Porshe-911-2016.FBX`)) {
-    vin = `WP0AD2A97FS166983`;
-} else if (carParam.includes(`BMW-X5-2022.glb`)) {
-    vin = `5YMJU0C06N9J16964`;
-} else if (carParam.includes(`Mclaren-P1-2015.glb`)) {
-    vin = `SBM12ABA4FW000283`;
-} else if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
-    vin = `5YJ3E1EC2PF577924`;
-} else if (carParam.includes(`Jeep-Grand Cherokee SRT-2017.glb`)) {
-    vin = `1C4RJFDJ3HC646072`;
-} else if (carParam.includes(`BMW-M4-2022.glb`)) {
-    vin = `WBS33AZ00NCJ41940`;
-} else if (carParam.includes(`Audi-R8-2020.glb`)) {
-    vin = `WUAEEAFX2L7900088`;
-} else if (carParam.includes(`Bugatti-Chiron-2005.glb`)) {
-    vin = `1C4RJFDJ3HC646072`;
-} else if (carParam.includes(`Ford-F-150-2022.glb`)) {
-    vin = `1FTFW1E57NFB47567`;
-} else if (carParam.includes(`Lamborghini-Aventador-2019.glb`)) {
-    vin = `ZHWCM6ZD1KLA08128`;
-} else if (carParam.includes(`Lamborghini-Murcielago-2010.glb`)) {
-    vin = `ZHWBU8AH8ALA04002`;
-} else if (carParam.includes(`McLaren-P1-2019.glb`)) {
-    vin = `SBM12ABA4FW000283`;
-} else if (carParam.includes(`Mercedes-Benz-E-Class-2014.glb`)) {
-    vin = `WDDHF8JB3EA937819`;
-} else if (carParam.includes(`Mercedes-Benz-G-Class-2022.glb`)) {
-    vin = `W1NYC7HJXNX439522`;
-} else if (carParam.includes(`Mercedes-Benz-SLS AMG GT Final Edition-2020.glb`)) {
-    vin = `WDDYJ7KA5LA026709`;
-} else if (carParam.includes(`Nissan-GT-R-2017.glb`)) {
-    vin = `JN1AR5EF4HM820271`;
-} else if (carParam.includes(`Porsche-Boxster-2016.glb`)) {
-    vin = `WP0CA2A80GS120275`;
-} else if (carParam.includes(`Volkswagen-Golf-2021.glb`)) {
-    vin = `3VWG57AU3MM006451`;
-} else {
-    vin = `ZPBUA1ZL4NLA19618`;
-}
-
-const url = `${window.location.origin}/api/proxy/car-specs?vin=${vin}`;
+const url = `${window.location.origin}/api/proxy/carquery-car-data?make=${car}`;
 // Make a GET request
 fetch(url, {
     method: 'GET',
