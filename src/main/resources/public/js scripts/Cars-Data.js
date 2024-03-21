@@ -1,9 +1,13 @@
 showLoadingOverlay();
 const urlParams = new URLSearchParams(window.location.search);
-const carParam = urlParams.get('car').split(`3D%20Models/`)[1];
-const carMake = carParam.split(`[-]`)
+const carParam = urlParams.get('car').split(`3D Models/`)[1].split(`.glb`)[0];
+const regex = /^([A-Za-z\-]+)-([A-Za-z0-9\s\-]+)-(\d{4})$/;
+const matches = carParam.match(regex);
 
-const url = `${window.location.origin}/api/proxy/carquery-car-data?make=${car}`;
+document.querySelector(`#cars-data-wrapper div:nth-child(2)`).style.display = `none`;
+
+const url = `${window.location.origin}/api/proxy-carMenu/carquery-car-data?make=${matches[1]}
+&model=${matches[2]}&year=${matches[3]}`;
 // Make a GET request
 fetch(url, {
     method: 'GET',
@@ -21,87 +25,54 @@ fetch(url, {
         return response.json();
     })
     .then(data => {
-        for (const dataEntries of Object.entries(data)) {
-            const [key, value] = dataEntries;
-            if (key === `attributes`) {
-                for (const attributesEntries of Object.entries(value)) {
-                    const [key, value] = attributesEntries;
-                    if (value !== ``) {
-                        const dataContainerWrapper = document.createElement(`tr`);
-                        const dataContainer = document.createElement(`td`);
-                        for (const keySplitted of key.split(`_`)) {
-                            dataContainer.textContent += keySplitted.charAt(0).toUpperCase() + keySplitted.substring(1) + " ";
-                        }
-                        dataContainer.textContent = dataContainer.textContent.trim();
-                        const dataContainerValue = document.createElement(`td`);
+            console.log(data);
+            for (const dataValues of Object.entries(data)) {
+                const [key, value] = dataValues;
+                if (value !== null) {
+                    const dataContainerWrapper = document.createElement(`tr`);
+                    const dataContainer = document.createElement(`td`);
+                    for (const keySplitted of key.split(`_`)) {
+                        dataContainer.textContent += keySplitted.charAt(0).toUpperCase() + keySplitted.substring(1) + " ";
+                    }
+
+                    dataContainer.textContent = dataContainer.textContent.trim();
+
+                    if (dataContainer.textContent.includes(`Make Display`)) {
+                        dataContainer.textContent = `Manufacturer`;
+                    } else if (dataContainer.textContent.includes(`Model Lkm Mixed`)) {
+                        dataContainer.textContent = `Fuel Consumption (Mixed)`;
+                    } else if (dataContainer.textContent.includes(`Model Lkm Hwy`)) {
+                        dataContainer.textContent = `Fuel Consumption (Highway)`;
+                    } else if (dataContainer.textContent.includes(`Model Lkm City`)) {
+                        dataContainer.textContent = `Fuel Consumption (City)`;
+                    } else if (dataContainer.textContent.includes(`Model Engine Power Rpm`)) {
+                        dataContainer.textContent = `Engine Power`;
+                    }
+
+                    if (dataContainer.textContent !== `Model Name` &&
+                        dataContainer.textContent.includes(`Model`)) {
+                        dataContainer.textContent = dataContainer.textContent.split(`Model `)[1];
+                    }
+
+                    const dataContainerValue = document.createElement(`td`);
+                    if (dataContainer.textContent.includes(`Engine Power`)) {
+                        dataContainerValue.textContent = `${data[`model_engine_power_ps`]} PS at ${value} RPM`;
+                    } else {
                         dataContainerValue.textContent += value;
-                        if (dataContainer.textContent.split(`:`)[0] === `Interior Trim` ||
-                            dataContainer.textContent.split(`:`)[0] === `Exterior Color`) {
-                        } else {
-                            dataContainerWrapper.appendChild(dataContainer);
-                            if (vin === `SBM12ABA4FW000283` && carParam.includes(`McLaren-P1-2019.glb`) &&
-                                value === `year`) {
-                                dataContainerValue.textContent = `2019`;
-                            }
-                            dataContainerWrapper.appendChild(dataContainerValue);
-                            const fragment = document.createDocumentFragment();
-                            fragment.appendChild(dataContainerWrapper);
-                            document.querySelector(`#outside-wrapper .cars-data`).appendChild(fragment);
-                        }
-                    } else if (vin === `SBM12ABA4FW000283` && key === `manufacturer_suggested_retail_price`) {
-                        const dataContainerWrapper = document.createElement(`tr`);
-                        const dataContainer = document.createElement(`td`);
-                        for (const keySplitted of key.split(`_`)) {
-                            dataContainer.textContent += keySplitted.charAt(0).toUpperCase() + keySplitted.substring(1) + " ";
-                        }
-                        dataContainer.textContent = dataContainer.textContent.trim();
-                        const dataContainerValue = document.createElement(`td`);
-                        dataContainerValue.textContent += `$2 450 000 USD`;
-                        if (dataContainer.textContent.split(`:`)[0] === `Interior Trim` ||
-                            dataContainer.textContent.split(`:`)[0] === `Exterior Color`) {
-                        } else {
-                            dataContainerWrapper.appendChild(dataContainer);
-                            dataContainerWrapper.appendChild(dataContainerValue);
-                            const fragment = document.createDocumentFragment();
-                            fragment.appendChild(dataContainerWrapper);
-                            document.querySelector(`#outside-wrapper .cars-data`).appendChild(fragment);
-                        }
                     }
-                }
-            } else if (key === `equipment`) {
-                for (const attributesEntries of Object.entries(value)) {
-                    const [key, value] = attributesEntries;
-                    if (value === `Std.` || value === `Opt.`) {
-                        const dataContainerWrapper = document.createElement(`tr`);
-                        const dataContainer = document.createElement(`td`);
-                        for (const keySplitted of key.split(`_`)) {
-                            dataContainer.textContent += keySplitted.charAt(0).toUpperCase() + keySplitted.substring(1) + " ";
-                        }
-                        dataContainer.textContent = dataContainer.textContent.trim();
-                        const dataContainerValue = document.createElement(`td`);
-                        dataContainerValue.textContent += `✅`;
-                        if (dataContainer.textContent.split(`:`)[0] === `Interior Trim` ||
-                            dataContainer.textContent.split(`:`)[0] === `Exterior Color`) {
-                        } else {
-                            dataContainerWrapper.appendChild(dataContainer);
-                            dataContainerWrapper.appendChild(dataContainerValue);
 
-                            const fragment = document.createDocumentFragment();
-                            fragment.appendChild(dataContainerWrapper);
-                            document.querySelector(`#outside-wrapper-equipment .cars-equipment`).appendChild(fragment);
-                        }
+                    dataContainerWrapper.appendChild(dataContainer);
+                    dataContainerWrapper.appendChild(dataContainerValue);
+                    const fragment = document.createDocumentFragment();
+                    fragment.appendChild(dataContainerWrapper);
+                    if (!dataContainer.textContent.includes(`Engine Power Ps`)) {
+                        document.querySelector(`#outside-wrapper .cars-data`).appendChild(fragment);
                     }
-                }
-
-                if (document.querySelector(`#outside-wrapper-equipment .cars-equipment`).children.length === 0) {
-                    const h1 = document.createElement(`h3`);
-                    h1.textContent = `No available data for this model`;
-                    document.querySelector(`#outside-wrapper-equipment .cars-equipment`).appendChild(h1);
                 }
             }
+            hideLoadingOverlay();
         }
-        hideLoadingOverlay();
-    })
+    )
     .catch(error => {
         // Log any errors to the console
         hideLoadingOverlay();
