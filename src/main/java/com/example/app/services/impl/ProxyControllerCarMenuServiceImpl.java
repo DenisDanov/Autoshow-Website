@@ -140,10 +140,10 @@ public class ProxyControllerCarMenuServiceImpl implements ProxyControllerCarMenu
     }
 
     @Override
-    public ResponseEntity<CarOrderSpecDataDTO> proxyCarData(String make, String model, int year) {
+    public ResponseEntity<CarOrderSpecDataDTO> proxyCarData(String car) {
         CarOrderSpecData carOrderSpecData = carOrderSpecDataRepository.
                 findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear
-                        (make, model, year).get();
+                        (car).get();
         CarOrderSpecDataDTO carOrderSpecDataDTO = modelMapper.map(carOrderSpecData, CarOrderSpecDataDTO.class);
         // Create HttpHeaders
         HttpHeaders headers = new HttpHeaders();

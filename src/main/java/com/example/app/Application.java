@@ -2,11 +2,9 @@ package com.example.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.RestController;
-
 
 @RestController
 @EnableScheduling
@@ -21,8 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ComponentScan(basePackages = "com.example.app.controllers")
 @ComponentScan(basePackages = "com.example.app.controllers.utils")
 public class Application {
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 }

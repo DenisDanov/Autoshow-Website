@@ -32,7 +32,7 @@ public class ProxyControllerCarMenu {
     }
 
     @GetMapping("/carquery-car-data")
-    public ResponseEntity<CarOrderSpecDataDTO> proxyCardData(@RequestParam String make, @RequestParam String model, @RequestParam int year) {
-        return proxyControllerCarMenuService.proxyCarData(make,model,year);
+    public ResponseEntity<CarOrderSpecDataDTO> proxyCardData(@RequestParam String car) {
+        return proxyControllerCarMenuService.proxyCarData(car);
     }
 }

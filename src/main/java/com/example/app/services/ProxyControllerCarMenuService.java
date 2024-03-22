@@ -11,6 +11,6 @@ public interface ProxyControllerCarMenuService {
 
     JSONObject proxyCarTrims(@RequestParam String make, @RequestParam String model, @RequestParam int year);
 
-    ResponseEntity<CarOrderSpecDataDTO> proxyCarData(@RequestParam String make, @RequestParam String model, @RequestParam int year);
+    ResponseEntity<CarOrderSpecDataDTO> proxyCarData(@RequestParam String car);
 
 }
