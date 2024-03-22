@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface CarOrderSpecDataService {
 
-    Optional<CarOrderSpecData> findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear(String make, String model, int year);
+    Optional<CarOrderSpecData> findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear(String text);
 
     void seedDatabase();
 }

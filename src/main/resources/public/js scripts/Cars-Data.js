@@ -1,13 +1,10 @@
 showLoadingOverlay();
 const urlParams = new URLSearchParams(window.location.search);
 const carParam = urlParams.get('car').split(`3D Models/`)[1].split(`.glb`)[0];
-const regex = /^([A-Za-z\-]+)-([A-Za-z0-9\s\-]+)-(\d{4})$/;
-const matches = carParam.match(regex);
 
 document.querySelector(`#cars-data-wrapper div:nth-child(2)`).style.display = `none`;
 
-const url = `${window.location.origin}/api/proxy-carMenu/carquery-car-data?make=${matches[1]}
-&model=${matches[2]}&year=${matches[3]}`;
+const url = `${window.location.origin}/api/proxy-carMenu/carquery-car-data?car=${carParam}`;
 // Make a GET request
 fetch(url, {
     method: 'GET',

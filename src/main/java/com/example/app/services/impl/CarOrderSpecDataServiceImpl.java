@@ -28,9 +28,9 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
     }
 
     @Override
-    public Optional<CarOrderSpecData> findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear(String make, String model, int year) {
+    public Optional<CarOrderSpecData> findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear(String text) {
         return this.carOrderSpecDataRepository.
-                findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear(make, model, year);
+                findCarOrderSpecDataByMakeDisplayAndModelNameAndModelYear(text);
     }
 
     @Override
