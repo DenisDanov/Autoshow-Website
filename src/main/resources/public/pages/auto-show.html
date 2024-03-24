@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -100,12 +100,12 @@
                     <img src="../images/Lamborghini-Urus-2020.png" alt="Car 1">
                 </div>
                 <div class="car-info">
-                    <h3>2022 LAMBORGHINI URUS PERFORMANTE</h3>
+                    <h3>Lamborghini Urus 2022</h3>
                 </div>
-                <div class="favorites">
-                    <h3>Add to Favorites</h3>
+                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['Lamborghini Urus 2022'], ',')}">
+                    <h3 th:text="${parts[0]}"></h3>
                     <label class="add-fav">
-                        <input type="checkbox"/>
+                        <input type="checkbox" th:checked="${parts[1]} == 'true' ? 'checked' : null"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
@@ -119,12 +119,12 @@
                     <img src="../images/Porsche-Carrera-2015.png" alt="Car 2">
                 </div>
                 <div class="car-info">
-                    <h3>2015 PORSCHE 911 CARRERA</h3>
+                    <h3>Porsche Carrera 2015</h3>
                 </div>
-                <div class="favorites">
-                    <h3>Add to Favorites</h3>
+                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['Porsche Carrera 2015'], ',')}">
+                    <h3 th:text="${parts[0]}"></h3>
                     <label class="add-fav">
-                        <input type="checkbox"/>
+                        <input type="checkbox" th:checked="${parts[1]} == 'true' ? 'checked' : null"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
@@ -138,12 +138,12 @@
                     <img src="../images/Lamborghini-Aventador-2020.png" alt="Car 2">
                 </div>
                 <div class="car-info">
-                    <h3>2019 LAMBORGHINI AVENTADOR</h3>
+                    <h3>Lamborghini Aventador 2020</h3>
                 </div>
-                <div class="favorites">
-                    <h3>Add to Favorites</h3>
+                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['Lamborghini Aventador 2020'], ',')}">
+                    <h3 th:text="${parts[0]}"></h3>
                     <label class="add-fav">
-                        <input type="checkbox"/>
+                        <input type="checkbox" th:checked="${parts[1]} == 'true' ? 'checked' : null"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
@@ -157,12 +157,12 @@
                     <img src="../images/Lamborghini-Gallardo-2007.png" alt="Car 2">
                 </div>
                 <div class="car-info">
-                    <h3>2007 LAMBORGHINI GALLARDO</h3>
+                    <h3>Lamborghini Gallardo 2007</h3>
                 </div>
-                <div class="favorites">
-                    <h3>Add to Favorites</h3>
+                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['Lamborghini Gallardo 2007'], ',')}">
+                    <h3 th:text="${parts[0]}"></h3>
                     <label class="add-fav">
-                        <input type="checkbox"/>
+                        <input type="checkbox" th:checked="${parts[1]} == 'true' ? 'checked' : null"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
@@ -176,12 +176,12 @@
                     <img src="../images/Toyota-Gr-Supra-2020.png" alt="Car 2">
                 </div>
                 <div class="car-info">
-                    <h3>2020 TOYOTA SUPRA GR</h3>
+                    <h3>Toyota Supra Gr 2020</h3>
                 </div>
-                <div class="favorites">
-                    <h3>Add to Favorites</h3>
+                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['Toyota Supra 2020'], ',')}">
+                    <h3 th:text="${parts[0]}"></h3>
                     <label class="add-fav">
-                        <input type="checkbox"/>
+                        <input type="checkbox" th:checked="${parts[1]} == 'true' ? 'checked' : null"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
@@ -195,12 +195,12 @@
                     <img src="../images/Porsche-Boxster-2016.png" alt="Car 2">
                 </div>
                 <div class="car-info">
-                    <h3>2016 PORSCHE 718 BOXSTER S</h3>
+                    <h3>Porsche Boxster 2016</h3>
                 </div>
-                <div class="favorites">
-                    <h3>Add to Favorites</h3>
+                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['Porsche Boxster 2016'], ',')}">
+                    <h3 th:text="${parts[0]}"></h3>
                     <label class="add-fav">
-                        <input type="checkbox"/>
+                        <input type="checkbox" th:checked="${parts[1]} == 'true' ? 'checked' : null"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
@@ -214,12 +214,12 @@
                     <img src="../images/BMW-X5-2022.png" alt="Car 2">
                 </div>
                 <div class="car-info">
-                    <h3>2022 BMW X5M COMPETITION</h3>
+                    <h3>BMW X5 2022</h3>
                 </div>
-                <div class="favorites">
-                    <h3>Add to Favorites</h3>
+                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['BMW X5 2022'], ',')}">
+                    <h3 th:text="${parts[0]}"></h3>
                     <label class="add-fav">
-                        <input type="checkbox"/>
+                        <input type="checkbox" th:checked="${parts[1]} == 'true' ? 'checked' : null"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
@@ -232,12 +232,12 @@
                     <img src="../images/Mclaren-P1-2015.png" alt="Car 2">
                 </div>
                 <div class="car-info">
-                    <h3>2015 MCLAREN P1</h3>
+                    <h3>McLaren P1 2015</h3>
                 </div>
-                <div class="favorites">
-                    <h3>Add to Favorites</h3>
+                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['McLaren P1 2015'], ',')}">
+                    <h3 th:text="${parts[0]}"></h3>
                     <label class="add-fav">
-                        <input type="checkbox"/>
+                        <input type="checkbox" th:checked="${parts[1]} == 'true' ? 'checked' : null"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
@@ -250,12 +250,12 @@
                     <img src="../images/Tesla-Model-3-2020.png" alt="Car 2">
                 </div>
                 <div class="car-info">
-                    <h3>2023 TESLA MODEL 3 PERFORMANCE</h3>
+                    <h3>Tesla Model 3 2020</h3>
                 </div>
-                <div class="favorites">
-                    <h3>Add to Favorites</h3>
+                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['Tesla Model 3 2020'], ',')}">
+                    <h3 th:text="${parts[0]}"></h3>
                     <label class="add-fav">
-                        <input type="checkbox"/>
+                        <input type="checkbox" th:checked="${parts[1]} == 'true' ? 'checked' : null"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
