@@ -26,28 +26,12 @@ var favoriteVehicles = [];
 
 // Function to check the login status
 var authToken = getCookie("authToken");
+
 function checkLoginStatus() {
     // Retrieve the auth token from cookies
 
     if (authToken) {
         // User is logged in
-        var decodedToken = JSON.parse(atob(authToken.split('.')[1]));
-        var userId = decodedToken.userId;
-        fetch(`${window.location.origin}/api/favorites/get?id=${userId}&authToken=${authToken}`)
-            .then(response => response.json())
-            .then(result => {
-                for (let vehicle of result) {
-                    document.querySelectorAll(`.car-card a`).forEach(entrie => {
-                        if (entrie.href.replaceAll(`%20`, ` `).includes(vehicle.vehicleId)) {
-                            favoriteVehicles.push(vehicle.vehicleId);
-                            entrie.parentNode.children[2].children[0].textContent = `Remove from Favorites`;
-                            entrie.parentNode.children[2].children[1].children[0].checked = true;
-                            entrie.parentNode.children[2].children[1].children[0].classList.add(`checked`);
-                        }
-                    });
-                }
-            })
-            .catch(err => console.log(err));
         document.querySelectorAll(`input[type="checkbox"]`).forEach(entrie => {
             entrie.addEventListener("change", (trackFavoriteStatus));
         });
@@ -77,9 +61,9 @@ $(document).ready(function () {
 function trackFavoriteStatus(e) {
     const carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
     if (e.currentTarget.parentNode.parentNode.parentNode.parentNode.classList.contains(`cars-container`)) {
-        checkRecentlyViewedCarFavoriteStatus(carId,e.currentTarget.checked,e.currentTarget);
+        checkRecentlyViewedCarFavoriteStatus(carId, e.currentTarget.checked, e.currentTarget);
     } else {
-        checkCarsContainerFavoriteStatus(carId,e.currentTarget.checked,e.currentTarget);
+        checkCarsContainerFavoriteStatus(carId, e.currentTarget.checked, e.currentTarget);
     }
     if (e.currentTarget.checked && !e.currentTarget.classList.contains(`checked`)) {
         e.currentTarget.classList.add(`checked`);

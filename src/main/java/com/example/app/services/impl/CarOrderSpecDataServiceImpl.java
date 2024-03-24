@@ -42,11 +42,11 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
             mapDTOtoDbObject(proxyControllerCarMenuService.proxyCarTrims("Lamborghini", "Aventador", 2020), "Lamborghini-Aventador-2020");
             mapDTOtoDbObject(proxyControllerCarMenuService.proxyCarTrims("Lamborghini", "Gallardo", 2007), "Lamborghini-Gallardo-2007");
             mapDTOtoDbObject(new JSONObject(), "Toyota-GR Supra-2020");
-            mapDTOtoDbObject(new JSONObject(), "Porsche-718 Boxster S-2016");
+            mapDTOtoDbObject(new JSONObject(), "Porsche-Boxster-2016");
             mapDTOtoDbObject(new JSONObject(), "BMW-X5 M Competition-2022");
             mapDTOtoDbObject(new JSONObject(), "McLaren-P1-2015");
             mapDTOtoDbObject(new JSONObject(), "BMW-M4-2022");
-            mapDTOtoDbObject(new JSONObject(), "Tesla-Model 3-2023");
+            mapDTOtoDbObject(new JSONObject(), "Tesla-Model-3-2020");
             mapDTOtoDbObject(new JSONObject(), "BMW-M5-1999");
             mapDTOtoDbObject(new JSONObject(), "Bugatti-Chiron-2020");
             mapDTOtoDbObject(new JSONObject(), "Ferrari-F40-1992");
@@ -89,8 +89,8 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
     private JSONObject fulfillObject(String carName, JSONObject jsonObject) {
         switch (carName) {
             case "Lamborghini-Urus-2022", "Porsche-911 Carrera-2015", "Toyota-GR Supra-2020",
-                    "Porsche-718 Boxster S-2016", "BMW-X5 M Competition-2022", "McLaren-P1-2015",
-                    "Tesla-Model 3-2023", "BMW-M4-2022", "BMW-M5-1999", "Bugatti-Chiron-2020",
+                    "Porsche-Boxster-2016", "BMW-X5 M Competition-2022", "McLaren-P1-2015",
+                    "Tesla-Model-3-2020", "BMW-M4-2022", "BMW-M5-1999", "Bugatti-Chiron-2020",
                     "Ferrari-F40-1992", "Ford-F-150-2022", "Jeep-Compass-2020",
                     "Jeep-Grand Cherokee SRT-2017", "Lamborghini-Murcielago-2010", "McLaren-F1 GTR-1995",
                     "McLaren-Senna-2020", "Mercedes-Benz-Brabus 800 S63-2022",
@@ -1188,7 +1188,7 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
                 jsonObject.put("cargo_capacity_l", 290); // Cargo capacity in liters
                 jsonObject.put("ground_clearance_mm", 119); // Ground clearance in millimeters
                 break;
-            case "Porsche-718 Boxster S-2016":
+            case "Porsche-Boxster-2016":
                 jsonObject.put("model_trim", "S 2dr Convertible (2.5L 4cyl Turbo 6M)");
                 jsonObject.put("make_display", "Porsche");
                 jsonObject.put("model_engine_cc", 2497);
@@ -1197,7 +1197,7 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
                 jsonObject.put("model_drive", "Rear Wheel Drive");
                 jsonObject.put("model_top_speed_kph", 285.0);
                 jsonObject.put("model_doors", 2);
-                jsonObject.put("model_name", "718 Boxster S");
+                jsonObject.put("model_name", "Boxster");
                 jsonObject.put("model_co2", 184.0);
                 jsonObject.put("model_lkm_mixed", 7.8);
                 jsonObject.put("model_engine_type", "Flat");
@@ -1302,7 +1302,7 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
                 jsonObject.put("cargo_capacity_l", 425.0); // Cargo capacity in liters
                 jsonObject.put("ground_clearance_mm", 120); // Ground clearance in millimeters
                 break;
-            case "Tesla-Model 3-2023":
+            case "Tesla-Model-3-2020":
                 jsonObject.put("model_trim", "Standard Range Plus 4dr Sedan (electric DD)");
                 jsonObject.put("make_display", "Tesla");
                 jsonObject.put("model_top_speed_kph", 233.0); // Estimated top speed for Standard Range Plus model
@@ -1311,14 +1311,15 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
                 jsonObject.put("model_engine_torque_nm", 353); // Torque figure for Standard Range Plus model
                 jsonObject.put("model_0_to_100_kph", 5.6); // Acceleration time for Standard Range Plus model
                 jsonObject.put("model_engine_type", "Electric");
+                jsonObject.put("model_fuel_cap_l", -1);
                 jsonObject.put("model_transmission_type", "Single-Speed Automatic");
                 jsonObject.put("model_engine_power_ps", 241); // Power output for Standard Range Plus model
                 jsonObject.put("model_weight_kg", 1610.0); // Curb weight for Standard Range Plus model
                 jsonObject.put("model_seats", 5); // Standard seating capacity
                 jsonObject.put("model_body", "Sedan");
-                jsonObject.put("model_year", 2023);
+                jsonObject.put("model_year", 2020);
                 jsonObject.put("model_doors", 5);
-                jsonObject.put("model_name", "Model 3");
+                jsonObject.put("model_name", "Model-3");
                 jsonObject.put("model_drive", "All Wheel Drive");
                 jsonObject.put("model_horsepower", 241); // Horsepower equivalent for Standard Range Plus model
                 // Additional specifications

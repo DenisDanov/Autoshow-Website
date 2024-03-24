@@ -21,6 +21,23 @@ public class ViewController {
 
     private final FavoriteVehiclesService favoriteVehiclesService;
 
+    private static Map<String, String> FAV_VEHICLES_MAP;
+
+    static {
+        Map<String, String> map = new HashMap<>();
+        map.put("Lamborghini Urus 2022", "Add to Favorites,false");
+        map.put("Porsche Carrera 2015", "Add to Favorites,false");
+        map.put("Lamborghini Aventador 2020", "Add to Favorites,false");
+        map.put("Lamborghini Gallardo 2007", "Add to Favorites,false");
+        map.put("Toyota Supra 2020", "Add to Favorites,false");
+        map.put("Porsche Boxster 2016", "Add to Favorites,false");
+        map.put("BMW X5 2022", "Add to Favorites,false");
+        map.put("McLaren P1 2015", "Add to Favorites,false");
+        map.put("Tesla Model 3 2020", "Add to Favorites,false");
+
+        FAV_VEHICLES_MAP = map;
+    }
+
     public ViewController(RecentlyViewedTokenService recentlyViewedTokenService, FavoriteVehiclesService favoriteVehiclesService) {
         this.recentlyViewedTokenService = recentlyViewedTokenService;
         this.favoriteVehiclesService = favoriteVehiclesService;
@@ -48,6 +65,8 @@ public class ViewController {
         if (authToken != null) {
             return new ModelAndView("auto-show")
                     .addObject("nav", navigationHtml)
+                    .addObject("favsMap",
+                            autoShowCarsHtml(CookieUtils.getUserIdFromAuthToken(authToken)))
                     .addObject("recentlyViewed", getRecentlyViewedHtml(authToken,
                             recentlyViewedTokenService,
                             favoriteVehiclesService));
@@ -55,6 +74,15 @@ public class ViewController {
             return new ModelAndView("auto-show")
                     .addObject("nav", navigationHtml);
         }
+    }
+
+    private Map<String, String> autoShowCarsHtml(long userId) {
+        this.favoriteVehiclesService.findByUser_Id(userId).forEach(favVehicle -> {
+            if (FAV_VEHICLES_MAP.containsKey(favVehicle.getVehicleName())) {
+                FAV_VEHICLES_MAP.put(favVehicle.getVehicleName(), "Remove From Favorites,true");
+            }
+        });
+        return FAV_VEHICLES_MAP;
     }
 
     @GetMapping("newsletter-unsubscribe.html")
@@ -100,7 +128,7 @@ public class ViewController {
         List<String> cars = new ArrayList<>(List.of(recentlyViewedToken.getRecentlyViewedCars().split(",")));
         Collections.reverse(cars);
         for (String car : cars) {
-            List<String> isVehicleFav = isVehicleInFavs(car,id,favoriteVehiclesService);
+            List<String> isVehicleFav = isVehicleInFavs(car, id, favoriteVehiclesService);
             fullContainer.append("""
                     <div class="car-card">
                            <div class="img-container">

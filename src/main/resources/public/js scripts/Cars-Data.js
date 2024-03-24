@@ -25,9 +25,11 @@ fetch(url, {
             console.log(data);
             for (const dataValues of Object.entries(data)) {
                 const [key, value] = dataValues;
-                if (value !== null) {
+                if (value !== null && (value !== -1.0)) {
                     const dataContainerWrapper = document.createElement(`tr`);
                     const dataContainer = document.createElement(`td`);
+                    const dataContainerValue = document.createElement(`td`);
+
                     for (const keySplitted of key.split(`_`)) {
                         dataContainer.textContent += keySplitted.charAt(0).toUpperCase() + keySplitted.substring(1) + " ";
                     }
@@ -44,6 +46,19 @@ fetch(url, {
                         dataContainer.textContent = `Fuel Consumption (City)`;
                     } else if (dataContainer.textContent.includes(`Model Engine Power Rpm`)) {
                         dataContainer.textContent = `Engine Power`;
+                    } else if (dataContainer.textContent.includes(`Body`)) {
+                        dataContainer.textContent = `Body Style`;
+                    } else if (dataContainer.textContent.includes(`Drive`)) {
+                        dataContainer.textContent = `Drive Type`;
+                    } else if (dataContainer.textContent.includes(`Co2`)) {
+                        dataContainer.textContent = `CO2 Emissions`;
+                    } else if (dataContainer.textContent.includes(`Engine Torque Rpm`)) {
+                        dataContainer.textContent = `Engine Torque at RPM`;
+                        dataContainerValue.setAttribute(`torque`, `true`);
+                    } else if (dataContainer.textContent.includes(`Engine Torque Nm`)) {
+                        document.querySelector(`td[torque='true']`).textContent =
+                            `${value} Nm at ${data[`model_engine_torque_rpm`]} RPM`
+                        continue;
                     }
 
                     if (dataContainer.textContent !== `Model Name` &&
@@ -51,9 +66,12 @@ fetch(url, {
                         dataContainer.textContent = dataContainer.textContent.split(`Model `)[1];
                     }
 
-                    const dataContainerValue = document.createElement(`td`);
                     if (dataContainer.textContent.includes(`Engine Power`)) {
                         dataContainerValue.textContent = `${data[`model_engine_power_ps`]} PS at ${value} RPM`;
+                    } else if (dataContainer.textContent.includes(`Fuel Consumption (Mixed)`) ||
+                        dataContainer.textContent.includes(`Fuel Consumption (City)`) ||
+                        dataContainer.textContent.includes(`Fuel Consumption (Highway)`)) {
+                        dataContainerValue.textContent += value + " L/100km";
                     } else {
                         dataContainerValue.textContent += value;
                     }
