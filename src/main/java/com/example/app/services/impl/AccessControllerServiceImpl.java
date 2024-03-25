@@ -263,12 +263,12 @@ public class AccessControllerServiceImpl implements AccessControllerService {
 
     private boolean isVehicleWhitelisted(String carValues) {
         return switch (carValues) {
-            case "Lamborghini-Urus-2020.glb",
+            case "Lamborghini-Urus-2022.glb",
                     "Tesla-Model-3-2020.glb",
                     "Mclaren-P1-2015.glb",
                     "BMW-X5-2022.glb",
                     "Porsche-Boxster-2016.glb",
-                    "Toyota-Gr-Supra-2020.glb",
+                    "Toyota-Supra-Gr-2020.glb",
                     "Lamborghini-Gallardo-2007.glb",
                     "Lamborghini-Aventador-2020.glb",
                     "Porsche-Carrera-2015.glb" -> true;

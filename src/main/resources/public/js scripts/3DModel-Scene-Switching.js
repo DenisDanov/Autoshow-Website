@@ -114,7 +114,7 @@ function initThirdPersonScript() {
                     case carParam.includes(`Porsche-918 Spyder-2015.glb`):
                         camera.position.z += cameraDistance - 1870;
                         break;
-                    case carParam.includes('Lamborghini-Urus-2020.glb'):
+                    case carParam.includes('Lamborghini-Urus-2022.glb'):
                         camera.position.z += cameraDistance - 285;
                         break;
                     case carParam.includes('Lamborghini-Gallardo-2007.glb'):
@@ -123,7 +123,7 @@ function initThirdPersonScript() {
                     case carParam.includes('BMW-M4-2022.glb'):
                         camera.position.z += cameraDistance - 480;
                         break;
-                    case carParam.includes('Toyota-Gr-Supra-2020.glb'):
+                    case carParam.includes('Toyota-Supra-Gr-2020.glb'):
                         camera.position.z += cameraDistance - 570;
                         break;
                     case carParam.includes('Mclaren-P1-2015.glb'):
@@ -216,13 +216,13 @@ function initThirdPersonScript() {
                     case carParam.includes('Lamborghini-Aventador-2020.glb'):
                         camera.position.z += cameraDistance - 920;
                         break;
-                    case carParam.includes('Lamborghini-Urus-2020.glb'):
+                    case carParam.includes('Lamborghini-Urus-2022.glb'):
                         camera.position.z += cameraDistance - 145;
                         break;
                     case carParam.includes('Lamborghini-Gallardo-2007.glb'):
                         camera.position.z += cameraDistance - 240;
                         break;
-                    case carParam.includes('Toyota-Gr-Supra-2020.glb'):
+                    case carParam.includes('Toyota-Supra-Gr-2020.glb'):
                         camera.position.z += cameraDistance - 250;
                         break;
                     case carParam.includes(`Mercedes-Benz-S-Class-2022.glb`):
@@ -281,7 +281,7 @@ function initThirdPersonScript() {
             // Set controls target
             controls.target.copy(center);
 
-            if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
+            if (carParam.includes(`Lamborghini-Urus-2022.glb`)) {
                 cameraLight = new THREE.SpotLight(0xffffff, 1);
             } else if (carParam.includes(`BMW-M4-2022.glb`)) {
                 cameraLight = new THREE.SpotLight(0xffffff, 1.2);
@@ -343,7 +343,7 @@ function initThirdPersonScript() {
                 });
             } else if (carParam.includes`Lamborghini-Aventador-2020.glb`) {
                 model.scale.set(170, 170, 170);
-            } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
+            } else if (carParam.includes(`Lamborghini-Urus-2022.glb`)) {
                 model.scale.set(20, 20, 20);
                 model.traverse(child => {
                     if (child.isMesh) {
@@ -1090,7 +1090,7 @@ function initFirstPersonScript() {
 
                 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
                 scene.add(ambientLight);
-            } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
+            } else if (carParam.includes(`Lamborghini-Urus-2022.glb`)) {
                 camera.position.set(0, 20, 125)
                 model.scale.set(20, 20, 20);
                 model.traverse(child => {
@@ -1534,7 +1534,7 @@ function initFirstPersonScript() {
             moveSpeed = 0.05;
         } else if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
             moveSpeed = 1;
-        } else if (carParam.includes(`Lamborghini-Urus-2020.glb`)) {
+        } else if (carParam.includes(`Lamborghini-Urus-2022.glb`)) {
             moveSpeed = 0.16;
         } else if (carParam.includes(`BMW-M4-2022.glb`) ||
             carParam.includes(`Ford-F-150-2022.glb`) ||

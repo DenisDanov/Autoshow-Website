@@ -29,6 +29,7 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                 document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
                 document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
                 document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.textAlign = "center";
             }
             document.getElementById(`recently-viewed-spinner`).style.display = `none`;
             document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
@@ -49,13 +50,14 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                 document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
                 document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
                 document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.textAlign = "center";
             }
             document.getElementById(`recently-viewed-spinner`).style.display = `none`;
             document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
             resolve("success");
         } else {
             let carParams = getCarParamsCookie();
-            if (carParams.length !== 0){
+            if (carParams.length !== 0) {
                 const container = document.querySelector(`.recently-viewed-cars`);
                 for (let index = carParams.length - 1; index >= 0; index--) {
                     let entrie = carParams[index];
@@ -93,6 +95,7 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                 document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
                 document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
                 document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.textAlign = "center";
             }
         }
     }

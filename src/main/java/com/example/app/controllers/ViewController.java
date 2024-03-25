@@ -1,6 +1,7 @@
 package com.example.app.controllers;
 
 import com.example.app.controllers.utils.CookieUtils;
+import com.example.app.controllers.utils.VehicleExistCheckUtil;
 import com.example.app.data.entities.FavoriteVehiclesEntity;
 import com.example.app.data.entities.RecentlyViewedToken;
 import com.example.app.data.entities.User;
@@ -21,29 +22,12 @@ public class ViewController {
 
     private final FavoriteVehiclesService favoriteVehiclesService;
 
-    private static Map<String, String> FAV_VEHICLES_MAP;
-
-    static {
-        Map<String, String> map = new HashMap<>();
-        map.put("Lamborghini Urus 2022", "Add to Favorites,false");
-        map.put("Porsche Carrera 2015", "Add to Favorites,false");
-        map.put("Lamborghini Aventador 2020", "Add to Favorites,false");
-        map.put("Lamborghini Gallardo 2007", "Add to Favorites,false");
-        map.put("Toyota Supra 2020", "Add to Favorites,false");
-        map.put("Porsche Boxster 2016", "Add to Favorites,false");
-        map.put("BMW X5 2022", "Add to Favorites,false");
-        map.put("McLaren P1 2015", "Add to Favorites,false");
-        map.put("Tesla Model 3 2020", "Add to Favorites,false");
-
-        FAV_VEHICLES_MAP = map;
-    }
-
     public ViewController(RecentlyViewedTokenService recentlyViewedTokenService, FavoriteVehiclesService favoriteVehiclesService) {
         this.recentlyViewedTokenService = recentlyViewedTokenService;
         this.favoriteVehiclesService = favoriteVehiclesService;
     }
 
-    @GetMapping({"index", "/"})
+    @GetMapping({"/", "index", "3D Models","images","js scripts","css"})
     public ModelAndView home(HttpServletRequest request) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
         String navigationHtml = getNavigationHtml(authToken);
@@ -72,17 +56,17 @@ public class ViewController {
                             favoriteVehiclesService));
         } else {
             return new ModelAndView("auto-show")
+                    .addObject("favsMap", new HashMap<String, String>())
                     .addObject("nav", navigationHtml);
         }
     }
 
     private Map<String, String> autoShowCarsHtml(long userId) {
+        Map<String, String> favVehiclesMap = new HashMap<>();
         this.favoriteVehiclesService.findByUser_Id(userId).forEach(favVehicle -> {
-            if (FAV_VEHICLES_MAP.containsKey(favVehicle.getVehicleName())) {
-                FAV_VEHICLES_MAP.put(favVehicle.getVehicleName(), "Remove From Favorites,true");
-            }
+            favVehiclesMap.put(favVehicle.getVehicleName(), "Remove From Favorites,true");
         });
-        return FAV_VEHICLES_MAP;
+        return favVehiclesMap;
     }
 
     @GetMapping("newsletter-unsubscribe.html")
@@ -123,42 +107,51 @@ public class ViewController {
                                                RecentlyViewedTokenService recentlyViewedTokenService,
                                                FavoriteVehiclesService favoriteVehiclesService) {
         long id = CookieUtils.getUserIdFromAuthToken(authToken);
-        RecentlyViewedToken recentlyViewedToken = recentlyViewedTokenService.findByUser_Id(id).get();
-        StringBuilder fullContainer = new StringBuilder();
-        List<String> cars = new ArrayList<>(List.of(recentlyViewedToken.getRecentlyViewedCars().split(",")));
-        Collections.reverse(cars);
-        for (String car : cars) {
-            List<String> isVehicleFav = isVehicleInFavs(car, id, favoriteVehiclesService);
-            fullContainer.append("""
-                    <div class="car-card">
-                           <div class="img-container">
-                                              <img src="../images/%s.png" alt="Car 2">
-                                          </div>
-                                          <div class="car-info">
-                                              <h3>%s</h3>
-                                          </div>
-                                          <div class="favorites">
-                                          <h3>%s</h3>
-                                          <label class="add-fav">
-                                              <input %s type="checkbox" />
-                                              <i class="icon-heart fas fa-heart">
-                                                  <i class="icon-plus-sign fa-solid fa-plus"></i>
-                                              </i>
-                                          </label>
-                                      </div>
-                                          <a href="showroom.html?car=%s" class="view-button">View in
-                                              Showroom</a>
-                           </div>
-                          """
-                    .formatted(car.split("3D Models/")[1]
-                                    .split("\\.")[0],
-                            car.split("3D Models/")[1].replaceAll("-", " ")
-                                    .split("\\.")[0],
-                            isVehicleFav.get(0),
-                            isVehicleFav.get(1),
-                            car));
+        if (recentlyViewedTokenService.findByUser_Id(id).isPresent() &&
+                !recentlyViewedTokenService.findByUser_Id(id).get().getRecentlyViewedCars().isEmpty()) {
+            RecentlyViewedToken recentlyViewedToken = recentlyViewedTokenService.findByUser_Id(id).get();
+            StringBuilder fullContainer = new StringBuilder();
+            List<String> cars = new ArrayList<>(List.of(recentlyViewedToken.getRecentlyViewedCars().split(",")));
+            Collections.reverse(cars);
+            for (String car : cars) {
+                if (VehicleExistCheckUtil.doesItExist(car.split("3D Models/")[1]
+                        .split("\\.")[0])) {
+                    List<String> isVehicleFav = isVehicleInFavs(car, id, favoriteVehiclesService);
+                    fullContainer.append("""
+                            <div class="car-card">
+                                   <div class="img-container">
+                                                      <img src="../images/%s.png" alt="Car 2">
+                                                  </div>
+                                                  <div class="car-info">
+                                                      <h3>%s</h3>
+                                                  </div>
+                                                  <div class="favorites">
+                                                  <h3>%s</h3>
+                                                  <label class="add-fav">
+                                                      <input class="%s" %s type="checkbox" />
+                                                      <i class="icon-heart fas fa-heart">
+                                                          <i class="icon-plus-sign fa-solid fa-plus"></i>
+                                                      </i>
+                                                  </label>
+                                              </div>
+                                                  <a href="showroom.html?car=%s" class="view-button">View in
+                                                      Showroom</a>
+                                   </div>
+                                  """
+                            .formatted(car.split("3D Models/")[1]
+                                            .split("\\.")[0],
+                                    car.split("3D Models/")[1].replaceAll("-", " ")
+                                            .split("\\.")[0],
+                                    isVehicleFav.get(0),
+                                    isVehicleFav.get(1).split("=")[0],
+                                    isVehicleFav.get(1),
+                                    car));
+                }
+            }
+            return fullContainer.toString();
+        } else {
+            return "";
         }
-        return fullContainer.toString();
     }
 
     private static List<String> isVehicleInFavs(String car, long userId, FavoriteVehiclesService favoriteVehiclesService) {

@@ -174,12 +174,10 @@ function populateData() {
                         })
                         .catch(err => console.log(err));
                 }).catch(err => console.log(err));
-
         })
         .catch(error => {
             console.log('Error:', error);
         });
-
 }
 
 populateData();
