@@ -44,7 +44,7 @@ public class RecentlyViewedTokenControllerServiceImpl implements RecentlyViewedT
         AuthenticationToken authenticationToken = authenticationTokenService.findByToken(authToken);
         if (recentlyViewedTokenService.findByUser_Id(Long.valueOf(userId)).isPresent() &&
                 authenticationToken != null &&
-                Objects.equals(authenticationToken.getUser().getId(), Long.valueOf(userId))) {
+                authenticationToken.getUser().getId() == Long.valueOf(userId)) {
             RecentlyViewedToken recentlyViewedToken = recentlyViewedTokenService.findByUser_Id(Long.valueOf(userId)).get();
             String recentlyViewedCars = recentlyViewedToken.getRecentlyViewedCars();
             if (recentlyViewedCars == null || recentlyViewedCars.isEmpty()) {
@@ -56,6 +56,17 @@ public class RecentlyViewedTokenControllerServiceImpl implements RecentlyViewedT
                 recentlyViewedCars = String.join(",", listCars);
             }
             recentlyViewedToken.setRecentlyViewedCars(recentlyViewedCars);
+            recentlyViewedTokenService.save(recentlyViewedToken);
+            return ResponseEntity.ok("Successfully added the car." + recentlyViewedToken.getExpireDate());
+        } else if (userService.findById(Long.valueOf(userId)).isPresent() &&
+                authenticationToken != null &&
+                authenticationToken.getUser().getId() == Long.valueOf(userId)) {
+
+            RecentlyViewedToken recentlyViewedToken = new RecentlyViewedToken();
+            recentlyViewedToken.setExpireDate();
+            recentlyViewedToken.setUser(userService.findById(Long.valueOf(userId)).get());
+            recentlyViewedToken.setRecentlyViewedCars(carId);
+
             recentlyViewedTokenService.save(recentlyViewedToken);
             return ResponseEntity.ok("Successfully added the car." + recentlyViewedToken.getExpireDate());
         } else {

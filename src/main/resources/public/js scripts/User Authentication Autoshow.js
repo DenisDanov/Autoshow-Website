@@ -32,8 +32,8 @@ function checkLoginStatus() {
 
     if (authToken) {
         // User is logged in
-        document.querySelectorAll(`input[type="checkbox"]`).forEach(entrie => {
-            entrie.addEventListener("change", (trackFavoriteStatus));
+        document.querySelectorAll(`input[type="checkbox"]`).forEach(entry => {
+            entry.addEventListener("change", (trackFavoriteStatus));
         });
         logOutUser();
     } else {
