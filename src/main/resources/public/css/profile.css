@@ -291,6 +291,27 @@ input[type="password"]::-webkit-reveal {
     position: relative;
 }
 
+.loading-status[status="Loading"] {
+    width: 139px;
+    color: #000;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: rgb(156, 156, 89);
+    font-weight: 599;
+    position: relative;
+}
+
+.loading-status[status="Loading"]:after {
+    content: '.';
+    display: inline-block;
+    position: absolute;
+    animation: pendingAnimation 1.5s infinite steps(3);
+}
+
+#forgotten-password-result {
+    width: max-content;
+}
+
 .order-status[status="Pending"]:after {
     content: '.';
     display: inline-block;

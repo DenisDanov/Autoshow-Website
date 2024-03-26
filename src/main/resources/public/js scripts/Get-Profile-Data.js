@@ -47,6 +47,7 @@ let timeOutMsgs;
 
 function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
     if (!carOrderBtnEvent) {
+        document.querySelector(`.loading-status`).style.display = `block`;
         const newManufacturer = e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`)
             .options[e.currentTarget.parentNode.parentNode.querySelector(`#car-manufacturer`).selectedIndex].textContent;
         const newModel = e.currentTarget.parentNode.parentNode.querySelector(`#car-model`).value;
@@ -84,6 +85,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 })
                     .then(response => response.json())
                     .then(result => {
+                        document.querySelector(`.loading-status`).style.display = `none`;
                         if (result.result === `New order is made and the period is extended.`) {
                             resultHtmlEle.textContent = result.result;
                             resultHtmlEle.style.display = `block`;
@@ -238,6 +240,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 })
                     .then(response => response.json())
                     .then(result => {
+                        document.querySelector(`.loading-status`).style.display = `none`;
                         if (result.result === `Same order is made and the period is extended.` ||
                             result.result === `New order is made and the period is extended.`) {
                             resultHtmlEle.textContent = result.result;

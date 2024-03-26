@@ -20,10 +20,12 @@ public class RecentlyViewedTokenController {
     @PostMapping("/add")
     private ResponseEntity<String> addRecentlyViewedCar(@RequestParam String userId, String carId, String authToken,
                                                         HttpServletResponse response) {
-        return this.recentlyViewedTokenControllerService.addRecentlyViewedCar(userId,
+        return this.recentlyViewedTokenControllerService.addRecentlyViewedCar(
+                userId,
                 carId,
                 authToken,
-                response);
+                response
+        );
     }
 
     @GetMapping("/get")

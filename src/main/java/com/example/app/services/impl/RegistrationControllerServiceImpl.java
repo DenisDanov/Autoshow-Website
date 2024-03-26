@@ -20,6 +20,10 @@ public class RegistrationControllerServiceImpl implements RegistrationController
         String emailRegex = "^[A-Za-z0-9]+[-._A-Za-z0-9]{0,}[A-Za-z0-9.-_]{0,}[@]{1}[A-Za-z-_]+[.]{1}[A-Za-z-_.]+[A-Za-z.-_]{0,}$";
 
         if (userFromDB == null && userService.findByEmail(user.getEmail()) == null) {
+            if (user.getUsername().isBlank() || user.getPassword().isBlank()) {
+                return "redirect:/register?errorBlank";
+            }
+
             if (user.getPassword().length() < 8) {
                 return "redirect:/register?errorPassword";
             }
@@ -36,7 +40,7 @@ public class RegistrationControllerServiceImpl implements RegistrationController
             if (savedUser != null && savedUser.getId() != null) {
                 // Log a success message or return a success view
                 System.out.println("User saved successfully. ID: " + savedUser.getId());
-                return "redirect:https://danov-autoshow.azurewebsites.net/login";
+                return "redirect:/login";
             } else {
                 System.err.println("Error saving user to the database");
                 return "redirect:/register?error";

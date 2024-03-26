@@ -87,6 +87,9 @@
     <div th:if="${param.error}" class="alert alert-danger">
         Unable to register. This username is already taken.
     </div>
+    <div th:if="${param.errorBlank}" class="alert alert-danger">
+        Unable to register. Username or password cannot be blank.
+    </div>
     <div th:if="${param.errorPassword}" class="alert alert-danger">
         Unable to register. Please use password with at least 8 characters.
     </div>
@@ -131,6 +134,11 @@
     </div>
 </footer>
 <script th:if="${param.error}">
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.alert').style.display = 'block';
+    });
+</script>
+<script th:if="${param.errorBlank}">
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.alert').style.display = 'block';
     });

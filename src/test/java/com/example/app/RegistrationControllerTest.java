@@ -57,7 +57,7 @@ public class RegistrationControllerTest {
                         .param("username", username)
                         .param("password", password)
                         .param("email", email))
-                .andExpect(redirectedUrl("https://danov-autoshow.azurewebsites.net/login"));
+                .andExpect(redirectedUrl("/login"));
 
         User user = new User(username,password,email);
 
@@ -78,7 +78,7 @@ public class RegistrationControllerTest {
                         .param("username", username)
                         .param("password", password)
                         .param("email", email))
-                .andExpect(redirectedUrl("https://danov-autoshow.azurewebsites.net/login"));
+                .andExpect(redirectedUrl("/login"));
 
         mockMvc.perform(post("/register")
                         .param("username", username)
@@ -97,7 +97,7 @@ public class RegistrationControllerTest {
                         .param("username", username)
                         .param("password", password)
                         .param("email", email))
-                .andExpect(redirectedUrl("https://danov-autoshow.azurewebsites.net/login"));
+                .andExpect(redirectedUrl("/login"));
 
         mockMvc.perform(post("/register")
                         .param("username", username + "L9")

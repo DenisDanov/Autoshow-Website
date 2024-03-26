@@ -40,14 +40,12 @@ function takeMeToLogin() {
 
 // Function to handle "No thanks" button click
 function noThanks() {
-    var carManufacturer = document.getElementById('car-manufacturer');
-    carManufacturer.children[0].selected = true;
-    carManufacturer.dispatchEvent(new Event('change'));
     document.getElementById(`response-result`).style.display = `none`;
     closePopup();
 }
 
 function orderCar(e) {
+    document.querySelector(`.loading-status`).style.display = `block`;
     var carManufacturer = document.getElementById('car-manufacturer');
     var carModel = document.getElementById('car-model');
     var carYear = document.getElementById('car-year');
@@ -72,9 +70,10 @@ function orderCar(e) {
             .then(response => response.text())
             .then(result => {
                 console.log(result);
+                document.querySelector(`.loading-status`).style.display = `none`;
                 if (result === `Order sent successfully.`) {
                     const resultHtmlEle = document.getElementById(`response-result`);
-                    resultHtmlEle.textContent = result;
+                    resultHtmlEle.textContent = `Order made successfully.`;
                     resultHtmlEle.style.display = `block`;
                     resultHtmlEle.style.backgroundColor = `green`;
                     resultHtmlEle.style.color = `white`;
