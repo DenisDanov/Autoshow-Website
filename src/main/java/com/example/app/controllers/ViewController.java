@@ -1,5 +1,6 @@
 package com.example.app.controllers;
 
+import com.example.app.controllers.utils.AuthTokenValidationUtil;
 import com.example.app.controllers.utils.CookieUtils;
 import com.example.app.controllers.utils.VehicleExistCheckUtil;
 import com.example.app.data.entities.FavoriteVehiclesEntity;
@@ -8,6 +9,7 @@ import com.example.app.data.entities.User;
 import com.example.app.services.FavoriteVehiclesService;
 import com.example.app.services.RecentlyViewedTokenService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,43 +24,47 @@ public class ViewController {
 
     private final FavoriteVehiclesService favoriteVehiclesService;
 
-    public ViewController(RecentlyViewedTokenService recentlyViewedTokenService, FavoriteVehiclesService favoriteVehiclesService) {
+    private final AuthTokenValidationUtil authTokenValidationUtil;
+
+    public ViewController(RecentlyViewedTokenService recentlyViewedTokenService,
+                          FavoriteVehiclesService favoriteVehiclesService,
+                          AuthTokenValidationUtil authTokenValidationUtil) {
         this.recentlyViewedTokenService = recentlyViewedTokenService;
         this.favoriteVehiclesService = favoriteVehiclesService;
+        this.authTokenValidationUtil = authTokenValidationUtil;
     }
 
-    @GetMapping({"/", "index", "3D Models","images","js scripts","css"})
-    public ModelAndView home(HttpServletRequest request) {
+    @GetMapping({"/", "index", "3D Models", "images", "js scripts", "css"})
+    public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
-        String navigationHtml = getNavigationHtml(authToken);
+        String navigationHtml = getNavigationHtml(authToken, authTokenValidationUtil, response);
         if (authToken != null) {
             return new ModelAndView("index")
                     .addObject("nav", navigationHtml)
                     .addObject("recentlyViewed", getRecentlyViewedHtml(authToken, recentlyViewedTokenService,
-                            favoriteVehiclesService));
-        } else {
-            return new ModelAndView("index")
-                    .addObject("nav", navigationHtml);
+                            favoriteVehiclesService, authTokenValidationUtil));
         }
+        return new ModelAndView("index")
+                .addObject("nav", navigationHtml);
     }
 
     @GetMapping("auto-show")
-    public ModelAndView autoshow(HttpServletRequest request) {
+    public ModelAndView autoshow(HttpServletRequest request, HttpServletResponse response) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
-        String navigationHtml = getNavigationHtml(authToken);
+        String navigationHtml = getNavigationHtml(authToken, authTokenValidationUtil, response);
         if (authToken != null) {
             return new ModelAndView("auto-show")
                     .addObject("nav", navigationHtml)
-                    .addObject("favsMap",
-                            autoShowCarsHtml(CookieUtils.getUserIdFromAuthToken(authToken)))
                     .addObject("recentlyViewed", getRecentlyViewedHtml(authToken,
                             recentlyViewedTokenService,
-                            favoriteVehiclesService));
-        } else {
-            return new ModelAndView("auto-show")
-                    .addObject("favsMap", new HashMap<String, String>())
-                    .addObject("nav", navigationHtml);
+                            favoriteVehiclesService,
+                            authTokenValidationUtil))
+                    .addObject("favsMap",
+                            autoShowCarsHtml(CookieUtils.getUserIdFromAuthToken(authToken)));
         }
+        return new ModelAndView("auto-show")
+                .addObject("nav", navigationHtml)
+                .addObject("favsMap", new HashMap<String, String>());
     }
 
     private Map<String, String> autoShowCarsHtml(long userId) {
@@ -70,17 +76,17 @@ public class ViewController {
     }
 
     @GetMapping("newsletter-unsubscribe.html")
-    public ModelAndView newsletterUnsubscribe(HttpServletRequest request) {
+    public ModelAndView newsletterUnsubscribe(HttpServletRequest request, HttpServletResponse response) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
-        String navigationHtml = getNavigationHtml(authToken);
+        String navigationHtml = getNavigationHtml(authToken, authTokenValidationUtil, response);
         return new ModelAndView("newsletter-unsubscribe")
                 .addObject("nav", navigationHtml);
     }
 
     @GetMapping("reset-password.html")
-    public ModelAndView resetPassword(HttpServletRequest request) {
+    public ModelAndView resetPassword(HttpServletRequest request, HttpServletResponse response) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
-        String navigationHtml = getNavigationHtml(authToken);
+        String navigationHtml = getNavigationHtml(authToken, authTokenValidationUtil, response);
         return new ModelAndView("reset-password")
                 .addObject("nav", navigationHtml);
     }
@@ -105,10 +111,12 @@ public class ViewController {
 
     public static String getRecentlyViewedHtml(String authToken,
                                                RecentlyViewedTokenService recentlyViewedTokenService,
-                                               FavoriteVehiclesService favoriteVehiclesService) {
+                                               FavoriteVehiclesService favoriteVehiclesService,
+                                               AuthTokenValidationUtil authTokenValidationUtil) {
         long id = CookieUtils.getUserIdFromAuthToken(authToken);
         if (recentlyViewedTokenService.findByUser_Id(id).isPresent() &&
-                !recentlyViewedTokenService.findByUser_Id(id).get().getRecentlyViewedCars().isEmpty()) {
+                !recentlyViewedTokenService.findByUser_Id(id).get().getRecentlyViewedCars().isEmpty() &&
+                authTokenValidationUtil.isAuthTokenValid(id, authToken)) {
             RecentlyViewedToken recentlyViewedToken = recentlyViewedTokenService.findByUser_Id(id).get();
             StringBuilder fullContainer = new StringBuilder();
             List<String> cars = new ArrayList<>(List.of(recentlyViewedToken.getRecentlyViewedCars().split(",")));
@@ -165,8 +173,9 @@ public class ViewController {
         return List.of("Add to Favorites", "");
     }
 
-    public static String getNavigationHtml(String authToken) {
-        if (authToken != null) {
+    public static String getNavigationHtml(String authToken, AuthTokenValidationUtil authTokenValidationUtil, HttpServletResponse response) {
+        if (authToken != null && authTokenValidationUtil.
+                isAuthTokenValid(CookieUtils.getUserIdFromAuthToken(authToken), authToken, response)) {
             return """
                     <header class="nav-header" id="header">
                     <a href="/index" class="logo">

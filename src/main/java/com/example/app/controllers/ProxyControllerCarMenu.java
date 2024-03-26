@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/proxy-carMenu")
 public class ProxyControllerCarMenu {
 
-    @Autowired
     private final ProxyControllerCarMenuService proxyControllerCarMenuService;
 
     public ProxyControllerCarMenu(ProxyControllerCarMenuService proxyControllerCarMenuService) {

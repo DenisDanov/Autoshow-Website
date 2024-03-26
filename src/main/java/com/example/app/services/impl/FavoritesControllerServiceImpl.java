@@ -6,7 +6,6 @@ import com.example.app.data.entities.AuthenticationToken;
 import com.example.app.data.entities.FavoriteVehiclesEntity;
 import com.example.app.data.entities.User;
 import com.example.app.services.*;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,18 +48,6 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             return addVehicleToDb(request, userId, userOptional);
         } else {
-            authenticationToken = authenticationTokenService.findByUser_Id(userId);
-            if (userOptional.isPresent() && authenticationToken != null &&
-                    replacedAuthTokensService.findByReplacedToken(request.getAuthToken()) != null) {
-
-                Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
-                long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
-                cookie.setMaxAge((int) maxAgeInSeconds);
-                cookie.setPath("/"); // Save the cookie for all pages of the site
-
-                response.addCookie(cookie);
-                return addVehicleToDb(request, userId, userOptional);
-            }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
     }
@@ -83,22 +70,6 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
                 return ResponseEntity.ok("Vehicle is not present in the list.");
             }
         } else {
-            authenticationToken = authenticationTokenService.findByUser_Id(userId);
-            if (userOptional.isPresent() && authenticationToken != null &&
-                    replacedAuthTokensService.findByReplacedToken(request.getAuthToken()) != null) {
-
-                Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
-                long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
-                cookie.setMaxAge((int) maxAgeInSeconds);
-                cookie.setPath("/"); // Save the cookie for all pages of the site
-
-                response.addCookie(cookie);
-                if (favoriteVehiclesService.deleteByVehicleIdAndUserId(request.getVehicleId(), userId) > 0) {
-                    return ResponseEntity.ok("Vehicle removed from favorites successfully.");
-                } else {
-                    return ResponseEntity.ok("Vehicle is not present in the list.");
-                }
-            }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
         }
     }
@@ -122,27 +93,6 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
 
             return ResponseEntity.ok(getAllVehicles);
         } else {
-            authenticationToken = authenticationTokenService.findByUser_Id(userId);
-            if (userOptional.isPresent() && authenticationToken != null &&
-                    replacedAuthTokensService.findByReplacedToken(authToken) != null) {
-
-                Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
-                long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
-                cookie.setMaxAge((int) maxAgeInSeconds);
-                cookie.setPath("/"); // Save the cookie for all pages of the site
-
-                response.addCookie(cookie);
-                List<FavoriteResponse> getAllVehicles = favoriteVehiclesService
-                        .findByUser_Id(userId)
-                        .stream()
-                        .map(favoriteVehicle -> new FavoriteResponse(
-                                favoriteVehicle.getVehicleId(),
-                                favoriteVehicle.getVehicleImg(),
-                                favoriteVehicle.getVehicleName()))
-                        .collect(Collectors.toList());
-
-                return ResponseEntity.ok(getAllVehicles);
-            }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }

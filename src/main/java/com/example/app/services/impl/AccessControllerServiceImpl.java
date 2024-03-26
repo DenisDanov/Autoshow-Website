@@ -1,12 +1,14 @@
 package com.example.app.services.impl;
 
 import com.example.app.controllers.ViewController;
+import com.example.app.controllers.utils.AuthTokenValidationUtil;
 import com.example.app.controllers.utils.CookieUtils;
 import com.example.app.data.entities.CarOrdersEntity;
 import com.example.app.data.entities.FavoriteVehiclesEntity;
 import com.example.app.data.entities.User;
 import com.example.app.services.*;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,19 +34,22 @@ public class AccessControllerServiceImpl implements AccessControllerService {
 
     private final UserService userService;
 
+    private final AuthTokenValidationUtil authTokenValidationUtil;
+
     public AccessControllerServiceImpl(FavoriteVehiclesService favoriteVehiclesService,
                                        RecentlyViewedTokenService recentlyViewedTokenService, CarOrdersService carOrdersService,
-                                       AuthenticationTokenService authenticationTokenService, ReplacedAuthTokensService replacedAuthTokensService, UserService userService) {
+                                       AuthenticationTokenService authenticationTokenService, ReplacedAuthTokensService replacedAuthTokensService, UserService userService, AuthTokenValidationUtil authTokenValidationUtil) {
         this.favoriteVehiclesService = favoriteVehiclesService;
         this.recentlyViewedTokenService = recentlyViewedTokenService;
         this.carOrdersService = carOrdersService;
         this.authenticationTokenService = authenticationTokenService;
         this.replacedAuthTokensService = replacedAuthTokensService;
         this.userService = userService;
+        this.authTokenValidationUtil = authTokenValidationUtil;
     }
 
     @Override
-    public ModelAndView checkAccess(String pageUrl, String car, HttpServletRequest request) {
+    public ModelAndView checkAccess(String pageUrl, String car, HttpServletRequest request, HttpServletResponse response) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
         long userId = 0;
         String carValues = car.split("3D Models/")[1];
@@ -59,71 +64,62 @@ public class AccessControllerServiceImpl implements AccessControllerService {
                 isVehicleOrdered(user.get(), carValues))) {
             // User is authorized to view this vehicle
             return new ModelAndView(pageUrl)
-                    .addObject("access", "granted-access")
-                    .addObject("nav", ViewController.getNavigationHtml(authToken));
+                    .addObject("nav", ViewController.getNavigationHtml(authToken, authTokenValidationUtil, response))
+                    .addObject("access", "granted-access");
         } else if (isVehicleWhitelisted(carValues)) {
+            // User is authorized to view this vehicle
             return new ModelAndView(pageUrl)
-                    .addObject("access", "granted-access")
-                    .addObject("nav", ViewController.getNavigationHtml(authToken));
+                    .addObject("nav", ViewController.getNavigationHtml(authToken, authTokenValidationUtil, response))
+                    .addObject("access", "granted-access");
         } else {
             // User is not authorized to view this vehicle
             return new ModelAndView(pageUrl)
-                    .addObject("access", "no-access")
-                    .addObject("nav", ViewController.getNavigationHtml(authToken));
+                    .addObject("nav", ViewController.getNavigationHtml(authToken, authTokenValidationUtil, response))
+                    .addObject("access", "no-access");
         }
     }
 
     @Override
-    public ModelAndView checkAccess(String pageUrl, HttpServletRequest request) throws URISyntaxException {
+    public ModelAndView checkAccess(String pageUrl, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException {
         String authToken = CookieUtils.getAuthTokenCookie(request);
-        if (authToken != null && CookieUtils.getUserIdFromAuthToken(authToken) != 0L &&
-                (authenticationTokenService.findByToken(authToken) != null &&
-                        authenticationTokenService.findByToken(authToken).getUser().getId()
-                                == CookieUtils.getUserIdFromAuthToken(authToken))) {
-            ModelAndView pageWithContentLoaded = getModelAndViewProfilePage(authToken, pageUrl);
-            if (pageWithContentLoaded != null) return pageWithContentLoaded;
-        } else if (authToken != null && CookieUtils.getUserIdFromAuthToken(authToken) != 0L &&
-                (replacedAuthTokensService.findByReplacedToken(authToken) != null &&
-                        replacedAuthTokensService.findByReplacedToken(authToken).getUser().getId() ==
-                                CookieUtils.getUserIdFromAuthToken(authToken))) {
-            ModelAndView pageWithContentLoaded = getModelAndViewProfilePage(authToken, pageUrl);
-            if (pageWithContentLoaded != null) return pageWithContentLoaded;
+        if (authToken != null) {
+            return getModelAndViewProfilePage(authToken, pageUrl, response);
         }
         return new ModelAndView("redirect:/index");
     }
 
-    private ModelAndView getModelAndViewProfilePage(String authToken, String pageUrl) throws URISyntaxException {
+    private ModelAndView getModelAndViewProfilePage(String authToken, String pageUrl, HttpServletResponse response) throws URISyntaxException {
         long userId = CookieUtils.getUserIdFromAuthToken(authToken);
         Optional<User> userOptional = userService.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             ModelAndView modelAndView = new ModelAndView(pageUrl)
+                    .addObject("nav", ViewController.getNavigationHtml(authToken, authTokenValidationUtil, response))
                     .addObject("username", user.getUsername())
                     .addObject("email", user.getEmail());
             List<String> favVehicleContents = generateFavVehicleHtml(favoriteVehiclesService.findByUser_Id(userId));
-            List<String> carOrderContents = generateCarOrderHtml(carOrdersService.findByUser_Id(userId),userId);
+            List<String> carOrderContents = generateCarOrderHtml(carOrdersService.findByUser_Id(userId), userId);
             modelAndView.addObject("carOrderContents", carOrderContents);
-            modelAndView.addObject("nav",ViewController.getNavigationHtml(authToken));
-            modelAndView.addObject("recentlyViewed",ViewController.getRecentlyViewedHtml(authToken
-            ,recentlyViewedTokenService,favoriteVehiclesService));
+            modelAndView.addObject("recentlyViewed", ViewController.getRecentlyViewedHtml(authToken
+                    , recentlyViewedTokenService, favoriteVehiclesService,authTokenValidationUtil));
             modelAndView.addObject("favVehicleContents", favVehicleContents);
             return modelAndView;
         }
         return new ModelAndView("redirect:/index");
     }
 
-    private List<String> generateCarOrderHtml(List<CarOrdersEntity> carOrders,Long userId) {
+    private List<String> generateCarOrderHtml(List<CarOrdersEntity> carOrders, Long userId) {
         List<String> carOrderContents = new ArrayList<>();
         for (CarOrdersEntity carOrdersEntity : carOrders) {
-            String htmlContent = generateCarOrderHtmlContent(carOrdersEntity,userId);
+            String htmlContent = generateCarOrderHtmlContent(carOrdersEntity, userId);
             carOrderContents.add(htmlContent);
         }
         return carOrderContents;
     }
 
-    private String generateCarOrderHtmlContent(CarOrdersEntity carOrdersEntity,Long userId) {
+    private String generateCarOrderHtmlContent(CarOrdersEntity carOrdersEntity, Long userId) {
         if (carOrdersEntity.getOrderStatus().equals("Pending")) {
-            checkOrderStatus(carOrdersService,carOrdersEntity);
+            checkOrderStatus(carOrdersService, carOrdersEntity);
         }
         String hideChangeOrderBtn;
         String hideCarCardContent;
@@ -133,7 +129,7 @@ public class AccessControllerServiceImpl implements AccessControllerService {
             hideChangeOrderBtn = "none";
             hideCarCardContent = "flex";
             hideChangeBtnAndShowExpired = "none";
-        } else if (carOrdersEntity.getOrderStatus().equals("Expired")){
+        } else if (carOrdersEntity.getOrderStatus().equals("Expired")) {
             hideCarCardContent = "none";
             hideChangeOrderBtn = "none";
             hideChangeBtnAndShowExpired = "";
@@ -144,68 +140,68 @@ public class AccessControllerServiceImpl implements AccessControllerService {
             hideChangeBtnAndShowExpired = "none";
         }
         String[] favsResult = isOrderAddedToFavs(favoriteVehiclesService.findByUser_Id(userId), carOrdersEntity);
-        return  """
-                                    <div class="car-orders-container">
-                            <div class="car-order-details">
-                                <div>
-                                    <span>Car manufacturer</span>
-                                    <p class="car-manufacturer">%s</p>
-                                </div>
-                                <div>
-                                    <span>Car model</span>
-                                    <p class="car-model">%s</p>
-                                </div>
-                                <div>
-                                    <span>Manufacture year</span>
-                                    <p class="car-year">%d</p>
-                                </div>
-                            </div>
-                            <div class="car-order-status">
-                                <div>
-                                    <span>Order status</span>
-                                    <p class="order-status" status="%s">%s</p>
-                                </div>
-                                <div>
-                                    <span>Order date</span>
-                                    <p>%s</p>
-                                </div>
-                            </div>
-                            <div class="car-order-model" style="display: %s">
-                                <h1>Ordered car</h1>
-                                <div class="car-card">
-                                    <div class="img-container">
-                                        <img src="images/%s-%s-%d.png" alt="Car 2">
-                                    </div>
-                                    <div class="car-info">
-                                        <h3>%d %s %s</h3>
-                                    </div>
-                                    <div class="favorites">
-                                        <h3>%s</h3>
-                                        <label class="add-fav">
-                                            <input type="checkbox" %s />
-                                            <i class="icon-heart fas fa-heart">
-                                                <i class="icon-plus-sign fa-solid fa-plus"></i>
-                                            </i>
-                                        </label>
-                                    </div>
-                                    <a href="showroom.html?car=3D Models/%s-%s-%d.glb"
-                                        class="view-button">View in
-                                        Showroom</a>
-                                </div>
-                            </div>
-                            <div id="cancel-order-container">
-                            <button id="change-order" style="display: %s">Change Order</button>
-                            <button id="modify-order" style="display: %s" modify-reference="%s">Modify Order</button>
-                            <button id="cancel-order">Cancel Order</button>
+        return """
+                            <div class="car-orders-container">
+                    <div class="car-order-details">
+                        <div>
+                            <span>Car manufacturer</span>
+                            <p class="car-manufacturer">%s</p>
                         </div>
+                        <div>
+                            <span>Car model</span>
+                            <p class="car-model">%s</p>
                         </div>
-                                    """.formatted(carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(),
+                        <div>
+                            <span>Manufacture year</span>
+                            <p class="car-year">%d</p>
+                        </div>
+                    </div>
+                    <div class="car-order-status">
+                        <div>
+                            <span>Order status</span>
+                            <p class="order-status" status="%s">%s</p>
+                        </div>
+                        <div>
+                            <span>Order date</span>
+                            <p>%s</p>
+                        </div>
+                    </div>
+                    <div class="car-order-model" style="display: %s">
+                        <h1>Ordered car</h1>
+                        <div class="car-card">
+                            <div class="img-container">
+                                <img src="images/%s-%s-%d.png" alt="Car 2">
+                            </div>
+                            <div class="car-info">
+                                <h3>%d %s %s</h3>
+                            </div>
+                            <div class="favorites">
+                                <h3>%s</h3>
+                                <label class="add-fav">
+                                    <input type="checkbox" %s />
+                                    <i class="icon-heart fas fa-heart">
+                                        <i class="icon-plus-sign fa-solid fa-plus"></i>
+                                    </i>
+                                </label>
+                            </div>
+                            <a href="showroom.html?car=3D Models/%s-%s-%d.glb"
+                                class="view-button">View in
+                                Showroom</a>
+                        </div>
+                    </div>
+                    <div id="cancel-order-container">
+                    <button id="change-order" style="display: %s">Change Order</button>
+                    <button id="modify-order" style="display: %s" modify-reference="%s">Modify Order</button>
+                    <button id="cancel-order">Cancel Order</button>
+                </div>
+                </div>
+                            """.formatted(carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(),
                 carOrdersEntity.getCarYear(), carOrdersEntity.getOrderStatus(), carOrdersEntity.getOrderStatus(),
                 carOrdersEntity.getDateOfOrder(), hideCarCardContent, carOrdersEntity.getCarManufacturer(),
                 carOrdersEntity.getCarModel(), carOrdersEntity.getCarYear(), carOrdersEntity.getCarYear(),
                 carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(), favsResult[0], favsResult[1],
                 carOrdersEntity.getCarManufacturer(), carOrdersEntity.getCarModel(), carOrdersEntity.getCarYear(),
-                hideChangeOrderBtn,hideChangeBtnAndShowExpired, modifyReference);
+                hideChangeOrderBtn, hideChangeBtnAndShowExpired, modifyReference);
     }
 
     private List<String> generateFavVehicleHtml(List<FavoriteVehiclesEntity> favoriteVehicles) {

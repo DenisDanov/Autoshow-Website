@@ -110,6 +110,7 @@
                     <select id="car-year" required>
                     </select>
                     <span id="response-result" style="display: none;"></span>
+                    <p style="display:none;" class="loading-status" status="Loading">Saving order</p>
                     <div>
                         <button id="reorder-car">Order car</button>
                         <button id="cancel-orderbtn">Cancel</button>
@@ -122,9 +123,7 @@
 <h1 style="text-align: center;">Recently viewed cars</h1>
 <div class="slider-container">
     <div class="lds-ring" id="recently-viewed-spinner"><div></div><div></div><div></div><div></div></div>
-    <div th:utext="${recentlyViewed}" class="recently-viewed-cars" style="display: none; justify-content: center; flex-wrap: wrap;" bis_skin_checked="1">
-
-    </div>
+    <div th:utext="${recentlyViewed}" class="recently-viewed-cars" style="display: none; justify-content: center; flex-wrap: wrap;" bis_skin_checked="1"></div>
 </div>
 <footer class="footer-section">
     <h3>NEWSLETTER</h3>
