@@ -151,8 +151,8 @@ The login page provides a simple and secure gateway for users to access their ac
 ![Screenshot_30](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/5c0b4509-4f60-437b-b9d2-ed3daa6a0897)
 - The Autoshow page showcases a collection of 9 cars available for viewing.
 - Unregistered users can explore the featured cars and their specifications.
-- Registered users have the additional functionality of adding cars to their favorites directly from this page.
-- An "Order" button is available for registered users, allowing them to place orders for vehicles.
+- Registered and logged in users have the additional functionality of adding cars to their favorites directly from this page.
+- An "Order" button is available for registered and logged in users, allowing them to place orders for vehicles.
   - The "Order" functionality filters the available models based on the selected manufacturer and year.
   - Users can specify their preferences by selecting the manufacturer and year of the desired vehicle.
   - This feature streamlines the process of finding specific models tailored to the user's preferences.
@@ -174,6 +174,16 @@ The login page provides a simple and secure gateway for users to access their ac
   - If a user attempts to access a 3D model that is not featured in the Autoshow page, access is granted only if the model has been ordered or added to favorites.
   - Users without the model ordered or added to favorites are denied access to the model, ensuring exclusive access to authorized content.
   - ![Screenshot_74](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/ced1632d-9fba-49f4-971f-ed0722592061)
+
+
+</details>
+
+<details id="cars-info-page">
+<summary><h4>Cars Info Page</h4></summary>
+
+- The Cars Info page displays detailed data for the selected vehicle specifications. Access to this page is limited:
+  - Users can view this page only if they have the specific vehicle ordered or added to favorites.
+  - All users can view the specifications of vehicles listed on the auto show page. If the selected vehicle isn't on the auto show page, users won't have access to its specifications       unless they order the vehicle through the order menu or add it to their favorites.
 
 
 </details>
