@@ -336,7 +336,7 @@ function initThirdPersonScript() {
                     if (child.isMesh) {
                         const material = child.material;
                         if (material) {
-                            material.metalness = 0.9;
+                            material.metalness = 0.8;
                             material.roughness = 0.5;
                         }
                     }
@@ -923,7 +923,7 @@ function initFirstPersonScript() {
                     if (child.isMesh) {
                         const material = child.material;
                         if (material) {
-                            material.metalness = 0.9;
+                            material.metalness = 0.8;
                             material.roughness = 0.5;
                         }
                     }
@@ -1154,7 +1154,7 @@ function initFirstPersonScript() {
                         }
                     }
                 });
-            } else if (carParam.includes(`Toyota-Gr-Supra-2020.glb`)) {
+            } else if (carParam.includes(`Toyota-Supra-Gr-2020.glb`)) {
                 camera.position.set(0, 15, 105);
                 model.scale.set(15, 15, 15);
                 gltf.scene.traverse((child) => {

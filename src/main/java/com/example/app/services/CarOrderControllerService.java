@@ -14,6 +14,7 @@ public interface CarOrderControllerService {
                                     HttpServletResponse response);
 
     ResponseEntity<List<CarOrder>> getOrders(@RequestParam("id") Long userId,
+                                             @RequestParam("authToken") String authToken,
                                              HttpServletResponse response);
 
     ResponseEntity<String> removeCarOrder(@RequestBody RemoveCarOrderRequest request,

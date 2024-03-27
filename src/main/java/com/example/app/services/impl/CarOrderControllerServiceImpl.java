@@ -78,7 +78,7 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
     }
 
     @Override
-    public ResponseEntity<List<CarOrder>> getOrders(Long userId, HttpServletResponse response) {
+    public ResponseEntity<List<CarOrder>> getOrders(Long userId, String authToken, HttpServletResponse response) {
         // Find the user by ID
         Optional<User> userOptional = userService.findById(userId);
         AuthenticationToken authenticationToken = authenticationTokenService.findByUser_Id(userId);
