@@ -5,6 +5,7 @@ import com.example.app.services.CarOrderControllerService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -23,17 +24,17 @@ public class CarOrderController {
         return carOrderControllerService.addOrder(request, response);
     }
 
-    // TODO make the request need auth token
     @GetMapping("/get")
     public ResponseEntity<List<CarOrder>> getOrders(@RequestParam("id") Long userId,
+                                                    @RequestParam("authToken") String authToken,
                                                     HttpServletResponse response) {
-        return carOrderControllerService.getOrders(userId, response);
+        return carOrderControllerService.getOrders(userId, authToken, response);
     }
 
     @DeleteMapping("/remove")
     public ResponseEntity<String> removeCarOrder(@RequestBody RemoveCarOrderRequest request,
                                                  HttpServletResponse response) {
-        return carOrderControllerService.removeCarOrder(request,response);
+        return carOrderControllerService.removeCarOrder(request, response);
     }
 
     @PutMapping("/modify")
