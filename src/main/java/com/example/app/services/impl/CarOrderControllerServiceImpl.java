@@ -83,7 +83,7 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
         Optional<User> userOptional = userService.findById(userId);
         AuthenticationToken authenticationToken = authenticationTokenService.findByUser_Id(userId);
         if (userOptional.isPresent() && authenticationToken != null &&
-                Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
+                Objects.equals(authToken,authenticationToken.getToken())) {
             List<CarOrder> getAllOrders = carOrdersService
                     .findByUser_Id(userId)
                     .stream()
