@@ -218,9 +218,8 @@ The login page provides a simple and secure gateway for users to access their ac
       - When a user logs in on one device and then logs in on another, the authentication token is provided to both devices and sessions.
       - This is possible via recycling of authentication tokens:
           - If an authentication token already exists for the user, it is replaced with a new one.
-          - The replaced token is saved to another table in the database and referenced to the authentication token that replaced it for enhanced security.
-          - When the user accesses the site with a valid, non-expired replaced token that references the new authentication token,
-            it is automatically updated with the new authentication token. Otherwise, the update cannot be made.
+          - The replaced token, which signifies the user's login from a new device, is stored in a separate database table. This token is then linked to the user who replaced it when               logging in from the new device, enhancing security measures and ensuring that the replaced token will be useful only for that user
+          - When the user accesses the site with a valid, non-expired replaced token that references their account, the token is automatically updated with the new authentication                   token. Otherwise, the update cannot be made.
           - Expired replaced tokens are automatically removed from the database, similar to the original authentication tokens.
     - Anti-bot handling protection is implemented to handle too many failed login attempts:
       - It locks user sessions from further login attempts after a threshold is reached.
