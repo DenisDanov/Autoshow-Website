@@ -181,9 +181,12 @@ The login page provides a simple and secure gateway for users to access their ac
 <details id="cars-info-page">
 <summary><h4>Cars Info Page</h4></summary>
 
-- The Cars Info page displays detailed data for the selected vehicle specifications. Access to this page is limited:
-  - Users can view this page only if they have the specific vehicle ordered or added to favorites.
-  - All users can view the specifications of vehicles listed on the auto show page. If the selected vehicle isn't on the auto show page, users won't have access to its specifications       unless they order the vehicle through the order menu or add it to their favorites.
+- The Cars Info page displays detailed data for the selected vehicle specifications.
+  - ![Screenshot_181](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/a2479274-c08e-4b16-8719-31562a7a3d78)
+  - Access to this page is limited:
+    - Users can view this page only if they have the specific vehicle ordered or added to favorites.
+    - All users can view the specifications of vehicles listed on the auto show page. If the selected vehicle isn't on the auto show page, users won't have access to its specifications       unless they order the vehicle through the order menu or add it to their favorites.
+    - ![Screenshot_182](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/7c51284c-7883-4f4c-bc61-14c1622cd766)
 
 
 </details>
@@ -320,16 +323,18 @@ The login page provides a simple and secure gateway for users to access their ac
   - Implementation of a secured REST API for accessing data from the database to the client.
   - For every request to the database that contains user data, a valid authentication token is needed along with the user ID.
   - Additional authentication handling ensures that the provided token is made for that specific user ID.
-  - Example of successful request made:
-    ![Screenshot_45](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/bc203b4a-9b23-40fa-96f5-e0f4df580e3b)
+  - Example of successful requests made for the user's orders and favorite vehicles:
+    - ![Screenshot_187](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/4854864d-8b16-4712-a622-eb1bd568bf39)
+    - ![Screenshot_186](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/85c550eb-6fa9-4b2b-8a72-8c10b71f8d79)
   - Custom car data API:
     - Implemented a custom car data API that returns over 500 different car manufacturers from a local JSON file.
       - When no make or model is provided, it returns every car make available for selection on the site:
-      ![Screenshot_46](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/3a8a50e1-ba28-4627-9041-72ada61cc3ad)
+        - ![Screenshot_184](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/2dfedba3-8c8c-4a8d-bc00-7e89f4160fb7)
       - Filters the correct models for the selected manufacturer:
-      ![Screenshot_47](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/a3a8cd81-74da-4239-9ca7-1a66924bc7b9)
-      - Additionally filters the car years fitting the selected model:
-      ![Screenshot_48](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/d11ca6b3-57a6-49f8-be62-73e9f1a97641) 
+        - ![Screenshot_185](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/f2b6c267-c1d0-495b-8ac1-ce5f92c7e611)
+      - Additionally returns detailed information about the vehicle when given make,model,year:
+        -  ![Screenshot_183](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/2cab4832-f62f-4605-98b2-ed785e4a152c)
+
 - #### Token Cleanup Service:
   - Responsible for removing expired password reset tokens from the database.
   - Removes expired recently viewed cars tokens.
