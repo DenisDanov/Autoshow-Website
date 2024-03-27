@@ -29,6 +29,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
   - [Home Page](#home-page)
   - [Auto Show Page](#auto-show-page)
   - [Showroom Page](#showroom-page)
+  - [Cars Info Page](#cars-info-page)
   - [Profile Page](#profile-page)
 - </details>
   <details>
