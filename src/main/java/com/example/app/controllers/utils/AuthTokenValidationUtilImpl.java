@@ -33,12 +33,12 @@ public class AuthTokenValidationUtilImpl implements AuthTokenValidationUtil {
         Optional<User> userOptional = userService.findById(userId);
         if (userOptional.isPresent()) {
             AuthenticationToken authenticationToken = authenticationTokenService.findByUser_Id(userId);
-            if (authenticationToken.getToken().equals(authToken)) {
+            if (authenticationToken != null && authenticationToken.getToken().equals(authToken)) {
                 return true;
-            } else if (replacedAuthTokensService.findByReplacedToken(authToken) != null &&
+            } else if ((authenticationToken != null && replacedAuthTokensService.findByReplacedToken(authToken) != null) &&
                     replacedAuthTokensService.findByReplacedToken(authToken).getUser().getId().equals(userId)) {
-                replacedAuthTokensService.deleteByReplacedToken(authToken);
 
+                replacedAuthTokensService.deleteByReplacedToken(authToken);
                 Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
                 long maxAgeInSeconds = (authenticationToken.getExpireDate().getTime() - System.currentTimeMillis()) / 1000;
                 cookie.setMaxAge((int) maxAgeInSeconds);
@@ -62,11 +62,10 @@ public class AuthTokenValidationUtilImpl implements AuthTokenValidationUtil {
     @Override
     public boolean isAuthTokenValid(long userId, String authToken) {
         Optional<User> userOptional = userService.findById(userId);
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent() && authenticationTokenService.findByUser_Id(userId) != null) {
             return authenticationTokenService.findByUser_Id(userId).getToken().equals(authToken) ||
                     (replacedAuthTokensService.findByReplacedToken(authToken) != null &&
-                            replacedAuthTokensService.findByReplacedToken(authToken).getUser().
-                                    getId().equals(userId));
+                            replacedAuthTokensService.findByReplacedToken(authToken).getUser().getId().equals(userId));
         }
         return false;
     }

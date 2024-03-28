@@ -5,8 +5,8 @@ header {
 }
 
 body {
-    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
-    font-family: Arial, sans-serif;
+    background: linear-gradient(90deg, rgb(39 38 41) 16%, rgb(44 44 45) 26%, rgb(73 71 79) 52%, rgb(46 45 49) 90%) !important;
+    font-family: 'Exo', sans-serif !important;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -21,7 +21,7 @@ section {
 }
 
 .show-room {
-    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
+    background: linear-gradient(90deg, rgb(58 57 59) 16%, rgb(52 52 55) 26%, rgb(73 72 75) 52%, rgb(28 28 28) 90%);
 }
 
 .view-button {
@@ -88,7 +88,7 @@ section h2 {
         position: absolute;
         opacity: 0;
 
-        &:checked+.icon-heart {
+        &:checked + .icon-heart {
             color: orange;
 
             .icon-plus-sign {
@@ -160,9 +160,10 @@ section h2 {
 }
 
 #order-car-container {
+    z-index: 100000;
     position: absolute;
-    top: 25%;
-    right: 0;
+    top: 18px;
+    right: -20px;
     transform: translateY(-50%);
     background-color: #539236;
     color: #fff;
@@ -170,6 +171,7 @@ section h2 {
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     cursor: pointer;
+    font-size: 13px;
 }
 
 #popup-order-car {
@@ -299,4 +301,8 @@ section h2 {
     display: inline-block;
     position: absolute;
     animation: pendingAnimation 1.5s infinite steps(3);
+}
+
+#order-car-container-wrapper {
+    position: relative;
 }

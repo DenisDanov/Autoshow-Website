@@ -7,20 +7,21 @@
     <title>Ubsubscribe</title>
     <link rel="stylesheet" href="../css/pages-style.css">
     <link rel="stylesheet" href="../css/newsletter-unsubscribe.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;700&display=swap">
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const email = urlParams.get('email');
         fetch(`${window.location.origin}/api/v1/user/newsletter-emails/unsubscribe?email=${email}`, {
             method: "DELETE"
         })
-        .then(response => response.text())
-        .then(result => {
-            if (result === `You have been unsubscribed successfully.`) {
-                document.getElementById(`unsubscribe-confirmation`).style.display = `block`;
-            } else {
-                document.getElementById(`unsubscribe-confirmation-2`).style.display = `block`;
-            }
-        })
+            .then(response => response.text())
+            .then(result => {
+                if (result === `You have been unsubscribed successfully.`) {
+                    document.getElementById(`unsubscribe-confirmation`).style.display = `block`;
+                } else {
+                    document.getElementById(`unsubscribe-confirmation-2`).style.display = `block`;
+                }
+            })
     </script>
     <link rel="icon" href="../images/logo.png" type="image/x-icon">
     <script src="../js%20scripts/Sticky-Header.js"></script>
@@ -28,39 +29,43 @@
 
 <body>
 <div th:utext="${nav}"></div>
-    <div id="unsubscribe-confirmation" style="display: none;">
-        <p style="color: #28a745; font-size: 18px; font-weight: bold;">Unsubscribe Successful</p>
-        <img src="../images/green-tick-icon.png" alt="Green Tick Icon" width="50" height="50">
-        <p style="color: #333333;">You have been successfully unsubscribed from our newsletter. We're sorry to see you
-            go!</p>
+<div id="unsubscribe-confirmation" style="display: none;">
+    <p style="color: #28a745; font-size: 18px; font-weight: bold;">Unsubscribe Successful</p>
+    <img src="../images/green-tick-icon.png" alt="Green Tick Icon" width="50" height="50">
+    <p style="color: #333333;">You have been successfully unsubscribed from our newsletter. We're sorry to see you
+        go!</p>
+</div>
+<div id="unsubscribe-confirmation-2" style="display: none;">
+    <p style="color: #a02828; font-size: 18px; font-weight: bold;">Unsubscribe Unsuccessful</p>
+    <img src="../images/Red_X.svg.png" alt="Green Tick Icon" width="50" height="50">
+    <p style="color: #333333;">The provided email is not subscribed to our Newsletter.</p>
+</div>
+<div class="content">
+
+</div>
+<footer class="footer-section">
+    <h3>NEWSLETTER</h3>
+    <p>Subscribe to our Newsletter!</p>
+    <div class="subscribe-form">
+        <input type="email" placeholder="Your Email Address">
+        <button>Subscribe</button>
     </div>
-    <div id="unsubscribe-confirmation-2" style="display: none;">
-        <p style="color: #a02828; font-size: 18px; font-weight: bold;">Unsubscribe Unsuccessful</p>
-        <img src="../images/Red_X.svg.png" alt="Green Tick Icon" width="50" height="50">
-        <p style="color: #333333;">The provided email is not subscribed to our Newsletter.</p>
+    <p style="display: none" id="loading-animation-newsletter" status="Pending">Please wait until we verify your
+        email</p>
+    <p id="sub-result" style="margin-top: 0.5rem; display: none;">Subscibed successfully!</p>
+    <div class="socials-section">
+        <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
+                class="fab fa-facebook"></i></a>
+        <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i
+                class="fab fa-linkedin"></i></a>
     </div>
-    <footer class="footer-section">
-        <h3>NEWSLETTER</h3>
-        <p>Subscribe to our Newsletter!</p>
-        <div class="subscribe-form">
-            <input type="email" placeholder="Your Email Address">
-            <button>Subscribe</button>
-        </div>
-        <p style="display: none" id="loading-animation-newsletter" status="Pending">Please wait until we verify your email</p>
-        <p id="sub-result" style="margin-top: 0.5rem; display: none;">Subscibed successfully!</p>
-        <div class="socials-section">
-            <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i
-                    class="fab fa-facebook"></i></a>
-            <a href="https://github.com/DenisDanov" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="https://www.instagram.com/denisdanov69/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/denis-danov-510756246/" target="_blank"><i
-                    class="fab fa-linkedin"></i></a>
-        </div>
-        <div class="copyright-section">
-            <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
-        </div>
-    </footer>
-    <script src="../js%20scripts/Subsribe-To-Newsletter.js"></script>
+    <div class="copyright-section">
+        <p>&copy; 2023 Danov's Auto Show. All rights reserved.</p>
+    </div>
+</footer>
+<script src="../js%20scripts/Subsribe-To-Newsletter.js"></script>
 </body>
 
 </html>

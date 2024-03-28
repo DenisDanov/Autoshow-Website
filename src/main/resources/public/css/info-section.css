@@ -1,6 +1,6 @@
 .info-section {
     background: rgb(8,9,35);
-    background: linear-gradient(90deg, #ff2a00 0%, #333333 0%, #a59eb5 100%);
+    background: linear-gradient(90deg, #303031 39%, #343337 54%);
     padding: 30px;
     font-family: 'Poppins', sans-serif;
     display: flex;
@@ -35,7 +35,7 @@
 
 .cta-button {
     display: inline-block;
-    background-color: #a59eb5;
+    background-color: #4d4d4f;
     padding: 12px 30px;
     text-decoration: none;
     border-radius: 5px;
@@ -44,6 +44,6 @@
 }
 
 .cta-button:hover {
-    background-color: #8c8292;
+    background-color: #5b5656;
 }
 

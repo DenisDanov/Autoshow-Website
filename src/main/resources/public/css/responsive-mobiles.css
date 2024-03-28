@@ -171,8 +171,6 @@
     }
 
     #order-car-container {
-        top: 36% !important;
-        font-size: 13px;
         padding: 7px !important;
     }
 
@@ -240,6 +238,9 @@
         width: 200px !important;
     }
     #sub-result {
+        width: 230px !important;
+    }
+    #marinaxx-logo {
         width: 230px !important;
     }
 }

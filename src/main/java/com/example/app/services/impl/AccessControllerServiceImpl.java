@@ -28,22 +28,16 @@ public class AccessControllerServiceImpl implements AccessControllerService {
 
     private final CarOrdersService carOrdersService;
 
-    private final AuthenticationTokenService authenticationTokenService;
-
-    private final ReplacedAuthTokensService replacedAuthTokensService;
-
     private final UserService userService;
 
     private final AuthTokenValidationUtil authTokenValidationUtil;
 
     public AccessControllerServiceImpl(FavoriteVehiclesService favoriteVehiclesService,
                                        RecentlyViewedTokenService recentlyViewedTokenService, CarOrdersService carOrdersService,
-                                       AuthenticationTokenService authenticationTokenService, ReplacedAuthTokensService replacedAuthTokensService, UserService userService, AuthTokenValidationUtil authTokenValidationUtil) {
+                                       UserService userService, AuthTokenValidationUtil authTokenValidationUtil) {
         this.favoriteVehiclesService = favoriteVehiclesService;
         this.recentlyViewedTokenService = recentlyViewedTokenService;
         this.carOrdersService = carOrdersService;
-        this.authenticationTokenService = authenticationTokenService;
-        this.replacedAuthTokensService = replacedAuthTokensService;
         this.userService = userService;
         this.authTokenValidationUtil = authTokenValidationUtil;
     }
@@ -99,10 +93,10 @@ public class AccessControllerServiceImpl implements AccessControllerService {
                     .addObject("email", user.getEmail());
             List<String> favVehicleContents = generateFavVehicleHtml(favoriteVehiclesService.findByUser_Id(userId));
             List<String> carOrderContents = generateCarOrderHtml(carOrdersService.findByUser_Id(userId), userId);
+            modelAndView.addObject("favVehicleContents", favVehicleContents);
             modelAndView.addObject("carOrderContents", carOrderContents);
             modelAndView.addObject("recentlyViewed", ViewController.getRecentlyViewedHtml(authToken
-                    , recentlyViewedTokenService, favoriteVehiclesService,authTokenValidationUtil));
-            modelAndView.addObject("favVehicleContents", favVehicleContents);
+                    ,recentlyViewedTokenService, favoriteVehiclesService, authTokenValidationUtil));
             return modelAndView;
         }
         return new ModelAndView("redirect:/index");

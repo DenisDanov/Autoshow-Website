@@ -1,5 +1,10 @@
 body {
-    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
+    font-family: 'Exo', sans-serif;
+    background: linear-gradient(90deg, #303031 39%, #343337 54%) !important;
+}
+
+.content {
+    flex: 1;
 }
 
 #unsubscribe-confirmation,

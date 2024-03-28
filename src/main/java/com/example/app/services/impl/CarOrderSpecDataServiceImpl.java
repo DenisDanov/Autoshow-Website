@@ -38,7 +38,7 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
         if (carOrderSpecDataRepository.count() == 0) {
             mapDTOtoDbObject(proxyControllerCarMenuService.proxyCarTrims("Lamborghini", "Aventador", 2019), "Lamborghini-Aventador-2019");
             mapDTOtoDbObject(new JSONObject(), "Lamborghini-Urus-2022");
-            mapDTOtoDbObject(new JSONObject(), "Porsche-911 Carrera-2015");
+            mapDTOtoDbObject(new JSONObject(), "Porsche-Carrera-2015");
             mapDTOtoDbObject(proxyControllerCarMenuService.proxyCarTrims("Lamborghini", "Aventador", 2020), "Lamborghini-Aventador-2020");
             mapDTOtoDbObject(proxyControllerCarMenuService.proxyCarTrims("Lamborghini", "Gallardo", 2007), "Lamborghini-Gallardo-2007");
             mapDTOtoDbObject(new JSONObject(), "Toyota-GR Supra-2020");
@@ -88,7 +88,7 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
 
     private JSONObject fulfillObject(String carName, JSONObject jsonObject) {
         switch (carName) {
-            case "Lamborghini-Urus-2022", "Porsche-911 Carrera-2015", "Toyota-GR Supra-2020",
+            case "Lamborghini-Urus-2022", "Porsche-Carrera-2015", "Toyota-GR Supra-2020",
                     "Porsche-Boxster-2016", "BMW-X5 M Competition-2022", "McLaren-P1-2015",
                     "Tesla-Model-3-2020", "BMW-M4-2022", "BMW-M5-1999", "Bugatti-Chiron-2020",
                     "Ferrari-F40-1992", "Ford-F-150-2022", "Jeep-Compass-2020",
@@ -1112,7 +1112,7 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
                 jsonObject.put("cargo_capacity_l", 400); // Cargo capacity in liters
                 jsonObject.put("ground_clearance_mm", 120); // Ground clearance in millimeters
                 break;
-            case "Porsche-911 Carrera-2015":
+            case "Porsche-Carrera-2015":
                 jsonObject.put("model_trim", "911 Carrera 2dr Coupe (3.4L 6cyl 7AM)");
                 jsonObject.put("make_display", "Porsche");
                 jsonObject.put("model_engine_cc", 3436);
@@ -1121,7 +1121,7 @@ public class CarOrderSpecDataServiceImpl implements CarOrderSpecDataService {
                 jsonObject.put("model_drive", "Rear Wheel Drive");
                 jsonObject.put("model_top_speed_kph", 289.0);
                 jsonObject.put("model_doors", 2);
-                jsonObject.put("model_name", "911 Carrera");
+                jsonObject.put("model_name", "Carrera");
                 jsonObject.put("model_co2", 186.0);
                 jsonObject.put("model_lkm_mixed", 8.2);
                 jsonObject.put("model_engine_type", "Flat");

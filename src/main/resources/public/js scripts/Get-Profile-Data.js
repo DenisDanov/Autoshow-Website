@@ -447,14 +447,14 @@ function addCarOrderToFavs(e) {
                     if (entrie.href === carId) {
                         entrie.parentNode.querySelector(`.favorites .add-fav input`).checked = false;
                         entrie.parentNode.querySelector(`.favorites h3`).textContent = `Add to Favorites`;
-                        entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "#666";
+                        entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "#797373";
                     }
                 });
                 document.querySelectorAll(`#car-orders .car-card a`).forEach(entrie => {
                     if (entrie.href === carId) {
                         entrie.parentNode.querySelector(`.favorites .add-fav input`).checked = false;
                         entrie.parentNode.querySelector(`.favorites h3`).textContent = `Add to Favorites`;
-                        entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "#666";
+                        entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "#797373";
                     }
                 });
                 carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
@@ -583,14 +583,14 @@ function removeTheCar(e) {
         if (entrie.href === carId) {
             entrie.parentNode.children[2].children[0].textContent = `Add to Favorites`;
             entrie.parentNode.children[2].children[1].children[0].checked = false;
-            entrie.parentNode.children[2].children[1].children[1].style.color = `#666`;
+            entrie.parentNode.children[2].children[1].children[1].style.color = `#797373`;
         }
     });
     document.querySelectorAll(`.recently-viewed-cars .car-card a`).forEach(entrie => {
         if (entrie.href === carId) {
             entrie.parentNode.children[2].children[0].textContent = `Add to Favorites`;
             entrie.parentNode.children[2].children[1].children[0].checked = false;
-            entrie.parentNode.children[2].children[1].children[1].style.color = `#666`;
+            entrie.parentNode.children[2].children[1].children[1].style.color = `#797373`;
         }
     });
     fetch(`${window.location.origin}/api/favorites/remove`, {

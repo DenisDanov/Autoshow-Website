@@ -1,6 +1,6 @@
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
     var header = document.getElementById('header');
-    var scrollPosition = window.scrollY || window.pageYOffset; // Handle cross-browser compatibility
+    var scrollPosition = window.scrollY;
     var threshold = 0;
 
     if (scrollPosition > threshold) {

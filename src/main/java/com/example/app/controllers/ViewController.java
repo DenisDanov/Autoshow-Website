@@ -114,10 +114,10 @@ public class ViewController {
                                                FavoriteVehiclesService favoriteVehiclesService,
                                                AuthTokenValidationUtil authTokenValidationUtil) {
         long id = CookieUtils.getUserIdFromAuthToken(authToken);
-        if (recentlyViewedTokenService.findByUser_Id(id).isPresent() &&
-                !recentlyViewedTokenService.findByUser_Id(id).get().getRecentlyViewedCars().isEmpty() &&
-                authTokenValidationUtil.isAuthTokenValid(id, authToken)) {
-            RecentlyViewedToken recentlyViewedToken = recentlyViewedTokenService.findByUser_Id(id).get();
+        Optional<RecentlyViewedToken> recentlyViewedTokenOptional = recentlyViewedTokenService.findByUser_Id(id);
+        if (recentlyViewedTokenOptional.isPresent() &&
+                !recentlyViewedTokenOptional.get().getRecentlyViewedCars().isEmpty()) {
+            RecentlyViewedToken recentlyViewedToken = recentlyViewedTokenOptional.get();
             StringBuilder fullContainer = new StringBuilder();
             List<String> cars = new ArrayList<>(List.of(recentlyViewedToken.getRecentlyViewedCars().split(",")));
             Collections.reverse(cars);

@@ -10,7 +10,7 @@ body {
 }
 
 .profile-section {
-    background: linear-gradient(90deg, rgba(51, 51, 51, 1) 9%, rgba(87, 85, 92, 1) 42%, rgba(165, 158, 181, 1) 100%);
+    background: linear-gradient(90deg, #303031 39%, #343337 54%);
     color: white;
     padding: 40px 0;
     text-align: center;
@@ -39,7 +39,7 @@ body {
 
 #favorite-vehicles,
 #car-orders {
-    background: linear-gradient(90deg, rgb(61 56 56) 9%, rgb(65 63 71) 42%, rgb(139 132 157) 100%);
+    background: linear-gradient(90deg, rgb(58 57 59) 16%, rgb(52 52 55) 26%, rgb(73 72 75) 52%, rgb(28 28 28) 90%);
     flex-wrap: wrap;
     list-style: none;
     justify-content: center;
@@ -241,7 +241,7 @@ input[type="password"]::-webkit-reveal {
 .car-orders-container {
     color: #a3a3a3;
     flex-direction: column;
-    background: linear-gradient(90deg, rgb(26 21 21) 9%, rgb(65 63 71) 42%, rgb(118 116 121) 100%);
+    background: linear-gradient(90deg, rgb(26 21 21) 9%, rgb(65 63 71) 42%, rgb(52 51 53) 100%);
     border: 2px solid #211c1c;
     border-radius: 5px;
 }
@@ -366,7 +366,7 @@ input[type="password"]::-webkit-reveal {
 
 #cancel-order {
     display: inline-block;
-    background-color: #571a1a;
+    background-color: #551f1f;
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
@@ -448,11 +448,6 @@ input[type="password"]::-webkit-reveal {
 
 .car-card[max-width="true"] {
     max-width: 400px !important;
-}
-
-.car-card {
-    background: linear-gradient(90deg, rgb(61 56 56) 9%, rgb(65 63 71) 42%, rgb(139 132 157) 100%) !important;
-    color: #000000 !important;
 }
 
 .lds-ring {
