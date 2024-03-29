@@ -2,7 +2,7 @@ package com.example.app.data.entities;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "car_orders")
@@ -11,16 +11,19 @@ public class CarOrdersEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
-
+    @Column(name = "car_manufacturer")
     private String carManufacturer;
+    @Column(name = "car_model")
     private String carModel;
+    @Column(name = "car_year")
     private int carYear;
+    @Column(name = "order_status")
     private String orderStatus;
-    private java.sql.Date dateOfOrder;
+    @Column(name = "date_of_order")
+    private Date dateOfOrder;
 
     public CarOrdersEntity() {
     }
@@ -28,15 +31,13 @@ public class CarOrdersEntity {
     public CarOrdersEntity(User user,
                            String carManufacturer,
                            String carModel,
-                           int carYear,
-                           String orderStatus,
-                           java.sql.Date dateOfOrder) {
+                           int carYear) {
         this.user = user;
         this.carManufacturer = carManufacturer;
         this.carModel = carModel;
         this.carYear = carYear;
-        this.orderStatus = orderStatus;
-        this.dateOfOrder = dateOfOrder;
+        this.orderStatus = "Pending";
+        this.dateOfOrder = new Date(System.currentTimeMillis());
     }
 
     public Long getId() {
@@ -91,7 +92,7 @@ public class CarOrdersEntity {
         return dateOfOrder;
     }
 
-    public void setDateOfOrder(java.sql.Date dateOfOrder) {
+    public void setDateOfOrder(Date dateOfOrder) {
         this.dateOfOrder = dateOfOrder;
     }
 }

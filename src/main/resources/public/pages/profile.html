@@ -80,21 +80,89 @@
             </div>
             <button type="submit" id="change-password">Change password</button>
             <button type="submit" id="forgotten-password">Reset password</button>
-            <p style="display: none;" id="loading-animation-password-reset" status="Pending">Initiating password reset, please wait</p>
+            <p style="display: none;" id="loading-animation-password-reset" status="Pending">Initiating password reset,
+                please wait</p>
             <p id="forgotten-password-result" style="display: none; border-radius: 3px; margin: 0 auto"></p>
             <p id="warning-fields" style="display: none;"></p>
             <label for="favorite-vehicles">Favorite Vehicles</label>
             <ul id="favorite-vehicles">
                 <li th:each="favVehicleContent : ${favVehicleContents}">
-                    <!-- Render the HTML content using th:utext -->
-                    <div th:utext="${favVehicleContent}"></div>
+                    <div class="car-card">
+                        <div class="img-container"><img th:src="@{${favVehicleContent.vehicleImg}}" alt="Car 2"></div>
+                        <div class="car-info"><h3 th:text="${favVehicleContent.vehicleName}"></h3></div>
+                        <div class="favorites"><h3>Remove from Favorites</h3>
+                            <label class="add-fav"><input checked type="checkbox">
+                                <i class="icon-heart fas fa-heart"><i class="icon-plus-sign fa-solid fa-plus"></i></i>
+                            </label>
+                        </div>
+                        <a th:href="'showroom.html?car=' + ${favVehicleContent.vehicleId}" class="view-button">View in
+                            Showroom</a></div>
                 </li>
             </ul>
             <label for="car-orders">Ordered Vehicles</label>
             <ul id="car-orders">
-                <li th:each="carOrderContent : ${carOrderContents}">
-                    <!-- Render the HTML content using th:utext -->
-                    <div th:utext="${carOrderContent}"></div>
+                <li th:each="carOrderDTO : ${carOrderModels}">
+                    <div class="car-orders-container">
+                        <div class="car-order-details">
+                            <div>
+                                <span>Car manufacturer</span>
+                                <p class="car-manufacturer" th:text="${carOrderDTO.carManufacturer}"></p>
+                            </div>
+                            <div>
+                                <span>Car model</span>
+                                <p class="car-model" th:text="${carOrderDTO.carModel}"></p>
+                            </div>
+                            <div>
+                                <span>Manufacture year</span>
+                                <p class="car-year" th:text="${carOrderDTO.carYear}"></p>
+                            </div>
+                        </div>
+                        <div class="car-order-status">
+                            <div>
+                                <span>Order status</span>
+                                <p class="order-status" th:attr="status=${carOrderDTO.orderStatus}"
+                                   th:text="${carOrderDTO.orderStatus}"></p>
+                            </div>
+                            <div>
+                                <span>Order date</span>
+                                <p th:text="${carOrderDTO.dateOfOrder}"></p>
+                            </div>
+                        </div>
+                        <div class="car-order-model"
+                             th:style="'display: ' + (${carOrderDTO.orderStatus == 'Completed' ? 'flex' : 'none'})">
+                            <h1>Ordered car</h1>
+                            <div class="car-card">
+                                <div class="img-container">
+                                    <img th:src="@{'images/' + ${carOrderDTO.carImg} + '.png'}" alt="Car 2">
+                                </div>
+                                <div class="car-info">
+                                    <h3 th:text="${carOrderDTO.carFullName}"></h3>
+                                </div>
+                                <div class="favorites">
+                                    <h3 th:text="${carOrderDTO.carFav}"></h3>
+                                    <label class="add-fav">
+                                        <input type="checkbox" th:checked="${carOrderDTO.carFavInput}"/>
+                                        <i class="icon-heart fas fa-heart">
+                                            <i class="icon-plus-sign fa-solid fa-plus"></i>
+                                        </i>
+                                    </label>
+                                </div>
+                                <a th:href="'showroom.html?car=3D Models/' + ${carOrderDTO.carImg} + '.glb'"
+                                   class="view-button"> View in Showroom</a>
+                            </div>
+                        </div>
+                        <div id="cancel-order-container">
+                            <button id="change-order"
+                                    th:style="'display: ' + (${carOrderDTO.orderStatus == 'Pending' ? '' : 'none'})">
+                                Change Order
+                            </button>
+                            <button id="modify-order"
+                                    th:style="'display: ' + (${carOrderDTO.orderStatus == 'Expired' ? '' : 'none'})"
+                                    modify-reference="">Modify Order
+                            </button>
+                            <button id="cancel-order">Cancel Order</button>
+                        </div>
+                    </div>
                 </li>
             </ul>
             <div id="order-car-menu">
@@ -126,8 +194,34 @@
     padding-top: 1rem;
     text-align: center;">Recently viewed cars</h1>
 <div class="slider-container">
-    <div class="lds-ring" id="recently-viewed-spinner"><div></div><div></div><div></div><div></div></div>
-    <div th:utext="${recentlyViewed}" class="recently-viewed-cars" style="display: none; justify-content: center; flex-wrap: wrap;" bis_skin_checked="1"></div>
+    <div class="lds-ring" id="recently-viewed-spinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="recently-viewed-cars"
+         style="display: none; justify-content: center; flex-wrap: wrap;">
+        <div th:each="recentlyViewedCar : ${recentlyViewed}" class="car-card">
+            <div class="img-container">
+                <img th:src="@{'images/' + ${recentlyViewedCar.vehicleImg} + '.png'}" alt="Car 2">
+            </div>
+            <div class="car-info">
+                <h3 th:text="${recentlyViewedCar.vehicleName}"></h3>
+            </div>
+            <div class="favorites">
+                <h3 th:text="${recentlyViewedCar.carFav}"></h3>
+                <label class="add-fav">
+                    <input th:class="${recentlyViewedCar.carFavInput} ? 'checked' : ''" type="checkbox" th:checked="${recentlyViewedCar.carFavInput}"/>
+                    <i class="icon-heart fas fa-heart">
+                        <i class="icon-plus-sign fa-solid fa-plus"></i>
+                    </i>
+                </label>
+            </div>
+            <a th:href="'showroom.html?car=' + ${recentlyViewedCar.vehicleId}" class="view-button">View in
+                Showroom</a>
+        </div>
+    </div>
 </div>
 <footer class="footer-section">
     <h3>NEWSLETTER</h3>
@@ -136,7 +230,8 @@
         <input type="email" placeholder="Your Email Address">
         <button>Subscribe</button>
     </div>
-    <p style="display: none" id="loading-animation-newsletter" status="Pending">Please wait until we verify your email</p>
+    <p style="display: none" id="loading-animation-newsletter" status="Pending">Please wait until we verify your
+        email</p>
     <p id="sub-result" style="margin-top: 0.5rem; display: none;">Subscibed successfully!</p>
     <div class="socials-section">
         <a href="https://www.facebook.com/profile.php?id=100005977189177" target="_blank"><i

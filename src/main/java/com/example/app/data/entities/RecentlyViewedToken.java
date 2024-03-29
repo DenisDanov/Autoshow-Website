@@ -11,16 +11,17 @@ import java.util.Calendar;
 @Table(name = "recently_viewed_tokens")
 public class RecentlyViewedToken {
 
+    @Column(name = "expire_date")
     private LocalDateTime expireDate;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT",name = "recently_viewed_cars")
     private String recentlyViewedCars;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = User.class)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 

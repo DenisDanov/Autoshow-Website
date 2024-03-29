@@ -27,20 +27,16 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
 
     private final AuthenticationTokenService authenticationTokenService;
 
-    private final ReplacedAuthTokensService replacedAuthTokensService;
-
     public CarOrderControllerServiceImpl(UserService userService,
                                          CarOrdersServiceImpl carOrdersService,
-                                         AuthenticationTokenService authenticationTokenService,
-                                         ReplacedAuthTokensService replacedAuthTokensService) {
+                                         AuthenticationTokenService authenticationTokenService) {
         this.userService = userService;
         this.carOrdersService = carOrdersService;
         this.authenticationTokenService = authenticationTokenService;
-        this.replacedAuthTokensService = replacedAuthTokensService;
     }
 
     @Override
-    public ResponseEntity<String> addOrder(CarOrderRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> addOrder(CarOrderRequestDTO request, HttpServletResponse response) {
         // Find the user by ID
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userService.findById(userId);
@@ -49,28 +45,22 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
             User user = userOptional.get();
 
-            CarOrder carOrder = new CarOrder(request.getCarManufacturer(),
-                    request.getCarModel(),
-                    request.getCarYear());
-
             List<CarOrdersEntity> carOrders = carOrdersService.findByUser_Id(userId);
             if (!carOrders.isEmpty()) {
                 if (carOrders.stream().noneMatch(carOrder1 ->
-                        carOrder1.getCarManufacturer().equals(carOrder.getCarManufacturer()) &&
-                                carOrder1.getCarModel().equals(carOrder.getCarModel()) &&
-                                carOrder1.getCarYear() == (Integer.parseInt(carOrder.getCarYear())))) {
-                    carOrdersService.save(new CarOrdersEntity(user, carOrder.getCarManufacturer(),
-                            carOrder.getCarModel(), Integer.parseInt(carOrder.getCarYear()), carOrder.getOrderStatus(),
-                            carOrder.getDateOfOrder()));
+                        carOrder1.getCarManufacturer().equals(request.getCarManufacturer()) &&
+                                carOrder1.getCarModel().equals(request.getCarModel()) &&
+                                carOrder1.getCarYear() == (Integer.parseInt(request.getCarYear())))) {
+                    carOrdersService.save(new CarOrdersEntity(user, request.getCarManufacturer(),
+                            request.getCarModel(), Integer.parseInt(request.getCarYear())));
                     userService.save(user);
                     return ResponseEntity.ok("Order sent successfully.");
                 } else {
                     return ResponseEntity.ok("Car order already exists.");
                 }
             } else {
-                carOrdersService.save(new CarOrdersEntity(user, carOrder.getCarManufacturer(),
-                        carOrder.getCarModel(), Integer.parseInt(carOrder.getCarYear()), carOrder.getOrderStatus(),
-                        carOrder.getDateOfOrder()));
+                carOrdersService.save(new CarOrdersEntity(user, request.getCarManufacturer(),
+                        request.getCarModel(), Integer.parseInt(request.getCarYear())));
                 return ResponseEntity.ok("Order sent successfully.");
             }
         }
@@ -78,21 +68,21 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
     }
 
     @Override
-    public ResponseEntity<List<CarOrder>> getOrders(Long userId, String authToken, HttpServletResponse response) {
+    public ResponseEntity<List<CarOrderDTO>> getOrders(Long userId, String authToken, HttpServletResponse response) {
         // Find the user by ID
         Optional<User> userOptional = userService.findById(userId);
         AuthenticationToken authenticationToken = authenticationTokenService.findByUser_Id(userId);
         if (userOptional.isPresent() && authenticationToken != null &&
-                Objects.equals(authToken,authenticationToken.getToken())) {
-            List<CarOrder> getAllOrders = carOrdersService
+                Objects.equals(authToken, authenticationToken.getToken())) {
+            List<CarOrderDTO> getAllOrders = carOrdersService
                     .findByUser_Id(userId)
                     .stream()
-                    .map(carOrder -> new CarOrder(
+                    .map(carOrder -> new CarOrderDTO(
                             carOrder.getCarManufacturer(),
                             carOrder.getCarModel(),
                             String.valueOf(carOrder.getCarYear()),
                             carOrder.getOrderStatus(),
-                            (Date) carOrder.getDateOfOrder()))
+                            carOrder.getDateOfOrder()))
                     .toList();
             return ResponseEntity.ok(getAllOrders);
         } else {
@@ -101,7 +91,7 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
     }
 
     @Override
-    public ResponseEntity<String> removeCarOrder(RemoveCarOrderRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> removeCarOrder(RemoveCarOrderRequestDTO request, HttpServletResponse response) {
         // Find the user by ID
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userService.findById(userId);
@@ -121,7 +111,7 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
     }
 
     @Override
-    public ResponseEntity<ModifyCarOrderResponse> modifyCarOrder(ModifyCarOrder request, HttpServletResponse response) {
+    public ResponseEntity<ModifyCarOrderResponseDTO> modifyCarOrder(ModifyCarOrderDTO request, HttpServletResponse response) {
         Long userId = Long.parseLong(request.getId());
         Optional<User> userOptional = userService.findById(userId);
         AuthenticationToken authenticationToken = authenticationTokenService.findByToken(request.getAuthToken());
@@ -142,7 +132,7 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
                         carOrder.getCarYear() == Integer.parseInt(request.getNewYear())) {
                     carOrder.setDateOfOrder(Date.valueOf(String.valueOf(LocalDate.now())));
                     carOrdersService.save(carOrder);
-                    return ResponseEntity.ok(new ModifyCarOrderResponse("Same order is made and the period is extended.",
+                    return ResponseEntity.ok(new ModifyCarOrderResponseDTO("Same order is made and the period is extended.",
                             carOrder.getCarManufacturer(),
                             carOrder.getCarModel(),
                             String.valueOf(carOrder.getCarYear()),
@@ -162,14 +152,14 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
                         checkOrderStatus(carOrdersService, carOrder);
                         carOrdersService.save(carOrder);
 
-                        return ResponseEntity.ok(new ModifyCarOrderResponse("New order is made and the period is extended.",
+                        return ResponseEntity.ok(new ModifyCarOrderResponseDTO("New order is made and the period is extended.",
                                 carOrder.getCarManufacturer(),
                                 carOrder.getCarModel(),
                                 String.valueOf(carOrder.getCarYear()),
                                 String.valueOf(carOrder.getDateOfOrder()),
                                 carOrder.getOrderStatus()));
                     } else {
-                        return ResponseEntity.ok(new ModifyCarOrderResponse("An order matching your request already exists.",
+                        return ResponseEntity.ok(new ModifyCarOrderResponseDTO("An order matching your request already exists.",
                                 "",
                                 "",
                                 "",
@@ -178,7 +168,7 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
                     }
                 }
             } else {
-                return ResponseEntity.ok(new ModifyCarOrderResponse("Order is not found.",
+                return ResponseEntity.ok(new ModifyCarOrderResponseDTO("Order is not found.",
                         "",
                         "",
                         "",
@@ -186,7 +176,7 @@ public class CarOrderControllerServiceImpl implements CarOrderControllerService 
                         ""));
             }
         }
-        return ResponseEntity.ok(new ModifyCarOrderResponse("User is not found.",
+        return ResponseEntity.ok(new ModifyCarOrderResponseDTO("User is not found.",
                 "",
                 "",
                 "",

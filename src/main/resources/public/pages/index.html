@@ -190,8 +190,27 @@
         <div></div>
         <div></div>
     </div>
-    <div th:utext="${recentlyViewed}" class="recently-viewed-cars" id="viewed-cars"
-         style="display: none; justify-content: center; flex-wrap: wrap;" bis_skin_checked="1">
+    <div class="recently-viewed-cars"
+         style="display: none; justify-content: center; flex-wrap: wrap;">
+        <div th:each="recentlyViewedCar : ${recentlyViewed}" class="car-card">
+            <div class="img-container">
+                <img th:src="@{'images/' + ${recentlyViewedCar.vehicleImg} + '.png'}" alt="Car 2">
+            </div>
+            <div class="car-info">
+                <h3 th:text="${recentlyViewedCar.vehicleName}"></h3>
+            </div>
+            <div class="favorites">
+                <h3 th:text="${recentlyViewedCar.carFav}"></h3>
+                <label class="add-fav">
+                    <input class="%s" %s type="checkbox" th:checked="${recentlyViewedCar.carFavInput}"/>
+                    <i class="icon-heart fas fa-heart">
+                        <i class="icon-plus-sign fa-solid fa-plus"></i>
+                    </i>
+                </label>
+            </div>
+            <a th:href="'showroom.html?car=' + ${recentlyViewedCar.vehicleId}" class="view-button">View in
+                Showroom</a>
+        </div>
     </div>
 </div>
 <script src="../js%20scripts/Populate-Recently-Viewed.js"></script>

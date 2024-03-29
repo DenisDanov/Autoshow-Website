@@ -8,4 +8,5 @@ public interface AuthTokenValidationUtil {
 
     boolean isAuthTokenValid(long userId, String authToken);
 
+    String getValidAuthToken(long userId);
 }

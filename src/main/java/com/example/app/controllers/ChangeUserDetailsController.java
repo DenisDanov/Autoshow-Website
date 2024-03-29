@@ -1,9 +1,9 @@
 package com.example.app.controllers;
 
-import com.example.app.data.DTOs.EmailRequest;
-import com.example.app.data.DTOs.PasswordRequest;
-import com.example.app.data.DTOs.UsernameChangeRequest;
-import com.example.app.data.DTOs.UsernameResponse;
+import com.example.app.data.DTOs.EmailRequestDTO;
+import com.example.app.data.DTOs.PasswordRequestDTO;
+import com.example.app.data.DTOs.UsernameChangeRequestDTO;
+import com.example.app.data.DTOs.UsernameResponseDTO;
 import com.example.app.services.ChangeUserDetailService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -23,20 +23,20 @@ public class ChangeUserDetailsController {
     }
 
     @PostMapping("/changeUsername")
-    public ResponseEntity<UsernameResponse> changeUsername(@RequestBody UsernameChangeRequest request,
-                                                           HttpServletResponse response) {
+    public ResponseEntity<UsernameResponseDTO> changeUsername(@RequestBody UsernameChangeRequestDTO request,
+                                                              HttpServletResponse response) {
         return changeUserDetailService.changeUsername(request, response);
     }
 
     @PostMapping("/changeEmail")
-    public ResponseEntity<UsernameResponse> changeEmail(@RequestBody EmailRequest request,
-                                                        HttpServletResponse response) {
+    public ResponseEntity<UsernameResponseDTO> changeEmail(@RequestBody EmailRequestDTO request,
+                                                           HttpServletResponse response) {
         return changeUserDetailService.changeEmail(request, response);
     }
 
     @PostMapping("/changePassword")
-    public ResponseEntity<UsernameResponse> changePassword(@RequestBody PasswordRequest request,
-                                                           HttpServletResponse response) {
+    public ResponseEntity<UsernameResponseDTO> changePassword(@RequestBody PasswordRequestDTO request,
+                                                              HttpServletResponse response) {
        return changeUserDetailService.changePassword(request,response);
     }
 }

@@ -15,6 +15,7 @@ public class NewsletterEmails {
     @Column(unique = true)
     private String email;
 
+    @Column(name = "date_of_last_email_send")
     private Instant dateOfLastEmailSend;
 
     public NewsletterEmails(Long id, String email) {

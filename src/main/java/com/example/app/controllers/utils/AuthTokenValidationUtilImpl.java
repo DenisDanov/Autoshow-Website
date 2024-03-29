@@ -1,6 +1,7 @@
 package com.example.app.controllers.utils;
 
 import com.example.app.data.entities.AuthenticationToken;
+import com.example.app.data.entities.ReplacedAuthToken;
 import com.example.app.data.entities.User;
 import com.example.app.services.AuthenticationTokenService;
 import com.example.app.services.ReplacedAuthTokensService;
@@ -33,10 +34,11 @@ public class AuthTokenValidationUtilImpl implements AuthTokenValidationUtil {
         Optional<User> userOptional = userService.findById(userId);
         if (userOptional.isPresent()) {
             AuthenticationToken authenticationToken = authenticationTokenService.findByUser_Id(userId);
+            ReplacedAuthToken replacedAuthToken = replacedAuthTokensService.findByReplacedToken(authToken);
             if (authenticationToken != null && authenticationToken.getToken().equals(authToken)) {
                 return true;
-            } else if ((authenticationToken != null && replacedAuthTokensService.findByReplacedToken(authToken) != null) &&
-                    replacedAuthTokensService.findByReplacedToken(authToken).getUser().getId().equals(userId)) {
+            } else if ((authenticationToken != null && replacedAuthToken != null) &&
+                    replacedAuthToken.getUser().getId().equals(userId)) {
 
                 replacedAuthTokensService.deleteByReplacedToken(authToken);
                 Cookie cookie = new Cookie("authToken", authenticationToken.getToken());
@@ -68,5 +70,10 @@ public class AuthTokenValidationUtilImpl implements AuthTokenValidationUtil {
                             replacedAuthTokensService.findByReplacedToken(authToken).getUser().getId().equals(userId));
         }
         return false;
+    }
+
+    @Override
+    public String getValidAuthToken(long userId) {
+        return authenticationTokenService.findByUser_Id(userId).getToken();
     }
 }

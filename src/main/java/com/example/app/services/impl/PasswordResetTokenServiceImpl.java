@@ -52,7 +52,7 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
         PasswordResetToken resetToken = new PasswordResetToken();
         resetToken.setToken(token);
         resetToken.setUser(user);
-        resetToken.setExpiryDate(Instant.now().plusSeconds(86400)); // Token expiration time (24 hours)
+        resetToken.setExpireDate(Instant.now().plusSeconds(86400)); // Token expiration time (24 hours)
         tokenRepository.save(resetToken);
         return token;
     }
@@ -68,7 +68,7 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
         Instant now = Instant.now();
         List<PasswordResetToken> expiredTokens = tokenRepository.findAll()
                 .stream()
-                .filter(token -> token.getExpiryDate().isBefore(now))
+                .filter(token -> token.getExpireDate().isBefore(now))
                 .collect(Collectors.toList());
         tokenRepository.deleteAll(expiredTokens);
     }

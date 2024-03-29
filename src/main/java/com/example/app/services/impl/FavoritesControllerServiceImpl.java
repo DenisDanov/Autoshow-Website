@@ -1,7 +1,7 @@
 package com.example.app.services.impl;
 
-import com.example.app.data.DTOs.FavoriteRequest;
-import com.example.app.data.DTOs.FavoriteResponse;
+import com.example.app.data.DTOs.FavoriteRequestDTO;
+import com.example.app.data.DTOs.FavoriteResponseDTO;
 import com.example.app.data.entities.AuthenticationToken;
 import com.example.app.data.entities.FavoriteVehiclesEntity;
 import com.example.app.data.entities.User;
@@ -39,7 +39,7 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
     }
 
     @Override
-    public ResponseEntity<String> addToFavorites(FavoriteRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> addToFavorites(FavoriteRequestDTO request, HttpServletResponse response) {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userService.findById(userId);
@@ -53,7 +53,7 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
     }
 
     @Override
-    public ResponseEntity<String> removeFromFavorites(FavoriteRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> removeFromFavorites(FavoriteRequestDTO request, HttpServletResponse response) {
         // Find the user by ID
         Long userId = Long.parseLong(request.getUserId());
         Optional<User> userOptional = userService.findById(userId);
@@ -75,17 +75,17 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
     }
 
     @Override
-    public ResponseEntity<List<FavoriteResponse>> getFavVehicles(String id, String authToken, HttpServletResponse response) {
+    public ResponseEntity<List<FavoriteResponseDTO>> getFavVehicles(String id, String authToken, HttpServletResponse response) {
         Long userId = Long.parseLong(id);
 
         Optional<User> userOptional = userService.findById(userId);
         AuthenticationToken authenticationToken = authenticationTokenService.findByToken(authToken);
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
-            List<FavoriteResponse> getAllVehicles = favoriteVehiclesService
+            List<FavoriteResponseDTO> getAllVehicles = favoriteVehiclesService
                     .findByUser_Id(userId)
                     .stream()
-                    .map(favoriteVehicle -> new FavoriteResponse(
+                    .map(favoriteVehicle -> new FavoriteResponseDTO(
                             favoriteVehicle.getVehicleId(),
                             favoriteVehicle.getVehicleImg(),
                             favoriteVehicle.getVehicleName()))
@@ -97,7 +97,7 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
         }
     }
 
-    private ResponseEntity<String> addVehicleToDb(@RequestBody FavoriteRequest request, Long userId, Optional<User> userOptional) {
+    private ResponseEntity<String> addVehicleToDb(@RequestBody FavoriteRequestDTO request, Long userId, Optional<User> userOptional) {
         User user = userOptional.get();
 
         List<FavoriteVehiclesEntity> matchingEntities = favoriteVehiclesService.findByUser_Id(userId).stream()

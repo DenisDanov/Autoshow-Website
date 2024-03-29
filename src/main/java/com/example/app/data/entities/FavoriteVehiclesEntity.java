@@ -11,15 +11,17 @@ public class FavoriteVehiclesEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
     @Column(name = "vehicle_id")
     private String vehicleId;
 
+    @Column(name = "vehicle_img")
     private String vehicleImg;
 
+    @Column(name = "vehicle_name")
     private String vehicleName;
 
     public FavoriteVehiclesEntity() {

@@ -98,13 +98,13 @@ public class SendGridEmailServiceImpl implements SendGridEmailService {
                             <strong>%s</strong> - Precision engineering meets pure adrenaline.
                            <br><br>
                              Order these or explore more through the Order menu.
-                        </p>"\s
-                        <div style=text-align: center; margin-top: 20px;>"\s
-                           <a href=https://danov-autoshow.azurewebsites.net/auto-show.html?popup=true>Order car</a>"\s
-                      <p class=unsub-btn>Unsubscribe<a href="%s">here</a></p>"\s
-                        </div>"\s
-                    </div>"\s
-                "</div>
+                        </p>\s
+                        <div style=text-align: center; margin-top: 20px;>\s
+                           <a href=https://danov-autoshow.azurewebsites.net/auto-show?popup=true>Order car</a>\s
+                      <p class=unsub-btn>Unsubscribe<a href="%s">here</a></p>\s
+                        </div>\s
+                    </div>\s
+                </div>
                 """.formatted(randomVehicles.get(0), randomVehicles.get(1), randomVehicles.get(2), randomVehicles.get(3),
                 unsubscribeLink);
 

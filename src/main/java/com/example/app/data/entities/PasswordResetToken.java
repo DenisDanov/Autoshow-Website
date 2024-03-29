@@ -1,6 +1,5 @@
 package com.example.app.data.entities;
 
-import com.example.app.data.entities.User;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -12,14 +11,12 @@ public class PasswordResetToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String token;
-
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = User.class)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
-
-    private Instant expiryDate;
+    @Column(name = "expire_date")
+    private Instant expireDate;
 
     public void setId(Long id) {
         this.id = id;
@@ -45,16 +42,16 @@ public class PasswordResetToken {
         this.user = user;
     }
 
-    public Instant getExpiryDate() {
-        return expiryDate;
+    public Instant getExpireDate() {
+        return expireDate;
     }
 
     @Transient
     public boolean isExpired() {
-        return Instant.now().isAfter(expiryDate);
+        return Instant.now().isAfter(expireDate);
     }
 
-    public void setExpiryDate(Instant expiryDate) {
-        this.expiryDate = expiryDate;
+    public void setExpireDate(Instant expiryDate) {
+        this.expireDate = expiryDate;
     }
 }

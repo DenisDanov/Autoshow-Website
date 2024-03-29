@@ -3,6 +3,8 @@ package com.example.app.controllers;
 import com.example.app.controllers.utils.AuthTokenValidationUtil;
 import com.example.app.controllers.utils.CookieUtils;
 import com.example.app.controllers.utils.VehicleExistCheckUtil;
+import com.example.app.data.DTOs.CarDTO;
+import com.example.app.data.DTOs.RecentlyViewedCarDTO;
 import com.example.app.data.entities.FavoriteVehiclesEntity;
 import com.example.app.data.entities.RecentlyViewedToken;
 import com.example.app.data.entities.User;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class ViewController {
@@ -25,6 +28,30 @@ public class ViewController {
     private final FavoriteVehiclesService favoriteVehiclesService;
 
     private final AuthTokenValidationUtil authTokenValidationUtil;
+
+    public static final List<CarDTO> CAR_DTO_LIST = new ArrayList<>();
+
+    static {
+        // Add CarDTO objects to the list
+        CAR_DTO_LIST.add(new CarDTO("../images/Lamborghini-Urus-2022.png", "Lamborghini Urus 2022",
+                "3D Models/Lamborghini-Urus-2022.glb", false));
+        CAR_DTO_LIST.add(new CarDTO("../images/Porsche-Carrera-2015.png", "Porsche Carrera 2015",
+                "3D Models/Porsche-Carrera-2015.glb", true));
+        CAR_DTO_LIST.add(new CarDTO("../images/Lamborghini-Aventador-2020.png", "Lamborghini Aventador 2020",
+                "3D Models/Lamborghini-Aventador-2020.glb", false));
+        CAR_DTO_LIST.add(new CarDTO("../images/Lamborghini-Gallardo-2007.png", "Lamborghini Gallardo 2007",
+                "3D Models/Lamborghini-Gallardo-2007.glb", false));
+        CAR_DTO_LIST.add(new CarDTO("../images/Toyota-Supra-Gr-2020.png", "Toyota Supra Gr 2020",
+                "3D Models/Toyota-Supra-Gr-2020.glb", false));
+        CAR_DTO_LIST.add(new CarDTO("../images/Porsche-Boxster-2016.png", "Porsche Boxster 2016",
+                "3D Models/Porsche-Boxster-2016.glb", true));
+        CAR_DTO_LIST.add(new CarDTO("../images/BMW-X5-2022.png", "BMW X5 2022",
+                "3D Models/BMW-X5-2022.glb", false));
+        CAR_DTO_LIST.add(new CarDTO("../images/Mclaren-P1-2015.png", "McLaren P1 2015",
+                "3D Models/Mclaren-P1-2015.glb", false));
+        CAR_DTO_LIST.add(new CarDTO("../images/Tesla-Model-3-2020.png", "Tesla Model 3 2020",
+                "3D Models/Tesla-Model-3-2020.glb", false));
+    }
 
     public ViewController(RecentlyViewedTokenService recentlyViewedTokenService,
                           FavoriteVehiclesService favoriteVehiclesService,
@@ -37,12 +64,16 @@ public class ViewController {
     @GetMapping({"/", "index", "3D Models", "images", "js scripts", "css"})
     public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
-        String navigationHtml = getNavigationHtml(authToken, authTokenValidationUtil, response);
+        String[] navHtmlAndToken = getNavigationHtml(authToken, authTokenValidationUtil, response);
+        String navigationHtml = navHtmlAndToken[0];
+        authToken = navHtmlAndToken[1];
         if (authToken != null) {
             return new ModelAndView("index")
                     .addObject("nav", navigationHtml)
-                    .addObject("recentlyViewed", getRecentlyViewedHtml(authToken, recentlyViewedTokenService,
-                            favoriteVehiclesService, authTokenValidationUtil));
+                    .addObject("recentlyViewed", getRecentlyViewedHtml(authToken,
+                            recentlyViewedTokenService,
+                            authTokenValidationUtil,
+                            favoriteVehiclesService.findByUser_Id(CookieUtils.getUserIdFromAuthToken(authToken))));
         }
         return new ModelAndView("index")
                 .addObject("nav", navigationHtml);
@@ -51,34 +82,51 @@ public class ViewController {
     @GetMapping("auto-show")
     public ModelAndView autoshow(HttpServletRequest request, HttpServletResponse response) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
-        String navigationHtml = getNavigationHtml(authToken, authTokenValidationUtil, response);
+        String[] navHtmlAndToken = getNavigationHtml(authToken, authTokenValidationUtil, response);
+        String navigationHtml = navHtmlAndToken[0];
+        authToken = navHtmlAndToken[1];
         if (authToken != null) {
             return new ModelAndView("auto-show")
                     .addObject("nav", navigationHtml)
+                    .addObject("cars", getFavoriteCars(CookieUtils.getUserIdFromAuthToken(authToken)))
                     .addObject("recentlyViewed", getRecentlyViewedHtml(authToken,
                             recentlyViewedTokenService,
-                            favoriteVehiclesService,
-                            authTokenValidationUtil))
-                    .addObject("favsMap",
-                            autoShowCarsHtml(CookieUtils.getUserIdFromAuthToken(authToken)));
+                            authTokenValidationUtil,
+                            favoriteVehiclesService.findByUser_Id(CookieUtils.getUserIdFromAuthToken(authToken))));
         }
         return new ModelAndView("auto-show")
                 .addObject("nav", navigationHtml)
-                .addObject("favsMap", new HashMap<String, String>());
+                .addObject("cars", getFavoriteCars(0));
     }
 
-    private Map<String, String> autoShowCarsHtml(long userId) {
-        Map<String, String> favVehiclesMap = new HashMap<>();
-        this.favoriteVehiclesService.findByUser_Id(userId).forEach(favVehicle -> {
-            favVehiclesMap.put(favVehicle.getVehicleName(), "Remove From Favorites,true");
-        });
-        return favVehiclesMap;
+    private List<CarDTO> getFavoriteCars(long userId) {
+        if (userId != 0) {
+            List<FavoriteVehiclesEntity> favCars = favoriteVehiclesService.findByUser_Id(userId);
+            if (favCars.isEmpty()) {
+                return CAR_DTO_LIST;
+            } else  {
+                List<CarDTO> carDTOS = new ArrayList<>(CAR_DTO_LIST);
+                Set<String> favoriteIds = favCars.stream()
+                        .map(FavoriteVehiclesEntity::getVehicleId)
+                        .collect(Collectors.toSet());
+
+                for (CarDTO carDTO : CAR_DTO_LIST) {
+                    if (favoriteIds.contains(carDTO.getCarModelPath())) {
+                        carDTO.setInFavorites(true);
+                    }
+                }
+                return carDTOS;
+            }
+        } else {
+            return CAR_DTO_LIST;
+        }
     }
 
     @GetMapping("newsletter-unsubscribe.html")
     public ModelAndView newsletterUnsubscribe(HttpServletRequest request, HttpServletResponse response) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
-        String navigationHtml = getNavigationHtml(authToken, authTokenValidationUtil, response);
+        String[] navHtmlAndToken = getNavigationHtml(authToken, authTokenValidationUtil, response);
+        String navigationHtml = navHtmlAndToken[0];
         return new ModelAndView("newsletter-unsubscribe")
                 .addObject("nav", navigationHtml);
     }
@@ -86,7 +134,8 @@ public class ViewController {
     @GetMapping("reset-password.html")
     public ModelAndView resetPassword(HttpServletRequest request, HttpServletResponse response) {
         String authToken = CookieUtils.getAuthTokenCookie(request);
-        String navigationHtml = getNavigationHtml(authToken, authTokenValidationUtil, response);
+        String[] navHtmlAndToken = getNavigationHtml(authToken, authTokenValidationUtil, response);
+        String navigationHtml = navHtmlAndToken[0];
         return new ModelAndView("reset-password")
                 .addObject("nav", navigationHtml);
     }
@@ -109,74 +158,55 @@ public class ViewController {
         return "register";
     }
 
-    public static String getRecentlyViewedHtml(String authToken,
-                                               RecentlyViewedTokenService recentlyViewedTokenService,
-                                               FavoriteVehiclesService favoriteVehiclesService,
-                                               AuthTokenValidationUtil authTokenValidationUtil) {
+    public static List<RecentlyViewedCarDTO> getRecentlyViewedHtml(String authToken,
+                                                                   RecentlyViewedTokenService recentlyViewedTokenService,
+                                                                   AuthTokenValidationUtil authTokenValidationUtil,
+                                                                   List<FavoriteVehiclesEntity> favoriteVehiclesEntities) {
         long id = CookieUtils.getUserIdFromAuthToken(authToken);
         Optional<RecentlyViewedToken> recentlyViewedTokenOptional = recentlyViewedTokenService.findByUser_Id(id);
         if (recentlyViewedTokenOptional.isPresent() &&
                 !recentlyViewedTokenOptional.get().getRecentlyViewedCars().isEmpty()) {
             RecentlyViewedToken recentlyViewedToken = recentlyViewedTokenOptional.get();
-            StringBuilder fullContainer = new StringBuilder();
             List<String> cars = new ArrayList<>(List.of(recentlyViewedToken.getRecentlyViewedCars().split(",")));
             Collections.reverse(cars);
-            for (String car : cars) {
-                if (VehicleExistCheckUtil.doesItExist(car.split("3D Models/")[1]
-                        .split("\\.")[0])) {
-                    List<String> isVehicleFav = isVehicleInFavs(car, id, favoriteVehiclesService);
-                    fullContainer.append("""
-                            <div class="car-card">
-                                   <div class="img-container">
-                                                      <img src="../images/%s.png" alt="Car 2">
-                                                  </div>
-                                                  <div class="car-info">
-                                                      <h3>%s</h3>
-                                                  </div>
-                                                  <div class="favorites">
-                                                  <h3>%s</h3>
-                                                  <label class="add-fav">
-                                                      <input class="%s" %s type="checkbox" />
-                                                      <i class="icon-heart fas fa-heart">
-                                                          <i class="icon-plus-sign fa-solid fa-plus"></i>
-                                                      </i>
-                                                  </label>
-                                              </div>
-                                                  <a href="showroom.html?car=%s" class="view-button">View in
-                                                      Showroom</a>
-                                   </div>
-                                  """
-                            .formatted(car.split("3D Models/")[1]
-                                            .split("\\.")[0],
-                                    car.split("3D Models/")[1].replaceAll("-", " ")
-                                            .split("\\.")[0],
-                                    isVehicleFav.get(0),
-                                    isVehicleFav.get(1).split("=")[0],
-                                    isVehicleFav.get(1),
-                                    car));
-                }
-            }
-            return fullContainer.toString();
+
+            return cars.stream().map(car -> {
+                        if (VehicleExistCheckUtil.doesItExist(car.split("3D Models/")[1]
+                                .split("\\.")[0])) {
+                            RecentlyViewedCarDTO recentlyViewedCarDTO = new RecentlyViewedCarDTO();
+                            recentlyViewedCarDTO.setVehicleImg(car.split("3D Models/")[1]
+                                    .split("\\.")[0]);
+                            recentlyViewedCarDTO.setVehicleName(car.split("3D Models/")[1].
+                                    replaceAll("-", " ")
+                                    .split("\\.")[0]);
+                            recentlyViewedCarDTO.setVehicleId(car);
+                            String[] favsParts = isVehicleInFavs(favoriteVehiclesEntities, car);
+                            recentlyViewedCarDTO.setCarFav(favsParts[0]);
+                            recentlyViewedCarDTO.setCarFavInput(favsParts[1]);
+                            return recentlyViewedCarDTO;
+                        }
+                        return null;
+                    }).filter(Objects::nonNull).
+                    collect(Collectors.toList());
         } else {
-            return "";
+            return new ArrayList<>();
         }
     }
 
-    private static List<String> isVehicleInFavs(String car, long userId, FavoriteVehiclesService favoriteVehiclesService) {
-        for (FavoriteVehiclesEntity favVehicle : favoriteVehiclesService.findByUser_Id(userId)) {
-            if (favVehicle.getVehicleId().contains(car)) {
-                return List.of("Remove from Favorites", """
-                        checked="true"
-                        """);
+    private static String[] isVehicleInFavs(List<FavoriteVehiclesEntity> favoriteVehiclesEntities, String car) {
+        for (FavoriteVehiclesEntity favoriteVehiclesEntity : favoriteVehiclesEntities) {
+            if (favoriteVehiclesEntity.getVehicleId().contains(car)) {
+                return new String[]{"Remove from Favorites", "true"};
             }
         }
-        return List.of("Add to Favorites", "");
+        return new String[]{"Add to Favorites", "false"};
     }
 
-    public static String getNavigationHtml(String authToken, AuthTokenValidationUtil authTokenValidationUtil, HttpServletResponse response) {
+    public static String[] getNavigationHtml(String authToken, AuthTokenValidationUtil authTokenValidationUtil, HttpServletResponse response) {
+        long userId = CookieUtils.getUserIdFromAuthToken(authToken);
         if (authToken != null && authTokenValidationUtil.
-                isAuthTokenValid(CookieUtils.getUserIdFromAuthToken(authToken), authToken, response)) {
-            return """
+                isAuthTokenValid(userId, authToken, response)) {
+            return new String[]{"""
                     <header class="nav-header" id="header">
                     <a href="/index" class="logo">
                             <img class="logo-img" src="../images/logo.png" alt="Logo">
@@ -240,9 +270,9 @@ public class ViewController {
                             </nav>
                         </nav>
                         </header>
-                    """;
+                    """, authTokenValidationUtil.getValidAuthToken(userId)};
         } else {
-            return """
+            return new String[]{"""
                           <header class="nav-header" id="header">
                          <a href="/index" class="logo">
                                 <img class="logo-img" src="../images/logo.png" alt="Logo">
@@ -306,7 +336,7 @@ public class ViewController {
                                 </nav>
                             </nav>
                             </header>
-                    """;
+                    """, ""};
         }
     }
 }

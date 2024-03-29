@@ -11,13 +11,14 @@ public class ReplacedAuthToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "replaced_token",unique = true, nullable = false)
     private String replacedToken;
 
+    @Column(name = "expire_date")
     private Timestamp expireDate;
 
     public ReplacedAuthToken() {

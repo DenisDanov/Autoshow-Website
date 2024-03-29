@@ -29,7 +29,9 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                 document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
                 document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
                 document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.color = `white`;
                 document.querySelector(`.recently-viewed-cars`).children[0].style.textAlign = "center";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.fontFamily = 'Poppins, sans-serif';
             }
             document.getElementById(`recently-viewed-spinner`).style.display = `none`;
             document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
@@ -49,8 +51,10 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
             } else {
                 document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
                 document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
+                document.querySelector(`.recently-viewed-cars`).children[0].style.color = `white`;
                 document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
                 document.querySelector(`.recently-viewed-cars`).children[0].style.textAlign = "center";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.fontFamily = 'Poppins, sans-serif';
             }
             document.getElementById(`recently-viewed-spinner`).style.display = `none`;
             document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
@@ -95,7 +99,9 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                 document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
                 document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
                 document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.fontFamily = 'Poppins, sans-serif';
                 document.querySelector(`.recently-viewed-cars`).children[0].style.textAlign = "center";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.color = `white`;
             }
         }
     }

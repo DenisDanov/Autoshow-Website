@@ -13,6 +13,10 @@
     display: none !important;
 }
 
+.content {
+    flex: 1;
+}
+
 .view-buttons {
     margin: 0 auto;
     display: flex;
@@ -115,7 +119,7 @@ body {
     border-radius: 8px;
     padding: 20px;
     max-width: 400px;
-    margin: 70px auto;
+    margin: 50px auto;
 }
 
 #unsubscribe-confirmation p,

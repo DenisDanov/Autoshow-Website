@@ -11,14 +11,13 @@ public class FailedLoginAttempts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "amount_failed_logins")
     private int amountFailedLogins;
-
+    @Column(name = "is_user_locked")
     private boolean isUserLocked;
-
+    @Column(name = "account_lock_expire_time")
     private Timestamp accountLockExpireTime;
-
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 

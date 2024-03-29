@@ -61,7 +61,7 @@
         <div id="order-car-container-wrapper" bis_skin_checked="1">
             <div id="order-car-container" onclick="popUpOrderCar()" bis_skin_checked="1">Order Car</div>
         </div>
-        <div id="order-car-menu">
+        <div id="order-car-menu" style="z-index: 100001">
             <div id="popup-order-car">
                 <i class="fas fa-window-close"></i>
                 <p>Can't find a car you wanna see ? Make a order here.</p>
@@ -100,216 +100,29 @@
                     <button onclick="noThanks()">No thanks</button>
                 </div>
             </div>
-            <div class="car-card">
+            <div class="car-card" th:each="car : ${cars}">
                 <div class="img-container">
-                    <img src="../images/Lamborghini-Urus-2022.png" alt="Car 1">
+                    <img th:src="${car.carImg}" alt="Car 2">
                 </div>
                 <div class="car-info">
-                    <h3>Lamborghini Urus 2022</h3>
+                    <h3 th:text="${car.carName}"></h3>
                 </div>
-                <div class="favorites"
-                     th:with="parts=${#strings.arraySplit(favsMap['Lamborghini Urus 2022'] ?: '', ',')}">
-                    <h3 th:if="${parts != null && parts.length > 0}"
-                        th:text="${parts[0] != null && parts[0] != '' ? 'Remove from Favorites' : 'Add to Favorites'}"></h3>
-                    <h3 th:unless="${parts != null && parts.length > 0}">Add to Favorites</h3>
+                <div class="favorites">
+                    <h3 th:if="${car.isInFavorites}">
+                        Remove from Favorites
+                    </h3>
+                    <h3 th:unless="${car.isInFavorites}">
+                        Add to Favorites
+                    </h3>
                     <label class="add-fav">
-                        <input th:class="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : ''}"
-                               type="checkbox"
-                               th:checked="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : null}"/>
+                        <input th:class="${car.isInFavorites} ? 'checked' : ''" type="checkbox" th:checked="${car.isInFavorites}"/>
                         <i class="icon-heart fas fa-heart">
                             <i class="icon-plus-sign fa-solid fa-plus"></i>
                         </i>
                     </label>
                 </div>
-                <a href="showroom.html?car=3D Models/Lamborghini-Urus-2022.glb" class="view-button">View
+                <a th:href="'showroom.html?car=' + ${car.carModelPath}" class="view-button">View
                     in Showroom</a>
-            </div>
-            <div class="car-card">
-                <div class="img-container">
-                    <img src="../images/Porsche-Carrera-2015.png" alt="Car 2">
-                </div>
-                <div class="car-info">
-                    <h3>Porsche Carrera 2015</h3>
-                </div>
-                <div class="favorites"
-                     th:with="parts=${#strings.arraySplit(favsMap['Porsche Carrera 2015'] ?: '', ',')}">
-                    <h3 th:if="${parts != null && parts.length > 0}"
-                        th:text="${parts[0] != null && parts[0] != '' ? 'Remove from Favorites' : 'Add to Favorites'}"></h3>
-                    <h3 th:unless="${parts != null && parts.length > 0}">Add to Favorites</h3>
-                    <label class="add-fav">
-                        <input th:class="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : ''}"
-                               type="checkbox"
-                               th:checked="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : null}"/>
-                        <i class="icon-heart fas fa-heart">
-                            <i class="icon-plus-sign fa-solid fa-plus"></i>
-                        </i>
-                    </label>
-                </div>
-                <a href="showroom.html?car=3D Models/Porsche-Carrera-2015.glb" class="view-button">View in
-                    Showroom</a>
-            </div>
-            <div class="car-card">
-                <div class="img-container">
-                    <img src="../images/Lamborghini-Aventador-2020.png" alt="Car 2">
-                </div>
-                <div class="car-info">
-                    <h3>Lamborghini Aventador 2020</h3>
-                </div>
-                <div class="favorites"
-                     th:with="parts=${#strings.arraySplit(favsMap['Lamborghini Aventador 2020'] ?: '', ',')}">
-                    <h3 th:if="${parts != null && parts.length > 0}"
-                        th:text="${parts[0] != null && parts[0] != '' ? 'Remove from Favorites' : 'Add to Favorites'}"></h3>
-                    <h3 th:unless="${parts != null && parts.length > 0}">Add to Favorites</h3>
-                    <label class="add-fav">
-                        <input th:class="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : ''}"
-                               type="checkbox"
-                               th:checked="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : null}"/>
-                        <i class="icon-heart fas fa-heart">
-                            <i class="icon-plus-sign fa-solid fa-plus"></i>
-                        </i>
-                    </label>
-                </div>
-                <a href="showroom.html?car=3D Models/Lamborghini-Aventador-2020.glb" class="view-button">View in
-                    Showroom</a>
-            </div>
-            <div class="car-card">
-                <div class="img-container">
-                    <img src="../images/Lamborghini-Gallardo-2007.png" alt="Car 2">
-                </div>
-                <div class="car-info">
-                    <h3>Lamborghini Gallardo 2007</h3>
-                </div>
-                <div class="favorites"
-                     th:with="parts=${#strings.arraySplit(favsMap['Lamborghini Gallardo 2007'] ?: '', ',')}">
-                    <h3 th:if="${parts != null && parts.length > 0}"
-                        th:text="${parts[0] != null && parts[0] != '' ? 'Remove from Favorites' : 'Add to Favorites'}"></h3>
-                    <h3 th:unless="${parts != null && parts.length > 0}">Add to Favorites</h3>
-                    <label class="add-fav">
-                        <input th:class="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : ''}"
-                               type="checkbox"
-                               th:checked="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : null}"/>
-                        <i class="icon-heart fas fa-heart">
-                            <i class="icon-plus-sign fa-solid fa-plus"></i>
-                        </i>
-                    </label>
-                </div>
-                <a href="showroom.html?car=3D Models/Lamborghini-Gallardo-2007.glb" class="view-button">View in
-                    Showroom</a>
-            </div>
-            <div class="car-card">
-                <div class="img-container">
-                    <img src="../images/Toyota-Supra-Gr-2020.png" alt="Car 2">
-                </div>
-                <div class="car-info">
-                    <h3>Toyota Supra Gr 2020</h3>
-                </div>
-                <div class="favorites"
-                     th:with="parts=${#strings.arraySplit(favsMap['Toyota Supra Gr 2020'] ?: '', ',')}">
-                    <h3 th:if="${parts != null && parts.length > 0}"
-                        th:text="${parts[0] != null && parts[0] != '' ? 'Remove from Favorites' : 'Add to Favorites'}"></h3>
-                    <h3 th:unless="${parts != null && parts.length > 0}">Add to Favorites</h3>
-                    <label class="add-fav">
-                        <input th:class="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : ''}"
-                               type="checkbox"
-                               th:checked="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : null}"/>
-                        <i class="icon-heart fas fa-heart">
-                            <i class="icon-plus-sign fa-solid fa-plus"></i>
-                        </i>
-                    </label>
-                </div>
-                <a href="showroom.html?car=3D Models/Toyota-Supra-Gr-2020.glb" class="view-button">View in
-                    Showroom</a>
-            </div>
-            <div class="car-card">
-                <div class="img-container">
-                    <img src="../images/Porsche-Boxster-2016.png" alt="Car 2">
-                </div>
-                <div class="car-info">
-                    <h3>Porsche Boxster 2016</h3>
-                </div>
-                <div class="favorites"
-                     th:with="parts=${#strings.arraySplit(favsMap['Porsche Boxster 2016'] ?: '', ',')}">
-                    <h3 th:if="${parts != null && parts.length > 0}"
-                        th:text="${parts[0] != null && parts[0] != '' ? 'Remove from Favorites' : 'Add to Favorites'}"></h3>
-                    <h3 th:unless="${parts != null && parts.length > 0}">Add to Favorites</h3>
-                    <label class="add-fav">
-                        <input th:class="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : ''}"
-                               type="checkbox"
-                               th:checked="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : null}"/>
-                        <i class="icon-heart fas fa-heart">
-                            <i class="icon-plus-sign fa-solid fa-plus"></i>
-                        </i>
-                    </label>
-                </div>
-                <a href="showroom.html?car=3D Models/Porsche-Boxster-2016.glb" class="view-button">View in
-                    Showroom</a>
-            </div>
-            <div class="car-card">
-                <div class="img-container">
-                    <img src="../images/BMW-X5-2022.png" alt="Car 2">
-                </div>
-                <div class="car-info">
-                    <h3>BMW X5 2022</h3>
-                </div>
-                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['BMW X5 2022'] ?: '', ',')}">
-                    <h3 th:if="${parts != null && parts.length > 0}"
-                        th:text="${parts[0] != null && parts[0] != '' ? 'Remove from Favorites' : 'Add to Favorites'}"></h3>
-                    <h3 th:unless="${parts != null && parts.length > 0}">Add to Favorites</h3>
-                    <label class="add-fav">
-                        <input th:class="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : ''}"
-                               type="checkbox"
-                               th:checked="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : null}"/>
-                        <i class="icon-heart fas fa-heart">
-                            <i class="icon-plus-sign fa-solid fa-plus"></i>
-                        </i>
-                    </label>
-                </div>
-                <a href="showroom.html?car=3D Models/BMW-X5-2022.glb" class="view-button">View in Showroom</a>
-            </div>
-            <div class="car-card">
-                <div class="img-container">
-                    <img src="../images/Mclaren-P1-2015.png" alt="Car 2">
-                </div>
-                <div class="car-info">
-                    <h3>McLaren P1 2015</h3>
-                </div>
-                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['McLaren P1 2015'] ?: '', ',')}">
-                    <h3 th:if="${parts != null && parts.length > 0}"
-                        th:text="${parts[0] != null && parts[0] != '' ? 'Remove from Favorites' : 'Add to Favorites'}"></h3>
-                    <h3 th:unless="${parts != null && parts.length > 0}">Add to Favorites</h3>
-                    <label class="add-fav">
-                        <input th:class="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : ''}"
-                               type="checkbox"
-                               th:checked="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : null}"/>
-                        <i class="icon-heart fas fa-heart">
-                            <i class="icon-plus-sign fa-solid fa-plus"></i>
-                        </i>
-                    </label>
-                </div>
-                <a href="showroom.html?car=3D Models/Mclaren-P1-2015.glb" class="view-button">View in Showroom</a>
-            </div>
-            <div class="car-card">
-                <div class="img-container">
-                    <img src="../images/Tesla-Model-3-2020.png" alt="Car 2">
-                </div>
-                <div class="car-info">
-                    <h3>Tesla Model 3 2020</h3>
-                </div>
-                <div class="favorites" th:with="parts=${#strings.arraySplit(favsMap['Tesla Model 3 2020'] ?: '', ',')}">
-                    <h3 th:if="${parts != null && parts.length > 0}"
-                        th:text="${parts[0] != null && parts[0] != '' ? 'Remove from Favorites' : 'Add to Favorites'}"></h3>
-                    <h3 th:unless="${parts != null && parts.length > 0}">Add to Favorites</h3>
-                    <label class="add-fav">
-                        <input th:class="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : ''}"
-                               type="checkbox"
-                               th:checked="${parts != null && parts.length > 1 && parts[1] == 'true' ? 'checked' : null}"/>
-                        <i class="icon-heart fas fa-heart">
-                            <i class="icon-plus-sign fa-solid fa-plus"></i>
-                        </i>
-                    </label>
-                </div>
-                <a href="showroom.html?car=3D Models/Tesla-Model-3-2020.glb" class="view-button">View in
-                    Showroom</a>
             </div>
         </div>
     </section>
@@ -325,9 +138,28 @@
         <div></div>
         <div></div>
     </div>
-    <div th:utext="${recentlyViewed}" class="recently-viewed-cars"
-         style="display: none; justify-content: center; flex-wrap: wrap;" bis_skin_checked="1">
-
+    <div class="recently-viewed-cars"
+         style="display: none; justify-content: center; flex-wrap: wrap;">
+        <div th:each="recentlyViewedCar : ${recentlyViewed}" class="car-card">
+            <div class="img-container">
+                <img th:src="@{'images/' + ${recentlyViewedCar.vehicleImg} + '.png'}" alt="Car 2">
+            </div>
+            <div class="car-info">
+                <h3 th:text="${recentlyViewedCar.vehicleName}"></h3>
+            </div>
+            <div class="favorites">
+                <h3 th:text="${recentlyViewedCar.carFav}"></h3>
+                <label class="add-fav">
+                    <input th:class="${recentlyViewedCar.carFavInput} ? 'checked' : ''" type="checkbox"
+                           th:checked="${recentlyViewedCar.carFavInput}"/>
+                    <i class="icon-heart fas fa-heart">
+                        <i class="icon-plus-sign fa-solid fa-plus"></i>
+                    </i>
+                </label>
+            </div>
+            <a th:href="'showroom.html?car=' + ${recentlyViewedCar.vehicleId}" class="view-button">View in
+                Showroom</a>
+        </div>
     </div>
 </div>
 <script src="../js%20scripts/Populate-Recently-Viewed.js"></script>

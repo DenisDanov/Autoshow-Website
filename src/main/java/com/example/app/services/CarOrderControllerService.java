@@ -10,16 +10,16 @@ import java.util.List;
 
 public interface CarOrderControllerService {
 
-    ResponseEntity<String> addOrder(@RequestBody CarOrderRequest request,
+    ResponseEntity<String> addOrder(@RequestBody CarOrderRequestDTO request,
                                     HttpServletResponse response);
 
-    ResponseEntity<List<CarOrder>> getOrders(@RequestParam("id") Long userId,
-                                             @RequestParam("authToken") String authToken,
-                                             HttpServletResponse response);
+    ResponseEntity<List<CarOrderDTO>> getOrders(@RequestParam("id") Long userId,
+                                                @RequestParam("authToken") String authToken,
+                                                HttpServletResponse response);
 
-    ResponseEntity<String> removeCarOrder(@RequestBody RemoveCarOrderRequest request,
+    ResponseEntity<String> removeCarOrder(@RequestBody RemoveCarOrderRequestDTO request,
                                           HttpServletResponse response);
 
-    ResponseEntity<ModifyCarOrderResponse> modifyCarOrder(@RequestBody ModifyCarOrder request,
-                                                          HttpServletResponse response);
+    ResponseEntity<ModifyCarOrderResponseDTO> modifyCarOrder(@RequestBody ModifyCarOrderDTO request,
+                                                             HttpServletResponse response);
 }

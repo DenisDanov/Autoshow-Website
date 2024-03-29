@@ -12,13 +12,14 @@ public class AuthenticationToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
     @Column(nullable = false, unique = true)
     private String token;
 
+    @Column(name = "expire_date")
     private Timestamp expireDate;
 
     public AuthenticationToken() {

@@ -19,27 +19,27 @@ public class CarOrderController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addOrder(@RequestBody CarOrderRequest request,
+    public ResponseEntity<String> addOrder(@RequestBody CarOrderRequestDTO request,
                                            HttpServletResponse response) {
         return carOrderControllerService.addOrder(request, response);
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<CarOrder>> getOrders(@RequestParam("id") Long userId,
-                                                    @RequestParam("authToken") String authToken,
-                                                    HttpServletResponse response) {
+    public ResponseEntity<List<CarOrderDTO>> getOrders(@RequestParam("id") Long userId,
+                                                       @RequestParam("authToken") String authToken,
+                                                       HttpServletResponse response) {
         return carOrderControllerService.getOrders(userId, authToken, response);
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<String> removeCarOrder(@RequestBody RemoveCarOrderRequest request,
+    public ResponseEntity<String> removeCarOrder(@RequestBody RemoveCarOrderRequestDTO request,
                                                  HttpServletResponse response) {
         return carOrderControllerService.removeCarOrder(request, response);
     }
 
     @PutMapping("/modify")
-    public ResponseEntity<ModifyCarOrderResponse> modifyCarOrder(@RequestBody ModifyCarOrder request,
-                                                                 HttpServletResponse response) {
+    public ResponseEntity<ModifyCarOrderResponseDTO> modifyCarOrder(@RequestBody ModifyCarOrderDTO request,
+                                                                    HttpServletResponse response) {
         return carOrderControllerService.modifyCarOrder(request, response);
     }
 }
