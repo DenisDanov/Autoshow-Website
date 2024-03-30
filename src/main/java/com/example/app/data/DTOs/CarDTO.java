@@ -7,6 +7,13 @@ public class CarDTO {
     private String carModelPath;
     private boolean isInFavorites;
 
+    public CarDTO(CarDTO other) {
+        this.carImg = other.carImg;
+        this.carName = other.carName;
+        this.carModelPath = other.carModelPath;
+        this.isInFavorites = other.isInFavorites;
+    }
+
     public CarDTO(String carImg, String carName, String carModelPath, boolean isInFavorites) {
         this.carImg = carImg;
         this.carName = carName;

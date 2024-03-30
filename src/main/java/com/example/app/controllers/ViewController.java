@@ -32,11 +32,10 @@ public class ViewController {
     public static final List<CarDTO> CAR_DTO_LIST = new ArrayList<>();
 
     static {
-        // Add CarDTO objects to the list
         CAR_DTO_LIST.add(new CarDTO("../images/Lamborghini-Urus-2022.png", "Lamborghini Urus 2022",
                 "3D Models/Lamborghini-Urus-2022.glb", false));
         CAR_DTO_LIST.add(new CarDTO("../images/Porsche-Carrera-2015.png", "Porsche Carrera 2015",
-                "3D Models/Porsche-Carrera-2015.glb", true));
+                "3D Models/Porsche-Carrera-2015.glb", false));
         CAR_DTO_LIST.add(new CarDTO("../images/Lamborghini-Aventador-2020.png", "Lamborghini Aventador 2020",
                 "3D Models/Lamborghini-Aventador-2020.glb", false));
         CAR_DTO_LIST.add(new CarDTO("../images/Lamborghini-Gallardo-2007.png", "Lamborghini Gallardo 2007",
@@ -44,7 +43,7 @@ public class ViewController {
         CAR_DTO_LIST.add(new CarDTO("../images/Toyota-Supra-Gr-2020.png", "Toyota Supra Gr 2020",
                 "3D Models/Toyota-Supra-Gr-2020.glb", false));
         CAR_DTO_LIST.add(new CarDTO("../images/Porsche-Boxster-2016.png", "Porsche Boxster 2016",
-                "3D Models/Porsche-Boxster-2016.glb", true));
+                "3D Models/Porsche-Boxster-2016.glb", false));
         CAR_DTO_LIST.add(new CarDTO("../images/BMW-X5-2022.png", "BMW X5 2022",
                 "3D Models/BMW-X5-2022.glb", false));
         CAR_DTO_LIST.add(new CarDTO("../images/Mclaren-P1-2015.png", "McLaren P1 2015",
@@ -72,7 +71,6 @@ public class ViewController {
                     .addObject("nav", navigationHtml)
                     .addObject("recentlyViewed", getRecentlyViewedHtml(authToken,
                             recentlyViewedTokenService,
-                            authTokenValidationUtil,
                             favoriteVehiclesService.findByUser_Id(CookieUtils.getUserIdFromAuthToken(authToken))));
         }
         return new ModelAndView("index")
@@ -91,7 +89,6 @@ public class ViewController {
                     .addObject("cars", getFavoriteCars(CookieUtils.getUserIdFromAuthToken(authToken)))
                     .addObject("recentlyViewed", getRecentlyViewedHtml(authToken,
                             recentlyViewedTokenService,
-                            authTokenValidationUtil,
                             favoriteVehiclesService.findByUser_Id(CookieUtils.getUserIdFromAuthToken(authToken))));
         }
         return new ModelAndView("auto-show")
@@ -105,12 +102,12 @@ public class ViewController {
             if (favCars.isEmpty()) {
                 return CAR_DTO_LIST;
             } else  {
-                List<CarDTO> carDTOS = new ArrayList<>(CAR_DTO_LIST);
+                List<CarDTO> carDTOS = CAR_DTO_LIST.stream().map(CarDTO::new).collect(Collectors.toList());
                 Set<String> favoriteIds = favCars.stream()
                         .map(FavoriteVehiclesEntity::getVehicleId)
                         .collect(Collectors.toSet());
 
-                for (CarDTO carDTO : CAR_DTO_LIST) {
+                for (CarDTO carDTO : carDTOS) {
                     if (favoriteIds.contains(carDTO.getCarModelPath())) {
                         carDTO.setInFavorites(true);
                     }
@@ -160,7 +157,6 @@ public class ViewController {
 
     public static List<RecentlyViewedCarDTO> getRecentlyViewedHtml(String authToken,
                                                                    RecentlyViewedTokenService recentlyViewedTokenService,
-                                                                   AuthTokenValidationUtil authTokenValidationUtil,
                                                                    List<FavoriteVehiclesEntity> favoriteVehiclesEntities) {
         long id = CookieUtils.getUserIdFromAuthToken(authToken);
         Optional<RecentlyViewedToken> recentlyViewedTokenOptional = recentlyViewedTokenService.findByUser_Id(id);

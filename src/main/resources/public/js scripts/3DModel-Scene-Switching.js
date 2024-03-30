@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
-import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
+import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
 
 let scene;
 let renderer;
@@ -16,12 +16,22 @@ function initThirdPersonScript() {
     showControllsInfo("third-person");
     const container = document.getElementById('model-container');
     const containerRect = container.getBoundingClientRect();
+    let showroom;
     scene = new THREE.Scene();
 
     const aspectRatio = containerRect.width / containerRect.height;
     const camera = new THREE.PerspectiveCamera(75, aspectRatio, 15, 215000);
     renderer = new THREE.WebGLRenderer();
     const controls = new OrbitControls(camera, renderer.domElement);
+    // Enable collision detection
+    controls.enableDamping = true; // Optional, adds inertia to camera movement
+    controls.enablePan = true; // Enable panning
+    controls.enableZoom = true; // Enable zooming
+    controls.enableRotate = true; // Enable rotation
+    controls.enableKeys = false; // Disable keyboard controls to prevent accidental movements
+    controls.autoRotate = false; // Disable auto-rotation
+    controls.screenSpacePanning = true; // Use screen space for panning
+    controls.enableCollision = true; // Enable collision detection to prevent camera from intersecting with the model
 
     renderer.setSize(containerRect.width, containerRect.height);
     container.appendChild(renderer.domElement);
@@ -31,15 +41,14 @@ function initThirdPersonScript() {
     // Create a pivot object
     const pivot = new THREE.Group();
     scene.add(pivot);
-    let cameraLight;
 
     function setCameraPosition() {
-        const nearClip = 1;
+        const nearClip = 0.1;
 
         // Set the near and far clipping planes for the camera
         camera.near = nearClip;
-        camera.updateProjectionMatrix();
         camera.fov = 30;
+        camera.far = 1100;
         camera.updateProjectionMatrix();
 
         if (carParam.includes(`Tesla-Model-3-2020.glb`) ||
@@ -68,6 +77,9 @@ function initThirdPersonScript() {
                 switch (true) {
                     case carParam.includes('Lamborghini-Aventador-2020.glb'):
                         camera.position.z += cameraDistance - 1910;
+                        break;
+                    case carParam.includes('Porsche-Carrera-2015.glb'):
+                        camera.position.z += cameraDistance - 10;
                         break;
                     case carParam.includes('Mercedes-Benz-G-Class-2022.glb'):
                         camera.position.z += cameraDistance - 510;
@@ -115,7 +127,7 @@ function initThirdPersonScript() {
                         camera.position.z += cameraDistance - 1870;
                         break;
                     case carParam.includes('Lamborghini-Urus-2022.glb'):
-                        camera.position.z += cameraDistance - 285;
+                        camera.position.z += cameraDistance - 5;
                         break;
                     case carParam.includes('Lamborghini-Gallardo-2007.glb'):
                         camera.position.z += cameraDistance - 490;
@@ -217,7 +229,7 @@ function initThirdPersonScript() {
                         camera.position.z += cameraDistance - 920;
                         break;
                     case carParam.includes('Lamborghini-Urus-2022.glb'):
-                        camera.position.z += cameraDistance - 145;
+                        camera.position.z += cameraDistance - 2;
                         break;
                     case carParam.includes('Lamborghini-Gallardo-2007.glb'):
                         camera.position.z += cameraDistance - 240;
@@ -281,19 +293,6 @@ function initThirdPersonScript() {
             // Set controls target
             controls.target.copy(center);
 
-            if (carParam.includes(`Lamborghini-Urus-2022.glb`)) {
-                cameraLight = new THREE.SpotLight(0xffffff, 1);
-            } else if (carParam.includes(`BMW-M4-2022.glb`)) {
-                cameraLight = new THREE.SpotLight(0xffffff, 1.2);
-            } else {
-                cameraLight = new THREE.SpotLight(0xffffff, 1);
-            }
-
-            cameraLight.position.copy(camera.position);
-            cameraLight.target.position.copy(controls.target);
-            scene.add(cameraLight);
-            scene.add(cameraLight.target);
-
             let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
             directionalLight.position.set(0, 1, 0).normalize();
             scene.add(directionalLight);
@@ -311,7 +310,6 @@ function initThirdPersonScript() {
             const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 
             scene.add(ambientLight);
-
         }
     }
 
@@ -320,6 +318,29 @@ function initThirdPersonScript() {
     // Check if the model is an FBX, OBJ or GLB
     if (carParam.includes('.glb') || carParam.includes('.gltf')) {
         loader = new GLTFLoader();
+        loader.load("3D Models/Showroom.glb", (gltf) => {
+            showroom = gltf.scene;
+            showroom.scale.set(1, 1, 1); // Adjust scale as needed
+            showroom.traverse((child) => {
+                if (child.isMesh) {
+                    // Check if the material is already a MeshStandardMaterial
+                    if (child.material.isMeshStandardMaterial) {
+                        // Adjust material properties for a metallic appearance
+                        child.material.metalness = 0.9; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                        child.material.roughness = 0.3; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                    }
+                }
+            });
+            // Center the showroom model
+            const boundingBox = new THREE.Box3().setFromObject(showroom);
+            boundingBox.getCenter(showroom.position);
+            showroom.position.multiplyScalar(-1);
+
+            // Add the showroom model to the scene
+            scene.add(showroom);
+        }, undefined, (error) => {
+            console.error('Error loading showroom:', error);
+        });
         loader.load(carParam, (gltf) => {
             model = gltf.scene;
 
@@ -331,7 +352,8 @@ function initThirdPersonScript() {
             // Add the model to the pivot
             pivot.add(model);
             if (carParam.includes`Porsche-Carrera-2015.glb`) {
-                model.scale.set(165, 165, 165);
+                model.scale.set(23, 23, 23);
+                model.position.y = -2.13;
                 model.traverse(child => {
                     if (child.isMesh) {
                         const material = child.material;
@@ -344,7 +366,8 @@ function initThirdPersonScript() {
             } else if (carParam.includes`Lamborghini-Aventador-2020.glb`) {
                 model.scale.set(170, 170, 170);
             } else if (carParam.includes(`Lamborghini-Urus-2022.glb`)) {
-                model.scale.set(20, 20, 20);
+                model.scale.set(0.5, 0.5, 0.5);
+                model.position.y = -2.13;
                 model.traverse(child => {
                     if (child.isMesh) {
                         // Check if the material is already a MeshStandardMaterial
@@ -727,10 +750,6 @@ function initThirdPersonScript() {
 
     function animate() {
         requestAnimationFrame(animate);
-        if (cameraLight) {
-            cameraLight.position.copy(camera.position);
-            cameraLight.target.position.copy(controls.target);
-        }
         if (model && autoRotate) {
             // Rotate the pivot around the Y-axis
             pivot.rotation.y += 0.005;
@@ -780,16 +799,14 @@ function initFirstPersonScript() {
     const container = document.getElementById('model-container');
     const containerRect = container.getBoundingClientRect();
     scene = new THREE.Scene();
-
+    let showroom;
     const camera = new THREE.PerspectiveCamera(75, containerRect.width / containerRect.height, 0.1, 15000);
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(containerRect.width, containerRect.height);
     container.appendChild(renderer.domElement);
     scene.add(camera);
 
-    // Set up the spotlight position and properties
-
-    const nearClip = 1;
+    const nearClip = 0.1;
     const farClip = 5000;
     camera.near = nearClip;
     camera.far = farClip;
@@ -797,7 +814,6 @@ function initFirstPersonScript() {
     camera.fov = 30;
     camera.updateProjectionMatrix();
 
-    let cameraLight;
     let moveForward = false;
     let moveBackward = false;
     let moveLeft = false;
@@ -912,13 +928,37 @@ function initFirstPersonScript() {
     // Check if the model is an FBX or GLB
     if (carParam.includes('.glb')) {
         loader = new GLTFLoader();
+        loader.load("3D Models/Showroom.glb", (gltf) => {
+            showroom = gltf.scene;
+            showroom.scale.set(1, 1, 1); // Adjust scale as needed
+            showroom.traverse((child) => {
+                if (child.isMesh) {
+                    // Check if the material is already a MeshStandardMaterial
+                    if (child.material.isMeshStandardMaterial) {
+                        // Adjust material properties for a metallic appearance
+                        child.material.metalness = 0.9; // Adjust metalness (0 for non-metallic, 1 for fully metallic)
+                        child.material.roughness = 0.3; // Adjust roughness (0 for a smooth surface, 1 for a rough surface)
+                    }
+                }
+            });
+            // Center the showroom model
+            const boundingBox = new THREE.Box3().setFromObject(showroom);
+            boundingBox.getCenter(showroom.position);
+            showroom.position.multiplyScalar(-1);
+
+            // Add the showroom model to the scene
+            scene.add(showroom);
+        }, undefined, (error) => {
+            console.error('Error loading showroom:', error);
+        });
         loader.load(carParam, (gltf) => {
             model = gltf.scene;
             scene.add(model);
 
             if (carParam.includes`Porsche-Carrera-2015.glb`) {
-                model.scale.set(300, 300, 300);
-                camera.position.set(0, 5, 35);
+                model.scale.set(23, 23, 23);
+                model.position.y = -2.13;
+                camera.position.set(0, -1.8, 3);
                 model.traverse(child => {
                     if (child.isMesh) {
                         const material = child.material;
@@ -1521,17 +1561,11 @@ function initFirstPersonScript() {
     function animate() {
         requestAnimationFrame(animate);
 
-        if (cameraLight) {
-            cameraLight.position.copy(camera.position);
-            cameraLight.target.position.copy(camera.position);
-        }
-
-
         // Move the camera based on the keyboard input
         let moveSpeed = 0.2;
 
         if (carParam.includes(`Porsche-Carrera-2015.glb`)) {
-            moveSpeed = 0.05;
+            moveSpeed = 0.009;
         } else if (carParam.includes(`Lamborghini-Aventador-2020.glb`)) {
             moveSpeed = 1;
         } else if (carParam.includes(`Lamborghini-Urus-2022.glb`)) {
@@ -1676,11 +1710,11 @@ function initFirstPersonScript() {
         }
 
         // Add passive: false to the touch event listeners to disable browser default scrolling
-        document.addEventListener('touchstart', handleTouchStart, { passive: false });
-        document.addEventListener('touchmove', handleTouchMove, { passive: false });
-        document.addEventListener('touchend', handleTouchEnd, { passive: false });
+        document.addEventListener('touchstart', handleTouchStart, {passive: false});
+        document.addEventListener('touchmove', handleTouchMove, {passive: false});
+        document.addEventListener('touchend', handleTouchEnd, {passive: false});
 
-        document.addEventListener('touchstart', function(event) {
+        document.addEventListener('touchstart', function (event) {
             if (event.target.tagName.toLowerCase() !== 'canvas') {
                 interactedWithCanvas = false;
             }

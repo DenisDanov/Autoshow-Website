@@ -26,16 +26,12 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
 
     private final AuthenticationTokenService authenticationTokenService;
 
-    private final ReplacedAuthTokensService replacedAuthTokensService;
-
     public FavoritesControllerServiceImpl(UserService userService,
                                           FavoriteVehiclesService favoriteVehiclesService,
-                                          AuthenticationTokenService authenticationTokenService,
-                                          ReplacedAuthTokensService replacedAuthTokensService) {
+                                          AuthenticationTokenService authenticationTokenService) {
         this.userService = userService;
         this.favoriteVehiclesService = favoriteVehiclesService;
         this.authenticationTokenService = authenticationTokenService;
-        this.replacedAuthTokensService = replacedAuthTokensService;
     }
 
     @Override
@@ -102,10 +98,11 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
 
         List<FavoriteVehiclesEntity> matchingEntities = favoriteVehiclesService.findByUser_Id(userId).stream()
                 .filter(favoriteVehiclesEntity ->
-                        favoriteVehiclesEntity.getVehicleId().equals(request.getVehicleId()) &&
+                        favoriteVehiclesEntity.getVehicleId().equals(request.getVehicleId().split("car=")[1].
+                                replaceAll("%20", " ")) &&
                                 favoriteVehiclesEntity.getVehicleImg().equals(request.getVehicleImg()) &&
                                 favoriteVehiclesEntity.getVehicleName().equals(request.getVehicleName()))
-                .collect(Collectors.toList());
+                .toList();
 
         if (matchingEntities.isEmpty()) {
             if (request.getVehicleId().contains("car=")) {

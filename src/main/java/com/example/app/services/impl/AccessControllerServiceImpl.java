@@ -85,15 +85,14 @@ public class AccessControllerServiceImpl implements AccessControllerService {
     public ModelAndView checkAccess(String pageUrl, HttpServletRequest request, HttpServletResponse response) throws URISyntaxException {
         String authToken = CookieUtils.getAuthTokenCookie(request);
         if (authToken != null) {
-            return getModelAndViewProfilePage(authToken, pageUrl, response, request);
+            return getModelAndViewProfilePage(authToken, pageUrl, response);
         }
         return new ModelAndView("redirect:/index");
     }
 
     private ModelAndView getModelAndViewProfilePage(String authToken,
                                                     String pageUrl,
-                                                    HttpServletResponse response,
-                                                    HttpServletRequest request) throws URISyntaxException {
+                                                    HttpServletResponse response) throws URISyntaxException {
         String[] navHtmlAndToken = ViewController.getNavigationHtml(authToken, authTokenValidationUtil, response);
         String navigationHtml = navHtmlAndToken[0];
         authToken = navHtmlAndToken[1];
@@ -115,8 +114,8 @@ public class AccessControllerServiceImpl implements AccessControllerService {
             List<CarOrderModelDTO> carOrderContents = generateCarOrderContent(carOrdersService.findByUser_Id(userId), favoriteVehiclesEntities);
             modelAndView.addObject("favVehicleContents", favVehicleContents);
             modelAndView.addObject("carOrderModels", carOrderContents);
-            modelAndView.addObject("recentlyViewed", ViewController.getRecentlyViewedHtml(authToken
-                    , recentlyViewedTokenService, authTokenValidationUtil, favoriteVehiclesEntities));
+            modelAndView.addObject("recentlyViewed", ViewController.getRecentlyViewedHtml(authToken,
+                    recentlyViewedTokenService,favoriteVehiclesEntities));
             return modelAndView;
         }
         return new ModelAndView("redirect:/index");
@@ -168,6 +167,7 @@ public class AccessControllerServiceImpl implements AccessControllerService {
     private boolean isVehicleWhitelisted(String carValues) {
         return switch (carValues) {
             case "Lamborghini-Urus-2022.glb",
+                    "Showroom.glb",
                     "Tesla-Model-3-2020.glb",
                     "Mclaren-P1-2015.glb",
                     "BMW-X5-2022.glb",

@@ -22,7 +22,6 @@ fetch(url, {
         return response.json();
     })
     .then(data => {
-            console.log(data);
             for (const dataValues of Object.entries(data)) {
                 const [key, value] = dataValues;
                 if (value !== null && (value !== -1.0)) {

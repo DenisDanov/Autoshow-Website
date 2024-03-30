@@ -1,5 +1,6 @@
 //Function to log out the user
 var authToken = getCookie("authToken");
+var favoriteVehicles = [];
 function logOutUser() {
     document.querySelectorAll(`#log-out-icon`).forEach(entrie => {
         entrie.addEventListener(`click`, () => {
