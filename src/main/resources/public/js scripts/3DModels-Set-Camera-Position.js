@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { showroom, scene } from "../js scripts/3DModel-Scene-Switching.js";
+import {hideLoadingOverlay, scene, showroom} from "../js scripts/3DModel-Scene-Switching.js";
 
 export function setCameraPosition(centerPointPosition, camera, model, carParam, containerRect, controls, pivot) {
     const nearClip = 0.1;
@@ -7,24 +7,29 @@ export function setCameraPosition(centerPointPosition, camera, model, carParam, 
     // Set the near and far clipping planes for the camera
     camera.near = nearClip;
     camera.fov = 30;
-    camera.far = 1100;
+    camera.far = 111100;
     camera.updateProjectionMatrix();
-
-    if (carParam.includes(`Tesla-Model-3-2020.glb`)) {
-        camera.far = 15000;
-        camera.updateProjectionMatrix();
-    }
 
     if (model && centerPointPosition) {
         // Add the model as a child of the showroom
         showroom.add(model);
 
-        // Add the camera as a child of the showroom
-        showroom.add(camera);
-
         // Calculate bounding boxes of the model and the showroom
         const modelBoundingBox = new THREE.Box3().setFromObject(model);
         const showroomBoundingBox = new THREE.Box3().setFromObject(showroom);
+
+        let quantifier = 0.14;
+
+        if (carParam.includes(`Tesla`)) {
+            quantifier = 0.004
+        } else if (carParam.includes(`Aventador-2020`) ||
+            carParam.includes(`Gallardo`) ||
+            carParam.includes(`BMW-X5`) ||
+            carParam.includes(`Mclaren-P1`) ||
+            carParam.includes(`Grand Cherokee`) ||
+            carParam.includes(`Ghost-2022`)) {
+            quantifier = 0.11;
+        }
 
         // Calculate the scaling factor required to fit the model inside the showroom
         const modelSize = modelBoundingBox.getSize(new THREE.Vector3());
@@ -33,7 +38,7 @@ export function setCameraPosition(centerPointPosition, camera, model, carParam, 
             showroomSize.x / modelSize.x,
             showroomSize.y / modelSize.y,
             showroomSize.z / modelSize.z
-        ) * 0.14; // Adjusting scale to make the model smaller
+        ) * quantifier; // Adjusting scale to make the model smaller
 
         // Apply scale to the model
         model.scale.set(scale, scale, scale);
@@ -50,17 +55,15 @@ export function setCameraPosition(centerPointPosition, camera, model, carParam, 
 
         // Adjust position to make model touch the centerPointPosition
         model.position.y = centerPointPosition.y;
-
-        const centerPointBoundingBox = new THREE.Box3().expandByPoint(centerPointPosition);
-        const intersects = modelBoundingBox.intersectsBox(centerPointBoundingBox);
-
-        // If there is a collision, move the model up until it no longer intersects with the vector
-        if (intersects) {
-            // Calculate the offset needed to move the model up
-            const offsetY = modelBoundingBox.max.y - centerPointPosition.y;
-
-            // Move the model up by the calculated offset
-            model.position.y -= offsetY;
+        if (carParam.includes(`Gallardo`) ||
+            carParam.includes(`Tesla`) ||
+            carParam.includes(`BMW-X5`) ||
+            carParam.includes(`Grand Cherokee`) ||
+            carParam.includes(`G900`) ||
+            carParam.includes(`M5-1999`) ||
+            carParam.includes(`Ghost-2022`) ||
+            carParam.includes(`GT3 RS-2023`)) {
+            alignModel(carParam, model);
         }
 
         // Update pivot position
@@ -68,21 +71,18 @@ export function setCameraPosition(centerPointPosition, camera, model, carParam, 
             pivot.position.copy(centerPointPosition);
         }
 
-        // Set camera position
-        const modelDistance = Math.max(modelSize.x, modelSize.y, modelSize.z);
-        const cameraOffset = new THREE.Vector3(0, 0, modelDistance * 2); // Adjust multiplier for distance
-        const cameraPosition = centerPointPosition.clone().add(cameraOffset);
-        camera.position.copy(cameraPosition);
-
-        // Set camera's Y position to match the model's Y position
-        camera.position.y = model.position.y;
-
-        // Set camera orientation to look at the centerPointPosition
-        camera.lookAt(centerPointPosition);
+        // Step 4: Position the camera
+        const distance = 7; // Distance from the model
+        const cameraOffset = new THREE.Vector3(0, 0, distance);
+        camera.position.copy(model.position).add(cameraOffset);
+        camera.position.y += -2;
 
         // Set controls target
         if (controls.target !== undefined) {
-            controls.target.copy(centerPointPosition);
+            controls.target.copy(showroomCenter);
+            if (!carParam.includes(`Tesla`)) {
+                controls.target.y += -2;
+            }
         }
     }
 
@@ -101,4 +101,24 @@ export function setCameraPosition(centerPointPosition, camera, model, carParam, 
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     scene.add(ambientLight);
+
+    hideLoadingOverlay();
+}
+
+function alignModel(carParam, model) {
+    if (carParam.includes(`Tesla`)) {
+        model.position.y += 0.3;
+    } else if (carParam.includes(`Gallardo`) ||
+        carParam.includes(`BMW-X5`) ||
+        carParam.includes(`M5-1999`)) {
+        model.position.y += 0.1
+    } else if (carParam.includes(`G900`)) {
+        model.position.y += -0.03
+    } else if (carParam.includes(`Grand Cherokee`)) {
+        model.position.y += 0.4
+    } else if (carParam.includes(`Ghost-2022`)) {
+        model.position.y += 0.02
+    } else if (carParam.includes(`GT3 RS-2023`)) {
+        model.position.y += 0.01
+    }
 }

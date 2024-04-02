@@ -5,7 +5,10 @@ import com.example.app.data.DTOs.FavoriteResponseDTO;
 import com.example.app.data.entities.AuthenticationToken;
 import com.example.app.data.entities.FavoriteVehiclesEntity;
 import com.example.app.data.entities.User;
-import com.example.app.services.*;
+import com.example.app.services.AuthenticationTokenService;
+import com.example.app.services.FavoriteVehiclesService;
+import com.example.app.services.FavoritesControllerService;
+import com.example.app.services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,16 +101,11 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
 
         List<FavoriteVehiclesEntity> matchingEntities = favoriteVehiclesService.findByUser_Id(userId).stream()
                 .filter(favoriteVehiclesEntity ->
-                        favoriteVehiclesEntity.getVehicleId().equals(request.getVehicleId().split("car=")[1].
-                                replaceAll("%20", " ")) &&
+                        favoriteVehiclesEntity.getVehicleId().equals(request.getVehicleId()) &&
                                 favoriteVehiclesEntity.getVehicleImg().equals(request.getVehicleImg()) &&
                                 favoriteVehiclesEntity.getVehicleName().equals(request.getVehicleName()))
                 .toList();
-
         if (matchingEntities.isEmpty()) {
-            if (request.getVehicleId().contains("car=")) {
-                request.setVehicleId(request.getVehicleId().split("car=")[1].replaceAll("%20", " "));
-            }
             favoriteVehiclesService.save(new FavoriteVehiclesEntity(request.getVehicleId(),
                     request.getVehicleImg(), request.getVehicleName(), user));
             return ResponseEntity.ok("Vehicle added to favorites successfully.");
