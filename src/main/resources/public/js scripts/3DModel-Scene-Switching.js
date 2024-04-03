@@ -29,7 +29,7 @@ function initThirdPersonScript() {
     renderer = new THREE.WebGLRenderer();
     const controls = new OrbitControls(camera, renderer.domElement);
 
-    controls.enableDamping = true; // Optional, adds inertia to camera movement
+    controls.enableDamping = true; // adds inertia to camera movement
     controls.enableZoom = true; // Enable zooming
     controls.enableCollision = true; // Enable collision detection to prevent camera from intersecting with the model
 
