@@ -59,11 +59,7 @@ public class FavoritesControllerServiceImpl implements FavoritesControllerServic
         AuthenticationToken authenticationToken = authenticationTokenService.findByToken(request.getAuthToken());
         if (userOptional.isPresent() && authenticationToken != null &&
                 Objects.equals(authenticationToken.getUser().getId(), userOptional.get().getId())) {
-            //removal logic
-            if (request.getVehicleId().contains("car=")) {
-                request.setVehicleId(request.getVehicleId().split("car=")[1].replaceAll("%20", " "));
-            }
-            if (favoriteVehiclesService.deleteByVehicleIdAndUserId(request.getVehicleId(), userId) > 0) {
+            if (favoriteVehiclesService.deleteByVehicleIdAndUserId(request.getVehicleId(), userId) > 0 ) {
                 return ResponseEntity.ok("Vehicle removed from favorites successfully.");
             } else {
                 return ResponseEntity.ok("Vehicle is not present in the list.");

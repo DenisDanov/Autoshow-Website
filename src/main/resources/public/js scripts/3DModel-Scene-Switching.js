@@ -14,6 +14,8 @@ const carParam = urlParams.get('car');
 let timeOut;
 let centerPointPosition;
 let isThirdPerson = false;
+let isFirstPersonScriptBeenLoaded = false;
+let autoRotate = true;
 let showroom;
 export {showroom};
 
@@ -28,15 +30,12 @@ function initThirdPersonScript() {
     const camera = new THREE.PerspectiveCamera(75, aspectRatio, 15, 215000);
     renderer = new THREE.WebGLRenderer();
     const controls = new OrbitControls(camera, renderer.domElement);
-
     controls.enableDamping = true; // adds inertia to camera movement
     controls.enableZoom = true; // Enable zooming
     controls.enableCollision = true; // Enable collision detection to prevent camera from intersecting with the model
 
     renderer.setSize(containerRect.width, containerRect.height);
     container.appendChild(renderer.domElement);
-
-    let autoRotate = true;
 
     // Create a pivot object
     const pivot = new THREE.Group();
@@ -150,7 +149,11 @@ function initThirdPersonScript() {
         requestAnimationFrame(animate);
         if (model && autoRotate && isThirdPerson) {
             // Rotate the pivot around the Y-axis
-            model.rotation.y += 0.005;
+            if (!isFirstPersonScriptBeenLoaded){
+                model.rotation.y += 0.005;
+            } else {
+                model.rotation.y += 0.002;
+            }
         }
         controls.update();
         renderer.render(scene, camera);
@@ -173,7 +176,7 @@ function initThirdPersonScript() {
         clearTimeout(timeOut);
         timeOut = setTimeout(function () {
             autoRotate = true;
-        }, 10500);
+        }, 10000);
     });
 }
 
@@ -192,6 +195,7 @@ function disposeThirdPersonScript() {
 
 // First Person Script
 function initFirstPersonScript() {
+    isFirstPersonScriptBeenLoaded = true;
     showLoadingOverlay();
     isThirdPerson = false;
     showControlsInfo("first-person");
@@ -540,6 +544,7 @@ function disposeFirstPersonScript() {
         });
         scene.remove(model);
         model = null; // Clear the global variable
+        autoRotate = false;
     }
 }
 

@@ -38,15 +38,11 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
             resolve("success");
         });
     } else {
-        if (authToken) {
+        if (authToken && currentURL !== `${window.location.origin}/auto-show`) {
             const container = document.querySelectorAll(`.recently-viewed-cars .car-card input[type="checkbox"]`);
             if (container.length !== 0) {
                 for (const inputs of container) {
-                    if (currentURL.includes(`auto-show`)) {
-                        inputs.addEventListener(`change`, trackFavoriteStatus);
-                    } else {
-                        inputs.addEventListener(`change`, checkFavVehicles);
-                    }
+                    inputs.addEventListener(`change`, checkFavVehicles);
                 }
             } else {
                 document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
@@ -59,7 +55,7 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
             document.getElementById(`recently-viewed-spinner`).style.display = `none`;
             document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
             resolve("success");
-        } else {
+        } else if (!authToken) {
             let carParams = getCarParamsCookie();
             if (carParams.length !== 0) {
                 const container = document.querySelector(`.recently-viewed-cars`);
@@ -109,7 +105,8 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
 
 function checkFavVehicles(e) {
     if (e.currentTarget.checked && authToken) {
-        const carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+        let carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+        carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
         const carImg = e.currentTarget.parentNode.parentNode.parentNode.children[0]
             .children[0].getAttribute("src");
         const carName = e.currentTarget.parentNode.parentNode.parentNode.children[1].children[0].textContent;

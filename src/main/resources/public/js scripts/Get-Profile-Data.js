@@ -154,14 +154,10 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                         `
                             modifyReference = document.querySelector('[modify-reference="true"]');
                             if (result.orderStatus === `Completed`) {
-                                modifyReference.parentNode.parentNode.parentNode.
-                                querySelector(`.car-order-model  .car-card .favorites .add-fav input`).addEventListener(`change`,addCarOrderToFavs);
-                                if (favVehiclesIds.includes(modifyReference.parentNode.parentNode.parentNode.
-                                querySelector(`.car-order-model  .car-card a`).href.split(`car=`)[1].replaceAll(`%20`,` `))) {
-                                    modifyReference.parentNode.parentNode.parentNode.
-                                    querySelector(`.car-order-model  .car-card .favorites .add-fav input`).checked = `true`;
-                                    modifyReference.parentNode.parentNode.parentNode.
-                                    querySelector(`.car-order-model  .car-card .favorites h3`).textContent = `Remove from Favorites`;
+                                modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model  .car-card .favorites .add-fav input`).addEventListener(`change`, addCarOrderToFavs);
+                                if (favVehiclesIds.includes(modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model  .car-card a`).href.split(`car=`)[1].replaceAll(`%20`, ` `))) {
+                                    modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model  .car-card .favorites .add-fav input`).checked = `true`;
+                                    modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model  .car-card .favorites h3`).textContent = `Remove from Favorites`;
                                 }
                                 modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model`).style.display = `flex`;
                                 modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).style.display = `none`;
@@ -310,14 +306,10 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     `
                             modifyReference = document.querySelector('[modify-reference="true"]');
                             if (result.orderStatus === `Completed`) {
-                                modifyReference.parentNode.parentNode.parentNode.
-                                querySelector(`.car-order-model  .car-card .favorites .add-fav input`).addEventListener(`change`,addCarOrderToFavs);
-                                if (favVehiclesIds.includes(modifyReference.parentNode.parentNode.parentNode.
-                                querySelector(`.car-order-model  .car-card a`).href.split(`car=`)[1].replaceAll(`%20`,` `))) {
-                                    modifyReference.parentNode.parentNode.parentNode.
-                                    querySelector(`.car-order-model  .car-card .favorites .add-fav input`).checked = `true`;
-                                    modifyReference.parentNode.parentNode.parentNode.
-                                    querySelector(`.car-order-model  .car-card .favorites h3`).textContent = `Remove from Favorites`;
+                                modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model  .car-card .favorites .add-fav input`).addEventListener(`change`, addCarOrderToFavs);
+                                if (favVehiclesIds.includes(modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model  .car-card a`).href.split(`car=`)[1].replaceAll(`%20`, ` `))) {
+                                    modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model  .car-card .favorites .add-fav input`).checked = `true`;
+                                    modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model  .car-card .favorites h3`).textContent = `Remove from Favorites`;
                                 }
                                 modifyReference.parentNode.parentNode.parentNode.querySelector(`.car-order-model`).style.display = `flex`;
                                 modifyReference.parentNode.parentNode.parentNode.querySelector(`#change-order`).style.display = `none`;

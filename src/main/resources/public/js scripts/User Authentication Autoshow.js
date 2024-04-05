@@ -59,7 +59,8 @@ $(document).ready(function () {
 });
 
 function trackFavoriteStatus(e) {
-    const carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+    let carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+    carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
     if (e.currentTarget.parentNode.parentNode.parentNode.parentNode.classList.contains(`cars-container`)) {
         checkRecentlyViewedCarFavoriteStatus(carId, e.currentTarget.checked, e.currentTarget);
     } else {
@@ -91,7 +92,6 @@ function trackFavoriteStatus(e) {
         e.currentTarget.classList.remove(`checked`);
         e.currentTarget.parentNode.querySelector(`i`).style.color = `#666`;
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
-        const carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
         fetch(`${window.location.origin}/api/favorites/remove`, {
             method: "DELETE",
             headers: {
