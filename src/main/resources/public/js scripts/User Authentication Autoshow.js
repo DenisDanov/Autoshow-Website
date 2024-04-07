@@ -60,12 +60,12 @@ $(document).ready(function () {
 
 function trackFavoriteStatus(e) {
     let carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
-    carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
     if (e.currentTarget.parentNode.parentNode.parentNode.parentNode.classList.contains(`cars-container`)) {
         checkRecentlyViewedCarFavoriteStatus(carId, e.currentTarget.checked, e.currentTarget);
     } else {
         checkCarsContainerFavoriteStatus(carId, e.currentTarget.checked, e.currentTarget);
     }
+    carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
     if (e.currentTarget.checked && !e.currentTarget.classList.contains(`checked`)) {
         e.currentTarget.classList.add(`checked`);
         e.currentTarget.parentNode.querySelector(`i`).style.color = `orange`;

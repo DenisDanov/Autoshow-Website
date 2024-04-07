@@ -192,6 +192,7 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                     })
                     .catch(err => console.log(err));
             } else {
+                document.querySelector(`.loading-status`).style.display = `none`;
                 if (newManufacturer !== "loading" && newModel !== "loading" && newYear !== "loading") {
                     resultHtmlEle.textContent = `Please order different model than the current one.`;
                 } else {
@@ -207,7 +208,8 @@ function remakeOrder(reorderCar, e, carManufacturer, carModel, carYear) {
                 }, 3000);
             }
         } else if (modifyReference.id !== `change-order`) {
-            if (newManufacturer == "loading" && newModel == "loading" && newYear == "loading") {
+            if (newManufacturer === "loading" && newModel === "loading" && newYear === "loading") {
+                document.querySelector(`.loading-status`).style.display = `none`;
                 resultHtmlEle.textContent = "Please wait for the car queries to laod.";
                 resultHtmlEle.style.display = `block`;
                 resultHtmlEle.style.backgroundColor = `red`;
@@ -421,6 +423,7 @@ function addCarOrderToFavs(e) {
                 break;
             }
         }
+        carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
         fetch(`${window.location.origin}/api/favorites/remove`, {
             method: "DELETE",
@@ -434,22 +437,22 @@ function addCarOrderToFavs(e) {
             })
         })
             .then(response => {
-                console.log(response);
                 document.querySelectorAll(`.recently-viewed-cars .car-card a`).forEach(entrie => {
-                    if (entrie.href === carId) {
+                    const vehicleId = entrie.href.substring(entrie.href.lastIndexOf(`car=`), entrie.href.length).replaceAll(`%20`, ` `).split(`car=`)[1];
+                    if (vehicleId === carId) {
                         entrie.parentNode.querySelector(`.favorites .add-fav input`).checked = false;
                         entrie.parentNode.querySelector(`.favorites h3`).textContent = `Add to Favorites`;
                         entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "#797373";
                     }
                 });
                 document.querySelectorAll(`#car-orders .car-card a`).forEach(entrie => {
-                    if (entrie.href === carId) {
+                    const vehicleId = entrie.href.substring(entrie.href.lastIndexOf(`car=`), entrie.href.length).replaceAll(`%20`, ` `).split(`car=`)[1];
+                    if (vehicleId === carId) {
                         entrie.parentNode.querySelector(`.favorites .add-fav input`).checked = false;
                         entrie.parentNode.querySelector(`.favorites h3`).textContent = `Add to Favorites`;
                         entrie.parentNode.querySelector(`.favorites .add-fav i`).style.color = "#797373";
                     }
                 });
-                carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
                 favVehiclesIds.splice(favVehiclesIds.indexOf(carId), 1);
             })
             .catch(err => console.log(err));
@@ -568,7 +571,7 @@ function removeCarOrder(e) {
 
 // Function to handle "Remove car" button click
 function removeTheCar(e) {
-    const carId = document.querySelector(`.car-id-remove`).href;
+    let carId = document.querySelector(`.car-id-remove`).href;
 
     document.querySelector(`.remove-car`).remove();
     document.querySelectorAll(`.car-orders-container .car-order-model .car-card a`).forEach(entrie => {
@@ -585,6 +588,7 @@ function removeTheCar(e) {
             entrie.parentNode.children[2].children[1].children[1].style.color = `#797373`;
         }
     });
+    carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
     fetch(`${window.location.origin}/api/favorites/remove`, {
         method: "DELETE",
         headers: {

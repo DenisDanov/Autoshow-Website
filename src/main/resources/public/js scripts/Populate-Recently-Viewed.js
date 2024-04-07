@@ -98,7 +98,20 @@ var recentlyViewedLoaded = new Promise((resolve, reject) => {
                 document.querySelector(`.recently-viewed-cars`).children[0].style.fontFamily = 'Poppins, sans-serif';
                 document.querySelector(`.recently-viewed-cars`).children[0].style.textAlign = "center";
                 document.querySelector(`.recently-viewed-cars`).children[0].style.color = `white`;
+                resolve("success");
             }
+        } else {
+            document.getElementById(`recently-viewed-spinner`).style.display = `none`;
+            document.querySelector(`.recently-viewed-cars`).style.display = `flex`;
+            if (document.querySelector(`.recently-viewed-cars`).children.length === 0) {
+                document.querySelector(`.recently-viewed-cars`).appendChild(document.createElement(`p`));
+                document.querySelector(`.recently-viewed-cars`).children[0].textContent = `No recently viewed cars`;
+                document.querySelector(`.recently-viewed-cars`).children[0].style.margin = "1rem 0";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.fontFamily = 'Poppins, sans-serif';
+                document.querySelector(`.recently-viewed-cars`).children[0].style.textAlign = "center";
+                document.querySelector(`.recently-viewed-cars`).children[0].style.color = `white`;
+            }
+            resolve("success");
         }
     }
 });
@@ -130,7 +143,8 @@ function checkFavVehicles(e) {
             })
             .catch(err => console.log(err));
     } else if (authToken) {
-        const carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+        let carId = e.currentTarget.parentNode.parentNode.parentNode.children[e.currentTarget.parentNode.parentNode.parentNode.children.length - 1].href;
+        carId = carId.substring(carId.lastIndexOf(`car=`), carId.length).replaceAll(`%20`, ` `).split(`car=`)[1];
         e.currentTarget.parentNode.parentNode.children[0].textContent = `Add to Favorites`;
         fetch(`${window.location.origin}/api/favorites/remove`, {
             method: "DELETE",
@@ -145,7 +159,7 @@ function checkFavVehicles(e) {
         })
             .then(response => {
                 console.log(response);
-                favoriteVehicles.splice(favoriteVehicles.indexOf(carId), 1);
+                console.log(favoriteVehicles.splice(favoriteVehicles.indexOf(carId), 1));
             })
             .catch(err => console.log(err));
     } else {

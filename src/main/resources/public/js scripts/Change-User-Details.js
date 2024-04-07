@@ -170,7 +170,12 @@ function getCookie(name) {
 
 function requestResetPass(e) {
     document.getElementById("loading-animation-password-reset").style.display = "block";
-    fetch(`${window.location.origin}/api/v1/user/forgot-password?email=${unchangedEmail}`)
+    fetch(`${window.location.origin}/api/v1/user/forgot-password?email=${unchangedEmail}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
         .then(response => response.text())
         .then(result => {
             document.getElementById("loading-animation-password-reset").style.display = "none";

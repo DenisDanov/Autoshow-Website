@@ -25,14 +25,11 @@ public class ChangeUserDetailsServiceImpl implements ChangeUserDetailService {
 
     private final AuthenticationTokenService authenticationTokenService;
 
-    private final ReplacedAuthTokensService replacedAuthTokensService;
-
     public ChangeUserDetailsServiceImpl(UserService userService,
                                         AuthenticationTokenService authenticationTokenService,
                                         ReplacedAuthTokensService replacedAuthTokensService) {
         this.userService = userService;
         this.authenticationTokenService = authenticationTokenService;
-        this.replacedAuthTokensService = replacedAuthTokensService;
     }
 
     @Override
