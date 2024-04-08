@@ -65,7 +65,7 @@ public class LoginControllerServiceImpl implements LoginControllerService {
             failedLoginAttempts = failedLoginAttemptsService.findByUser_Id(userFromDB.getId());
         }
 
-        if (failedLoginAttempts != null && failedLoginAttempts.getAmountFailedLogins() >= 20 &&
+        if ((failedLoginAttempts != null && failedLoginAttempts.getAmountFailedLogins() >= 20) &&
                 (getExpireTime(getAccountLockCookie(request.getCookies())) == null)) {
             Cookie cookie = new Cookie("account_lock", generateTokenFailedLogins(
                     failedLoginAttempts.getAccountLockExpireTime(),
@@ -76,6 +76,9 @@ public class LoginControllerServiceImpl implements LoginControllerService {
             cookie.setMaxAge((int) ((expireDate.getTime() - System.currentTimeMillis()) / 1000)); // setMaxAge expects seconds
             cookie.setPath("/"); // Save the cookie for all pages of the site
             response.addCookie(cookie);
+            return "redirect:/login?errorTooManyFailedAttempts";
+        } else if ((getFailedLoginsAmount(getAccountLockCookie(request.getCookies())) >= 20)) {
+
             return "redirect:/login?errorTooManyFailedAttempts";
         } else if ((getFailedLoginsAmount(getAccountLockCookie(request.getCookies())) >= 20) ||
                 (failedLoginAttempts != null && failedLoginAttempts.getAmountFailedLogins() >= 20)) {
@@ -191,7 +194,7 @@ public class LoginControllerServiceImpl implements LoginControllerService {
                                 // Add 30 minutes
                                 calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
                             } else {
-                                // Add 30 minutes
+                                // Add 60 minutes
                                 calendar.add(Calendar.MINUTE, 60); // for 30 minutes from now
                             }
                             timestamp = new Timestamp(calendar.getTime().getTime()).getTime();
@@ -258,7 +261,7 @@ public class LoginControllerServiceImpl implements LoginControllerService {
                                     // Add 30 minutes
                                     calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
                                 } else {
-                                    // Add 30 minutes
+                                    // Add 60 minutes
                                     calendar.add(Calendar.MINUTE, 60); // for 30 minutes from now
                                 }
 
@@ -272,6 +275,16 @@ public class LoginControllerServiceImpl implements LoginControllerService {
                                 calendar.add(Calendar.MINUTE, 30); // for 30 minutes from now
 
                                 timestamp = new Timestamp(calendar.getTime().getTime()).getTime();
+                                amountFailedLogins = failedLoginAttempts.getAmountFailedLogins();
+                            } else if (amountFailedLogins == 20) {
+                                TimeZone sofiaTimeZone = TimeZone.getTimeZone("Europe/Sofia");
+                                Calendar calendar = Calendar.getInstance(sofiaTimeZone);
+
+                                // Add 30 minutes
+                                calendar.add(Calendar.MINUTE, 60); // for 60 minutes from now
+
+                                timestamp = new Timestamp(calendar.getTime().getTime()).getTime();
+                            } else if (amountFailedLogins < failedLoginAttempts.getAmountFailedLogins()) {
                                 amountFailedLogins = failedLoginAttempts.getAmountFailedLogins();
                             }
                             expireTime = new Date(timestamp);
@@ -413,7 +426,7 @@ public class LoginControllerServiceImpl implements LoginControllerService {
         } else {
             // Add 60 minutes
             calendar.add(Calendar.MINUTE, 60);
-            sendGridEmailService.sendAccountLockEmail(failedLoginAttempts.getUser().getEmail(),new Timestamp(calendar.getTime().getTime()));
+            sendGridEmailService.sendAccountLockEmail(failedLoginAttempts.getUser().getEmail(), new Timestamp(calendar.getTime().getTime()));
         }
         failedLoginAttempts.setAmountFailedLogins(amount);
 
