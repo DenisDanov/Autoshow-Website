@@ -80,7 +80,7 @@ Experience the world of automobiles like never before with Danov's Auto Show.
 The registration process is straightforward and user-friendly, requiring users to provide essential information to create an account.
 
 
-![Screenshot_62](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/3de0e1c4-6bf2-412b-ad51-3b29012eaa5c)
+![Screenshot_386](https://github.com/user-attachments/assets/cfc975a8-77a4-4b96-875a-1069884ca687)
 
 
 
@@ -100,7 +100,7 @@ Upon successful registration, users are automatically redirected to the login pa
 The login page provides a simple and secure gateway for users to access their accounts.
 
 
-![Screenshot_40](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/f65e4115-14d6-4caa-b000-086ac0b7476b)
+![Screenshot_387](https://github.com/user-attachments/assets/c0564b72-4518-4940-972c-ce2dd7b07b8e)
 
 
 
@@ -111,10 +111,10 @@ The login page provides a simple and secure gateway for users to access their ac
   - Upon a valid request, an email containing a unique link is sent to the user's registered email address.
   - ![Screenshot_32](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/4c446afb-01a3-42ee-96d7-e1fc649c4d86)
   - The link allows users to reset their password, ensuring a seamless and secure process.
-  - ![Screenshot_33](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/fa6e02c9-297a-4b84-8a33-347b58ed2179)
+  - ![Screenshot_388](https://github.com/user-attachments/assets/6f026e60-3795-4941-be83-435c964ce3b3)
   - Once 24 hours have elapsed or the password has been successfully changed, the link will expire, preventing further password changes.
 - The login page features anti-bot protection to prevent unauthorized access and maintain security:
-  - ![Screenshot_43](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/ba3b9723-de06-45db-96f2-9a4cacfa831a)
+  - ![Screenshot_389](https://github.com/user-attachments/assets/8c15b865-25e2-4c8e-889a-1b70a117e844)
   - After 10 failed login attempts due to invalid username or password, the user is temporarily locked out from logging into the site for 30 minutes.
   - Continued failed login attempts result in an increased lockout duration; after 20 failed attempts, the lockout period is extended to 1 hour.
   - Additionally, if a valid username is entered but an invalid password, the associated account is locked out from logging in:
@@ -127,7 +127,7 @@ The login page provides a simple and secure gateway for users to access their ac
 <details id="home-page">
 <summary><h4>Home Page</h4></summary>
 
-![Screenshot_22](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/f786cbf5-a383-44d6-b1f9-bb808f3272f3)
+![Screenshot_390](https://github.com/user-attachments/assets/fd041cdf-ab6b-4579-8f0f-37431c283ea8)
 - The home page serves as the entry point to the website.
 - It features a sticky header with navigation options to other pages of the site.
 - Banner animation featuring sliding images of cars.
@@ -136,12 +136,12 @@ The login page provides a simple and secure gateway for users to access their ac
   - Viewed cars are saved to the browser cookies if the user is not logged in; otherwise, they are saved to the database.
   - The list of viewed cars is updated every time a user views a car, regardless of their login status.
   - Also the user can add the vehicles to favorites, if they are logged in.
-  - ![Screenshot_25](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/9a58b922-d60d-4fd1-b3db-86c17e9f79e3)
+  - ![Screenshot_392](https://github.com/user-attachments/assets/58d379b3-8e89-45c5-b9b8-24e30e1be655)
 - The footer section includes newsletter subscription functionality.
   - Users can subscribe to the site's newsletter by entering their email address.
   - The newsletter subscription functionality validates email addresses to ensure they are valid.
   - It also checks if the email is not already subscribed to the newsletter, preventing duplicate subscriptions.
-  - ![Screenshot_26](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/506d73d5-686b-4ff6-8462-80f893c01c7a)
+  - ![Screenshot_394](https://github.com/user-attachments/assets/f8f2eb46-5614-44e5-b325-e8b29b381bbf)
   - ![Screenshot_29](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/d411375e-11e9-4e8a-a7a1-4c8d86cf1de5)
 
 </details>
@@ -149,7 +149,7 @@ The login page provides a simple and secure gateway for users to access their ac
 <details id="auto-show-page">
 <summary><h4>Auto Show Page</h4></summary>
 
-![Screenshot_30](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/5c0b4509-4f60-437b-b9d2-ed3daa6a0897)
+![Screenshot_395](https://github.com/user-attachments/assets/1618fe94-f6f9-417b-ac8e-fc28e2301b46)
 - The Autoshow page showcases a collection of 9 cars available for viewing.
 - Unregistered users can explore the featured cars and their specifications.
 - Registered and logged in users have the additional functionality of adding cars to their favorites directly from this page.
@@ -157,14 +157,15 @@ The login page provides a simple and secure gateway for users to access their ac
   - The "Order" functionality filters the available models based on the selected manufacturer and year.
   - Users can specify their preferences by selecting the manufacturer and year of the desired vehicle.
   - This feature streamlines the process of finding specific models tailored to the user's preferences.
-  ![Screenshot_24](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/434cef67-d42b-4fab-abc5-6395654b9bc5)
+    ![Screenshot_396](https://github.com/user-attachments/assets/1482aa2b-b48b-4ff4-b964-22d3b837b6f7)
 
 </details>
 
 <details id="showroom-page">
 <summary><h4>Showroom Page</h4></summary>
 
-![Screenshot_28](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/1b204bac-e320-40cc-95ff-2f5b3e56f36c)
+![Screenshot_397](https://github.com/user-attachments/assets/19873bd7-e5ce-4492-836d-63a98c671c0b)
+![Screenshot_398](https://github.com/user-attachments/assets/580c2707-54be-4178-a248-5ad8f0b48cfa)
 - The Showroom page offers detailed 3D models of vehicles for immersive exploration.
 - Users can inspect vehicles using two interactive functionalities:
   - Third-person camera control: Users can rotate and zoom the camera using mouse movements or touch gestures on phones.
@@ -183,11 +184,11 @@ The login page provides a simple and secure gateway for users to access their ac
 <summary><h4>Cars Info Page</h4></summary>
 
 - The Cars Info page displays detailed data for the selected vehicle specifications.
-  - ![Screenshot_181](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/a2479274-c08e-4b16-8719-31562a7a3d78)
+  - ![Screenshot_399](https://github.com/user-attachments/assets/320f00e7-6305-4245-bd0c-98bb18e95dd5)
   - Access to this page is limited:
     - Users can view this page only if they have the specific vehicle ordered or added to favorites.
     - All users can view the specifications of vehicles listed on the auto show page. If the selected vehicle isn't on the auto show page, users won't have access to its specifications       unless they order the vehicle through the order menu or add it to their favorites.
-    - ![Screenshot_182](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/7c51284c-7883-4f4c-bc61-14c1622cd766)
+    - ![Screenshot_74](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/ced1632d-9fba-49f4-971f-ed0722592061)
 
 
 </details>
@@ -195,18 +196,20 @@ The login page provides a simple and secure gateway for users to access their ac
 <details id="profile-page">
 <summary><h4>Profile Page</h4></summary>
 
+![Screenshot_400](https://github.com/user-attachments/assets/5d856ff3-3d4e-4e6a-83d9-9a0341db51a8)
+
 - The Profile page is exclusively available for logged-in users, offering a range of functionalities for account management and vehicle tracking.
 - Users can easily modify their account information with three primary functionalities:
   - Change Username: Users have the option to update their username to better suit their preferences or reflect changes.
   - Change Email: Users can modify their email address for account communication and verification purposes.
   - Change Password: Users can securely update their account password for enhanced security.
-  - ![Screenshot_34](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/4635f9da-1dd6-416b-986d-5815bd5eb27b)
+  - ![Screenshot_401](https://github.com/user-attachments/assets/4671d0ef-e006-455f-a655-99c8ea6596e3)
   - Additionally, users have the option to request a password reset via email, where a unique link will be sent valid for 24 hours, along with the option to reset their password.
 - The Profile page also features sections to track favorite and ordered vehicles:
   - Favorites Vehicles: Users can view a list of vehicles they have marked as favorites for easy reference and future exploration.
-  - ![Screenshot_35](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/78c16999-689c-401d-86d6-144bc7e09b79)
+  - ![Screenshot_402](https://github.com/user-attachments/assets/313c0acf-5357-4a32-bf1f-512457a54615)
   - Ordered Vehicles: Users can access a comprehensive list of all vehicles they have ordered, providing transparency and tracking capabilities for past orders.
-    - ![Screenshot_36](https://github.com/DenisDanov/Autoshow-Website/assets/122882697/ddec3051-db37-4acd-a71a-87e585aa0ebd)
+    - ![Screenshot_403](https://github.com/user-attachments/assets/9371595a-7cc1-486b-a44a-3b1e959de880)
     - Orders on the platform have three statuses:
     - Completed: Users can explore their ordered car once it's marked as completed.
     - Pending: Indicates that there isn't an available model on the site for that specific order.
